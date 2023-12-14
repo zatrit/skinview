@@ -1,0 +1,48 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+apply from: 'shaderConsts.gradle'
+
+android {
+    namespace 'net.zatrit.skinview'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'net.zatrit.skinview'
+        minSdk 30
+        targetSdk 34
+        versionCode 1
+        versionName '1.0'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            debuggable false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    packagingOptions {
+        exclude '**/kotlin-tooling-metadata.json'
+        exclude '**/kotlin/**'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = '11'
+        // https://www.guardsquare.com/blog/eliminating-data-leaks-caused-by-kotlin-assertions
+        freeCompilerArgs += [
+                '-Xno-call-assertions',
+                '-Xno-receiver-assertions',
+                '-Xno-param-assertions'
+        ]
+    }
+}

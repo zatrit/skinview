@@ -1,0 +1,43 @@
+static def optimizeLine(String line) {
+    line = line.strip()
+
+    while (line.contains('  ')) {
+        line.replace '  ', ' '
+    }
+
+    for (def special in ['=', '*', '+', '-', '/', '>', '<']) {
+        line = line.replaceAll " ?\\$special ?", special
+    }
+
+    if (line.startsWith '#') {
+        line += '\\n'
+    }
+
+    return line.replace(', ', ',').replace(') ', ')').replace(' (', '(').replaceAll('//.*', '')
+}
+
+@SuppressWarnings('GrMethodMayBeStatic')
+def shaderConsts(File shaderDir, File outDir) {
+    outDir.mkdirs()
+
+    def content = "package net.zatrit.skinview.gl\n\n"
+
+    shaderDir.eachFileRecurse(groovy.io.FileType.FILES) {
+        def name = it.toPath().fileName.toString().toUpperCase().replace '.', '_'
+        def codeBlock = String.join '', it.readLines().collect { optimizeLine it }
+
+        content += "const val $name = \"$codeBlock\"\n"
+    }
+
+    outDir.toPath().resolve('Shaders.kt').toFile().write content
+    android.sourceSets.main.java.srcDir outDir
+}
+
+tasks.register('buildConsts') {
+    def outDir = layout.buildDirectory.file 'generated/source/consts/'
+    shaderConsts file('src/main/glsl'), outDir.get().asFile
+}
+
+android.applicationVariants.configureEach {
+    it.javaCompileProvider.get().dependsOn buildConsts
+}
