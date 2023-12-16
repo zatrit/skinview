@@ -36,7 +36,7 @@ value class Program(private val id: Int) {
 }
 
 fun linkShaders(vararg shaders: Int): Program {
-    val program: Int = glCreateProgram()
+    val program = glCreateProgram()
 
     shaders.forEach { glAttachShader(program, it) }
     glLinkProgram(program)

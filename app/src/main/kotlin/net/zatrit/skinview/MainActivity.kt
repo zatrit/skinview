@@ -13,7 +13,7 @@ import net.zatrit.skinview.gl.Renderer
 class MainActivity : Activity() {
     private lateinit var surface: GLSurfaceView
     private lateinit var velocityTracker: VelocityTracker
-    private var renderer: Renderer = Renderer(this)
+    private var renderer = Renderer(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +61,7 @@ class MainActivity : Activity() {
                 rotateM(m, 0, dy, m[0], 0f, m[8])
             }
         }
+
         return true
     }
 }

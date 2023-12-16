@@ -53,8 +53,8 @@ private fun createHands(map: EnumPartsMap, modelType: ModelType): EnumPartsMap {
 
 
 class PlayerModel(private val modelType: ModelType) {
-    private val parts: PartsMap
-    private val typeParts: MutableMap<ModelType, PartsMap>
+    private val parts = EnumMap<_, ModelPart>(PartType::class.java)
+    private val typeParts = EnumMap<_, PartsMap>(ModelType::class.java)
 
     init {
         val head = Box(-0.5f, 1f, -0.5f, 0.5f, 2f, 0.5f)
@@ -71,9 +71,6 @@ class PlayerModel(private val modelType: ModelType) {
         val rightLegExtraUV = rightLeg.uv(0f, 0.5f)
         val leftLegUV = leftLeg.uv(0.25f, 0.75f)
         val leftLegExtraUV = leftLeg.uv(0f, 0.75f)
-
-        parts = EnumMap(PartType::class.java)
-        typeParts = EnumMap(ModelType::class.java)
 
         // Head
         parts[HEAD] = ModelPart(head.vertices, headUV)

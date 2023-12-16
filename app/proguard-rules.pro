@@ -1,4 +1,3 @@
--mergeinterfacesaggressively
 -overloadaggressively
 -repackageclasses
 

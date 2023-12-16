@@ -17,11 +17,11 @@ private fun checkError() {
 }
 
 class Renderer(private val context: Context) : GLSurfaceView.Renderer {
-    private var projHandle: Int = 0
-    private var viewHandle: Int = 0
-    private var modelHandle: Int = 0
+    private var projHandle = 0
+    private var viewHandle = 0
+    private var modelHandle = 0
 
-    var modelMatrix: FloatArray = mat4 { setIdentityM(it, 0) }
+    var modelMatrix = mat4 { setIdentityM(it, 0) }
     private lateinit var model: PlayerModel
 
     override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
