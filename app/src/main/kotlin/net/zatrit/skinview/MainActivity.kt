@@ -54,11 +54,12 @@ class MainActivity : Activity() {
 
                 val dx = getXVelocity(pointerId)
                 val dy = getYVelocity(pointerId)
-                val m = renderer.modelMatrix
 
-                // https://stackoverflow.com/a/8852416/12245612
-                rotateM(m, 0, dx, 0f, m[5], 0f)
-                rotateM(m, 0, dy, m[0], 0f, m[8])
+                renderer.modelMatrix.also { m ->
+                    // https://stackoverflow.com/a/8852416/12245612
+                    rotateM(m, 0, dx, 0f, m[5], 0f)
+                    rotateM(m, 0, dy, m[0], 0f, m[8])
+                }
             }
         }
         return true

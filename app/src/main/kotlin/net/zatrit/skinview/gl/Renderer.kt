@@ -51,7 +51,6 @@ class Renderer(private val context: Context) : GLSurfaceView.Renderer {
             translateM(it, 0, 0f, 0f, -10f)
         }
         glUniformMatrix4fv(viewHandle, 1, false, FloatBuffer.wrap(viewMatrix))
-        glUniformMatrix4fv(modelHandle, 1, false, FloatBuffer.wrap(modelMatrix))
 
         checkError()
     }
@@ -67,6 +66,7 @@ class Renderer(private val context: Context) : GLSurfaceView.Renderer {
     }
 
     override fun onDrawFrame(gl: GL10) {
+        glUniformMatrix4fv(modelHandle, 1, false, FloatBuffer.wrap(modelMatrix))
         glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
 
         model.draw()
