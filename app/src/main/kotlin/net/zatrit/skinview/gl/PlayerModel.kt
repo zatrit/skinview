@@ -26,32 +26,31 @@ enum class ModelType(val handWidth: Float) {
 typealias PartsMap = Map<PartType, ModelPart>
 typealias EnumPartsMap = EnumMap<PartType, ModelPart>
 
-private const val TEXTURE_SCALE: Float = 0.125f
-private const val EXTRA_SCALE = 1.1f
+val Box.extra get() = this.scale(1.1f)
+fun Box.uv(x: Float, y: Float) = this.uv(x, y, 0.125f)
 
-private fun createHands(
-    map: MutableMap<PartType, ModelPart>, modelType: ModelType) {
+private fun createHands(map: EnumPartsMap, modelType: ModelType): EnumPartsMap {
     val offset = 0.5f * (1f - modelType.handWidth)
     val rightArm = Box(-1f + offset, -0.5f, -0.25f, -0.5f, 1f, 0.25f)
     val leftArm = rightArm.translate(1.5f - offset, 0f, 0f)
 
-    val rightArmUV = rightArm.uv(0.625f, 0.25f, TEXTURE_SCALE)
-    val rightArmExtraUV = rightArm.uv(0.625f, 0.5f, TEXTURE_SCALE)
-    val leftArmUV = leftArm.uv(0.5f, 0.75f, TEXTURE_SCALE)
-    val leftArmExtraUV = leftArm.uv(0.75f, 0.75f, TEXTURE_SCALE)
+    val rightArmUV = rightArm.uv(0.625f, 0.25f)
+    val rightArmExtraUV = rightArm.uv(0.625f, 0.5f)
+    val leftArmUV = leftArm.uv(0.5f, 0.75f)
+    val leftArmExtraUV = leftArm.uv(0.75f, 0.75f)
 
     // Right arm
-    map[RIGHT_ARM] = ModelPart(rightArm.vertices(), rightArmUV)
+    map[RIGHT_ARM] = ModelPart(rightArm.vertices, rightArmUV)
     // Right arn extra layer
-    map[RIGHT_ARM_EXTRA] =
-        ModelPart(rightArm.extra().vertices(), rightArmExtraUV)
+    map[RIGHT_ARM_EXTRA] = ModelPart(rightArm.extra.vertices, rightArmExtraUV)
     // Left arm
-    map[LEFT_ARM] = ModelPart(leftArm.vertices(), leftArmUV)
+    map[LEFT_ARM] = ModelPart(leftArm.vertices, leftArmUV)
     // Left arm extra layer
-    map[LEFT_ARM_EXTRA] = ModelPart(leftArm.extra().vertices(), leftArmExtraUV)
+    map[LEFT_ARM_EXTRA] = ModelPart(leftArm.extra.vertices, leftArmExtraUV)
+
+    return map
 }
 
-private fun Box.extra() = this.scale(EXTRA_SCALE)
 
 class PlayerModel(private val modelType: ModelType) {
     private val parts: PartsMap
@@ -63,46 +62,43 @@ class PlayerModel(private val modelType: ModelType) {
         val rightLeg = Box(-0.5f, -2f, -0.25f, 0f, -0.5f, 0.25f)
         val leftLeg = rightLeg.translate(0.5f, 0f, 0f)
 
-        val headUV = head.uv(0f, 0f, TEXTURE_SCALE)
-        val headExtraUV = head.uv(0.5f, 0f, TEXTURE_SCALE)
-        val bodyUV = body.uv(0.25f, 0.25f, TEXTURE_SCALE)
-        val bodyExtraUV = body.uv(0.25f, 0.5f, TEXTURE_SCALE)
+        val headUV = head.uv(0f, 0f)
+        val headExtraUV = head.uv(0.5f, 0f)
+        val bodyUV = body.uv(0.25f, 0.25f)
+        val bodyExtraUV = body.uv(0.25f, 0.5f)
 
-        val rightLegUV = rightLeg.uv(0f, 0.25f, TEXTURE_SCALE)
-        val rightLegExtraUV = rightLeg.uv(0f, 0.5f, TEXTURE_SCALE)
-        val leftLegUV = leftLeg.uv(0.25f, 0.75f, TEXTURE_SCALE)
-        val leftLegExtraUV = leftLeg.uv(0f, 0.75f, TEXTURE_SCALE)
+        val rightLegUV = rightLeg.uv(0f, 0.25f)
+        val rightLegExtraUV = rightLeg.uv(0f, 0.5f)
+        val leftLegUV = leftLeg.uv(0.25f, 0.75f)
+        val leftLegExtraUV = leftLeg.uv(0f, 0.75f)
 
         parts = EnumMap(PartType::class.java)
         typeParts = EnumMap(ModelType::class.java)
 
         // Head
-        parts[HEAD] = ModelPart(head.vertices(), headUV)
+        parts[HEAD] = ModelPart(head.vertices, headUV)
         // Head extra layer
-        parts[HEAD_EXTRA] = ModelPart(head.extra().vertices(), headExtraUV)
+        parts[HEAD_EXTRA] = ModelPart(head.extra.vertices, headExtraUV)
         // Body
-        parts[BODY] = ModelPart(body.vertices(), bodyUV)
+        parts[BODY] = ModelPart(body.vertices, bodyUV)
         // Body extra layer
-        parts[BODY_EXTRA] = ModelPart(body.extra().vertices(), bodyExtraUV)
+        parts[BODY_EXTRA] = ModelPart(body.extra.vertices, bodyExtraUV)
         // Right leg
-        parts[RIGHT_LEG] = ModelPart(rightLeg.vertices(), rightLegUV)
+        parts[RIGHT_LEG] = ModelPart(rightLeg.vertices, rightLegUV)
         // Right leg extra layer
         parts[RIGHT_LEG_EXTRA] =
-            ModelPart(rightLeg.extra().vertices(), rightLegExtraUV)
+            ModelPart(rightLeg.extra.vertices, rightLegExtraUV)
         // Left leg
-        parts[LEFT_LEG] = ModelPart(leftLeg.vertices(), leftLegUV)
+        parts[LEFT_LEG] = ModelPart(leftLeg.vertices, leftLegUV)
         // Left leg extra layer
-        parts[LEFT_LEG_EXTRA] =
-            ModelPart(leftLeg.extra().vertices(), leftLegExtraUV)
+        parts[LEFT_LEG_EXTRA] = ModelPart(leftLeg.extra.vertices, leftLegExtraUV)
     }
 
     fun draw() {
         parts.values.forEach { it.draw() }
 
-        typeParts.computeIfAbsent(modelType) { ty ->
-            EnumPartsMap(PartType::class.java).also {
-                createHands(it, ty)
-            }
+        typeParts.computeIfAbsent(modelType) {
+            createHands(EnumPartsMap(PartType::class.java), it)
         }.values.forEach { it.draw() }
     }
 }

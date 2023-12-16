@@ -1,9 +1,11 @@
 package net.zatrit.skinview.gl
 
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.opengl.GLES31.*
 import android.opengl.GLUtils.texImage2D
 import android.util.Log
+import net.zatrit.skinview.DebugOnly
 import net.zatrit.skinview.TAG
 import java.io.InputStream
 import java.nio.IntBuffer
@@ -14,13 +16,18 @@ class Texture(private val id: Int) {
     fun destroy() = glDeleteTextures(1, IntBuffer.allocate(1).put(0, id))
 }
 
+@DebugOnly
+private fun textureInfo(bitmap: Bitmap) {
+    Log.i(TAG, "Width: " + bitmap.width)
+    Log.i(TAG, "Height: " + bitmap.height)
+    Log.i(TAG, "Size: " + bitmap.byteCount)
+}
+
 fun loadTexture(stream: InputStream): Texture {
     val bitmap = BitmapFactory.decodeStream(stream)
     val buf = IntBuffer.allocate(1)
 
-    Log.i(TAG, "Width: " + bitmap.width)
-    Log.i(TAG, "Height: " + bitmap.height)
-    Log.i(TAG, "Size: " + bitmap.byteCount)
+    textureInfo(bitmap)
 
     glGenTextures(1, buf)
     val texture = Texture(buf[0])

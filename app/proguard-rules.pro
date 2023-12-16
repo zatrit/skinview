@@ -18,8 +18,4 @@
 	public static void throwIllegalState(...);
 }
 
--assumenosideeffects class android.opengl.GLES20 { glGetError(...); }
-
--assumenosideeffects class android.util.Log { public static *(...); }
-
 -assumenosideeffects class ** { @net.zatrit.skinview.DebugOnly <methods>; }

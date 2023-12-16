@@ -22,7 +22,7 @@ class Renderer(private val context: Context) : GLSurfaceView.Renderer {
     private var modelHandle: Int = 0
 
     var modelMatrix: FloatArray = mat4 { setIdentityM(it, 0) }
-    private var model: PlayerModel? = null
+    private lateinit var model: PlayerModel
 
     override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
         glEnable(GL_DEPTH_TEST)
@@ -30,9 +30,9 @@ class Renderer(private val context: Context) : GLSurfaceView.Renderer {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f)
 
-        val shader = compileShader(
-            Shader(GL_VERTEX_SHADER, MAIN_VERT),
-            Shader(GL_FRAGMENT_SHADER, MAIN_FRAG),
+        val shader = linkShaders(
+            compileShader(GL_VERTEX_SHADER, MAIN_VERT),
+            compileShader(GL_FRAGMENT_SHADER, MAIN_FRAG),
         ).apply { use() }
 
         projHandle = shader.uniformLocation("uProj")
@@ -51,6 +51,7 @@ class Renderer(private val context: Context) : GLSurfaceView.Renderer {
             translateM(it, 0, 0f, 0f, -10f)
         }
         glUniformMatrix4fv(viewHandle, 1, false, FloatBuffer.wrap(viewMatrix))
+        glUniformMatrix4fv(modelHandle, 1, false, FloatBuffer.wrap(modelMatrix))
 
         checkError()
     }
@@ -66,10 +67,9 @@ class Renderer(private val context: Context) : GLSurfaceView.Renderer {
     }
 
     override fun onDrawFrame(gl: GL10) {
-        glUniformMatrix4fv(modelHandle, 1, false, FloatBuffer.wrap(modelMatrix))
         glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
 
-        model?.draw()
+        model.draw()
         checkError()
     }
 }

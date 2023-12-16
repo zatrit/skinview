@@ -18,30 +18,29 @@ private fun programStatus(id: Int) {
     assert(compileStatus[0] != 0) { glGetProgramInfoLog(id) }
 }
 
-class Shader(type: Int, source: String) {
-    val id: Int
+fun compileShader(type: Int, source: String): Int {
+    val id = glCreateShader(type)
+    glShaderSource(id, source)
+    glCompileShader(id)
+    shaderStatus(id)
 
-    init {
-        id = glCreateShader(type)
-        glShaderSource(id, source)
-        glCompileShader(id)
-        shaderStatus(id)
-    }
+    return id
 }
 
-class Program(private val id: Int) {
+@JvmInline
+value class Program(private val id: Int) {
     fun use() = glUseProgram(this.id)
 
     fun uniformLocation(uniform: String): Int =
         glGetUniformLocation(this.id, uniform)
 }
 
-fun compileShader(vararg shaders: Shader): Program {
+fun linkShaders(vararg shaders: Int): Program {
     val program: Int = glCreateProgram()
 
-    shaders.forEach { glAttachShader(program, it.id) }
+    shaders.forEach { glAttachShader(program, it) }
     glLinkProgram(program)
-    shaders.forEach { glDeleteShader(it.id) }
+    shaders.forEach { glDeleteShader(it) }
     programStatus(program)
 
     return Program(program)

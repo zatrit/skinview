@@ -4,29 +4,11 @@ class Box(
     private val x1: Float, private val y1: Float, private val z1: Float,
     private val x2: Float, private val y2: Float, private val z2: Float) {
 
-    private val width: Float get() = x2 - x1
-    private val height: Float get() = y2 - y1
-    private val depth: Float get() = z2 - z1
+    private val width get() = x2 - x1
+    private val height get() = y2 - y1
+    private val depth get() = z2 - z1
 
-    init {
-        assert(x1 < x2)
-        assert(y1 < y2)
-        assert(z1 < z2)
-    }
-
-    fun translate(x: Float, y: Float, z: Float): Box =
-        Box(x1 + x, y1 + y, z1 + z, x2 + x, y2 + y, z2 + z)
-
-    fun scale(s: Float): Box {
-        val s2 = (s - 1) / 2
-        val dw = width * s2
-        val dh = height * s2
-        val dd = depth * s2
-
-        return Box(x1 - dw, y1 - dh, z1 - dd, x2 + dw, y2 + dh, z2 + dd)
-    }
-
-    fun vertices() = floatArrayOf(
+    val vertices = floatArrayOf(
         // back
         x1, y2, z1, // top right
         x2, y2, z1, // bottom right
@@ -63,6 +45,24 @@ class Box(
         x2, y2, z2, // bottom left
         x1, y2, z2, // top left
     )
+
+    init {
+        assert(x1 < x2)
+        assert(y1 < y2)
+        assert(z1 < z2)
+    }
+
+    fun translate(x: Float, y: Float, z: Float): Box =
+        Box(x1 + x, y1 + y, z1 + z, x2 + x, y2 + y, z2 + z)
+
+    fun scale(s: Float): Box {
+        val s2 = (s - 1) / 2
+        val dw = width * s2
+        val dh = height * s2
+        val dd = depth * s2
+
+        return Box(x1 - dw, y1 - dh, z1 - dd, x2 + dw, y2 + dh, z2 + dd)
+    }
 
     fun uv(x: Float, y: Float, s: Float) =
         boxUV(x, y, width * s, height * s, depth * s)

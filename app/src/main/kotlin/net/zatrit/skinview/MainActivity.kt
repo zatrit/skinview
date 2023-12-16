@@ -11,8 +11,8 @@ import android.view.View
 import net.zatrit.skinview.gl.Renderer
 
 class MainActivity : Activity() {
-    private var surface: GLSurfaceView? = null
-    private var velocityTracker: VelocityTracker? = null
+    private lateinit var surface: GLSurfaceView
+    private lateinit var velocityTracker: VelocityTracker
     private var renderer: Renderer = Renderer(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,12 +30,12 @@ class MainActivity : Activity() {
 
     override fun onResume() {
         super.onResume()
-        surface?.onResume()
+        surface.onResume()
     }
 
     override fun onPause() {
         super.onPause()
-        surface?.onPause()
+        surface.onPause()
     }
 
     private fun onSurfaceTouch(view: View, event: MotionEvent?): Boolean {
@@ -43,9 +43,9 @@ class MainActivity : Activity() {
             ACTION_DOWN -> velocityTracker =
                 VelocityTracker.obtain().apply { addMovement(event) }
 
-            ACTION_UP, ACTION_CANCEL -> velocityTracker?.recycle()
+            ACTION_UP, ACTION_CANCEL -> velocityTracker.recycle()
 
-            ACTION_MOVE -> velocityTracker?.apply {
+            ACTION_MOVE -> velocityTracker.apply {
                 val pointerId: Int = event.getPointerId(event.actionIndex)
                 addMovement(event)
                 computeCurrentVelocity(
