@@ -17,4 +17,4 @@
 	public static void throwIllegalState(...);
 }
 
--assumenosideeffects class ** { @net.zatrit.skinview.DebugOnly <methods>; }
+-assumenosideeffects class ** { @net.zatrit.skinview.DebugOnly **; }

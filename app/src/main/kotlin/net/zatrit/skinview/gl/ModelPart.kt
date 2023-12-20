@@ -5,17 +5,6 @@ import net.zatrit.skinview.DebugOnly
 import java.nio.FloatBuffer
 import java.nio.IntBuffer
 
-private fun vboData(buf: FloatBuffer, id: Int, index: Int, size: Int) {
-    glBindBuffer(GL_ARRAY_BUFFER, id)
-    glBufferData(
-        GL_ARRAY_BUFFER, buf.capacity() * Float.SIZE_BYTES, buf, GL_STATIC_DRAW
-    )
-    glVertexAttribPointer(
-        index, size, GL_FLOAT, false, size * Float.SIZE_BYTES, 0
-    )
-    glEnableVertexAttribArray(index)
-}
-
 @DebugOnly
 private fun sizeChecks(vertices: FloatArray, textureCoords: FloatArray) {
     assert(vertices.size % 3 == 0)
@@ -28,9 +17,16 @@ class ModelPart(vertices: FloatArray, textureCoords: FloatArray) {
 
     private fun bind() = glBindVertexArray(vao)
 
-    fun draw() {
-        bind()
-        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0)
+    private fun vboData(buf: FloatBuffer, id: Int, index: Int, size: Int) {
+        glBindBuffer(GL_ARRAY_BUFFER, id)
+        glBufferData(
+            GL_ARRAY_BUFFER, buf.capacity() * Float.SIZE_BYTES, buf,
+            GL_STATIC_DRAW
+        )
+        glVertexAttribPointer(
+            index, size, GL_FLOAT, false, size * Float.SIZE_BYTES, 0
+        )
+        glEnableVertexAttribArray(index)
     }
 
     init {
@@ -60,5 +56,10 @@ class ModelPart(vertices: FloatArray, textureCoords: FloatArray) {
         glBufferData(
             GL_ELEMENT_ARRAY_BUFFER, 36 * Int.SIZE_BYTES, indices, GL_STATIC_DRAW
         )
+    }
+
+    fun draw() {
+        bind()
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0)
     }
 }

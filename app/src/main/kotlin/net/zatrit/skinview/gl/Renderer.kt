@@ -3,7 +3,8 @@ package net.zatrit.skinview.gl
 import android.content.Context
 import android.opengl.GLES31.*
 import android.opengl.GLSurfaceView
-import android.opengl.Matrix.*
+import android.opengl.Matrix.perspectiveM
+import android.opengl.Matrix.setIdentityM
 import net.zatrit.skinview.DebugOnly
 import java.nio.FloatBuffer
 import javax.microedition.khronos.egl.EGLConfig
@@ -13,7 +14,7 @@ import javax.microedition.khronos.opengles.GL10
 @OptIn(ExperimentalStdlibApi::class)
 private fun checkError() {
     val error = glGetError()
-    assert(error == 0) { error.toHexString() }
+    assert(error == 0) { "OpenGL error: ${error.toHexString()}" }
 }
 
 class Renderer(private val context: Context) : GLSurfaceView.Renderer {
@@ -48,7 +49,7 @@ class Renderer(private val context: Context) : GLSurfaceView.Renderer {
 
         val viewMatrix = mat4 {
             setIdentityM(it, 0)
-            translateM(it, 0, 0f, 0f, -10f)
+            it[14] = -10f // sets Z offset to -10
         }
         glUniformMatrix4fv(viewHandle, 1, false, FloatBuffer.wrap(viewMatrix))
 
