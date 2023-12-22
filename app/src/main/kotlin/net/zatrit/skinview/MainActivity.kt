@@ -11,31 +11,19 @@ import android.view.View
 import net.zatrit.skinview.gl.Renderer
 
 class MainActivity : Activity() {
-    private lateinit var surface: GLSurfaceView
     private lateinit var velocityTracker: VelocityTracker
     private var renderer = Renderer(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.setContentView(R.layout.activity_main)
 
-        this.surface = GLSurfaceView(this).apply {
+        findViewById<GLSurfaceView>(R.id.gl_surface).run {
             setEGLContextClientVersion(3)
             setRenderer(renderer)
             setOnTouchListener(::onSurfaceTouch)
             renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
         }
-
-        this.setContentView(surface)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        surface.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        surface.onPause()
     }
 
     private fun onSurfaceTouch(view: View, event: MotionEvent?): Boolean {
@@ -45,20 +33,21 @@ class MainActivity : Activity() {
 
             ACTION_UP, ACTION_CANCEL -> velocityTracker.recycle()
 
-            ACTION_MOVE -> velocityTracker.apply {
-                val pointerId: Int = event.getPointerId(event.actionIndex)
+            ACTION_MOVE -> velocityTracker.run {
                 addMovement(event)
                 computeCurrentVelocity(
                     resources.displayMetrics.density.toInt()
                 )
 
+                val pointerId: Int = event.getPointerId(event.actionIndex)
                 val dx = getXVelocity(pointerId)
                 val dy = getYVelocity(pointerId)
-                val m = renderer.modelMatrix
 
                 // https://stackoverflow.com/a/8852416/12245612
-                rotateM(m, 0, dx, 0f, m[5], 0f)
-                rotateM(m, 0, dy, m[0], 0f, m[8])
+                renderer.modelMatrix.let { m ->
+                    rotateM(m, 0, dx, 0f, m[5], 0f)
+                    rotateM(m, 0, dy, m[0], 0f, m[8])
+                }
             }
         }
 

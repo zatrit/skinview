@@ -6,16 +6,16 @@ import java.nio.IntBuffer
 
 @DebugOnly
 private fun shaderStatus(id: Int) {
-    val compileStatus = IntBuffer.allocate(1)
-    glGetShaderiv(id, GL_COMPILE_STATUS, compileStatus)
-    assert(compileStatus[0] != 0) { glGetShaderInfoLog(id) }
+    val status = IntBuffer.allocate(1)
+    glGetShaderiv(id, GL_COMPILE_STATUS, status)
+    assert(status[0] != 0) { glGetShaderInfoLog(id) }
 }
 
 @DebugOnly
 private fun programStatus(id: Int) {
-    val compileStatus = IntBuffer.allocate(1)
-    glGetProgramiv(id, GL_LINK_STATUS, compileStatus)
-    assert(compileStatus[0] != 0) { glGetProgramInfoLog(id) }
+    val status = IntBuffer.allocate(1)
+    glGetProgramiv(id, GL_LINK_STATUS, status)
+    assert(status[0] != 0) { glGetProgramInfoLog(id) }
 }
 
 fun compileShader(type: Int, source: String): Int {
@@ -40,7 +40,7 @@ fun linkShaders(vararg shaders: Int): Program {
 
     shaders.forEach { glAttachShader(program, it) }
     glLinkProgram(program)
-    shaders.forEach { glDeleteShader(it) }
+    shaders.forEach(::glDeleteShader)
     programStatus(program)
 
     return Program(program)

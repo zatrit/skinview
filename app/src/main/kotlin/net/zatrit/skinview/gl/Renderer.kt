@@ -19,7 +19,6 @@ private fun checkError() {
 
 class Renderer(private val context: Context) : GLSurfaceView.Renderer {
     private var projHandle = 0
-    private var viewHandle = 0
     private var modelHandle = 0
 
     var modelMatrix = mat4 { setIdentityM(it, 0) }
@@ -29,7 +28,7 @@ class Renderer(private val context: Context) : GLSurfaceView.Renderer {
         glEnable(GL_DEPTH_TEST)
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f)
+        glClearColor(0f, 0f, 0f, 1.0f)
 
         val shader = linkShaders(
             compileShader(GL_VERTEX_SHADER, MAIN_VERT),
@@ -37,21 +36,21 @@ class Renderer(private val context: Context) : GLSurfaceView.Renderer {
         ).apply { use() }
 
         projHandle = shader.uniformLocation("uProj")
-        viewHandle = shader.uniformLocation("uView")
         modelHandle = shader.uniformLocation("uModel")
-
-        model = PlayerModel(ModelType.SLIM)
-
-        loadTexture(context.assets.open("zatrit.png"))
-        shader.uniformLocation("uTexture").also {
-            glUniform1i(it, 0)
-        }
 
         val viewMatrix = mat4 {
             setIdentityM(it, 0)
             it[14] = -10f // sets Z offset to -10
         }
-        glUniformMatrix4fv(viewHandle, 1, false, FloatBuffer.wrap(viewMatrix))
+        glUniformMatrix4fv(
+            shader.uniformLocation("uView"), 1, false,
+            FloatBuffer.wrap(viewMatrix)
+        )
+
+        model = PlayerModel(ModelType.SLIM)
+
+        loadTexture(context.assets.open("zatrit.png"))
+        glUniform1i(shader.uniformLocation("uTexture"), 0)
 
         checkError()
     }

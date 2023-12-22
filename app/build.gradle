@@ -22,7 +22,11 @@ android {
             minifyEnabled true
             shrinkResources true
             debuggable false
-            proguardFiles 'proguard-rules.pro', 'modified-android-optimize.pro' // , getDefaultProguardFile('proguard-android-optimize.txt')
+            proguardFiles 'proguard-rules.pro', 'modified-android-optimize.pro'
+        }
+
+        staging {
+            initWith release
             signingConfig signingConfigs.debug
         }
     }
@@ -30,6 +34,10 @@ android {
     packagingOptions {
         exclude '**/kotlin-tooling-metadata.json'
         exclude '**/kotlin/**'
+
+        dex {
+            useLegacyPackaging true
+        }
     }
 
     compileOptions {
