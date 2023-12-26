@@ -20,14 +20,13 @@ class MainActivity : Activity() {
 
         findViewById<GLSurfaceView>(R.id.gl_surface).run {
             setEGLContextClientVersion(3)
-            setRenderer(renderer)
             setOnTouchListener(::onSurfaceTouch)
-            renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
+            setRenderer(renderer)
         }
     }
 
-    private fun onSurfaceTouch(view: View, event: MotionEvent?): Boolean {
-        when (event?.actionMasked) {
+    private fun onSurfaceTouch(view: View, event: MotionEvent): Boolean {
+        when (event.actionMasked) {
             ACTION_DOWN -> velocityTracker =
                 VelocityTracker.obtain().apply { addMovement(event) }
 
@@ -39,7 +38,7 @@ class MainActivity : Activity() {
                     resources.displayMetrics.density.toInt()
                 )
 
-                val pointerId: Int = event.getPointerId(event.actionIndex)
+                val pointerId = event.getPointerId(event.actionIndex)
                 val dx = getXVelocity(pointerId)
                 val dy = getYVelocity(pointerId)
 

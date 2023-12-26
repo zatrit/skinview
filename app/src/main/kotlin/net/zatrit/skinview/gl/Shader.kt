@@ -20,6 +20,7 @@ private fun programStatus(id: Int) {
 
 fun compileShader(type: Int, source: String): Int {
     val id = glCreateShader(type)
+
     glShaderSource(id, source)
     glCompileShader(id)
     shaderStatus(id)

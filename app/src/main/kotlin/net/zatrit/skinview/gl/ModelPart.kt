@@ -12,22 +12,21 @@ private fun sizeChecks(vertices: FloatArray, textureCoords: FloatArray) {
     assert(vertices.size / 3 == textureCoords.size / 2)
 }
 
+private fun vboData(buf: FloatBuffer, id: Int, index: Int, size: Int) {
+    glBindBuffer(GL_ARRAY_BUFFER, id)
+    glBufferData(
+        GL_ARRAY_BUFFER, buf.capacity() * Float.SIZE_BYTES, buf, GL_STATIC_DRAW
+    )
+    glVertexAttribPointer(
+        index, size, GL_FLOAT, false, size * Float.SIZE_BYTES, 0
+    )
+    glEnableVertexAttribArray(index)
+}
+
 class ModelPart(vertices: FloatArray, textureCoords: FloatArray) {
     private val vao: Int
 
     private fun bind() = glBindVertexArray(vao)
-
-    private fun vboData(buf: FloatBuffer, id: Int, index: Int, size: Int) {
-        glBindBuffer(GL_ARRAY_BUFFER, id)
-        glBufferData(
-            GL_ARRAY_BUFFER, buf.capacity() * Float.SIZE_BYTES, buf,
-            GL_STATIC_DRAW
-        )
-        glVertexAttribPointer(
-            index, size, GL_FLOAT, false, size * Float.SIZE_BYTES, 0
-        )
-        glEnableVertexAttribArray(index)
-    }
 
     init {
         sizeChecks(vertices, textureCoords)

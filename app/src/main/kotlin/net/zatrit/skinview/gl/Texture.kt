@@ -10,7 +10,8 @@ import net.zatrit.skinview.TAG
 import java.io.InputStream
 import java.nio.IntBuffer
 
-class Texture(private val id: Int) {
+@JvmInline
+value class Texture(private val id: Int) {
     fun bind() = glBindTexture(GL_TEXTURE_2D, id)
 
     fun destroy() = glDeleteTextures(1, IntBuffer.allocate(1).put(0, id))
