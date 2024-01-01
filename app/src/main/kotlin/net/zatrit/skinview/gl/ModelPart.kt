@@ -26,8 +26,6 @@ private fun vboData(buf: FloatBuffer, id: Int, index: Int, size: Int) {
 class ModelPart(vertices: FloatArray, textureCoords: FloatArray) {
     private val vao: Int
 
-    private fun bind() = glBindVertexArray(vao)
-
     init {
         sizeChecks(vertices, textureCoords)
 
@@ -58,7 +56,7 @@ class ModelPart(vertices: FloatArray, textureCoords: FloatArray) {
     }
 
     fun draw() {
-        bind()
+        glBindVertexArray(vao)
         glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0)
     }
 }

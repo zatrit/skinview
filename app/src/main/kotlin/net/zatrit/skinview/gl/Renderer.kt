@@ -18,11 +18,19 @@ private fun checkError() {
 }
 
 class Renderer(private val context: Context) : GLSurfaceView.Renderer {
-    private var projHandle = 0
-    private var modelHandle = 0
+    private var modelShader: Program = Program(0)
+    private var gridShader: Program = Program(0)
 
     var modelMatrix = mat4 { setIdentityM(it, 0) }
+
     private lateinit var model: PlayerModel
+    private lateinit var grid: Plain
+    private lateinit var shaders: Array<Program>
+
+    private inline fun allShaders(func: Program.() -> Unit) = shaders.forEach {
+        it.use()
+        it.func()
+    }
 
     override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
         glEnable(GL_DEPTH_TEST)
@@ -30,27 +38,42 @@ class Renderer(private val context: Context) : GLSurfaceView.Renderer {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         glClearColor(0f, 0f, 0f, 1.0f)
 
-        val shader = linkShaders(
+        // Model creation code
+        modelShader = linkShaders(
             compileShader(GL_VERTEX_SHADER, MAIN_VERT),
             compileShader(GL_FRAGMENT_SHADER, MAIN_FRAG),
         ).apply { use() }
 
-        projHandle = shader.uniformLocation("uProj")
-        modelHandle = shader.uniformLocation("uModel")
+        loadTexture(context.assets.open("zatrit.png"))
+        glUniform1i(modelShader.uniformLocation("uTexture"), 0)
+
+        model = PlayerModel(ModelType.SLIM)
+
+        // Grid creation code
+        gridShader = linkShaders(
+            compileShader(GL_VERTEX_SHADER, GRID_VERT),
+            compileShader(GL_FRAGMENT_SHADER, GRID_FRAG),
+        ).apply { use() }
+
+        glUniform4f(gridShader.uniformLocation("uColor"), 1f, 1f, 1f, 0.5f)
+        glUniform1f(gridShader.uniformLocation("uHeight"), -2f)
+
+        grid = Plain(-2f, -2f, 2f, 2f)
+
+        // View matrix update
+        shaders = arrayOf(modelShader, gridShader)
 
         val viewMatrix = mat4 {
             setIdentityM(it, 0)
             it[14] = -10f // sets Z offset to -10
         }
-        glUniformMatrix4fv(
-            shader.uniformLocation("uView"), 1, false,
-            FloatBuffer.wrap(viewMatrix)
-        )
 
-        model = PlayerModel(ModelType.SLIM)
-
-        loadTexture(context.assets.open("zatrit.png"))
-        glUniform1i(shader.uniformLocation("uTexture"), 0)
+        val buf = FloatBuffer.wrap(viewMatrix)
+        allShaders {
+            glUniformMatrix4fv(
+                uniformLocation("uView"), 1, false, buf
+            )
+        }
 
         checkError()
     }
@@ -60,16 +83,33 @@ class Renderer(private val context: Context) : GLSurfaceView.Renderer {
 
         val ratio = width.toFloat() / height.toFloat()
         val projMatrix = mat4 { perspectiveM(it, 0, 45.0f, ratio, 0.1f, 100f) }
-        glUniformMatrix4fv(projHandle, 1, false, FloatBuffer.wrap(projMatrix))
+
+        val buf = FloatBuffer.wrap(projMatrix)
+        allShaders {
+            glUniformMatrix4fv(
+                uniformLocation("uProj"), 1, false, buf
+            )
+        }
 
         checkError()
     }
 
     override fun onDrawFrame(gl: GL10) {
-        glUniformMatrix4fv(modelHandle, 1, false, FloatBuffer.wrap(modelMatrix))
+        val buf = FloatBuffer.wrap(modelMatrix)
+        allShaders {
+            glUniformMatrix4fv(
+                uniformLocation("uModel"), 1, false, buf
+            )
+        }
+
         glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
 
+        modelShader.use()
         model.draw()
+
+        gridShader.use()
+        grid.draw()
+
         checkError()
     }
 }

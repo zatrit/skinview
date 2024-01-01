@@ -1,0 +1,10 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_width="300dp"
+    android:layout_alignParentEnd="true">
+
+  <include layout="@layout/menu_content"/>
+</LinearLayout>

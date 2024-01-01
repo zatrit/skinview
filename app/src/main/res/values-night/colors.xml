@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <color name="button_highlight">@android:color/white</color>
+  <color name="background">@android:color/background_dark</color>
+  <color name="button">@android:color/holo_green_dark</color>
+  <color name="drag_handle">@android:color/darker_gray</color>
+</resources>
