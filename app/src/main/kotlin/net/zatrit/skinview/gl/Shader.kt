@@ -28,21 +28,18 @@ fun compileShader(type: Int, source: String): Int {
     return id
 }
 
-@JvmInline
-value class Program(private val id: Int) {
+class Program(vararg shaders: Int) {
+    private val id = glCreateProgram()
+
+    init {
+        shaders.forEach { glAttachShader(id, it) }
+        glLinkProgram(id)
+        shaders.forEach(::glDeleteShader)
+        programStatus(id)
+    }
+
     fun use() = glUseProgram(this.id)
 
     fun uniformLocation(uniform: String): Int =
         glGetUniformLocation(this.id, uniform)
-}
-
-fun linkShaders(vararg shaders: Int): Program {
-    val program = glCreateProgram()
-
-    shaders.forEach { glAttachShader(program, it) }
-    glLinkProgram(program)
-    shaders.forEach(::glDeleteShader)
-    programStatus(program)
-
-    return Program(program)
 }

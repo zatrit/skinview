@@ -13,6 +13,19 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.RelativeLayout.LEFT_OF
 import net.zatrit.skinview.gl.Renderer
+import javax.microedition.khronos.egl.EGL10
+import javax.microedition.khronos.egl.EGLConfig
+import javax.microedition.khronos.egl.EGLDisplay
+
+private fun findConfigAttrib(
+    egl: EGL10, display: EGLDisplay, config: EGLConfig, attribute: Int,
+    defaultValue: Int): Int {
+    val mValue = IntArray(1)
+
+    return if (egl.eglGetConfigAttrib(display, config, attribute, mValue)) {
+        mValue[0]
+    } else defaultValue
+}
 
 class MainActivity : Activity() {
     private lateinit var velocityTracker: VelocityTracker

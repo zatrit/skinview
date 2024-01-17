@@ -12,42 +12,42 @@ import android.widget.Button
 class DragHandle(context: Context, attributeSet: AttributeSet) :
     View(context, attributeSet), OnTouchListener {
     private var animation: ValueAnimator? = null
-    var target: View? = null
     var showInstead: Button? = null
 
     private val metrics = resources.displayMetrics
     private val step = metrics.heightPixels / 7
+
+    lateinit var target: View
 
     init {
         setOnTouchListener(this)
     }
 
     private fun hide() {
-        target?.visibility = INVISIBLE
+        target.visibility = INVISIBLE
         showInstead?.visibility = VISIBLE
     }
 
-    fun show() {
-        target?.visibility = VISIBLE
-        showInstead?.visibility = INVISIBLE
-
-        val newHeight = resources.displayMetrics.heightPixels / 2
-        animation = ValueAnimator.ofInt(1, newHeight).apply {
+    private fun heightAnimator(from: Int, to: Int) =
+        ValueAnimator.ofInt(from, to).apply {
             addUpdateListener {
-                target?.applyLayout<LayoutParams> {
-                    this.height = it.animatedValue as Int
+                target.applyLayout<LayoutParams> {
+                    height = it.animatedValue as Int
                 }
             }
             start()
         }
+
+    fun show() {
+        target.visibility = VISIBLE
+        showInstead?.visibility = INVISIBLE
+
+        val newHeight = resources.displayMetrics.heightPixels / 2
+
+        animation = heightAnimator(1, newHeight)
     }
 
     override fun onTouch(view: View, event: MotionEvent): Boolean {
-        if (target == null) {
-            return false
-        }
-        val target = target!!
-
         when (event.actionMasked) {
             MotionEvent.ACTION_MOVE -> {
                 animation?.cancel()
@@ -62,14 +62,7 @@ class DragHandle(context: Context, attributeSet: AttributeSet) :
                 val newHeight = (height / step * step).coerceAtLeast(step)
                     .coerceAtMost(metrics.heightPixels - step)
 
-                animation = ValueAnimator.ofInt(height, newHeight).apply {
-                    addUpdateListener {
-                        target.applyLayout<LayoutParams> {
-                            this.height = it.animatedValue as Int
-                        }
-                    }
-                    start()
-                }
+                animation = heightAnimator(height, newHeight)
             }
         }
         return true

@@ -18,14 +18,14 @@ private fun checkError() {
 }
 
 class Renderer(private val context: Context) : GLSurfaceView.Renderer {
-    private var modelShader: Program = Program(0)
-    private var gridShader: Program = Program(0)
-
     var modelMatrix = mat4 { setIdentityM(it, 0) }
 
     private lateinit var model: PlayerModel
     private lateinit var grid: Plain
     private lateinit var shaders: Array<Program>
+
+    private lateinit var modelShader: Program
+    private lateinit var gridShader: Program
 
     private inline fun allShaders(func: Program.() -> Unit) = shaders.forEach {
         it.use()
@@ -35,22 +35,23 @@ class Renderer(private val context: Context) : GLSurfaceView.Renderer {
     override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
         glEnable(GL_DEPTH_TEST)
         glEnable(GL_BLEND)
+
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         glClearColor(0f, 0f, 0f, 1.0f)
 
         // Model creation code
-        modelShader = linkShaders(
+        modelShader = Program(
             compileShader(GL_VERTEX_SHADER, MAIN_VERT),
             compileShader(GL_FRAGMENT_SHADER, MAIN_FRAG),
         ).apply { use() }
 
-        loadTexture(context.assets.open("zatrit.png"))
+        Texture(context.assets.open("zatrit.png"))
         glUniform1i(modelShader.uniformLocation("uTexture"), 0)
 
         model = PlayerModel(ModelType.SLIM)
 
         // Grid creation code
-        gridShader = linkShaders(
+        gridShader = Program(
             compileShader(GL_VERTEX_SHADER, GRID_VERT),
             compileShader(GL_FRAGMENT_SHADER, GRID_FRAG),
         ).apply { use() }

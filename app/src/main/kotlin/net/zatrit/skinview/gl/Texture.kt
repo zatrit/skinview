@@ -10,9 +10,27 @@ import net.zatrit.skinview.TAG
 import java.io.InputStream
 import java.nio.IntBuffer
 
-@JvmInline
-value class Texture(private val id: Int) {
-    fun bind() = glBindTexture(GL_TEXTURE_2D, id)
+class Texture(bitmap: Bitmap) {
+    private val id: Int
+
+    init {
+        val buf = IntBuffer.allocate(1)
+        glGenTextures(1, buf)
+        id = buf.get()
+
+        bind()
+        texImage2D(GL_TEXTURE_2D, 0, bitmap, 0)
+        glGenerateMipmap(GL_TEXTURE_2D)
+
+        bitmap.recycle()
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
+    }
+
+    constructor(steam: InputStream) : this(BitmapFactory.decodeStream(steam))
+
+    private fun bind() = glBindTexture(GL_TEXTURE_2D, id)
 
     fun destroy() = glDeleteTextures(1, IntBuffer.allocate(1).put(0, id))
 }
@@ -22,25 +40,4 @@ private fun textureInfo(bitmap: Bitmap) {
     Log.i(TAG, "Width: " + bitmap.width)
     Log.i(TAG, "Height: " + bitmap.height)
     Log.i(TAG, "Size: " + bitmap.byteCount)
-}
-
-fun loadTexture(stream: InputStream): Texture {
-    val bitmap = BitmapFactory.decodeStream(stream)
-    val buf = IntBuffer.allocate(1)
-
-    textureInfo(bitmap)
-
-    glGenTextures(1, buf)
-    val texture = Texture(buf[0])
-
-    texture.bind()
-    texImage2D(GL_TEXTURE_2D, 0, bitmap, 0)
-    glGenerateMipmap(GL_TEXTURE_2D)
-
-    bitmap.recycle()
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
-
-    return texture
 }
