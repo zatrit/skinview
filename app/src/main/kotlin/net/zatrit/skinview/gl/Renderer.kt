@@ -5,7 +5,10 @@ import android.opengl.GLES31.*
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix.perspectiveM
 import android.opengl.Matrix.setIdentityM
+import android.util.Log
 import net.zatrit.skinview.DebugOnly
+import net.zatrit.skinview.TAG
+import java.nio.ByteBuffer
 import java.nio.FloatBuffer
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
@@ -18,16 +21,16 @@ private fun checkError() {
 }
 
 class Renderer(private val context: Context) : GLSurfaceView.Renderer {
-    var modelMatrix = mat4 { setIdentityM(it, 0) }
+    var modelMatrix: FloatArray = mat4 { setIdentityM(it, 0) }
 
     private lateinit var model: PlayerModel
     private lateinit var grid: Plain
-    private lateinit var shaders: Array<Program>
+    private lateinit var shaders: Array<MVPProgram>
 
-    private lateinit var modelShader: Program
-    private lateinit var gridShader: Program
+    private lateinit var modelShader: MVPProgram
+    private lateinit var gridShader: MVPProgram
 
-    private inline fun allShaders(func: Program.() -> Unit) = shaders.forEach {
+    private inline fun allShaders(func: MVPProgram.() -> Unit) = shaders.forEach {
         it.use()
         it.func()
     }
@@ -40,7 +43,7 @@ class Renderer(private val context: Context) : GLSurfaceView.Renderer {
         glClearColor(0f, 0f, 0f, 1.0f)
 
         // Model creation code
-        modelShader = Program(
+        modelShader = MVPProgram(
             compileShader(GL_VERTEX_SHADER, MAIN_VERT),
             compileShader(GL_FRAGMENT_SHADER, MAIN_FRAG),
         ).apply { use() }
@@ -51,7 +54,7 @@ class Renderer(private val context: Context) : GLSurfaceView.Renderer {
         model = PlayerModel(ModelType.SLIM)
 
         // Grid creation code
-        gridShader = Program(
+        gridShader = MVPProgram(
             compileShader(GL_VERTEX_SHADER, GRID_VERT),
             compileShader(GL_FRAGMENT_SHADER, GRID_FRAG),
         ).apply { use() }
@@ -71,9 +74,7 @@ class Renderer(private val context: Context) : GLSurfaceView.Renderer {
 
         val buf = FloatBuffer.wrap(viewMatrix)
         allShaders {
-            glUniformMatrix4fv(
-                uniformLocation("uView"), 1, false, buf
-            )
+            glUniformMatrix4fv(viewHandle, 1, false, buf)
         }
 
         checkError()
@@ -87,9 +88,7 @@ class Renderer(private val context: Context) : GLSurfaceView.Renderer {
 
         val buf = FloatBuffer.wrap(projMatrix)
         allShaders {
-            glUniformMatrix4fv(
-                uniformLocation("uProj"), 1, false, buf
-            )
+            glUniformMatrix4fv(projHandle, 1, false, buf)
         }
 
         checkError()
@@ -98,9 +97,7 @@ class Renderer(private val context: Context) : GLSurfaceView.Renderer {
     override fun onDrawFrame(gl: GL10) {
         val buf = FloatBuffer.wrap(modelMatrix)
         allShaders {
-            glUniformMatrix4fv(
-                uniformLocation("uModel"), 1, false, buf
-            )
+            glUniformMatrix4fv(modelHandle, 1, false, buf)
         }
 
         glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)

@@ -28,7 +28,7 @@ fun compileShader(type: Int, source: String): Int {
     return id
 }
 
-class Program(vararg shaders: Int) {
+open class Program(shaders: IntArray) {
     private val id = glCreateProgram()
 
     init {
@@ -40,6 +40,11 @@ class Program(vararg shaders: Int) {
 
     fun use() = glUseProgram(this.id)
 
-    fun uniformLocation(uniform: String): Int =
-        glGetUniformLocation(this.id, uniform)
+    fun uniformLocation(uniform: String): Int = glGetUniformLocation(this.id, uniform)
+}
+
+class MVPProgram(vararg shaders: Int) : Program(shaders) {
+    val modelHandle = uniformLocation("uModel")
+    val viewHandle = uniformLocation("uView")
+    val projHandle = uniformLocation("uProj")
 }

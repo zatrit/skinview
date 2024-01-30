@@ -32,7 +32,7 @@ class Texture(bitmap: Bitmap) {
 
     private fun bind() = glBindTexture(GL_TEXTURE_2D, id)
 
-    fun destroy() = glDeleteTextures(1, IntBuffer.allocate(1).put(0, id))
+    fun delete() = glDeleteTextures(1, IntBuffer.allocate(1).put(0, id))
 }
 
 @DebugOnly
