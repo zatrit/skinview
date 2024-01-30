@@ -5,10 +5,7 @@ import android.opengl.GLES31.*
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix.perspectiveM
 import android.opengl.Matrix.setIdentityM
-import android.util.Log
 import net.zatrit.skinview.DebugOnly
-import net.zatrit.skinview.TAG
-import java.nio.ByteBuffer
 import java.nio.FloatBuffer
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
@@ -30,10 +27,11 @@ class Renderer(private val context: Context) : GLSurfaceView.Renderer {
     private lateinit var modelShader: MVPProgram
     private lateinit var gridShader: MVPProgram
 
-    private inline fun allShaders(func: MVPProgram.() -> Unit) = shaders.forEach {
-        it.use()
-        it.func()
-    }
+    private inline fun allShaders(func: MVPProgram.() -> Unit) =
+        shaders.forEach {
+            it.use()
+            it.func()
+        }
 
     override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
         glEnable(GL_DEPTH_TEST)

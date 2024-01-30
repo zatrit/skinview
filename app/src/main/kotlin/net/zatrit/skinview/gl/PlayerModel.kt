@@ -88,7 +88,8 @@ class PlayerModel(private val modelType: ModelType) {
         // Left leg
         parts[LEFT_LEG] = ModelPart(leftLeg.vertices, leftLegUV)
         // Left leg extra layer
-        parts[LEFT_LEG_EXTRA] = ModelPart(leftLeg.extra.vertices, leftLegExtraUV)
+        parts[LEFT_LEG_EXTRA] =
+            ModelPart(leftLeg.extra.vertices, leftLegExtraUV)
     }
 
     fun draw() {

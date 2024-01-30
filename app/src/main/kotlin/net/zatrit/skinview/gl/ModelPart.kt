@@ -51,7 +51,10 @@ class ModelPart(vertices: FloatArray, textureCoords: FloatArray) {
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buf[2])
         glBufferData(
-            GL_ELEMENT_ARRAY_BUFFER, 36 * Int.SIZE_BYTES, indices, GL_STATIC_DRAW
+            GL_ELEMENT_ARRAY_BUFFER,
+            36 * Int.SIZE_BYTES,
+            indices,
+            GL_STATIC_DRAW
         )
     }
 

@@ -1,8 +1,6 @@
 package net.zatrit.skinview.gl
 
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.InvocationKind
-import kotlin.contracts.contract
+import kotlin.contracts.*
 
 @OptIn(ExperimentalContracts::class)
 inline fun mat4(func: (FloatArray) -> Unit): FloatArray {

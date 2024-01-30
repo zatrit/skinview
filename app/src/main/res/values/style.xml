@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
 
-  <style name="OLED" parent="android:style/Theme.DeviceDefault.NoActionBar.Fullscreen">
-    <item name="android:buttonStyle">@style/OLED.Button</item>
-  </style>
+    <style name="OLED" parent="android:style/Theme.DeviceDefault.NoActionBar.Fullscreen">
+        <item name="android:buttonStyle">@style/OLED.Button</item>
+    </style>
 
-  <style name="OLED.Button" parent="android:Widget.Material.Button">
-    <item name="android:textColor">@color/background</item>
-    <item name="android:background">@drawable/button</item>
-  </style>
+    <style name="OLED.Button" parent="android:Widget.Material.Button">
+        <item name="android:textColor">@color/background</item>
+        <item name="android:background">@drawable/button</item>
+        <item name="android:minWidth">100dp</item>
+    </style>
 </resources>

@@ -40,7 +40,8 @@ open class Program(shaders: IntArray) {
 
     fun use() = glUseProgram(this.id)
 
-    fun uniformLocation(uniform: String): Int = glGetUniformLocation(this.id, uniform)
+    fun uniformLocation(uniform: String): Int =
+        glGetUniformLocation(this.id, uniform)
 }
 
 class MVPProgram(vararg shaders: Int) : Program(shaders) {

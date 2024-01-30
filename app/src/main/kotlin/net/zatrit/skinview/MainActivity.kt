@@ -4,18 +4,11 @@ import android.app.Activity
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix.rotateM
 import android.os.Bundle
-import android.view.MotionEvent
+import android.view.*
 import android.view.MotionEvent.*
-import android.view.VelocityTracker
-import android.view.View
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
+import android.widget.*
 import android.widget.RelativeLayout.LEFT_OF
 import net.zatrit.skinview.gl.Renderer
-import javax.microedition.khronos.egl.EGL10
-import javax.microedition.khronos.egl.EGLConfig
-import javax.microedition.khronos.egl.EGLDisplay
 
 class MainActivity : Activity() {
     private lateinit var velocityTracker: VelocityTracker
@@ -41,11 +34,10 @@ class MainActivity : Activity() {
 
         showButton.setOnClickListener { dragHandle?.show() }
 
-        val mm = state?.getFloatArray("modelMatrix")
-        if (mm != null) {
-            renderer.modelMatrix = mm
-        }
+        renderer.modelMatrix =
+            state?.getFloatArray("modelMatrix") ?: renderer.modelMatrix
 
+        // Attaches surface at left of the menu if using landscape mode
         if (display?.rotation!! % 2 == 1) {
             surface.applyLayout<RelativeLayout.LayoutParams> {
                 rules[LEFT_OF] = menu.id

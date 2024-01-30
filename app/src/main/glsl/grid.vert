@@ -6,6 +6,6 @@ uniform mat4 uProj, uView, uModel;
 uniform float uHeight;
 
 void main() {
-    gl_Position = uProj * uView * uModel * vec4(aPos.x, uHeight, aPos.y, 1.0);
+    gl_Position = uProj * uView * uModel * vec4(aPos.x, uHeight, aPos.y, 1.);
     vPos = aPos;
 }

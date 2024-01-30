@@ -1,16 +1,15 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@drawable/bottom_menu"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="325dp"
-    android:layout_alignParentBottom="true">
+    android:layout_alignParentBottom="true"
+    android:background="@drawable/bottom_menu"
+    android:orientation="vertical">
 
-  <net.zatrit.skinview.DragHandle
-      android:id="@+id/drag_handle"
-      android:background="@drawable/drag_handle"
-      android:layout_width="match_parent"
-      android:layout_height="35dp"/>
+    <net.zatrit.skinview.DragHandle
+        android:id="@+id/drag_handle"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="@drawable/drag_handle" />
 
-  <include layout="@layout/menu_content"/>
+    <include layout="@layout/menu_content" />
 </LinearLayout>
