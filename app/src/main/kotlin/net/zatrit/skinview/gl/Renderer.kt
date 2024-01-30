@@ -1,7 +1,7 @@
 package net.zatrit.skinview.gl
 
 import android.content.Context
-import android.opengl.GLES31.*
+import android.opengl.GLES30.*
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix.perspectiveM
 import android.opengl.Matrix.setIdentityM
@@ -38,7 +38,7 @@ class Renderer(private val context: Context) : GLSurfaceView.Renderer {
         glEnable(GL_BLEND)
 
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-        glClearColor(0f, 0f, 0f, 1.0f)
+        glClearColor(0f, 0f, 0f, 1f)
 
         // Model creation code
         modelShader = MVPProgram(
@@ -46,10 +46,11 @@ class Renderer(private val context: Context) : GLSurfaceView.Renderer {
             compileShader(GL_FRAGMENT_SHADER, MAIN_FRAG),
         ).apply { use() }
 
-        Texture(context.assets.open("zatrit.png"))
+        Texture(context.assets.open("chad.png"))
         glUniform1i(modelShader.uniformLocation("uTexture"), 0)
+        glUniform1i(modelShader.uniformLocation("uLight"), 1)
 
-        model = PlayerModel(ModelType.SLIM)
+        model = PlayerModel(ModelType.DEFAULT)
 
         // Grid creation code
         gridShader = MVPProgram(
@@ -58,7 +59,6 @@ class Renderer(private val context: Context) : GLSurfaceView.Renderer {
         ).apply { use() }
 
         glUniform4f(gridShader.uniformLocation("uColor"), 1f, 1f, 1f, 0.5f)
-        glUniform1f(gridShader.uniformLocation("uHeight"), -2f)
 
         grid = Plain(-2f, -2f, 2f, 2f)
 

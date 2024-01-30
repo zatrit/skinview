@@ -51,6 +51,7 @@ class MainActivity : Activity() {
         state.putFloatArray("modelMatrix", renderer.modelMatrix)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     private fun onSurfaceTouch(view: View, event: MotionEvent): Boolean {
         when (event.actionMasked) {
             ACTION_DOWN -> velocityTracker =

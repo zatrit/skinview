@@ -2,7 +2,7 @@ package net.zatrit.skinview.gl
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.opengl.GLES31.*
+import android.opengl.GLES30.*
 import android.opengl.GLUtils.texImage2D
 import android.util.Log
 import net.zatrit.skinview.DebugOnly
