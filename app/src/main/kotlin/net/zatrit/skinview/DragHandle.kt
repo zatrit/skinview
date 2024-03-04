@@ -23,11 +23,6 @@ class DragHandle(context: Context, attributeSet: AttributeSet) :
         setOnTouchListener(this)
     }
 
-    private fun hide() {
-        target.visibility = INVISIBLE
-        showInstead?.visibility = VISIBLE
-    }
-
     private fun heightAnimator(from: Int, to: Int) =
         ValueAnimator.ofInt(from, to).apply {
             addUpdateListener {
@@ -42,9 +37,12 @@ class DragHandle(context: Context, attributeSet: AttributeSet) :
         target.visibility = VISIBLE
         showInstead?.visibility = INVISIBLE
 
-        val newHeight = resources.displayMetrics.heightPixels / 2
+        animation = heightAnimator(1, step * 2)
+    }
 
-        animation = heightAnimator(1, newHeight)
+    private fun hide() {
+        target.visibility = INVISIBLE
+        showInstead?.visibility = VISIBLE
     }
 
     override fun onTouch(view: View, event: MotionEvent): Boolean {
@@ -53,7 +51,7 @@ class DragHandle(context: Context, attributeSet: AttributeSet) :
                 animation?.cancel()
                 target.applyLayout<LayoutParams> {
                     height -= event.y.toInt()
-                    if (height < step / 3) hide()
+                    if (height < step / 2) hide()
                 }
             }
 

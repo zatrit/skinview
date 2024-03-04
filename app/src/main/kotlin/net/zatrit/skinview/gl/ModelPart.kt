@@ -6,10 +6,10 @@ import java.nio.FloatBuffer
 import java.nio.IntBuffer
 
 @DebugOnly
-private fun sizeChecks(vertices: FloatArray, textureCoords: FloatArray) {
+private fun sizeChecks(vertices: FloatArray, textureCords: FloatArray) {
     assert(vertices.size % 3 == 0)
-    assert(textureCoords.size % 2 == 0)
-    assert(vertices.size / 3 == textureCoords.size / 2)
+    assert(textureCords.size % 2 == 0)
+    assert(vertices.size / 3 == textureCords.size / 2)
 }
 
 private fun vboData(buf: FloatBuffer, id: Int, index: Int, size: Int) {
@@ -23,15 +23,15 @@ private fun vboData(buf: FloatBuffer, id: Int, index: Int, size: Int) {
     glEnableVertexAttribArray(index)
 }
 
-class ModelPart(vertices: FloatArray, textureCoords: FloatArray) {
+class ModelPart(vertices: FloatArray, textureCords: FloatArray) {
     private val vao: Int
 
     init {
-        sizeChecks(vertices, textureCoords)
+        sizeChecks(vertices, textureCords)
 
         val buf = IntBuffer.allocate(3)
         val verticesBuffer = FloatBuffer.wrap(vertices)
-        val textureCoordsBuffer = FloatBuffer.wrap(textureCoords)
+        val textureCordsBuffer = FloatBuffer.wrap(textureCords)
 
         val indices = IntBuffer.allocate(36)
         for (i in 0..5) {
@@ -47,7 +47,7 @@ class ModelPart(vertices: FloatArray, textureCoords: FloatArray) {
         glGenBuffers(3, buf)
 
         vboData(verticesBuffer, buf[0], 0, 3)
-        vboData(textureCoordsBuffer, buf[1], 1, 2)
+        vboData(textureCordsBuffer, buf[1], 1, 2)
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buf[2])
         glBufferData(

@@ -1,10 +1,8 @@
 package net.zatrit.skinview.gl
 
-import android.content.Context
 import android.opengl.GLES30.*
 import android.opengl.GLSurfaceView
-import android.opengl.Matrix.perspectiveM
-import android.opengl.Matrix.setIdentityM
+import android.opengl.Matrix.*
 import net.zatrit.skinview.DebugOnly
 import java.nio.FloatBuffer
 import javax.microedition.khronos.egl.EGLConfig
@@ -17,8 +15,10 @@ private fun checkError() {
     assert(error == 0) { "OpenGL error: ${error.toHexString()}" }
 }
 
-class Renderer(private val context: Context) : GLSurfaceView.Renderer {
-    var modelMatrix: FloatArray = mat4 { setIdentityM(it, 0) }
+class Renderer : GLSurfaceView.Renderer {
+    var modelMatrix = mat4 { setIdentityM(it, 0) }
+
+    private var texture: Texture? = null
 
     private lateinit var model: PlayerModel
     private lateinit var grid: Plain
@@ -26,6 +26,8 @@ class Renderer(private val context: Context) : GLSurfaceView.Renderer {
 
     private lateinit var modelShader: MVPProgram
     private lateinit var gridShader: MVPProgram
+
+    var options = RenderOptions()
 
     private inline fun allShaders(func: MVPProgram.() -> Unit) =
         shaders.forEach {
@@ -46,19 +48,16 @@ class Renderer(private val context: Context) : GLSurfaceView.Renderer {
             compileShader(GL_FRAGMENT_SHADER, MAIN_FRAG),
         ).apply { use() }
 
-        Texture(context.assets.open("chad.png"))
         glUniform1i(modelShader.uniformLocation("uTexture"), 0)
-        glUniform1i(modelShader.uniformLocation("uLight"), 1)
 
-        model = PlayerModel(ModelType.DEFAULT)
+        options.shading = true
+        model = PlayerModel(options)
 
         // Grid creation code
         gridShader = MVPProgram(
             compileShader(GL_VERTEX_SHADER, GRID_VERT),
             compileShader(GL_FRAGMENT_SHADER, GRID_FRAG),
         ).apply { use() }
-
-        glUniform4f(gridShader.uniformLocation("uColor"), 1f, 1f, 1f, 0.5f)
 
         grid = Plain(-2f, -2f, 2f, 2f)
 
@@ -82,7 +81,7 @@ class Renderer(private val context: Context) : GLSurfaceView.Renderer {
         glViewport(0, 0, width, height)
 
         val ratio = width.toFloat() / height.toFloat()
-        val projMatrix = mat4 { perspectiveM(it, 0, 45.0f, ratio, 0.1f, 100f) }
+        val projMatrix = mat4 { perspectiveM(it, 0, 45f, ratio, 0.1f, 100f) }
 
         val buf = FloatBuffer.wrap(projMatrix)
         allShaders {
@@ -93,7 +92,27 @@ class Renderer(private val context: Context) : GLSurfaceView.Renderer {
     }
 
     override fun onDrawFrame(gl: GL10) {
+        // Update uShade value if options.shade changed
+        if (options.shadingChanged) {
+            val shadeInt = if (options.shading) 1 else 0
+            modelShader.use()
+            glUniform1i(
+                modelShader.uniformLocation("uShade"), shadeInt
+            )
+
+            options.shadingChanged = false
+        }
+
+        // Replace current texture with another if requested
+        options.pendingTexture?.let {
+            texture?.delete()
+            texture = Texture(it)
+
+            options.pendingTexture = null
+        }
+
         val buf = FloatBuffer.wrap(modelMatrix)
+
         allShaders {
             glUniformMatrix4fv(modelHandle, 1, false, buf)
         }
@@ -103,8 +122,10 @@ class Renderer(private val context: Context) : GLSurfaceView.Renderer {
         modelShader.use()
         model.draw()
 
-        gridShader.use()
-        grid.draw()
+        if (options.showGrid) {
+            gridShader.use()
+            grid.draw()
+        }
 
         checkError()
     }

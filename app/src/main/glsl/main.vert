@@ -7,7 +7,7 @@ out vec4 vPos;
 uniform mat4 uProj, uView, uModel;
 
 void main() {
-    gl_Position = uProj * uView * uModel * vec4(aPos, 1.);
+    vPos = uModel * vec4(aPos, 1);
+    gl_Position = uProj * uView * vPos;
     vTexCoord = aTexCoord;
-    vPos = uModel * vec4(aPos, 1.);
 }

@@ -1,19 +1,18 @@
 package net.zatrit.skinview.gl
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.opengl.GLES30.*
 import android.opengl.GLUtils.texImage2D
 import android.util.Log
-import net.zatrit.skinview.DebugOnly
-import net.zatrit.skinview.TAG
-import java.io.InputStream
+import net.zatrit.skinview.*
 import java.nio.IntBuffer
 
 class Texture(bitmap: Bitmap) {
     private val id: Int
 
     init {
+        textureInfo(bitmap)
+
         val buf = IntBuffer.allocate(1)
         glGenTextures(1, buf)
         id = buf.get()
@@ -27,8 +26,6 @@ class Texture(bitmap: Bitmap) {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
     }
-
-    constructor(steam: InputStream) : this(BitmapFactory.decodeStream(steam))
 
     private fun bind() = glBindTexture(GL_TEXTURE_2D, id)
 

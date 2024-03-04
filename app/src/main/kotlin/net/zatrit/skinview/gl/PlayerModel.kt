@@ -4,23 +4,11 @@ import net.zatrit.skinview.gl.PartType.*
 import java.util.*
 
 enum class PartType {
-    HEAD,
-    HEAD_EXTRA,
-    BODY,
-    BODY_EXTRA,
-    RIGHT_ARM,
-    RIGHT_ARM_EXTRA,
-    LEFT_ARM,
-    LEFT_ARM_EXTRA,
-    RIGHT_LEG,
-    RIGHT_LEG_EXTRA,
-    LEFT_LEG,
-    LEFT_LEG_EXTRA,
+    HEAD, HEAD_EXTRA, BODY, BODY_EXTRA, RIGHT_ARM, RIGHT_ARM_EXTRA, LEFT_ARM, LEFT_ARM_EXTRA, RIGHT_LEG, RIGHT_LEG_EXTRA, LEFT_LEG, LEFT_LEG_EXTRA,
 }
 
 enum class ModelType(val handWidth: Float) {
-    DEFAULT(1f),
-    SLIM(0.75f),
+    DEFAULT(1f), SLIM(0.75f),
 }
 
 typealias PartsMap = Map<PartType, ModelPart>
@@ -29,7 +17,8 @@ typealias EnumPartsMap = EnumMap<PartType, ModelPart>
 val Box.extra get() = this.scale(1.1f)
 fun Box.uv(x: Float, y: Float) = this.uv(x, y, 0.125f)
 
-private fun createHands(map: EnumPartsMap, modelType: ModelType): EnumPartsMap {
+private fun createHands(modelType: ModelType): EnumPartsMap {
+    val map = EnumPartsMap(PartType::class.java)
     val offset = 0.5f * (1f - modelType.handWidth)
     val rightArm = Box(-1f + offset, -0.5f, -0.25f, -0.5f, 1f, 0.25f)
     val leftArm = rightArm.translate(1.5f - offset, 0f, 0f)
@@ -52,7 +41,7 @@ private fun createHands(map: EnumPartsMap, modelType: ModelType): EnumPartsMap {
 }
 
 
-class PlayerModel(private val modelType: ModelType) {
+class PlayerModel(private val options: RenderOptions) {
     private val parts = EnumMap<_, ModelPart>(PartType::class.java)
     private val typeParts = EnumMap<_, PartsMap>(ModelType::class.java)
 
@@ -95,8 +84,8 @@ class PlayerModel(private val modelType: ModelType) {
     fun draw() {
         parts.values.forEach { it.draw() }
 
-        typeParts.computeIfAbsent(modelType) {
-            createHands(EnumPartsMap(PartType::class.java), it)
+        typeParts.computeIfAbsent(options.modelType) {
+            createHands(it)
         }.values.forEach { it.draw() }
     }
 }

@@ -57,3 +57,8 @@ android {
         ]
     }
 }
+
+dependencies {
+    implementation "com.github.zatrit.openmcskins2:skinlib:${project.skinlib_version}"
+    implementation 'org.jetbrains:annotations:24.1.0'
+}

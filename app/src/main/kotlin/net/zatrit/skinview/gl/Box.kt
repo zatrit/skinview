@@ -4,10 +4,9 @@ class Box(
     private val x1: Float, private val y1: Float, private val z1: Float,
     private val x2: Float, private val y2: Float, private val z2: Float
 ) {
-
-    private val width get() = x2 - x1
-    private val height get() = y2 - y1
-    private val depth get() = z2 - z1
+    private val width = x2 - x1
+    private val height = y2 - y1
+    private val depth = z2 - z1
 
     val vertices = floatArrayOf(
         // back

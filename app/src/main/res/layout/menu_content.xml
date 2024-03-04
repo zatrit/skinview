@@ -1,11 +1,25 @@
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-  <TableLayout
-      android:orientation="horizontal"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content">
-  </TableLayout>
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/btn_shade"
+                android:layout_height="wrap_content"
+                android:minWidth="150dp"
+                android:text="Model shading" />
+
+            <Button
+                android:id="@+id/btn_grid"
+                android:layout_height="wrap_content"
+                android:minWidth="125dp"
+                android:text="Show grid" />
+        </TableRow>
+    </TableLayout>
 </ScrollView>

@@ -5,18 +5,21 @@ precision highp float;
 in vec2 vTexCoord;
 in vec4 vPos;
 out vec4 oFragColor;
-uniform bool uLight;
+uniform bool uShade;
 uniform sampler2D uTexture;
 
 float calcLight() {
-    const float amb = .1;
-    // light source
-    const vec3 L = vec3(0., 0., 1.);
-
+    // based on:
+    // https://learnopengl.com/Lighting/Basic-Lighting
     // https://stackoverflow.com/a/53446396
-    vec3 n_pos = vPos.xyz / vPos.w;
-    vec3 dx = dFdx(n_pos);
-    vec3 dy = dFdy(n_pos);
+
+    // ambient lighting
+    const float amb = .2;
+
+    // diffuse lighting
+    const vec3 L = vec3(0, 0, 1);// light source
+    vec3 nPos = vPos.xyz / vPos.w;
+    vec3 dx = dFdx(nPos), dy = dFdy(nPos);
 
     vec3 N = normalize(cross(dx, dy));
     N *= sign(N.z);
@@ -29,8 +32,8 @@ void main() {
     vec4 col = texture(uTexture, vTexCoord);
 
     if (col.a > .0) {
-        float l = uLight ? calcLight() : 1.;
-        oFragColor = vec4(col.rgb * l, 1.);
+        float l = uShade ? calcLight() : 1.;
+        oFragColor = vec4(col.rgb * l, 1);
     }
     else discard;
 }

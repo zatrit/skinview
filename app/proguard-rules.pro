@@ -1,4 +1,4 @@
--overloadaggressively
+-allowaccessmodification
 -repackageclasses
 
 -assumenosideeffects class kotlin.jvm.internal.Intrinsics {
