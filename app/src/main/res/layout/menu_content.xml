@@ -7,19 +7,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TableRow>
+        <TextView android:text="View options"/>
 
-            <Button
-                android:id="@+id/btn_shade"
-                android:layout_height="wrap_content"
-                android:minWidth="150dp"
-                android:text="Model shading" />
+        <Switch
+            android:text="Shading"
+            android:id="@+id/switch_shade" />
 
-            <Button
-                android:id="@+id/btn_grid"
-                android:layout_height="wrap_content"
-                android:minWidth="125dp"
-                android:text="Show grid" />
-        </TableRow>
+        <Switch
+            android:text="Show grid"
+            android:id="@+id/switch_grid" />
     </TableLayout>
 </ScrollView>

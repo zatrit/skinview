@@ -3,8 +3,7 @@ package net.zatrit.skinview
 import android.animation.ValueAnimator
 import android.content.Context
 import android.util.AttributeSet
-import android.view.MotionEvent
-import android.view.View
+import android.view.*
 import android.view.View.OnTouchListener
 import android.view.ViewGroup.LayoutParams
 import android.widget.Button
@@ -16,6 +15,7 @@ class DragHandle(context: Context, attributeSet: AttributeSet) :
 
     private val metrics = resources.displayMetrics
     private val step = metrics.heightPixels / 7
+    private val initHeight = step * 2
 
     lateinit var target: View
 
@@ -37,7 +37,7 @@ class DragHandle(context: Context, attributeSet: AttributeSet) :
         target.visibility = VISIBLE
         showInstead?.visibility = INVISIBLE
 
-        animation = heightAnimator(1, step * 2)
+        animation = heightAnimator(1, initHeight)
     }
 
     private fun hide() {

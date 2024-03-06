@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-parcelize'
 }
 
 apply from: 'shaderConsts.gradle'
@@ -59,6 +60,12 @@ android {
 }
 
 dependencies {
-    implementation "com.github.zatrit.openmcskins2:skinlib:${project.skinlib_version}"
+    implementation("com.github.zatrit.openmcskins2:skinlib:${project.skinlib_version}") {
+        transitive false
+    }
+
+    //noinspection GradleDependency
+    implementation 'com.google.guava:guava:33.0.0-android'
+    implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'org.jetbrains:annotations:24.1.0'
 }

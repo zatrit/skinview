@@ -5,16 +5,24 @@ import android.graphics.BitmapFactory
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix.rotateM
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.view.MotionEvent.*
 import android.widget.*
 import android.widget.RelativeLayout.LEFT_OF
-import net.zatrit.skins.lib.*
-import net.zatrit.skins.lib.resolver.MojangResolver
 import net.zatrit.skinview.gl.*
-import net.zatrit.skinview.skins.SimpleProfile
-import java.util.UUID
+import net.zatrit.skinview.skins.Skins
 import kotlin.concurrent.thread
+
+inline fun Activity.bindSwitch(
+    id: Int, crossinline onSet: (Boolean) -> Unit, value: Boolean) {
+    findViewById<Switch>(id).apply {
+        setOnCheckedChangeListener { _, state ->
+            onSet(state)
+        }
+        isChecked = value
+    }
+}
 
 class MainActivity : Activity() {
     private lateinit var velocityTracker: VelocityTracker
@@ -40,22 +48,23 @@ class MainActivity : Activity() {
 
         showButton.setOnClickListener { dragHandle?.show() }
 
-        renderer.options.let { options ->
-            findViewById<Button>(R.id.btn_shade).setOnClickListener {
-                options.shading = !options.shading
-            }
-
-            findViewById<Button>(R.id.btn_grid).setOnClickListener {
-                options.showGrid = !options.showGrid
-            }
-
-            options.pendingTexture = BitmapFactory.decodeStream(
-                assets.open("base.png")
-            )
-        }
-
+        @Suppress("DEPRECATION")
+        // Non-deprecated method isn't available on current Android version
+        renderer.options =
+            state?.getParcelable("renderOptions") ?: RenderOptions()
         renderer.modelMatrix =
             state?.getFloatArray("modelMatrix") ?: renderer.modelMatrix
+
+        renderer.options.let { opts ->
+            bindSwitch(R.id.switch_shade, opts::shading::set, opts.shading)
+            bindSwitch(R.id.switch_grid, opts::showGrid::set, opts.showGrid)
+
+            opts.pendingTexture = BitmapFactory.decodeStream(
+                assets.open("base.png")
+            )
+
+            thread { Skins(opts) }
+        }
 
         // Attaches surface at left of the menu if using landscape mode
         if (display?.rotation!! % 2 == 1) {
@@ -69,6 +78,7 @@ class MainActivity : Activity() {
         super.onSaveInstanceState(state)
 
         state.putFloatArray("modelMatrix", renderer.modelMatrix)
+        state.putParcelable("renderOptions", renderer.options)
     }
 
     @Suppress("UNUSED_PARAMETER")
@@ -79,7 +89,7 @@ class MainActivity : Activity() {
 
             ACTION_UP, ACTION_CANCEL -> velocityTracker.recycle()
 
-            ACTION_MOVE -> velocityTracker.run {
+            ACTION_MOVE -> with(velocityTracker) {
                 addMovement(event)
                 computeCurrentVelocity(
                     resources.displayMetrics.density.toInt()

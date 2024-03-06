@@ -3,10 +3,17 @@
 
     <style name="OLED" parent="android:style/Theme.DeviceDefault.NoActionBar.Fullscreen">
         <item name="android:buttonStyle">@style/OLED.Button</item>
+        <item name="android:switchStyle">@style/OLED.Switch</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="OLED.Button" parent="android:Widget.Material.Button">
         <item name="android:textColor">@color/background</item>
         <item name="android:background">@drawable/button</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="OLED.Switch" parent="android:Widget.Material.CompoundButton.Switch">
+        <item name="android:paddingStart">10dp</item>
     </style>
 </resources>

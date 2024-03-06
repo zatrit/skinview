@@ -27,7 +27,7 @@ class Renderer : GLSurfaceView.Renderer {
     private lateinit var modelShader: MVPProgram
     private lateinit var gridShader: MVPProgram
 
-    var options = RenderOptions()
+    lateinit var options: RenderOptions
 
     private inline fun allShaders(func: MVPProgram.() -> Unit) =
         shaders.forEach {
@@ -50,7 +50,6 @@ class Renderer : GLSurfaceView.Renderer {
 
         glUniform1i(modelShader.uniformLocation("uTexture"), 0)
 
-        options.shading = true
         model = PlayerModel(options)
 
         // Grid creation code
@@ -92,15 +91,10 @@ class Renderer : GLSurfaceView.Renderer {
     }
 
     override fun onDrawFrame(gl: GL10) {
-        // Update uShade value if options.shade changed
-        if (options.shadingChanged) {
-            val shadeInt = if (options.shading) 1 else 0
-            modelShader.use()
-            glUniform1i(
-                modelShader.uniformLocation("uShade"), shadeInt
-            )
-
-            options.shadingChanged = false
+        val shadeInt = if (options.shading) 1 else 0
+        with(modelShader) {
+            use()
+            glUniform1i(uniformLocation("uShade"), shadeInt)
         }
 
         // Replace current texture with another if requested

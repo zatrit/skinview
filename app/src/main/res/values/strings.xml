@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">SkinView</string>
+    <string name="app_name" translatable="false">SkinView</string>
     <string name="btn_show">Show</string>
 </resources>

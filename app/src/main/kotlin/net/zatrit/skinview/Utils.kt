@@ -1,7 +1,6 @@
 package net.zatrit.skinview
 
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 
 inline fun <L : ViewGroup.LayoutParams> View.applyLayout(func: L.() -> Unit) {
     @Suppress("UNCHECKED_CAST") val params = layoutParams as L
