@@ -1,4 +1,4 @@
-package net.zatrit.skinview.skins.layers
+package net.zatrit.skins.lib.layer.android
 
 import android.graphics.*
 import net.zatrit.skins.lib.api.*

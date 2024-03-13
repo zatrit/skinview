@@ -8,12 +8,12 @@ apply from: 'shaderConsts.gradle'
 
 android {
     namespace 'net.zatrit.skinview'
-    compileSdk 34
+    compileSdk targetSdk
 
     defaultConfig {
         applicationId 'net.zatrit.skinview'
         minSdk 30
-        targetSdk 34
+        targetSdk targetSdk
         versionCode 1
         versionName '1.0'
 
@@ -44,12 +44,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility javaVersion
+        targetCompatibility javaVersion
     }
 
     kotlinOptions {
-        jvmTarget = '11'
+        jvmTarget = project.java_version
         // https://www.guardsquare.com/blog/eliminating-data-leaks-caused-by-kotlin-assertions
         freeCompilerArgs += [
                 '-Xno-call-assertions',
@@ -60,12 +60,5 @@ android {
 }
 
 dependencies {
-    implementation("com.github.zatrit.openmcskins2:skinlib:${project.skinlib_version}") {
-        transitive false
-    }
-
-    //noinspection GradleDependency
-    implementation 'com.google.guava:guava:33.0.0-android'
-    implementation 'com.google.code.gson:gson:2.10.1'
-    implementation 'org.jetbrains:annotations:24.1.0'
+    implementation project(':skinlib')
 }

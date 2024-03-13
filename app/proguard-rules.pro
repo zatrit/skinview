@@ -18,6 +18,3 @@
 }
 
 -assumenosideeffects class ** { @net.zatrit.skinview.DebugOnly *; }
-
--keepclassmembernames class net.zatrit.skins.lib.data.**
--keepclassmembernames class net.zatrit.skins.lib.texture.URLTexture

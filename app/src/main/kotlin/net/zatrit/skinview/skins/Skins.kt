@@ -3,10 +3,12 @@ package net.zatrit.skinview.skins
 import android.graphics.BitmapFactory
 import net.zatrit.skins.lib.*
 import net.zatrit.skins.lib.data.TypedTexture
-import net.zatrit.skins.lib.resolver.NamedHTTPResolver
+import net.zatrit.skins.lib.layer.android.*
+import net.zatrit.skins.lib.resolver.MojangResolver
 import net.zatrit.skinview.gl.*
-import net.zatrit.skinview.skins.layers.*
 import java.util.UUID
+
+private val NULL_UUID = UUID.nameUUIDFromBytes(ByteArray(16))
 
 class Skins(options: RenderOptions) {
     private val config = Config().apply {
@@ -32,10 +34,8 @@ class Skins(options: RenderOptions) {
     }
 
     init {
-        val resolver = NamedHTTPResolver(
-            config, "http://skinsystem.ely.by/textures/"
-        )
-        val profile = SimpleProfile(NULL_UUID, "FireMage")
+        val resolver = MojangResolver(config)
+        val profile = SimpleProfile(NULL_UUID, "Zatrit156")
         val texture =
             resolver.resolve(profile).getTexture(TextureType.SKIN)!!.texture
         val textureData = texture.bytes
@@ -50,5 +50,3 @@ class Skins(options: RenderOptions) {
         )
     }
 }
-
-private val NULL_UUID = UUID.nameUUIDFromBytes(ByteArray(16))

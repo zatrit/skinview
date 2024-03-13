@@ -1,27 +1,23 @@
 package net.zatrit.skinview
 
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.*
-import android.view.View.OnTouchListener
 import android.view.ViewGroup.LayoutParams
 import android.widget.Button
 
 class DragHandle(context: Context, attributeSet: AttributeSet) :
-    View(context, attributeSet), OnTouchListener {
+    View(context, attributeSet) {
     private var animation: ValueAnimator? = null
     var showInstead: Button? = null
 
     private val metrics = resources.displayMetrics
-    private val step = metrics.heightPixels / 7
+    private val step = metrics.heightPixels / 4
     private val initHeight = step * 2
 
     lateinit var target: View
-
-    init {
-        setOnTouchListener(this)
-    }
 
     private fun heightAnimator(from: Int, to: Int) =
         ValueAnimator.ofInt(from, to).apply {
@@ -45,7 +41,10 @@ class DragHandle(context: Context, attributeSet: AttributeSet) :
         showInstead?.visibility = VISIBLE
     }
 
-    override fun onTouch(view: View, event: MotionEvent): Boolean {
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        super.onTouchEvent(event)
+
         when (event.actionMasked) {
             MotionEvent.ACTION_MOVE -> {
                 animation?.cancel()
@@ -58,11 +57,12 @@ class DragHandle(context: Context, attributeSet: AttributeSet) :
             MotionEvent.ACTION_UP -> {
                 val height = target.layoutParams.height
                 val newHeight = (height / step * step).coerceAtLeast(step)
-                    .coerceAtMost(metrics.heightPixels - step)
+                    .coerceAtMost(metrics.heightPixels)
 
                 animation = heightAnimator(height, newHeight)
             }
         }
+
         return true
     }
 }

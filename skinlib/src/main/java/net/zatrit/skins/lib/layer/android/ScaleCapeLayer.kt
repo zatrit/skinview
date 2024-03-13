@@ -1,4 +1,4 @@
-package net.zatrit.skinview.skins.layers
+package net.zatrit.skins.lib.layer.android
 
 import android.graphics.Bitmap
 import com.google.common.math.IntMath
