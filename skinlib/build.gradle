@@ -1,0 +1,53 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.plugin.lombok'
+}
+
+group 'net.zatrit'
+version project.skinlib_version
+
+dependencies {
+    compileOnly "org.jetbrains:annotations:${project.jb_annotations_version}"
+
+    //noinspection AnnotationProcessorOnCompilePath
+    compileOnly "org.projectlombok:lombok:${project.lombok_version}"
+    annotationProcessor "org.projectlombok:lombok:${project.lombok_version}"
+
+    //noinspection GradleDependency
+    implementation "com.google.guava:guava:${project.guava_version}-android"
+    implementation 'org.jetbrains:annotations:24.1.0'
+
+    implementation "net.andreinc:aleph:${project.aleph_version}"
+}
+
+android {
+    namespace 'net.zatrit.skins.lib'
+    compileSdk targetSdk
+
+    defaultConfig {
+        minSdk 30
+        targetSdk targetSdk
+    }
+
+    compileOptions {
+        sourceCompatibility javaVersion
+        targetCompatibility javaVersion
+    }
+
+    kotlinOptions {
+        jvmTarget = project.java_version
+        // https://www.guardsquare.com/blog/eliminating-data-leaks-caused-by-kotlin-assertions
+        freeCompilerArgs += [
+                '-Xno-call-assertions',
+                '-Xno-receiver-assertions',
+                '-Xno-param-assertions'
+        ]
+    }
+
+    buildTypes {
+        staging {
+            initWith release
+        }
+    }
+}
