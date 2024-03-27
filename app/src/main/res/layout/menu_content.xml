@@ -10,11 +10,11 @@
         <TextView android:text="View options"/>
 
         <Switch
-            android:text="Shading"
+            android:text="@string/shading"
             android:id="@+id/switch_shade" />
 
         <Switch
-            android:text="Show grid"
+            android:text="@string/show_grid"
             android:id="@+id/switch_grid" />
     </TableLayout>
 </ScrollView>

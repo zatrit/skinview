@@ -2,16 +2,17 @@ package net.zatrit.skinview.skins
 
 import android.graphics.BitmapFactory
 import net.zatrit.skins.lib.*
+import net.zatrit.skins.lib.api.*
 import net.zatrit.skins.lib.data.TypedTexture
 import net.zatrit.skins.lib.layer.android.*
-import net.zatrit.skins.lib.resolver.MojangResolver
 import net.zatrit.skinview.gl.*
 import java.util.UUID
 
 private val NULL_UUID = UUID.nameUUIDFromBytes(ByteArray(16))
 
-class Skins(options: RenderOptions) {
-    private val config = Config().apply {
+class Skins(val options: RenderOptions) {
+
+    val config = Config().apply {
         layers = listOf(
             // A layer that scales cape to look normally
             object : ImageLayer(ScaleCapeLayer()) {
@@ -33,20 +34,38 @@ class Skins(options: RenderOptions) {
             })
     }
 
-    init {
-        val resolver = MojangResolver(config)
-        val profile = SimpleProfile(NULL_UUID, "Zatrit156")
-        val texture =
-            resolver.resolve(profile).getTexture(TextureType.SKIN)!!.texture
-        val textureData = texture.bytes
+    inline fun createResolver(func: (Config) -> Resolver) = func(this.config)
 
-        options.modelType = when (texture.metadata?.model) {
-            "slim" -> ModelType.SLIM
-            else -> ModelType.DEFAULT
+    fun loadSkin(profile: SimpleProfile, sources: List<SkinSource>) =
+        sources.map { it.resolver.resolve(profile) }
+
+    fun loadTextures(textures: PlayerTextures) {
+        for (type in TextureType.entries) {
+            if (!textures.hasTexture(type)) {
+                continue
+            }
+
+            val texture = textures.getTexture(type)!!.texture
+            val textureData = texture.bytes
+            val bitmap = BitmapFactory.decodeByteArray(
+                textureData, 0, textureData.size
+            )
+
+            when (type) {
+                TextureType.SKIN -> {
+                    options.modelType = when (texture.metadata?.model) {
+                        "slim" -> ModelType.SLIM
+                        else -> ModelType.DEFAULT
+                    }
+
+                    options.pendingSkin = bitmap
+                }
+
+                TextureType.EARS -> options.pendingEars = bitmap
+
+                TextureType.CAPE -> options.pendingCape = bitmap
+            }
         }
-
-        options.pendingTexture = BitmapFactory.decodeByteArray(
-            textureData, 0, textureData.size
-        )
     }
 }
+

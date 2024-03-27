@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">SkinView</string>
     <string name="btn_show">Show</string>
+  <string name="shading">Shading</string>
+  <string name="show_grid">Show grid</string>
 </resources>

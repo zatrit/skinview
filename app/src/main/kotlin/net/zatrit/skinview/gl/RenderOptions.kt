@@ -1,6 +1,6 @@
 package net.zatrit.skinview.gl
 
-import android.graphics.Bitmap
+import android.graphics.*
 import android.os.Parcelable
 import kotlinx.parcelize.*
 
@@ -11,6 +11,10 @@ class RenderOptions(
     /** Show grid */
     var showGrid: Boolean = true,
     var modelType: ModelType = ModelType.DEFAULT,
-    /** Temporary bitmap value that tells Renderer to set instead of previous texture */
-    @IgnoredOnParcel var pendingTexture: Bitmap? = null,
+    /** Temporary bitmap values that tells Renderer to set instead of previous texture */
+    @IgnoredOnParcel var pendingSkin: Bitmap? = null,
+    @IgnoredOnParcel var pendingCape: Bitmap? = null,
+    @IgnoredOnParcel var pendingEars: Bitmap? = null,
+
+    @IgnoredOnParcel var pendingBackground: Color? = null,
 ) : Parcelable

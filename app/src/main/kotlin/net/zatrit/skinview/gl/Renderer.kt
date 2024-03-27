@@ -3,7 +3,7 @@ package net.zatrit.skinview.gl
 import android.opengl.GLES30.*
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix.*
-import net.zatrit.skinview.DebugOnly
+import net.zatrit.skinview.*
 import java.nio.FloatBuffer
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
@@ -40,7 +40,6 @@ class Renderer : GLSurfaceView.Renderer {
         glEnable(GL_BLEND)
 
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-        glClearColor(0f, 0f, 0f, 1f)
 
         // Model creation code
         modelShader = MVPProgram(
@@ -95,14 +94,20 @@ class Renderer : GLSurfaceView.Renderer {
         with(modelShader) {
             use()
             glUniform1i(uniformLocation("uShade"), shadeInt)
+
+            options::pendingBackground.takeAnd {
+                glClearColor(it.red(), it.green(), it.blue(), it.alpha())
+                glUniform4f(
+                    uniformLocation("uShadeColor"), it.red(), it.green(),
+                    it.blue(), it.alpha()
+                )
+            }
         }
 
         // Replace current texture with another if requested
-        options.pendingTexture?.let {
+        options::pendingSkin.takeAnd {
             texture?.delete()
             texture = Texture(it)
-
-            options.pendingTexture = null
         }
 
         val buf = FloatBuffer.wrap(modelMatrix)

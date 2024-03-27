@@ -12,7 +12,7 @@ import java.net.URL
 class ValhallaResolver(
     private val config: Config, private val baseUrl: String) : Resolver {
     override fun resolve(profile: Profile): PlayerTextures {
-        val url = baseUrl + profile.getId()
+        val url = baseUrl + profile.id
         val stream = URL(url).openStream()
 
         return BasePlayerTextures(

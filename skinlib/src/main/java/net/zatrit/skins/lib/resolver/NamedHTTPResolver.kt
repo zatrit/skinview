@@ -21,7 +21,7 @@ class NamedHTTPResolver(
 
     @Throws(IOException::class)
     override fun resolve(profile: Profile): PlayerTextures {
-        val url = URL(baseUrl + profile.getName())
+        val url = URL(baseUrl + profile.name)
         val stream = url.openStream()
 
         return BasePlayerTextures(

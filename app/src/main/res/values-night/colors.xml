@@ -4,4 +4,5 @@
   <color name="background">@android:color/background_dark</color>
   <color name="button">@android:color/holo_green_dark</color>
   <color name="drag_handle">@android:color/darker_gray</color>
+  <color name="text_color">@android:color/white</color>
 </resources>

@@ -23,6 +23,6 @@ class WurstResolver(config: Config) : CapesListResolver(config) {
     override fun getUrl(capeName: String) = capeName
 
     override fun getCapeName(profile: Profile): String = owners!!.getOrDefault(
-        profile.getName(), owners!![profile.getId().toString()]
+        profile.name, owners!![profile.id.toString()]
     )
 }

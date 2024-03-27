@@ -1,18 +1,20 @@
 package net.zatrit.skinview
 
 import android.app.Activity
-import android.graphics.BitmapFactory
+import android.graphics.*
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix.rotateM
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.view.MotionEvent.*
 import android.widget.*
 import android.widget.RelativeLayout.LEFT_OF
+import net.zatrit.skins.lib.resolver.NamedHTTPResolver
 import net.zatrit.skinview.gl.*
-import net.zatrit.skinview.skins.Skins
+import net.zatrit.skinview.skins.*
+import java.util.UUID
 import kotlin.concurrent.thread
+
 
 inline fun Activity.bindSwitch(
     id: Int, crossinline onSet: (Boolean) -> Unit, value: Boolean) {
@@ -59,11 +61,24 @@ class MainActivity : Activity() {
             bindSwitch(R.id.switch_shade, opts::shading::set, opts.shading)
             bindSwitch(R.id.switch_grid, opts::showGrid::set, opts.showGrid)
 
-            opts.pendingTexture = BitmapFactory.decodeStream(
+            opts.pendingSkin = BitmapFactory.decodeStream(
                 assets.open("base.png")
             )
 
-            thread { Skins(opts) }
+            opts.pendingBackground = Color.valueOf(
+                resources.getColor(R.color.render_background, theme)
+            )
+
+            val skins = Skins(opts)
+            val profile = SimpleProfile(UUID.randomUUID(), "Zatrit156")
+            val resolver = SkinSource("ely.by", skins.createResolver {
+                NamedHTTPResolver(it, "http://skinsystem.ely.by/textures/")
+            }, ResolverType.NAMED_HTTP)
+
+            thread {
+                val result = skins.loadSkin(profile, listOf(resolver))
+                skins.loadTextures(result.first())
+            }
         }
 
         // Attaches surface at left of the menu if using landscape mode

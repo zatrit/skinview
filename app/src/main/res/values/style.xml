@@ -16,5 +16,6 @@
     <style name="OLED.Switch" parent="android:Widget.Material.CompoundButton.Switch">
         <item name="android:paddingStart">10dp</item>
         <item name="android:paddingVertical">2.5dp</item>
+        <item name="android:textColor">@color/text_color</item>
     </style>
 </resources>

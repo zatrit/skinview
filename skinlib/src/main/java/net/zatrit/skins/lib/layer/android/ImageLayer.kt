@@ -27,7 +27,7 @@ abstract class ImageLayer(private val layer: BitmapLayer) : Layer<TypedTexture> 
 }
 
 class BitmapTexture(
-    val bitmap: Bitmap, id: String, metadata: Metadata?) :
+    private val bitmap: Bitmap, id: String, metadata: Metadata?) :
     LazyTexture(id, metadata) {
 
     constructor(bitmap: Bitmap, base: Texture) : this(
@@ -35,11 +35,9 @@ class BitmapTexture(
     )
 
     override fun getBytes(): ByteArray {
-        val outputStream = ByteArrayOutputStream()
-        bitmap.compress(
-            Bitmap.CompressFormat.PNG, 100, outputStream
-        )
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
 
-        return outputStream.toByteArray()
+        return stream.toByteArray()
     }
 }

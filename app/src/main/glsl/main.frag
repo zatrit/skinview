@@ -6,6 +6,7 @@ in vec2 vTexCoord;
 in vec4 vPos;
 out vec4 oFragColor;
 uniform bool uShade;
+uniform vec4 uShadeColor;
 uniform sampler2D uTexture;
 
 float calcLight() {
@@ -33,7 +34,7 @@ void main() {
 
     if (col.a > .0) {
         float l = uShade ? calcLight() : 1.;
-        oFragColor = vec4(col.rgb * l, 1);
+        oFragColor = mix(uShadeColor, col, l);
     }
     else discard;
 }

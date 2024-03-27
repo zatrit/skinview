@@ -11,7 +11,7 @@ private const val FIVEZIG_API = "https://textures.5zigreborn.eu/profile/"
 
 class FiveZigResolver(private val config: Config) : Resolver {
     override fun resolve(profile: Profile): PlayerTextures {
-        val url = FIVEZIG_API + profile.getId()
+        val url = FIVEZIG_API + profile.id
         val stream = URL(url).openStream()
 
         val textures = EnumMap<TextureType, BytesTexture>(
