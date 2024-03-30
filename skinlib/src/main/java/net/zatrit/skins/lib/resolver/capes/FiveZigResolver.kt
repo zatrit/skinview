@@ -22,9 +22,7 @@ class FiveZigResolver : Resolver {
 
         if (textureData != null) {
             val decoder = Base64.getDecoder()
-            val texture = BytesTexture(
-                textureData, decoder.decode(textureData), null
-            )
+            val texture = BytesTexture(decoder.decode(textureData), null)
             textures[TextureType.CAPE] = texture
         }
 

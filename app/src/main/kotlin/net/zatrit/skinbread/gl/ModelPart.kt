@@ -1,7 +1,7 @@
-package net.zatrit.skinview.gl
+package net.zatrit.skinbread.gl
 
 import android.opengl.GLES30.*
-import net.zatrit.skinview.DebugOnly
+import net.zatrit.skinbread.DebugOnly
 import java.nio.FloatBuffer
 import java.nio.IntBuffer
 

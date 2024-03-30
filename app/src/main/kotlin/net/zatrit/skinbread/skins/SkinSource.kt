@@ -1,4 +1,4 @@
-package net.zatrit.skinview.skins
+package net.zatrit.skinbread.skins
 
 import net.zatrit.skins.lib.api.Resolver
 

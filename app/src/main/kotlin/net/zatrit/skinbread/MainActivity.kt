@@ -1,4 +1,4 @@
-package net.zatrit.skinview
+package net.zatrit.skinbread
 
 import android.app.Activity
 import android.graphics.*
@@ -9,24 +9,24 @@ import android.view.*
 import android.view.MotionEvent.*
 import android.widget.*
 import android.widget.RelativeLayout.LEFT_OF
-import net.zatrit.skinview.gl.*
-import net.zatrit.skinview.skins.*
+import net.zatrit.skinbread.gl.*
+import net.zatrit.skinbread.skins.*
+import net.zatrit.skins.lib.texture.BitmapTexture
 import kotlin.concurrent.thread
-
-
-inline fun Activity.bindSwitch(
-    id: Int, crossinline onSet: (Boolean) -> Unit, value: Boolean) {
-    findViewById<Switch>(id).apply {
-        setOnCheckedChangeListener { _, state ->
-            onSet(state)
-        }
-        isChecked = value
-    }
-}
 
 class MainActivity : Activity() {
     private lateinit var velocityTracker: VelocityTracker
     private var renderer = Renderer()
+
+    private inline fun bindSwitch(
+        id: Int, crossinline onSet: (Boolean) -> Unit, value: Boolean) {
+        findViewById<Switch>(id).apply {
+            setOnCheckedChangeListener { _, state ->
+                onSet(state)
+            }
+            isChecked = value
+        }
+    }
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
@@ -56,22 +56,26 @@ class MainActivity : Activity() {
             state?.getFloatArray("viewMatrix") ?: renderer.viewMatrix
 
         renderer.options.let { opts ->
-            bindSwitch(R.id.switch_shade, opts::shading::set, opts.shading)
-            bindSwitch(R.id.switch_grid, opts::showGrid::set, opts.showGrid)
+            bindSwitch(R.id.switch_shade, { opts.shading = it }, opts.shading)
+            bindSwitch(R.id.switch_grid, { opts.grid = it }, opts.grid)
 
-            opts.pendingSkin = BitmapFactory.decodeStream(
-                assets.open("base.png")
+            opts.pendingTextures = Textures(
+                skin = BitmapTexture(
+                    BitmapFactory.decodeStream(
+                        assets.open("base.png")
+                    )
+                )
             )
 
-            opts.pendingBackground =
+            opts.background =
                 Color.pack(resources.getColor(R.color.background, theme))
 
-            val skins = Skins(opts)
+            val skins = Skins()
 
             thread {
                 val profile = profileByName("Zatrit156")
                 val result = skins.loadSkin(profile, defaultSources.asIterable())
-                result.first { it != null }?.let(skins::loadTextures)
+                opts.pendingTextures = skins.mergeTextures(result)
             }
         }
 

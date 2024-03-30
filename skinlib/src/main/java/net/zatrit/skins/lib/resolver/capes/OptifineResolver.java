@@ -38,7 +38,6 @@ public final class OptifineResolver implements Resolver {
         throws IOException, NullPointerException {
         val url = new URL(this.baseUrl + "/capes/" + profile.getName() + ".png");
         val texture = new BytesTexture(
-            url.toString(),
             Objects.requireNonNull(IOUtil.download(url)),
             null
         );

@@ -23,11 +23,6 @@ public class URLTexture implements Texture {
     private final @Getter Metadata metadata;
 
     @Override
-    public String getId() {
-        return this.url;
-    }
-
-    @Override
     public byte[] getBytes() throws IOException {
         @Cleanup val stream = new URL(this.url).openStream();
         return ByteStreams.toByteArray(stream);

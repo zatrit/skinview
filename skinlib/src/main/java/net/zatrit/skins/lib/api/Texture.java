@@ -15,11 +15,6 @@ import lombok.val;
  * An abstract texture that can be converted to a {@link Byte} array.
  */
 public interface Texture {
-    /**
-     * Texture name used during caching.
-     */
-    String getId();
-
     @Nullable Metadata getMetadata();
 
     /**

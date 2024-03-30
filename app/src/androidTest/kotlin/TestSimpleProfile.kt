@@ -1,5 +1,5 @@
 
-import net.zatrit.skinview.skins.*
+import net.zatrit.skinbread.skins.*
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith

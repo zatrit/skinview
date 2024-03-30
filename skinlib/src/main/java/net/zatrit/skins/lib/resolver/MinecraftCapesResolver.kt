@@ -37,10 +37,7 @@ class MinecraftCapesResolver : Resolver {
                 metadata.isAnimated = response.animatedCape
             }
 
-            val texture = BytesTexture(
-                textureData, decoder.decode(textureData), metadata
-            )
-
+            val texture = BytesTexture(decoder.decode(textureData), metadata)
             textures[type] = texture
         }
 

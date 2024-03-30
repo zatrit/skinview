@@ -1,21 +1,33 @@
-package net.zatrit.skinview.gl
+package net.zatrit.skinbread.gl
 
-import net.zatrit.skinview.gl.PartType.*
+import net.zatrit.skinbread.gl.PartType.*
 import java.util.*
 
 enum class PartType {
-    HEAD, HEAD_EXTRA, BODY, BODY_EXTRA, RIGHT_ARM, RIGHT_ARM_EXTRA, LEFT_ARM, LEFT_ARM_EXTRA, RIGHT_LEG, RIGHT_LEG_EXTRA, LEFT_LEG, LEFT_LEG_EXTRA,
+    HEAD,
+    HEAD_EXTRA,
+    BODY,
+    BODY_EXTRA,
+    RIGHT_ARM,
+    RIGHT_ARM_EXTRA,
+    LEFT_ARM,
+    LEFT_ARM_EXTRA,
+    RIGHT_LEG,
+    RIGHT_LEG_EXTRA,
+    LEFT_LEG,
+    LEFT_LEG_EXTRA,
 }
 
 enum class ModelType(val handWidth: Float) {
-    DEFAULT(1f), SLIM(0.75f),
+    DEFAULT(1f),
+    SLIM(0.75f),
 }
 
 typealias PartsMap = Map<PartType, ModelPart>
 typealias EnumPartsMap = EnumMap<PartType, ModelPart>
 
-val Box.extra get() = this.scale(1.1f)
-fun Box.uv(x: Float, y: Float) = this.uv(x, y, 0.125f)
+private val Box.extra get() = this.scale(1.1f)
+private fun Box.uv(x: Float, y: Float) = this.uv(x, y, 0.125f)
 
 private fun createHands(modelType: ModelType): EnumPartsMap {
     val map = EnumPartsMap(PartType::class.java)
@@ -41,9 +53,10 @@ private fun createHands(modelType: ModelType): EnumPartsMap {
 }
 
 
-class PlayerModel(private val options: RenderOptions) {
+class PlayerModel {
     private val parts = EnumMap<_, ModelPart>(PartType::class.java)
     private val typeParts = EnumMap<_, PartsMap>(ModelType::class.java)
+    var modelType = ModelType.DEFAULT
 
     init {
         val head = Box(-0.5f, 1f, -0.5f, 0.5f, 2f, 0.5f)
@@ -77,14 +90,13 @@ class PlayerModel(private val options: RenderOptions) {
         // Left leg
         parts[LEFT_LEG] = ModelPart(leftLeg.vertices, leftLegUV)
         // Left leg extra layer
-        parts[LEFT_LEG_EXTRA] =
-            ModelPart(leftLeg.extra.vertices, leftLegExtraUV)
+        parts[LEFT_LEG_EXTRA] = ModelPart(leftLeg.extra.vertices, leftLegExtraUV)
     }
 
     fun draw() {
         parts.values.forEach { it.draw() }
 
-        typeParts.computeIfAbsent(options.modelType) {
+        typeParts.computeIfAbsent(modelType) {
             createHands(it)
         }.values.forEach { it.draw() }
     }

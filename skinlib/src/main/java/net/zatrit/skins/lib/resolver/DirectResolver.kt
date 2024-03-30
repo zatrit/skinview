@@ -9,8 +9,8 @@ import java.net.URL
 import java.util.EnumMap
 
 class DirectResolver(
-    private val baseUrl: String,
-    private val types: Collection<TextureType>) : Resolver {
+    private val baseUrl: String, private val types: Collection<TextureType>) :
+    Resolver {
 
     override fun requiresUuid() = "{id}" in baseUrl || "{shortId}" in baseUrl
 
@@ -40,7 +40,7 @@ class DirectResolver(
         val content = IOUtil.download(url)
 
         return if (content != null) {
-            BytesTexture(url.toString(), content, null)
+            BytesTexture(content, null)
         } else null
     }
 }

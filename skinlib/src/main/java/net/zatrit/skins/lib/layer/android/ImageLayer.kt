@@ -7,8 +7,8 @@ import net.zatrit.skins.lib.texture.BitmapTexture
 
 typealias BitmapLayer = Layer<Bitmap>
 
-abstract class ImageLayer(private val layer: BitmapLayer) : Layer<TypedTexture> {
-    abstract fun predicate(input: TypedTexture): Boolean
+open class ImageLayer(private val layer: BitmapLayer) : Layer<TypedTexture> {
+    open fun predicate(input: TypedTexture) = true
 
     override fun apply(input: TypedTexture): TypedTexture {
         return if (!predicate(input)) {

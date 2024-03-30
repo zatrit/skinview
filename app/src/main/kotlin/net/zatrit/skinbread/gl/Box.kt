@@ -1,4 +1,4 @@
-package net.zatrit.skinview.gl
+package net.zatrit.skinbread.gl
 
 class Box(
     private val x1: Float, private val y1: Float, private val z1: Float,

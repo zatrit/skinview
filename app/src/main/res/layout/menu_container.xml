@@ -5,7 +5,7 @@
     android:background="@drawable/bottom_menu"
     android:orientation="vertical">
 
-    <net.zatrit.skinview.DragHandle
+    <net.zatrit.skinbread.DragHandle
         android:id="@+id/drag_handle"
         android:layout_width="match_parent"
         android:layout_height="35dp"

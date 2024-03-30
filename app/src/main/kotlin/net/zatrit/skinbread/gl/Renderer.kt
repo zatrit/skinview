@@ -1,10 +1,10 @@
-package net.zatrit.skinview.gl
+package net.zatrit.skinbread.gl
 
 import android.graphics.Color.*
 import android.opengl.GLES30.*
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix.*
-import net.zatrit.skinview.*
+import net.zatrit.skinbread.*
 import java.nio.FloatBuffer
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
@@ -22,10 +22,11 @@ class Renderer : GLSurfaceView.Renderer {
         it[14] = -10f // sets Z offset to -10
     }
 
-    private var texture: Texture? = null
+    private var textures = GLTextures()
 
-    private lateinit var model: PlayerModel
+    private lateinit var playerModel: PlayerModel
     private lateinit var grid: Plain
+
     private lateinit var shaders: Array<MVPProgram>
 
     private lateinit var modelShader: MVPProgram
@@ -51,7 +52,7 @@ class Renderer : GLSurfaceView.Renderer {
 
         glUniform1i(modelShader.uniformLocation("uTexture"), 0)
 
-        model = PlayerModel(options)
+        playerModel = PlayerModel()
 
         // Grid creation code
         gridShader = MVPProgram(
@@ -64,9 +65,7 @@ class Renderer : GLSurfaceView.Renderer {
         // View matrix update
         shaders = arrayOf(modelShader, gridShader)
 
-        val modelMatrix = mat4 { setIdentityM(it, 0) }
-        val buf = FloatBuffer.wrap(modelMatrix)
-
+        val buf = FloatBuffer.wrap(identity)
         allShaders {
             glUniformMatrix4fv(modelHandle, 1, false, buf)
         }
@@ -94,7 +93,7 @@ class Renderer : GLSurfaceView.Renderer {
             use()
             glUniform1i(uniformLocation("uShade"), shadeInt)
 
-            options.pendingBackground.let {
+            options.background.let {
                 val r = red(it)
                 val g = green(it)
                 val b = blue(it)
@@ -103,14 +102,15 @@ class Renderer : GLSurfaceView.Renderer {
             }
         }
 
-        // Replace current texture with another if requested
-        options::pendingSkin.takeAnd {
-            texture?.delete()
-            texture = Texture(it)
+        // Replace current textures with another if requested
+        options.pendingTextures?.run {
+            textures.delete()
+            textures = load()
+            playerModel.modelType = model ?: ModelType.DEFAULT
+            options.pendingTextures = null
         }
 
         val buf = FloatBuffer.wrap(viewMatrix)
-
         allShaders {
             glUniformMatrix4fv(viewHandle, 1, false, buf)
         }
@@ -119,9 +119,13 @@ class Renderer : GLSurfaceView.Renderer {
 
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         modelShader.use()
-        model.draw()
 
-        if (options.showGrid) {
+        textures.skin?.run {
+            bind()
+            playerModel.draw()
+        }
+
+        if (options.grid) {
             glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_COLOR)
             gridShader.use()
             grid.draw()

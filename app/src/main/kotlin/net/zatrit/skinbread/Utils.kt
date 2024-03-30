@@ -1,23 +1,14 @@
-package net.zatrit.skinview
+package net.zatrit.skinbread
 
 import android.util.Log
 import android.view.*
-import net.zatrit.skinview.skins.SkinSource
-import kotlin.reflect.KMutableProperty0
+import net.zatrit.skinbread.skins.SkinSource
 
 inline fun <reified L : ViewGroup.LayoutParams> View.applyLayout(
     func: L.() -> Unit) {
     val params = layoutParams as L
     params.func()
     layoutParams = params
-}
-
-inline fun <V> KMutableProperty0<V?>.takeAnd(func: (V) -> Unit) {
-    val value = this.get()
-    if (this.get() != null) {
-        func(value!!)
-        this.set(null)
-    }
 }
 
 @DebugOnly

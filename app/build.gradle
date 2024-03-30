@@ -7,11 +7,11 @@ plugins {
 apply from: 'shaderConsts.gradle'
 
 android {
-    namespace 'net.zatrit.skinview'
+    namespace 'net.zatrit.skinbread'
     compileSdk targetSdk
 
     defaultConfig {
-        applicationId 'net.zatrit.skinview'
+        applicationId 'net.zatrit.skinbread'
         testApplicationId "${applicationId}.test"
 
         minSdk 30

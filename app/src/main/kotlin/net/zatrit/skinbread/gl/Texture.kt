@@ -1,10 +1,11 @@
-package net.zatrit.skinview.gl
+package net.zatrit.skinbread.gl
 
 import android.graphics.Bitmap
 import android.opengl.GLES30.*
 import android.opengl.GLUtils.texImage2D
 import android.util.Log
-import net.zatrit.skinview.*
+import net.zatrit.skinbread.*
+import net.zatrit.skins.lib.api.Texture
 import java.nio.IntBuffer
 
 class Texture(bitmap: Bitmap) {
@@ -27,7 +28,9 @@ class Texture(bitmap: Bitmap) {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
     }
 
-    private fun bind() = glBindTexture(GL_TEXTURE_2D, id)
+    constructor(texture: Texture) : this(texture.asBitmap())
+
+    fun bind() = glBindTexture(GL_TEXTURE_2D, id)
 
     fun delete() = glDeleteTextures(1, IntBuffer.allocate(1).put(0, id))
 }

@@ -6,12 +6,10 @@ import net.zatrit.skins.lib.data.Metadata
 import java.io.ByteArrayOutputStream
 
 class BitmapTexture(
-    private val bitmap: Bitmap, id: String, metadata: Metadata?) :
-    LazyTexture(id, metadata) {
+    private val bitmap: Bitmap, metadata: Metadata? = null) :
+    LazyTexture(metadata) {
 
-    constructor(bitmap: Bitmap, base: Texture) : this(
-        bitmap, base.id, base.metadata
-    )
+    constructor(bitmap: Bitmap, base: Texture) : this(bitmap, base.metadata)
 
     override fun getBytes(): ByteArray {
         val stream = ByteArrayOutputStream()

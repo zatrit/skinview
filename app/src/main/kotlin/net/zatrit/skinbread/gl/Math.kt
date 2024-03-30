@@ -1,4 +1,4 @@
-package net.zatrit.skinview.gl
+package net.zatrit.skinbread.gl
 
 import kotlin.contracts.*
 

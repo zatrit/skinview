@@ -7,7 +7,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView android:text="View options"/>
+        <TextView android:text="@string/view_options"/>
 
         <Switch
             android:text="@string/shading"

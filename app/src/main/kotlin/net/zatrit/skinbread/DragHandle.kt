@@ -1,4 +1,4 @@
-package net.zatrit.skinview
+package net.zatrit.skinbread
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint

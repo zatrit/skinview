@@ -11,6 +11,5 @@ import net.zatrit.skins.lib.data.Metadata;
 @Getter
 @AllArgsConstructor
 public abstract class LazyTexture implements Texture {
-    private final String id;
     private final Metadata metadata;
 }

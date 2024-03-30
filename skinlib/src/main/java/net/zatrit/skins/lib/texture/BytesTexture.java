@@ -11,8 +11,8 @@ import org.jetbrains.annotations.NotNull;
 public class BytesTexture extends LazyTexture {
     private final byte[] bytes;
 
-    public BytesTexture(String id, byte @NotNull [] bytes, Metadata metadata) {
-        super(id, metadata);
+    public BytesTexture(byte @NotNull [] bytes, Metadata metadata) {
+        super(metadata);
         this.bytes = bytes;
     }
 }
