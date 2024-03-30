@@ -5,5 +5,4 @@
   <color name="button">@android:color/holo_green_light</color>
   <color name="drag_handle">@android:color/darker_gray</color>
   <color name="text_color">@android:color/black</color>
-  <color name="render_background">#404040</color>
 </resources>

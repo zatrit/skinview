@@ -9,7 +9,7 @@ import java.util.*
 
 private const val FIVEZIG_API = "https://textures.5zigreborn.eu/profile/"
 
-class FiveZigResolver(private val config: Config) : Resolver {
+class FiveZigResolver : Resolver {
     override fun resolve(profile: Profile): PlayerTextures {
         val url = FIVEZIG_API + profile.id
         val stream = URL(url).openStream()
@@ -30,6 +30,6 @@ class FiveZigResolver(private val config: Config) : Resolver {
 
         /* Since you can't resolve a list of textures without
         fetching those textures, they may not be cached */
-        return BasePlayerTextures(textures, config.layers)
+        return BasePlayerTextures(textures)
     }
 }

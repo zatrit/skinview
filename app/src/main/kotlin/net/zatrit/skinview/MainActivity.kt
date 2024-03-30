@@ -9,10 +9,8 @@ import android.view.*
 import android.view.MotionEvent.*
 import android.widget.*
 import android.widget.RelativeLayout.LEFT_OF
-import net.zatrit.skins.lib.resolver.NamedHTTPResolver
 import net.zatrit.skinview.gl.*
 import net.zatrit.skinview.skins.*
-import java.util.UUID
 import kotlin.concurrent.thread
 
 
@@ -54,8 +52,8 @@ class MainActivity : Activity() {
         // Non-deprecated method isn't available on current Android version
         renderer.options =
             state?.getParcelable("renderOptions") ?: RenderOptions()
-        renderer.modelMatrix =
-            state?.getFloatArray("modelMatrix") ?: renderer.modelMatrix
+        renderer.viewMatrix =
+            state?.getFloatArray("viewMatrix") ?: renderer.viewMatrix
 
         renderer.options.let { opts ->
             bindSwitch(R.id.switch_shade, opts::shading::set, opts.shading)
@@ -65,19 +63,15 @@ class MainActivity : Activity() {
                 assets.open("base.png")
             )
 
-            opts.pendingBackground = Color.valueOf(
-                resources.getColor(R.color.render_background, theme)
-            )
+            opts.pendingBackground =
+                Color.pack(resources.getColor(R.color.background, theme))
 
             val skins = Skins(opts)
-            val profile = SimpleProfile(UUID.randomUUID(), "Zatrit156")
-            val resolver = SkinSource("ely.by", skins.createResolver {
-                NamedHTTPResolver(it, "http://skinsystem.ely.by/textures/")
-            }, ResolverType.NAMED_HTTP)
 
             thread {
-                val result = skins.loadSkin(profile, listOf(resolver))
-                skins.loadTextures(result.first())
+                val profile = profileByName("Zatrit156")
+                val result = skins.loadSkin(profile, defaultSources.asIterable())
+                result.first { it != null }?.let(skins::loadTextures)
             }
         }
 
@@ -92,7 +86,7 @@ class MainActivity : Activity() {
     override fun onSaveInstanceState(state: Bundle) {
         super.onSaveInstanceState(state)
 
-        state.putFloatArray("modelMatrix", renderer.modelMatrix)
+        state.putFloatArray("viewMatrix", renderer.viewMatrix)
         state.putParcelable("renderOptions", renderer.options)
     }
 
@@ -115,7 +109,7 @@ class MainActivity : Activity() {
                 val dy = getYVelocity(pointerId)
 
                 // https://stackoverflow.com/a/8852416/12245612
-                renderer.modelMatrix.let { m ->
+                renderer.viewMatrix.let { m ->
                     rotateM(m, 0, dx, 0f, m[5], 0f)
                     rotateM(m, 0, dy, m[0], 0f, m[8])
                 }

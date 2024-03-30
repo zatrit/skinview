@@ -1,6 +1,6 @@
 package net.zatrit.skins.lib.resolver
 
-import net.zatrit.skins.lib.*
+import net.zatrit.skins.lib.BasePlayerTextures
 import net.zatrit.skins.lib.api.*
 import net.zatrit.skins.lib.util.*
 import java.io.ByteArrayInputStream
@@ -15,7 +15,6 @@ private const val GEYSER_SKIN_API = "https://api.geysermc.org/v2/skin/"
  * [CustomPlayerHeads](https://github.com/onebeastchris/customplayerheads).
  */
 class GeyserResolver(
-    private val config: Config,
     private val floodgatePrefixes: Collection<String>) : Resolver {
 
     override fun requiresUuid() = false
@@ -37,8 +36,6 @@ class GeyserResolver(
         val textureData = decoder.decode(response)
         val bytesStream = ByteArrayInputStream(textureData)
 
-        return BasePlayerTextures(
-            loadTextureMap(bytesStream.jsonObject), config.layers
-        )
+        return BasePlayerTextures(loadTextureMap(bytesStream.jsonObject))
     }
 }

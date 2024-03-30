@@ -9,17 +9,17 @@ import net.zatrit.skins.lib.data.TypedTexture
  * @see PlayerTextures
  */
 open class BasePlayerTextures<T : Texture?>(
-    private val map: Map<TextureType, T>,
-    private val layers: Collection<Layer<TypedTexture>>) : PlayerTextures {
+    private val map: Map<TextureType, T>) : PlayerTextures {
 
     override fun hasTexture(type: TextureType) = map.containsKey(type)
 
-    override fun getTexture(type: TextureType): TypedTexture? {
+    override fun getTexture(
+        type: TextureType, layers: List<Layer<TypedTexture>>): TypedTexture? {
         if (!hasTexture(type)) {
             return null
         }
 
-        val texture = wrapTexture(map[type]!!)
+        val texture = map[type]!!
         val typedTexture = TypedTexture(texture, type)
 
         if (layers.isEmpty()) {
@@ -33,6 +33,4 @@ open class BasePlayerTextures<T : Texture?>(
 
         return layer.apply(typedTexture)
     }
-
-    protected open fun wrapTexture(texture: T) = texture
 }

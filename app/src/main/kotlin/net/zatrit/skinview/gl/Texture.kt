@@ -33,8 +33,6 @@ class Texture(bitmap: Bitmap) {
 }
 
 @DebugOnly
-private fun textureInfo(bitmap: Bitmap) {
-    Log.i(TAG, "Width: " + bitmap.width)
-    Log.i(TAG, "Height: " + bitmap.height)
-    Log.i(TAG, "Size: " + bitmap.byteCount)
+private fun textureInfo(bitmap: Bitmap) = bitmap.run {
+    Log.v(TAG, "width: $width, height: $height, byteCount: $byteCount")
 }

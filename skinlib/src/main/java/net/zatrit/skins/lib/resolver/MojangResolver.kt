@@ -1,7 +1,6 @@
 package net.zatrit.skins.lib.resolver
 
-import lombok.AllArgsConstructor
-import net.zatrit.skins.lib.*
+import net.zatrit.skins.lib.BasePlayerTextures
 import net.zatrit.skins.lib.api.*
 import net.zatrit.skins.lib.data.MojangResponse
 import net.zatrit.skins.lib.util.*
@@ -16,8 +15,7 @@ private const val MOJANG_SKIN_API =
  * [Mojang API](https://wiki.vg/Mojang_API) implementation
  * for OpenMCSkins.
  */
-@AllArgsConstructor
-class MojangResolver(private val config: Config) : Resolver {
+class MojangResolver : Resolver {
     override fun resolve(profile: Profile): PlayerTextures {
         val url = MOJANG_SKIN_API + profile.shortId
 
@@ -32,9 +30,7 @@ class MojangResolver(private val config: Config) : Resolver {
         val bytesStream = ByteArrayInputStream(textureData)
 
         return BasePlayerTextures(
-            loadTextureMap(
-                bytesStream.jsonObject.getJSONObject("textures")
-            ), config.layers
+            loadTextureMap(bytesStream.jsonObject.getJSONObject("textures"))
         )
     }
 }

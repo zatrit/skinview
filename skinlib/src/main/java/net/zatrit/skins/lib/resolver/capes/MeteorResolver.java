@@ -1,7 +1,7 @@
 package net.zatrit.skins.lib.resolver.capes;
 
 import lombok.val;
-import net.zatrit.skins.lib.Config;
+
 import net.zatrit.skins.lib.resolver.CapesListResolver;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,10 +18,6 @@ public final class MeteorResolver extends CapesListResolver {
     private static final String OWNERS_URL = BASE_URL + "/capeowners";
     private static final String CAPES_URL = BASE_URL + "/capes";
     private Map<String, String> capes;
-
-    public MeteorResolver(Config config) {
-        super(config);
-    }
 
     private static @NotNull Map<String, String> parseTable(Reader reader) {
         val scanner = new Scanner(reader);

@@ -1,43 +1,41 @@
 package net.zatrit.skinview.skins
 
-import android.graphics.BitmapFactory
-import net.zatrit.skins.lib.*
+import net.zatrit.skins.lib.TextureType
 import net.zatrit.skins.lib.api.*
 import net.zatrit.skins.lib.data.TypedTexture
 import net.zatrit.skins.lib.layer.android.*
 import net.zatrit.skinview.gl.*
-import java.util.UUID
+import net.zatrit.skinview.printWithSkinSource
 
-private val NULL_UUID = UUID.nameUUIDFromBytes(ByteArray(16))
+class Skins(private val options: RenderOptions) {
+    private val layers = listOf(
+        // A layer that scales cape to look normally
+        object : ImageLayer(ScaleCapeLayer()) {
+            override fun predicate(input: TypedTexture): Boolean {
+                val metadata = input.texture.metadata
+                val cape = input.type == TextureType.CAPE
 
-class Skins(val options: RenderOptions) {
-
-    val config = Config().apply {
-        layers = listOf(
-            // A layer that scales cape to look normally
-            object : ImageLayer(ScaleCapeLayer()) {
-                override fun predicate(input: TypedTexture): Boolean {
-                    val metadata = input.texture.metadata;
-                    val cape = input.type == TextureType.CAPE;
-
-                    if (metadata == null) {
-                        return cape;
-                    }
-
-                    return cape && !metadata.isAnimated;
+                if (metadata == null) {
+                    return cape
                 }
-            },
-            // A layer that fixes 64x32 skins
-            object : ImageLayer(LegacySkinLayer()) {
-                override fun predicate(input: TypedTexture): Boolean =
-                    input.type == TextureType.SKIN
-            })
+
+                return cape && !metadata.isAnimated
+            }
+        },
+        // A layer that fixes 64x32 skins
+        object : ImageLayer(LegacySkinLayer()) {
+            override fun predicate(input: TypedTexture): Boolean =
+                input.type == TextureType.SKIN
+        })
+
+    fun loadSkin(profile: Profile, sources: Iterable<SkinSource>) = sources.map {
+        try {
+            it.resolver.resolve(profile)
+        } catch (ex: Exception) {
+            ex.printWithSkinSource(it)
+            null
+        }
     }
-
-    inline fun createResolver(func: (Config) -> Resolver) = func(this.config)
-
-    fun loadSkin(profile: SimpleProfile, sources: List<SkinSource>) =
-        sources.map { it.resolver.resolve(profile) }
 
     fun loadTextures(textures: PlayerTextures) {
         for (type in TextureType.entries) {
@@ -45,18 +43,14 @@ class Skins(val options: RenderOptions) {
                 continue
             }
 
-            val texture = textures.getTexture(type)!!.texture
-            val textureData = texture.bytes
-            val bitmap = BitmapFactory.decodeByteArray(
-                textureData, 0, textureData.size
-            )
+            val texture = textures.getTexture(type, layers)!!.texture
+            val bitmap = texture.asBitmap()
 
             when (type) {
                 TextureType.SKIN -> {
-                    options.modelType = when (texture.metadata?.model) {
-                        "slim" -> ModelType.SLIM
-                        else -> ModelType.DEFAULT
-                    }
+                    options.modelType =
+                        if (texture.metadata?.model == "slim") ModelType.SLIM
+                        else ModelType.DEFAULT
 
                     options.pendingSkin = bitmap
                 }

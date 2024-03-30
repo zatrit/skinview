@@ -19,7 +19,7 @@ private const val MINECRAFTCAPES_API = "https://api.minecraftcapes.net/profile/"
  *
  * Does not cache skins, because connecting to API already loads textures.
  */
-class MinecraftCapesResolver(private val config: Config) : Resolver {
+class MinecraftCapesResolver : Resolver {
     override fun resolve(profile: Profile): PlayerTextures {
         val url = MINECRAFTCAPES_API + profile.shortId
 
@@ -46,6 +46,6 @@ class MinecraftCapesResolver(private val config: Config) : Resolver {
 
         /* Since you can't resolve a list of textures without
         fetching those textures, they may not be cached */
-        return BasePlayerTextures(textures, config.layers)
+        return BasePlayerTextures(textures)
     }
 }

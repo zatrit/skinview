@@ -1,7 +1,6 @@
 package net.zatrit.skins.lib.resolver;
 
 import net.zatrit.skins.lib.BasePlayerTextures;
-import net.zatrit.skins.lib.Config;
 import net.zatrit.skins.lib.TextureType;
 import net.zatrit.skins.lib.api.PlayerTextures;
 import net.zatrit.skins.lib.api.Profile;
@@ -21,7 +20,6 @@ import lombok.val;
 
 @RequiredArgsConstructor
 public abstract class CapesListResolver implements Resolver {
-    protected final Config config;
     protected @Nullable Map<String, String> owners;
 
     protected abstract Map<String, String> fetchList() throws IOException;
@@ -50,11 +48,12 @@ public abstract class CapesListResolver implements Resolver {
         val textures = new EnumMap<TextureType, URLTexture>(TextureType.class);
 
         if (capeName != null) {
-            textures.put(TextureType.CAPE,
-                         new URLTexture(this.getUrl(capeName), null)
+            textures.put(
+                TextureType.CAPE,
+                new URLTexture(this.getUrl(capeName), null)
             );
         }
 
-        return new BasePlayerTextures<>(textures, this.config.getLayers());
+        return new BasePlayerTextures<>(textures);
     }
 }

@@ -1,5 +1,6 @@
 package net.zatrit.skinview.gl
 
+import android.graphics.Color.*
 import android.opengl.GLES30.*
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix.*
@@ -16,7 +17,10 @@ private fun checkError() {
 }
 
 class Renderer : GLSurfaceView.Renderer {
-    var modelMatrix = mat4 { setIdentityM(it, 0) }
+    var viewMatrix = mat4 {
+        setIdentityM(it, 0)
+        it[14] = -10f // sets Z offset to -10
+    }
 
     private var texture: Texture? = null
 
@@ -39,8 +43,6 @@ class Renderer : GLSurfaceView.Renderer {
         glEnable(GL_DEPTH_TEST)
         glEnable(GL_BLEND)
 
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-
         // Model creation code
         modelShader = MVPProgram(
             compileShader(GL_VERTEX_SHADER, MAIN_VERT),
@@ -62,14 +64,11 @@ class Renderer : GLSurfaceView.Renderer {
         // View matrix update
         shaders = arrayOf(modelShader, gridShader)
 
-        val viewMatrix = mat4 {
-            setIdentityM(it, 0)
-            it[14] = -10f // sets Z offset to -10
-        }
+        val modelMatrix = mat4 { setIdentityM(it, 0) }
+        val buf = FloatBuffer.wrap(modelMatrix)
 
-        val buf = FloatBuffer.wrap(viewMatrix)
         allShaders {
-            glUniformMatrix4fv(viewHandle, 1, false, buf)
+            glUniformMatrix4fv(modelHandle, 1, false, buf)
         }
 
         checkError()
@@ -95,12 +94,12 @@ class Renderer : GLSurfaceView.Renderer {
             use()
             glUniform1i(uniformLocation("uShade"), shadeInt)
 
-            options::pendingBackground.takeAnd {
-                glClearColor(it.red(), it.green(), it.blue(), it.alpha())
-                glUniform4f(
-                    uniformLocation("uShadeColor"), it.red(), it.green(),
-                    it.blue(), it.alpha()
-                )
+            options.pendingBackground.let {
+                val r = red(it)
+                val g = green(it)
+                val b = blue(it)
+                glClearColor(r, g, b, 1f)
+                glUniform4f(uniformLocation("uShadeColor"), r, g, b, 1f)
             }
         }
 
@@ -110,18 +109,20 @@ class Renderer : GLSurfaceView.Renderer {
             texture = Texture(it)
         }
 
-        val buf = FloatBuffer.wrap(modelMatrix)
+        val buf = FloatBuffer.wrap(viewMatrix)
 
         allShaders {
-            glUniformMatrix4fv(modelHandle, 1, false, buf)
+            glUniformMatrix4fv(viewHandle, 1, false, buf)
         }
 
         glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
 
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         modelShader.use()
         model.draw()
 
         if (options.showGrid) {
+            glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_COLOR)
             gridShader.use()
             grid.draw()
         }

@@ -1,7 +1,6 @@
 package net.zatrit.skins.lib.resolver.capes;
 
 import net.zatrit.skins.lib.BasePlayerTextures;
-import net.zatrit.skins.lib.Config;
 import net.zatrit.skins.lib.TextureType;
 import net.zatrit.skins.lib.api.PlayerTextures;
 import net.zatrit.skins.lib.api.Profile;
@@ -27,7 +26,6 @@ import lombok.val;
  */
 @AllArgsConstructor
 public final class OptifineResolver implements Resolver {
-    private final Config config;
     private final String baseUrl;
 
     @Override
@@ -50,6 +48,6 @@ public final class OptifineResolver implements Resolver {
         return new BasePlayerTextures<>(Collections.singletonMap(
             TextureType.CAPE,
             texture
-        ), this.config.getLayers());
+        ));
     }
 }
