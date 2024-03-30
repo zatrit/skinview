@@ -12,11 +12,16 @@ android {
 
     defaultConfig {
         applicationId 'net.zatrit.skinview'
+        testApplicationId "${applicationId}.test"
+
         minSdk 30
         targetSdk targetSdk
         versionCode 1
         versionName '1.0'
+
         resConfigs 'en', 'ru'
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -56,8 +61,19 @@ android {
                 '-Xno-param-assertions'
         ]
     }
+
+    testOptions {
+        reportDir "$rootDir/test-reports"
+        resultsDir "$rootDir/test-results"
+    }
 }
 
 dependencies {
     implementation project(':skinlib')
+
+    testImplementation 'org.jetbrains.kotlin:kotlin-test'
+
+    androidTestImplementation "androidx.test:core:$test_core_version"
+    androidTestImplementation "androidx.test:runner:$test_runner_version"
+    androidTestImplementation "androidx.test:rules:$test_rules_version"
 }

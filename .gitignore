@@ -9,3 +9,5 @@
 .externalNativeBuild
 .cxx
 local.properties
+/test-results
+/test-reports

@@ -6,7 +6,7 @@ import java.io.IOException
 import java.net.URL
 import java.util.UUID
 
-private val nullUUID = UUID.nameUUIDFromBytes(ByteArray(16))
+val nullUUID: UUID = UUID.nameUUIDFromBytes(ByteArray(16))
 
 class SimpleProfile(override val id: UUID, override val name: String) : Profile
 
