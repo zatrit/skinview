@@ -5,6 +5,7 @@ import net.zatrit.skins.lib.api.*
 import net.zatrit.skins.lib.data.TypedTexture
 import net.zatrit.skins.lib.layer.android.*
 import net.zatrit.skinbread.gl.*
+import net.zatrit.skinbread.gl.model.ModelType
 import net.zatrit.skinbread.printWithSkinSource
 
 class Skins {

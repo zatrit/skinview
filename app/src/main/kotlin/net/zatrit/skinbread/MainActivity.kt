@@ -19,7 +19,7 @@ class MainActivity : Activity() {
     private var renderer = Renderer()
 
     private inline fun bindSwitch(
-        id: Int, crossinline onSet: (Boolean) -> Unit, value: Boolean) {
+        id: Int, value: Boolean, crossinline onSet: (Boolean) -> Unit) {
         findViewById<Switch>(id).apply {
             setOnCheckedChangeListener { _, state ->
                 onSet(state)
@@ -55,11 +55,12 @@ class MainActivity : Activity() {
         renderer.viewMatrix =
             state?.getFloatArray("viewMatrix") ?: renderer.viewMatrix
 
-        renderer.options.let { opts ->
-            bindSwitch(R.id.switch_shade, { opts.shading = it }, opts.shading)
-            bindSwitch(R.id.switch_grid, { opts.grid = it }, opts.grid)
+        renderer.options.run {
+            bindSwitch(R.id.switch_shade, shading) { shading = it }
+            bindSwitch(R.id.switch_grid, grid) { grid = it }
+            bindSwitch(R.id.switch_elytra, elytra) { elytra = it }
 
-            opts.pendingTextures = Textures(
+            pendingTextures = Textures(
                 skin = BitmapTexture(
                     BitmapFactory.decodeStream(
                         assets.open("base.png")
@@ -67,7 +68,7 @@ class MainActivity : Activity() {
                 )
             )
 
-            opts.background =
+            background =
                 Color.pack(resources.getColor(R.color.background, theme))
 
             val skins = Skins()
@@ -75,7 +76,7 @@ class MainActivity : Activity() {
             thread {
                 val profile = profileByName("Zatrit156")
                 val result = skins.loadSkin(profile, defaultSources.asIterable())
-                opts.pendingTextures = skins.mergeTextures(result)
+                pendingTextures = skins.mergeTextures(result)
             }
         }
 

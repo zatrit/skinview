@@ -1,6 +1,7 @@
-package net.zatrit.skinbread.gl
+package net.zatrit.skinbread.gl.model
 
-import net.zatrit.skinbread.gl.PartType.*
+import net.zatrit.skinbread.gl.*
+import net.zatrit.skinbread.gl.model.PartType.*
 import java.util.*
 
 enum class PartType {

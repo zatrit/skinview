@@ -9,6 +9,8 @@ class RenderOptions(
     var shading: Boolean = true,
     /** Show grid */
     var grid: Boolean = true,
+    /** Show elytra instead of cape */
+    var elytra: Boolean = false,
 ) : Parcelable {
     /** Temporary bitmap values that tells Renderer to set instead of previous texture */
     @IgnoredOnParcel

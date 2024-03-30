@@ -1,7 +1,8 @@
 
 <resources>
     <string name="btn_show">Показать</string>
+  <string name="view_options">Визуальные настройки</string>
   <string name="shading">Затенение</string>
   <string name="show_grid">Показывать сетку</string>
-  <string name="view_options">Визуальные настройки</string>
+  <string name="show_elytra">Элитры вместо плаща</string>
 </resources>

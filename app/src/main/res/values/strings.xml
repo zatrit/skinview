@@ -1,7 +1,8 @@
 <resources>
   <string name="app_name" translatable="false">SkinBread</string>
   <string name="btn_show">Show</string>
+  <string name="view_options">View options</string>
   <string name="shading">Shading</string>
   <string name="show_grid">Show grid</string>
-  <string name="view_options">View options</string>
+  <string name="show_elytra">Show elytra instead of cape</string>
 </resources>

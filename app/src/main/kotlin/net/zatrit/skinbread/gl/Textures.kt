@@ -1,5 +1,6 @@
 package net.zatrit.skinbread.gl
 
+import net.zatrit.skinbread.gl.model.ModelType
 import net.zatrit.skins.lib.api.Texture as SLTexture
 
 class Textures(

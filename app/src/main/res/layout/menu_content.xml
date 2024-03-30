@@ -2,19 +2,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+  <TableLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
 
-        <TextView android:text="@string/view_options"/>
+    <TextView android:text="@string/view_options" />
 
-        <Switch
-            android:text="@string/shading"
-            android:id="@+id/switch_shade" />
+    <Switch
+        android:text="@string/shading"
+        android:id="@+id/switch_shade" />
 
-        <Switch
-            android:text="@string/show_grid"
-            android:id="@+id/switch_grid" />
-    </TableLayout>
+    <Switch
+        android:text="@string/show_grid"
+        android:id="@+id/switch_grid" />
+
+    <Switch
+        android:text="@string/show_elytra"
+        android:id="@+id/switch_elytra" />
+  </TableLayout>
 </ScrollView>

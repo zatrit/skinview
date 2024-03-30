@@ -5,6 +5,7 @@ import android.opengl.GLES30.*
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix.*
 import net.zatrit.skinbread.*
+import net.zatrit.skinbread.gl.model.*
 import java.nio.FloatBuffer
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
@@ -25,6 +26,9 @@ class Renderer : GLSurfaceView.Renderer {
     private var textures = GLTextures()
 
     private lateinit var playerModel: PlayerModel
+    private lateinit var capeModel: ModelPart
+    private lateinit var elytraModel: ElytraModel
+
     private lateinit var grid: Plain
 
     private lateinit var shaders: Array<MVPProgram>
@@ -53,6 +57,8 @@ class Renderer : GLSurfaceView.Renderer {
         glUniform1i(modelShader.uniformLocation("uTexture"), 0)
 
         playerModel = PlayerModel()
+        capeModel = capeModel()
+        elytraModel = ElytraModel()
 
         // Grid creation code
         gridShader = MVPProgram(
@@ -60,15 +66,13 @@ class Renderer : GLSurfaceView.Renderer {
             compileShader(GL_FRAGMENT_SHADER, GRID_FRAG),
         ).apply { use() }
 
+        val buf = FloatBuffer.wrap(identity)
+        glUniformMatrix4fv(gridShader.modelHandle, 1, false, buf)
+
         grid = Plain(-2f, -2f, 2f, 2f)
 
         // View matrix update
         shaders = arrayOf(modelShader, gridShader)
-
-        val buf = FloatBuffer.wrap(identity)
-        allShaders {
-            glUniformMatrix4fv(modelHandle, 1, false, buf)
-        }
 
         checkError()
     }
@@ -120,9 +124,25 @@ class Renderer : GLSurfaceView.Renderer {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         modelShader.use()
 
+        val modelHandle = modelShader.modelHandle
+        val identityBuf = FloatBuffer.wrap(identity)
+        glUniformMatrix4fv(modelHandle, 1, false, identityBuf)
+
         textures.skin?.run {
             bind()
             playerModel.draw()
+        }
+
+        textures.cape?.run {
+            bind()
+
+            if (options.elytra) {
+                elytraModel.drawRotated(modelHandle)
+            } else {
+                val capeBuf = FloatBuffer.wrap(capeModelMatrix)
+                glUniformMatrix4fv(modelHandle, 1, false, capeBuf)
+                capeModel.draw()
+            }
         }
 
         if (options.grid) {

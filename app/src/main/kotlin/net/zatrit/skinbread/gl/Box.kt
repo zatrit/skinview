@@ -2,8 +2,7 @@ package net.zatrit.skinbread.gl
 
 class Box(
     private val x1: Float, private val y1: Float, private val z1: Float,
-    private val x2: Float, private val y2: Float, private val z2: Float
-) {
+    private val x2: Float, private val y2: Float, private val z2: Float) {
     private val width = x2 - x1
     private val height = y2 - y1
     private val depth = z2 - z1
@@ -55,20 +54,22 @@ class Box(
     fun translate(x: Float, y: Float, z: Float): Box =
         Box(x1 + x, y1 + y, z1 + z, x2 + x, y2 + y, z2 + z)
 
-    fun scale(s: Float): Box {
-        val s2 = (s - 1) / 2
-        val dw = width * s2
-        val dh = height * s2
-        val dd = depth * s2
+    fun scale(s: Float) = scale(s, s, s)
+
+    fun scale(sx: Float = 1f, sy: Float = 1f, sz: Float = 1f): Box {
+        val dw = width * (sx - 1) / 2
+        val dh = height * (sy - 1) / 2
+        val dd = depth * (sz - 1) / 2
 
         return Box(x1 - dw, y1 - dh, z1 - dd, x2 + dw, y2 + dh, z2 + dd)
     }
 
-    fun uv(x: Float, y: Float, s: Float) =
-        boxUV(x, y, width * s, height * s, depth * s)
+    fun uv(x: Float, y: Float, s: Float, ratio: Float = 1f) =
+        boxUV(x, y, width * s, height * s, depth * s, ratio)
 }
 
-fun boxUV(x: Float, y: Float, w: Float, h: Float, d: Float): FloatArray {
+private fun boxUV(
+    x: Float, y: Float, w: Float, h: Float, d: Float, ratio: Float): FloatArray {
     // Column [number]
     val c1 = x + d
     val c2 = c1 + w
@@ -76,8 +77,10 @@ fun boxUV(x: Float, y: Float, w: Float, h: Float, d: Float): FloatArray {
     val c4 = c3 + w
 
     // Row [number]
-    val r1 = y + d
-    val r2 = y + d + h
+    val r1 = (y + d) / ratio
+    val r2 = (y + d + h) / ratio
+
+    val y1 = y / ratio
 
     return floatArrayOf(
         // back
@@ -105,14 +108,14 @@ fun boxUV(x: Float, y: Float, w: Float, h: Float, d: Float): FloatArray {
         c3, r2, // top left
 
         // bottom
-        c2, y, // top left
-        c2 + w, y, // top right
+        c2, y1, // top left
+        c2 + w, y1, // top right
         c2 + w, r1, // bottom left
         c2, r1, // bottom right
 
         // top
-        c1, y, // top left
-        c2, y, // top right
+        c1, y1, // top left
+        c2, y1, // top right
         c2, r1, // bottom right
         c1, r1, // bottom left
     )
