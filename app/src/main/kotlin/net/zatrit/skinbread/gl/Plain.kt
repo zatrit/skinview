@@ -2,10 +2,9 @@ package net.zatrit.skinbread.gl
 
 import android.opengl.GLES30.*
 import java.nio.FloatBuffer
-import java.nio.IntBuffer
 
 class Plain(x1: Float, z1: Float, x2: Float, z2: Float) {
-    private val vao: Int
+    private val vao = genVertexArrays()
 
     init {
         val vertices = FloatBuffer.wrap(
@@ -17,14 +16,9 @@ class Plain(x1: Float, z1: Float, x2: Float, z2: Float) {
             )
         )
 
-        val buf = IntBuffer.allocate(1)
-
-        glGenVertexArrays(1, buf)
-        vao = buf.get(0)
         glBindVertexArray(vao)
 
-        glGenBuffers(1, buf)
-        val vbo = buf.get(0)
+        val vbo = buf { glGenBuffers(1, it) }.get()
 
         glBindBuffer(GL_ARRAY_BUFFER, vbo)
         glBufferData(

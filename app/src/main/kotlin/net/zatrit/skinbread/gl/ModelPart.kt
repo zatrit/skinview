@@ -3,7 +3,6 @@ package net.zatrit.skinbread.gl
 import android.opengl.GLES30.*
 import net.zatrit.skinbread.DebugOnly
 import java.nio.FloatBuffer
-import java.nio.IntBuffer
 
 @DebugOnly
 private fun sizeChecks(vertices: FloatArray, textureCords: FloatArray) {
@@ -24,37 +23,32 @@ private fun vboData(buf: FloatBuffer, id: Int, index: Int, size: Int) {
 }
 
 class ModelPart(vertices: FloatArray, textureCords: FloatArray) {
-    private val vao: Int
+    private val vao = genVertexArrays()
 
     init {
         sizeChecks(vertices, textureCords)
 
-        val buf = IntBuffer.allocate(3)
         val verticesBuffer = FloatBuffer.wrap(vertices)
         val textureCordsBuffer = FloatBuffer.wrap(textureCords)
 
-        val indices = IntBuffer.allocate(36)
-        for (i in 0..5) {
-            val j = i * 4
-            indices.put(intArrayOf(j, j + 1, j + 2, j + 2, j + 3, j))
+        val indices = buf(36) {
+            for (i in 0..5) {
+                val j = i * 4
+                it.put(intArrayOf(j, j + 1, j + 2, j + 2, j + 3, j))
+            }
+            it.rewind()
         }
-        indices.rewind()
 
-        glGenVertexArrays(1, buf)
-        vao = buf[0]
         glBindVertexArray(vao)
 
-        glGenBuffers(3, buf)
+        val buf = buf(3) { glGenBuffers(3, it) }
 
         vboData(verticesBuffer, buf[0], 0, 3)
         vboData(textureCordsBuffer, buf[1], 1, 2)
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buf[2])
         glBufferData(
-            GL_ELEMENT_ARRAY_BUFFER,
-            36 * Int.SIZE_BYTES,
-            indices,
-            GL_STATIC_DRAW
+            GL_ELEMENT_ARRAY_BUFFER, 36 * Int.SIZE_BYTES, indices, GL_STATIC_DRAW
         )
     }
 

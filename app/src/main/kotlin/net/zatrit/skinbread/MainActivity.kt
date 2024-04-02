@@ -61,9 +61,7 @@ class MainActivity : Activity() {
 
             pendingTextures = Textures(
                 skin = BitmapTexture(
-                    BitmapFactory.decodeStream(
-                        assets.open("base.png")
-                    )
+                    BitmapFactory.decodeStream(assets.open("base.png"))
                 )
             )
 

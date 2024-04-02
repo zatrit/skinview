@@ -2,20 +2,17 @@ package net.zatrit.skinbread.gl
 
 import android.opengl.GLES30.*
 import net.zatrit.skinbread.DebugOnly
-import java.nio.IntBuffer
 
 @DebugOnly
 private fun shaderStatus(id: Int) {
-    val status = IntBuffer.allocate(1)
-    glGetShaderiv(id, GL_COMPILE_STATUS, status)
-    assert(status[0] != 0) { glGetShaderInfoLog(id) }
+    val status = buf { glGetShaderiv(id, GL_COMPILE_STATUS, it) }.get()
+    assert(status != 0) { glGetShaderInfoLog(id) }
 }
 
 @DebugOnly
 private fun programStatus(id: Int) {
-    val status = IntBuffer.allocate(1)
-    glGetProgramiv(id, GL_LINK_STATUS, status)
-    assert(status[0] != 0) { glGetProgramInfoLog(id) }
+    val status = buf { glGetProgramiv(id, GL_LINK_STATUS, it) }.get()
+    assert(status != 0) { glGetProgramInfoLog(id) }
 }
 
 fun compileShader(type: Int, source: String): Int {

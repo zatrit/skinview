@@ -130,12 +130,12 @@ class Renderer : GLSurfaceView.Renderer {
         val identityBuf = FloatBuffer.wrap(identity)
         glUniformMatrix4fv(modelHandle, 1, false, identityBuf)
 
-        textures.skin?.run {
+        textures.skin.takeIf { options.skin }?.run {
             bind()
             playerModel.draw()
         }
 
-        textures.cape?.run {
+        textures.cape.takeIf { options.cape }?.run {
             bind()
 
             if (options.elytra) {
@@ -147,7 +147,7 @@ class Renderer : GLSurfaceView.Renderer {
             }
         }
 
-        textures.ears?.run {
+        textures.ears.takeIf { options.ears }?.run {
             bind()
             earsModel.drawRotated(modelHandle)
         }

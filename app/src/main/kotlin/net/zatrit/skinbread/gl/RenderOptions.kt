@@ -11,6 +11,10 @@ class RenderOptions(
     var grid: Boolean = true,
     /** Show elytra instead of cape */
     var elytra: Boolean = false,
+
+    val cape: Boolean = true,
+    val skin: Boolean = true,
+    val ears: Boolean = true,
 ) : Parcelable {
     /** Temporary bitmap values that tells Renderer to set instead of previous texture */
     @IgnoredOnParcel

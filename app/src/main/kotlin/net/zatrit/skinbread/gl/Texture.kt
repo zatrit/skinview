@@ -6,17 +6,12 @@ import android.opengl.GLUtils.texImage2D
 import android.util.Log
 import net.zatrit.skinbread.*
 import net.zatrit.skins.lib.api.Texture
-import java.nio.IntBuffer
 
 class Texture(bitmap: Bitmap) {
-    private val id: Int
+    private val id = buf { glGenTextures(1, it) }
 
     init {
         textureInfo(bitmap)
-
-        val buf = IntBuffer.allocate(1)
-        glGenTextures(1, buf)
-        id = buf.get()
 
         bind()
         texImage2D(GL_TEXTURE_2D, 0, bitmap, 0)
@@ -30,9 +25,9 @@ class Texture(bitmap: Bitmap) {
 
     constructor(texture: Texture) : this(texture.asBitmap())
 
-    fun bind() = glBindTexture(GL_TEXTURE_2D, id)
+    fun bind() = glBindTexture(GL_TEXTURE_2D, id.get(0))
 
-    fun delete() = glDeleteTextures(1, IntBuffer.allocate(1).put(0, id))
+    fun delete() = glDeleteTextures(1, id)
 }
 
 @DebugOnly
