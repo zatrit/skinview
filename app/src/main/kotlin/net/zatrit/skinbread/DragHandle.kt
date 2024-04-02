@@ -14,8 +14,8 @@ class DragHandle(context: Context, attributeSet: AttributeSet) :
     var showInstead: Button? = null
 
     private val metrics = resources.displayMetrics
-    private val step = metrics.heightPixels / 4
-    private val initHeight = step * 2
+    private val step = metrics.heightPixels / 8
+    private val initHeight = step * 4
 
     lateinit var target: View
 

@@ -17,4 +17,8 @@
 	public static void throwIllegalState(...);
 }
 
+-assumenosideeffects class java.lang.Throwable {
+    public void printStackTrace(...);
+}
+
 -assumenosideeffects class ** { @net.zatrit.skinbread.DebugOnly *; }

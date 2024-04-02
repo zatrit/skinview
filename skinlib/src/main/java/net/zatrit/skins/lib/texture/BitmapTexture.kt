@@ -3,7 +3,6 @@ package net.zatrit.skins.lib.texture
 import android.graphics.Bitmap
 import net.zatrit.skins.lib.api.Texture
 import net.zatrit.skins.lib.data.Metadata
-import java.io.ByteArrayOutputStream
 
 class BitmapTexture(
     private val bitmap: Bitmap, metadata: Metadata? = null) :
@@ -11,12 +10,8 @@ class BitmapTexture(
 
     constructor(bitmap: Bitmap, base: Texture) : this(bitmap, base.metadata)
 
-    override fun getBytes(): ByteArray {
-        val stream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-
-        return stream.toByteArray()
-    }
+    // It's not necessary to implement this
+    override fun getBytes() = TODO()
 
     override fun asBitmap() = bitmap
 }

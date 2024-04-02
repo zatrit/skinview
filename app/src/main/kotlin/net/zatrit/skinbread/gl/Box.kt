@@ -64,8 +64,8 @@ class Box(
         return Box(x1 - dw, y1 - dh, z1 - dd, x2 + dw, y2 + dh, z2 + dd)
     }
 
-    fun uv(x: Float, y: Float, s: Float, ratio: Float = 1f) =
-        boxUV(x, y, width * s, height * s, depth * s, ratio)
+    fun uv(x: Float, y: Float, scale: Float = 0.125f, ratio: Float = 1f) =
+        boxUV(x, y, width * scale, height * scale, depth * scale, ratio)
 }
 
 private fun boxUV(
@@ -77,8 +77,8 @@ private fun boxUV(
     val c4 = c3 + w
 
     // Row [number]
-    val r1 = (y + d) / ratio
-    val r2 = (y + d + h) / ratio
+    val r1 = (y + d) * ratio
+    val r2 = (y + d + h) * ratio
 
     val y1 = y / ratio
 

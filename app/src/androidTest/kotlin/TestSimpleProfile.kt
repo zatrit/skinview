@@ -1,4 +1,4 @@
-
+import net.zatrit.skinbread.nullUUID
 import net.zatrit.skinbread.skins.*
 import org.junit.Assert.assertEquals
 import org.junit.Test

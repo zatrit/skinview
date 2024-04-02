@@ -12,7 +12,6 @@ import android.widget.RelativeLayout.LEFT_OF
 import net.zatrit.skinbread.gl.*
 import net.zatrit.skinbread.skins.*
 import net.zatrit.skins.lib.texture.BitmapTexture
-import kotlin.concurrent.thread
 
 class MainActivity : Activity() {
     private lateinit var velocityTracker: VelocityTracker
@@ -71,12 +70,13 @@ class MainActivity : Activity() {
             background =
                 Color.pack(resources.getColor(R.color.background, theme))
 
-            val skins = Skins()
-
-            thread {
-                val profile = profileByName("Zatrit156")
-                val result = skins.loadSkin(profile, defaultSources.asIterable())
-                pendingTextures = skins.mergeTextures(result)
+            supplyAsync {
+                profileByName("Zatrit156")
+            }.exceptionally {
+                SimpleProfile(nullUUID, "Zatrit156")
+            }.thenApplyAsync {
+                val result = loadTextures(it, defaultSources)
+                pendingTextures = mergeTextures(result)
             }
         }
 

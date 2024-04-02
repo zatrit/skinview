@@ -1,8 +1,8 @@
 package net.zatrit.skinbread.skins
 
+import net.zatrit.skinbread.nullUUID
 import net.zatrit.skins.lib.api.Profile
 import net.zatrit.skins.lib.util.*
-import net.zatrit.skinbread.nullUUID
 import java.io.IOException
 import java.net.URL
 import java.util.UUID

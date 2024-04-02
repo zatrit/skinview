@@ -19,9 +19,9 @@ class MCCapesResponse : LoadJson {
     override fun loadJson(json: JSONObject) {
         animatedCape = json.getBoolean("animatedCape")
 
-        for (key in json.keys()) {
-            val type = textureType(key)
-            textures[type] = json.getString(key)
+        val texturesJson = json.getJSONObject("textures")
+        for (key in texturesJson.keys()) {
+            textureType(key)?.let { textures[it] = texturesJson.getString(key) }
         }
     }
 }

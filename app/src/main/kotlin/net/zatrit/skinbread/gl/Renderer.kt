@@ -28,6 +28,7 @@ class Renderer : GLSurfaceView.Renderer {
     private lateinit var playerModel: PlayerModel
     private lateinit var capeModel: ModelPart
     private lateinit var elytraModel: ElytraModel
+    private lateinit var earsModel: EarsModel
 
     private lateinit var grid: Plain
 
@@ -59,6 +60,7 @@ class Renderer : GLSurfaceView.Renderer {
         playerModel = PlayerModel()
         capeModel = capeModel()
         elytraModel = ElytraModel()
+        earsModel = EarsModel()
 
         // Grid creation code
         gridShader = MVPProgram(
@@ -139,10 +141,15 @@ class Renderer : GLSurfaceView.Renderer {
             if (options.elytra) {
                 elytraModel.drawRotated(modelHandle)
             } else {
-                val capeBuf = FloatBuffer.wrap(capeModelMatrix)
+                val capeBuf = FloatBuffer.wrap(capeMatrix)
                 glUniformMatrix4fv(modelHandle, 1, false, capeBuf)
                 capeModel.draw()
             }
+        }
+
+        textures.ears?.run {
+            bind()
+            earsModel.drawRotated(modelHandle)
         }
 
         if (options.grid) {

@@ -12,10 +12,8 @@ import java.net.URL
 class ValhallaResolver(private val baseUrl: String) : Resolver {
     override fun resolve(profile: Profile): PlayerTextures {
         val url = baseUrl + profile.id
-        val stream = URL(url).openStream()
+        val json = URL(url).openStream().jsonObject
 
-        return BasePlayerTextures(
-            loadTextureMap(stream.jsonObject.getJSONObject("textures"))
-        )
+        return BasePlayerTextures(loadTextureMap(json.getJSONObject("textures")))
     }
 }
