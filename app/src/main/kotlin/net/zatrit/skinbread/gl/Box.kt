@@ -56,10 +56,10 @@ class Box(
 
     fun scale(s: Float) = scale(s, s, s)
 
-    fun scale(sx: Float = 1f, sy: Float = 1f, sz: Float = 1f): Box {
-        val dw = width * (sx - 1) / 2
-        val dh = height * (sy - 1) / 2
-        val dd = depth * (sz - 1) / 2
+    fun scale(x: Float = 1f, y: Float = 1f, z: Float = 1f): Box {
+        val dw = width * (x - 1) / 2
+        val dh = height * (y - 1) / 2
+        val dd = depth * (z - 1) / 2
 
         return Box(x1 - dw, y1 - dh, z1 - dd, x2 + dw, y2 + dh, z2 + dd)
     }

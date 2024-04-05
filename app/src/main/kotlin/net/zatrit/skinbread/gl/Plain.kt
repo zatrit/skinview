@@ -4,7 +4,7 @@ import android.opengl.GLES30.*
 import java.nio.FloatBuffer
 
 class Plain(x1: Float, z1: Float, x2: Float, z2: Float) {
-    private val vao = genVertexArrays()
+    private val vao = genVertexArray()
 
     init {
         val vertices = FloatBuffer.wrap(

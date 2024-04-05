@@ -23,7 +23,7 @@ private fun vboData(buf: FloatBuffer, id: Int, index: Int, size: Int) {
 }
 
 class ModelPart(vertices: FloatArray, textureCords: FloatArray) {
-    private val vao = genVertexArrays()
+    private val vao = genVertexArray()
 
     init {
         sizeChecks(vertices, textureCords)

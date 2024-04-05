@@ -22,4 +22,4 @@ inline fun buf(size: Int = 1, func: (IntBuffer) -> Unit): IntBuffer {
     return buf
 }
 
-fun genVertexArrays() = buf { glGenVertexArrays(1, it) }.get()
+fun genVertexArray() = buf { glGenVertexArrays(1, it) }.get()

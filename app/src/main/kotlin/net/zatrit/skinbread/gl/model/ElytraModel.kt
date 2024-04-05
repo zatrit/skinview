@@ -10,7 +10,7 @@ class ElytraModel {
 
     init {
         val box = Box(-0.625f, -1.25f, -0.25f, 0.625f, 1.25f, 0.25f)
-        val uv = box.scale(sz = 0.5f).uv(22f / 64f, 0f, ratio = 2f)
+        val uv = box.scale(z = 0.5f).uv(22f / 64f, 0f, ratio = 2f)
         wing = ModelPart(box.vertices, uv)
     }
 
