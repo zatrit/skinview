@@ -5,9 +5,7 @@ import net.zatrit.skins.lib.api.Layer
 import net.zatrit.skins.lib.data.TypedTexture
 import net.zatrit.skins.lib.texture.BitmapTexture
 
-typealias BitmapLayer = Layer<Bitmap>
-
-open class ImageLayer(private val layer: BitmapLayer) : Layer<TypedTexture> {
+abstract class ImageLayer : Layer<TypedTexture> {
     open fun predicate(input: TypedTexture) = true
 
     override fun apply(input: TypedTexture): TypedTexture {
@@ -17,8 +15,10 @@ open class ImageLayer(private val layer: BitmapLayer) : Layer<TypedTexture> {
             val old = input.texture
             val bitmap = old.asBitmap()
 
-            val texture = BitmapTexture(layer.apply(bitmap), old)
+            val texture = BitmapTexture(apply(bitmap), old)
             TypedTexture(texture, input.type)
         }
     }
+
+    abstract fun apply(input: Bitmap): Bitmap
 }

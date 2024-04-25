@@ -6,24 +6,27 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.*
 import android.view.ViewGroup.LayoutParams
-import android.widget.Button
 
 class DragHandle(context: Context, attributeSet: AttributeSet) :
     View(context, attributeSet) {
     private var animation: ValueAnimator? = null
-    var showInstead: Button? = null
+    var showInstead: View? = null
 
     private val metrics = resources.displayMetrics
     private val step = metrics.heightPixels / 8
-    private val initHeight = step * 4
+    private val initHeight = step * 3
 
     lateinit var target: View
 
-    private fun heightAnimator(from: Int, to: Int) =
+    private fun heightAnimator(from: Int, to: Int, thenHide: View? = null) =
         ValueAnimator.ofInt(from, to).apply {
             addUpdateListener {
                 target.applyLayout<LayoutParams> {
                     height = it.animatedValue as Int
+                }
+
+                if (it.animatedValue == to) {
+                    thenHide?.setTransitionVisibility(GONE)
                 }
             }
             start()
@@ -31,13 +34,11 @@ class DragHandle(context: Context, attributeSet: AttributeSet) :
 
     fun show() {
         target.visibility = VISIBLE
-        showInstead?.visibility = INVISIBLE
-
-        animation = heightAnimator(1, initHeight)
+        animation = heightAnimator(1, initHeight, showInstead)
     }
 
     private fun hide() {
-        target.visibility = INVISIBLE
+        target.visibility = GONE
         showInstead?.visibility = VISIBLE
     }
 
@@ -49,17 +50,20 @@ class DragHandle(context: Context, attributeSet: AttributeSet) :
             MotionEvent.ACTION_MOVE -> {
                 animation?.cancel()
                 target.applyLayout<LayoutParams> {
-                    height -= event.y.toInt()
-                    if (height < step / 2) hide()
+                    height = (height - event.y.toInt()).coerceAtLeast(1)
                 }
             }
 
             MotionEvent.ACTION_UP -> {
-                val height = target.layoutParams.height
-                val newHeight = (height / step * step).coerceAtLeast(step)
-                    .coerceAtMost(metrics.heightPixels)
+                if (target.layoutParams.height < step / 2) {
+                    hide()
+                } else {
+                    val height = target.layoutParams.height
+                    val newHeight = (height / step * step).coerceAtLeast(step)
+                        .coerceAtMost(metrics.heightPixels)
 
-                animation = heightAnimator(height, newHeight)
+                    animation = heightAnimator(height, newHeight)
+                }
             }
         }
 

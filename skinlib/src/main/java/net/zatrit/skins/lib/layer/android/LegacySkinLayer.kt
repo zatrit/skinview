@@ -2,7 +2,7 @@ package net.zatrit.skins.lib.layer.android
 
 import android.graphics.*
 
-class LegacySkinLayer : BitmapLayer {
+class LegacySkinLayer : ImageLayer() {
     override fun apply(input: Bitmap): Bitmap {
         val size = input.width
 

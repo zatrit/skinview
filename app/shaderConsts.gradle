@@ -5,13 +5,9 @@ static def optimizeLine(String line) {
         line.replace '  ', ' '
     }
 
-    for (def special in ['=', '*', '+', '-', '/', '>', '<', '|', ':', '?']) {
-        line = line.replaceAll " *\\$special *", special
-    }
+    for (def special in ['=', '*', '+', '-', '/', '>', '<', '|', ':', '?']) line = line.replaceAll " *\\$special *", special
 
-    if (line.startsWith '#') {
-        line += '\\n'
-    }
+    if (line.startsWith '#') line += '\\n'
 
     return line.replace(', ', ',').replace(') ', ')').replace(' (', '(').replaceAll('//.*', '')
 }

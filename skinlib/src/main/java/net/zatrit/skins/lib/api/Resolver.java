@@ -1,5 +1,7 @@
 package net.zatrit.skins.lib.api;
 
+import net.zatrit.skins.lib.PlayerTextures;
+
 import org.jetbrains.annotations.NotNull;
 
 /**

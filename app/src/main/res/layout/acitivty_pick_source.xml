@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".PickSourceActivity"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+  <GridView
+      android:id="@+id/grid_sources"
+      tools:listitem="@layout/texture_entry"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:numColumns="2"
+      android:padding="10dp"
+      android:horizontalSpacing="6dp"
+      android:verticalSpacing="6dp" />
+</LinearLayout>

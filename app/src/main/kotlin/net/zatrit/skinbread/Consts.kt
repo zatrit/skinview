@@ -46,9 +46,14 @@ val leftEarMatrix = mat4 {
 
 val defaultSources = arrayOf(
     // MinecraftCapes
-    SkinSource(NAMED_HTTP, "MinecraftCapes", MinecraftCapesResolver()),
+    SkinSource(MINECRAFT_CAPES, "MinecraftCapes", MinecraftCapesResolver()),
     // official skin system
     SkinSource(MOJANG, "Mojang", MojangResolver()),
+    // ely.by
+    SkinSource(
+        NAMED_HTTP, "ely.by",
+        NamedHTTPResolver("http://skinsystem.ely.by/textures/")
+    ),
 )
 
-val nullUUID: UUID = UUID.nameUUIDFromBytes(ByteArray(16))
+val nullUuid: UUID = UUID.nameUUIDFromBytes(ByteArray(16))

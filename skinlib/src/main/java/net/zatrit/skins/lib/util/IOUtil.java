@@ -1,9 +1,7 @@
 package net.zatrit.skins.lib.util;
 
 import com.google.common.io.ByteStreams;
-import lombok.Cleanup;
-import lombok.experimental.UtilityClass;
-import lombok.val;
+
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -11,6 +9,10 @@ import org.jetbrains.annotations.Nullable;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import lombok.Cleanup;
+import lombok.experimental.UtilityClass;
+import lombok.val;
 
 @UtilityClass
 @ApiStatus.Internal

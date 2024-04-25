@@ -1,9 +1,10 @@
 package net.zatrit.skins.lib.texture;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import net.zatrit.skins.lib.api.Texture;
 import net.zatrit.skins.lib.data.Metadata;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
  * A texture that loads its content using {@link #getBytes()} method.

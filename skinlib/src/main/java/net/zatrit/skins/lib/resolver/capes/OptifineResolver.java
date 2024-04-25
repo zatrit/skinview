@@ -1,8 +1,7 @@
 package net.zatrit.skins.lib.resolver.capes;
 
-import net.zatrit.skins.lib.BasePlayerTextures;
+import net.zatrit.skins.lib.PlayerTextures;
 import net.zatrit.skins.lib.TextureType;
-import net.zatrit.skins.lib.api.PlayerTextures;
 import net.zatrit.skins.lib.api.Profile;
 import net.zatrit.skins.lib.api.Resolver;
 import net.zatrit.skins.lib.texture.BytesTexture;
@@ -44,7 +43,7 @@ public final class OptifineResolver implements Resolver {
 
         /* Since you can't check for the existence/change of a
         texture without fetching that texture, it should not be cached. */
-        return new BasePlayerTextures<>(Collections.singletonMap(
+        return new PlayerTextures(Collections.singletonMap(
             TextureType.CAPE,
             texture
         ));

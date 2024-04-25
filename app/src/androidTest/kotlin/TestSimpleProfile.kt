@@ -1,4 +1,4 @@
-import net.zatrit.skinbread.nullUUID
+
 import net.zatrit.skinbread.skins.*
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -15,21 +15,14 @@ class TestSimpleProfile(pair: TestPair) {
 
     @Test
     fun testProfileByName() {
-        val profile = profileByName(testName)
-        assertEquals(profile.shortId, testUUID.toString().replace("-", ""))
-        assertEquals(profile.id, testUUID)
+        val uuid = uuidByName(testName)
+        assertEquals(uuid, testUUID)
     }
 
     @Test
     fun testProfileByUUID() {
-        val profile = profileByUUID(testUUID)
-        assertEquals(profile.name, testName)
-    }
-
-    @Test
-    fun testProfileByNameNoUUID() {
-        val profile = profileByName(testName, requiresUuid = false)
-        assertEquals(profile.id, nullUUID)
+        val name = nameByUuid(testUUID)
+        assertEquals(name, testName)
     }
 
     companion object {

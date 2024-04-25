@@ -1,8 +1,7 @@
 package net.zatrit.skins.lib.resolver;
 
-import net.zatrit.skins.lib.BasePlayerTextures;
+import net.zatrit.skins.lib.PlayerTextures;
 import net.zatrit.skins.lib.TextureType;
-import net.zatrit.skins.lib.api.PlayerTextures;
 import net.zatrit.skins.lib.api.Profile;
 import net.zatrit.skins.lib.api.Resolver;
 import net.zatrit.skins.lib.texture.URLTexture;
@@ -54,6 +53,6 @@ public abstract class CapesListResolver implements Resolver {
             );
         }
 
-        return new BasePlayerTextures<>(textures);
+        return new PlayerTextures(textures);
     }
 }

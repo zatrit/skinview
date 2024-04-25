@@ -1,6 +1,6 @@
 package net.zatrit.skins.lib.resolver
 
-import net.zatrit.skins.lib.BasePlayerTextures
+import net.zatrit.skins.lib.PlayerTextures
 import net.zatrit.skins.lib.api.*
 import net.zatrit.skins.lib.util.*
 import java.net.URL
@@ -14,6 +14,6 @@ class ValhallaResolver(private val baseUrl: String) : Resolver {
         val url = baseUrl + profile.id
         val json = URL(url).openStream().jsonObject
 
-        return BasePlayerTextures(loadTextureMap(json.getJSONObject("textures")))
+        return PlayerTextures(loadTextureMap(json.getJSONObject("textures")))
     }
 }

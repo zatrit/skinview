@@ -1,6 +1,6 @@
 package net.zatrit.skins.lib.resolver
 
-import net.zatrit.skins.lib.BasePlayerTextures
+import net.zatrit.skins.lib.PlayerTextures
 import net.zatrit.skins.lib.api.*
 import net.zatrit.skins.lib.util.*
 import java.io.ByteArrayInputStream
@@ -36,6 +36,6 @@ class GeyserResolver(
         val textureData = decoder.decode(response)
         val bytesStream = ByteArrayInputStream(textureData)
 
-        return BasePlayerTextures(loadTextureMap(bytesStream.jsonObject))
+        return PlayerTextures(loadTextureMap(bytesStream.jsonObject))
     }
 }

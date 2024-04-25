@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ripple android:color="@color/button_highlight"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/button_highlight">
   <item>
     <inset
-
         android:insetBottom="4dp"
         android:insetTop="4dp"
         android:insetLeft="6dp"
         android:insetRight="6dp">
       <shape android:tint="@color/button">
-        <solid android:color="@android:color/white"/>
-        <corners android:radius="180dp"/>
+        <corners android:radius="180dp" />
       </shape>
     </inset>
   </item>

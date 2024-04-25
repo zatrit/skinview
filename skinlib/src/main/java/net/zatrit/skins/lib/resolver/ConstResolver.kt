@@ -7,7 +7,7 @@ import java.util.EnumMap
 
 class ConstResolver : Resolver {
     val map = EnumMap<_, BytesTexture>(TextureType::class.java)
-    private val textures = BasePlayerTextures(map)
+    private val textures = PlayerTextures(map)
 
     override fun resolve(profile: Profile) = textures
 }

@@ -1,6 +1,6 @@
 package net.zatrit.skinbread.skins
 
-import net.zatrit.skinbread.nullUUID
+import net.zatrit.skinbread.*
 import net.zatrit.skins.lib.api.Profile
 import net.zatrit.skins.lib.util.*
 import java.io.IOException
@@ -10,28 +10,19 @@ import java.util.UUID
 class SimpleProfile(override val id: UUID, override val name: String) : Profile
 
 @Throws(IOException::class)
-fun profileByName(name: String, requiresUuid: Boolean = true): Profile {
-    val uuid = if (requiresUuid) {
-        val url = URL("https://api.mojang.com/users/profiles/minecraft/$name")
-        val jsonObject = url.openStream().jsonObject
+fun uuidByName(name: String): UUID? {
+    val url = URL("https://api.mojang.com/users/profiles/minecraft/$name")
+    val jsonObject = url.openStream().jsonObject
 
-        UUID.fromString(
-            "(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})".toPattern()
-                .matcher(jsonObject.getString("id")).replaceAll("$1-$2-$3-$4-$5")
-        )
-    } else {
-        nullUUID
-    }
-
-    return SimpleProfile(uuid, name)
+    return parseUuid(jsonObject.getString("id"))
 }
 
 @Throws(IOException::class)
-fun profileByUUID(uuid: UUID): Profile {
+fun nameByUuid(uuid: UUID): String {
     val id = uuid.toString().replace("-", "")
     val url =
         URL("https://sessionserver.mojang.com/session/minecraft/profile/$id")
     val jsonObject = url.openStream().jsonObject
 
-    return SimpleProfile(uuid, jsonObject.getString("name"))
+    return jsonObject.getString("name")
 }

@@ -15,7 +15,7 @@ class DirectResolver(
     override fun requiresUuid() = "{id}" in baseUrl || "{shortId}" in baseUrl
 
     override fun resolve(profile: Profile): PlayerTextures {
-        val textures = EnumMap<TextureType, Texture?>(
+        val textures = EnumMap<TextureType, Texture>(
             TextureType::class.java
         )
 
@@ -29,7 +29,7 @@ class DirectResolver(
             textures[it] = downloadTexture(replaces, it)
         }
 
-        return BasePlayerTextures(textures)
+        return PlayerTextures(textures)
     }
 
     private fun downloadTexture(
@@ -39,8 +39,6 @@ class DirectResolver(
             URL(AlephFormatter.str(baseUrl, replaces).arg("type", type).fmt())
         val content = IOUtil.download(url)
 
-        return if (content != null) {
-            BytesTexture(content, null)
-        } else null
+        return if (content != null) BytesTexture(content, null) else null
     }
 }

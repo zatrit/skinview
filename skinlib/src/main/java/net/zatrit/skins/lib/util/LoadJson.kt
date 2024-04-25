@@ -19,9 +19,7 @@ fun loadTextureMap(json: JSONObject): Map<TextureType, URLTexture> {
         val obj = json.getJSONObject(key)
 
         map[type] = URLTexture(obj.getString("url"), Metadata().apply {
-            if (obj.has("metadata")) {
-                loadJson(obj.getJSONObject("metadata"))
-            }
+            if (obj.has("metadata")) loadJson(obj.getJSONObject("metadata"))
         })
     }
 

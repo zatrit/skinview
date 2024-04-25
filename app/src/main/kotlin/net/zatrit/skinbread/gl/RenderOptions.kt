@@ -2,6 +2,7 @@ package net.zatrit.skinbread.gl
 
 import android.os.Parcelable
 import kotlinx.parcelize.*
+import net.zatrit.skinbread.Textures
 
 @Parcelize
 class RenderOptions(
@@ -16,9 +17,13 @@ class RenderOptions(
     val skin: Boolean = true,
     val ears: Boolean = true,
 ) : Parcelable {
-    /** Temporary bitmap values that tells Renderer to set instead of previous texture */
+
+    /** Temporary bitmap values that tells Renderer to set instead of previous textures */
     @IgnoredOnParcel
     var pendingTextures: Textures? = null
+
+    @IgnoredOnParcel
+    var pendingDefaultTextures: Textures? = null
 
     @IgnoredOnParcel
     var background = 0L

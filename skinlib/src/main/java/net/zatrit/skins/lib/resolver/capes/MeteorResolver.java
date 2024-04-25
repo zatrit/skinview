@@ -1,8 +1,7 @@
 package net.zatrit.skins.lib.resolver.capes;
 
-import lombok.val;
-
 import net.zatrit.skins.lib.resolver.CapesListResolver;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -12,6 +11,8 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+
+import lombok.val;
 
 public final class MeteorResolver extends CapesListResolver {
     private static final String BASE_URL = "https://meteorclient.com/api";

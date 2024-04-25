@@ -26,7 +26,8 @@ class MinecraftCapesResolver : Resolver {
 
         for (entry in response.textures.entries) {
             val type = entry.key
-            val textureData = entry.value ?: continue
+            val textureData = entry.value.takeIf { it != "null" } ?: continue
+
             val metadata = Metadata()
             val decoder = Base64.getDecoder()
 
@@ -40,6 +41,6 @@ class MinecraftCapesResolver : Resolver {
 
         /* Since you can't resolve a list of textures without
         fetching those textures, they may not be cached */
-        return BasePlayerTextures(textures)
+        return PlayerTextures(textures)
     }
 }

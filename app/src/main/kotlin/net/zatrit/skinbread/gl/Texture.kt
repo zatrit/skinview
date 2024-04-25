@@ -5,9 +5,8 @@ import android.opengl.GLES30.*
 import android.opengl.GLUtils.texImage2D
 import android.util.Log
 import net.zatrit.skinbread.*
-import net.zatrit.skins.lib.api.Texture
 
-class Texture(bitmap: Bitmap) {
+class Texture(bitmap: Bitmap, private val persistent: Boolean) {
     private val id = buf { glGenTextures(1, it) }
 
     init {
@@ -17,17 +16,20 @@ class Texture(bitmap: Bitmap) {
         texImage2D(GL_TEXTURE_2D, 0, bitmap, 0)
         glGenerateMipmap(GL_TEXTURE_2D)
 
-        bitmap.recycle()
-
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
     }
 
-    constructor(texture: Texture) : this(texture.asBitmap())
-
     fun bind() = glBindTexture(GL_TEXTURE_2D, id.get(0))
 
-    fun delete() = glDeleteTextures(1, id)
+    fun delete() {
+        if (!persistent) {
+            glDeleteTextures(1, id)
+        }
+    }
+
+    @DebugOnly
+    override fun toString() = "Texture(${id[0]})"
 }
 
 @DebugOnly

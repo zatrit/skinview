@@ -1,35 +1,41 @@
 package net.zatrit.skinbread
 
-import android.app.Activity
+import android.app.*
+import android.content.Intent
 import android.graphics.*
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix.rotateM
 import android.os.Bundle
 import android.view.*
 import android.view.MotionEvent.*
+import android.view.View.GONE
 import android.widget.*
 import android.widget.RelativeLayout.LEFT_OF
 import net.zatrit.skinbread.gl.*
-import net.zatrit.skinbread.skins.*
+import net.zatrit.skinbread.skins.loadTexturesAsync
 import net.zatrit.skins.lib.texture.BitmapTexture
+import java.util.concurrent.CompletableFuture
+
 
 class MainActivity : Activity() {
     private lateinit var velocityTracker: VelocityTracker
     private var renderer = Renderer()
+    private var loading: CompletableFuture<Unit>? = null
 
     private inline fun bindSwitch(
         id: Int, value: Boolean, crossinline onSet: (Boolean) -> Unit) {
         findViewById<Switch>(id).apply {
-            setOnCheckedChangeListener { _, state ->
-                onSet(state)
-            }
+            setOnCheckedChangeListener { _, state -> onSet(state) }
             isChecked = value
         }
     }
 
+    private inline fun bindButton(id: Int, crossinline onClick: (View) -> Unit) =
+        findViewById<Button>(id).setOnClickListener { onClick(it) }
+
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
-        this.setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_main)
 
         val surface = findViewById<GLSurfaceView>(R.id.gl_surface).apply {
             setEGLContextClientVersion(3)
@@ -38,14 +44,37 @@ class MainActivity : Activity() {
         }
 
         val menu = findViewById<LinearLayout>(R.id.menu)
-        val showButton = findViewById<Button>(R.id.btn_show)
-
+        val buttons = findViewById<LinearLayout>(R.id.toolbar)
         val dragHandle = findViewById<DragHandle?>(R.id.drag_handle)?.apply {
             target = menu
-            showInstead = showButton
+            showInstead = buttons
         }
 
-        showButton.setOnClickListener { dragHandle?.show() }
+        bindButton(R.id.btn_render_options) {
+            dragHandle?.show()
+        }
+
+        bindButton(R.id.btn_switch) {
+            startActivity(
+                Intent(this, PickSourceActivity::class.java),
+                ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
+            )
+        }
+
+        val alreadyLoadingToast = Toast.makeText(
+            this, R.string.already_loading, Toast.LENGTH_SHORT
+        )
+        val refreshDialog = refreshDialog(this) { name, uuid ->
+            loading = loadTexturesAsync(name, uuid, renderer.options)
+        }
+
+        bindButton(R.id.btn_fetch) {
+            if (loading?.isDone == false) {
+                alreadyLoadingToast.show()
+            } else {
+                refreshDialog.show()
+            }
+        }
 
         @Suppress("DEPRECATION")
         // Non-deprecated method isn't available on current Android version
@@ -59,23 +88,16 @@ class MainActivity : Activity() {
             bindSwitch(R.id.switch_grid, grid) { grid = it }
             bindSwitch(R.id.switch_elytra, elytra) { elytra = it }
 
-            pendingTextures = Textures(
+            pendingDefaultTextures = Textures(
                 skin = BitmapTexture(
                     BitmapFactory.decodeStream(assets.open("base.png"))
                 )
             )
+            // Reset textures to defaults
+            pendingTextures = Textures()
 
             background =
                 Color.pack(resources.getColor(R.color.background, theme))
-
-            supplyAsync {
-                profileByName("Zatrit156")
-            }.exceptionally {
-                SimpleProfile(nullUUID, "Zatrit156")
-            }.thenApplyAsync {
-                val result = loadTextures(it, defaultSources)
-                pendingTextures = mergeTextures(result)
-            }
         }
 
         // Attaches surface at left of the menu if using landscape mode
@@ -83,6 +105,9 @@ class MainActivity : Activity() {
             surface.applyLayout<RelativeLayout.LayoutParams> {
                 rules[LEFT_OF] = menu.id
             }
+            buttons.visibility = GONE
+        } else {
+            menu.visibility = GONE
         }
     }
 

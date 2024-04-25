@@ -1,6 +1,6 @@
 package net.zatrit.skins.lib.resolver
 
-import net.zatrit.skins.lib.BasePlayerTextures
+import net.zatrit.skins.lib.PlayerTextures
 import net.zatrit.skins.lib.api.*
 import net.zatrit.skins.lib.data.MojangResponse
 import net.zatrit.skins.lib.util.*
@@ -23,13 +23,10 @@ class MojangResolver : Resolver {
         val response = MojangResponse().apply { loadJson(stream.jsonObject) }
         val decoder = Base64.getDecoder()
 
-        val textureData = decoder.decode(
-            response.properties[0].value
-        )
-
+        val textureData = decoder.decode(response.properties[0].value)
         val bytesStream = ByteArrayInputStream(textureData)
 
-        return BasePlayerTextures(
+        return PlayerTextures(
             loadTextureMap(bytesStream.jsonObject.getJSONObject("textures"))
         )
     }

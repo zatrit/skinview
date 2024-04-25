@@ -4,6 +4,7 @@ import android.graphics.Color.*
 import android.opengl.GLES30.*
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix.*
+import android.util.Log
 import net.zatrit.skinbread.*
 import net.zatrit.skinbread.gl.model.*
 import java.nio.FloatBuffer
@@ -24,6 +25,7 @@ class Renderer : GLSurfaceView.Renderer {
     }
 
     private var textures = GLTextures()
+    private var defaultTextures = GLTextures()
 
     private lateinit var playerModel: PlayerModel
     private lateinit var capeModel: ModelPart
@@ -108,10 +110,20 @@ class Renderer : GLSurfaceView.Renderer {
             }
         }
 
+        options.pendingDefaultTextures?.run {
+            defaultTextures = load(persistent = true)
+            Log.v(TAG, "Loading default textures")
+            defaultTextures.printInfo()
+            options.pendingDefaultTextures = null
+        }
+
         // Replace current textures with another if requested
         options.pendingTextures?.run {
             textures.delete()
             textures = load()
+            textures.fillWith(defaultTextures)
+            textures.printInfo()
+
             playerModel.modelType = model ?: ModelType.DEFAULT
             options.pendingTextures = null
         }

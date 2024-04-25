@@ -21,4 +21,8 @@
     public void printStackTrace(...);
 }
 
+-assumenosideeffects class android.util.Log {
+    public static *(...);
+}
+
 -assumenosideeffects class ** { @net.zatrit.skinbread.DebugOnly *; }

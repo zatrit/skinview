@@ -2,6 +2,7 @@ package net.zatrit.skins.lib.api;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import net.zatrit.skins.lib.data.Metadata;
 

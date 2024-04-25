@@ -28,6 +28,6 @@ class FiveZigResolver : Resolver {
 
         /* Since you can't resolve a list of textures without
         fetching those textures, they may not be cached */
-        return BasePlayerTextures(textures)
+        return PlayerTextures(textures)
     }
 }

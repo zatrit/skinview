@@ -1,21 +1,35 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
 
-    <style name="OLED" parent="android:style/Theme.DeviceDefault.NoActionBar.Fullscreen">
-        <item name="android:buttonStyle">@style/OLED.Button</item>
-        <item name="android:switchStyle">@style/OLED.Switch</item>
-        <item name="android:textSize">18sp</item>
-    </style>
+  <style name="OLED" parent="android:style/Theme.DeviceDefault.NoActionBar.Fullscreen">
+    <item name="android:buttonStyle">@style/OLED.Button.Text</item>
+    <item name="android:switchStyle">@style/OLED.Switch</item>
+    <item name="android:textSize">18sp</item>
 
-    <style name="OLED.Button" parent="android:Widget.Material.Button">
-        <item name="android:textColor">@color/background</item>
-        <item name="android:background">@drawable/button</item>
-        <item name="android:textSize">14sp</item>
-    </style>
+    <item name="android:windowExitTransition">@android:transition/slide_bottom</item>
+  </style>
 
-    <style name="OLED.Switch" parent="android:Widget.Material.CompoundButton.Switch">
-        <item name="android:paddingStart">10dp</item>
-        <item name="android:paddingVertical">2.5dp</item>
-        <item name="android:textColor">@color/text_color</item>
-    </style>
+  <style name="OLED.Button" parent="android:Widget.Material.Button">
+    <item name="android:textColor">@color/background</item>
+    <item name="android:background">@drawable/button</item>
+    <item name="android:minWidth">0dp</item>
+  </style>
+
+  <style name="OLED.Button.Text" parent="OLED.Button">
+    <item name="android:paddingHorizontal">20dp</item>
+    <item name="android:textSize">14sp</item>
+    <item name="android:singleLine">true</item>
+    <item name="android:ellipsize">end</item>
+  </style>
+
+  <style name="OLED.Switch" parent="android:Widget.Material.CompoundButton.Switch">
+    <item name="android:paddingStart">10dp</item>
+    <item name="android:paddingVertical">2.5dp</item>
+    <item name="android:textColor">@color/text_color</item>
+  </style>
+
+  <style name="DialogAnimations">
+    <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+    <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+  </style>
 </resources>
