@@ -1,30 +1,38 @@
 package net.zatrit.skinbread
 
 import android.app.*
-import android.content.Context
-import android.widget.EditText
+import android.view.ContextThemeWrapper
+import android.widget.*
 
-inline fun refreshDialog(
-    context: Context, crossinline load: (String, String) -> Unit): Dialog =
-    AlertDialog.Builder(context).apply {
-        setTitle("Title")
-        setView(R.layout.profile_input)
+const val PROFILE_DIALOG = 1
 
-        setPositiveButton(android.R.string.ok) { dialog, _ ->
-            val alertDialog = dialog as AlertDialog
-            val name = alertDialog.findViewById<EditText>(
-                R.id.edittext_name
-            ).text.toString()
-            val uuid = alertDialog.findViewById<EditText>(
-                R.id.edittext_uuid
-            ).text.toString()
+inline fun profileDialog(
+    activity: Activity,
+    crossinline load: (String, String, Boolean) -> Unit): Dialog =
+    AlertDialog.Builder(ContextThemeWrapper(activity, R.style.OLED_AlertDialog))
+        .apply {
+            setView(R.layout.profile_input)
 
-            load(name, uuid)
+            setPositiveButton(android.R.string.ok) { dialog, _ ->
+                val alertDialog = dialog as AlertDialog
+
+                val name = alertDialog.requireViewById<EditText>(
+                    R.id.edittext_name
+                ).text.toString()
+
+                val uuid = alertDialog.requireViewById<EditText>(
+                    R.id.edittext_uuid
+                ).text.toString()
+
+                val remember =
+                    alertDialog.requireViewById<Switch>(R.id.switch_remember)
+
+                load(name, uuid, remember.isChecked)
+            }
+
+            setNegativeButton(android.R.string.cancel) { dialog, _ ->
+                dialog.cancel()
+            }
+        }.create().apply {
+            window?.attributes?.windowAnimations = R.style.OLED_AlertDialog
         }
-
-        setNegativeButton(android.R.string.cancel) { dialog, _ ->
-            dialog.cancel()
-        }
-    }.create().apply {
-        window?.attributes?.windowAnimations = R.style.DialogAnimations
-    }

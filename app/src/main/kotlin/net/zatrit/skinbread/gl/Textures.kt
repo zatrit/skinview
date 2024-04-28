@@ -1,14 +1,14 @@
-package net.zatrit.skinbread
+package net.zatrit.skinbread.gl
 
 import android.util.Log
-import net.zatrit.skinbread.gl.Texture
+import net.zatrit.skinbread.*
 import net.zatrit.skinbread.gl.model.ModelType
-import net.zatrit.skins.lib.api.Texture as SLTexture
+import net.zatrit.skins.lib.api.Texture
 
 class Textures(
-    private var skin: SLTexture? = null,
-    private var cape: SLTexture? = null,
-    private var ears: SLTexture? = null,
+    private var skin: Texture? = null,
+    private var cape: Texture? = null,
+    private var ears: Texture? = null,
     var model: ModelType? = null,
 ) {
     val complete = skin != null && cape != null && ears != null
@@ -19,9 +19,9 @@ class Textures(
         ears = ears?.let { loadTexture(it, persistent) },
     )
 
-    private fun loadTexture(texture: SLTexture, persistent: Boolean) =
+    private fun loadTexture(texture: Texture, persistent: Boolean) =
         texture.asBitmap().let {
-            val texture1 = Texture(it, persistent)
+            val texture1 = GLTexture(it, persistent)
             it.recycle()
             texture1
         }
@@ -38,9 +38,9 @@ class Textures(
 }
 
 class GLTextures(
-    var skin: Texture? = null,
-    var cape: Texture? = null,
-    var ears: Texture? = null,
+    var skin: GLTexture? = null,
+    var cape: GLTexture? = null,
+    var ears: GLTexture? = null,
 ) {
     fun delete() {
         skin?.delete()

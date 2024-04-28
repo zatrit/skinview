@@ -3,6 +3,7 @@ package net.zatrit.skinbread.skins
 import net.zatrit.skinbread.*
 import net.zatrit.skins.lib.api.Profile
 import net.zatrit.skins.lib.util.*
+import org.json.*
 import java.io.IOException
 import java.net.URL
 import java.util.UUID

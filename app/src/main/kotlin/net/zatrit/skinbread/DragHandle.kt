@@ -18,6 +18,9 @@ class DragHandle(context: Context, attributeSet: AttributeSet) :
 
     lateinit var target: View
 
+    val isVisible
+        get() = target.visibility == VISIBLE
+
     private fun heightAnimator(from: Int, to: Int, thenHide: View? = null) =
         ValueAnimator.ofInt(from, to).apply {
             addUpdateListener {
@@ -37,7 +40,12 @@ class DragHandle(context: Context, attributeSet: AttributeSet) :
         animation = heightAnimator(1, initHeight, showInstead)
     }
 
-    private fun hide() {
+    fun hide() {
+        animation = heightAnimator(target.height, 1, target)
+        showInstead?.visibility = VISIBLE
+    }
+
+    private fun hideInternal() {
         target.visibility = GONE
         showInstead?.visibility = VISIBLE
     }
@@ -56,7 +64,7 @@ class DragHandle(context: Context, attributeSet: AttributeSet) :
 
             MotionEvent.ACTION_UP -> {
                 if (target.layoutParams.height < step / 2) {
-                    hide()
+                    hideInternal()
                 } else {
                     val height = target.layoutParams.height
                     val newHeight = (height / step * step).coerceAtLeast(step)

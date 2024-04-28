@@ -2,7 +2,6 @@ package net.zatrit.skinbread.gl
 
 import android.os.Parcelable
 import kotlinx.parcelize.*
-import net.zatrit.skinbread.Textures
 
 @Parcelize
 class RenderOptions(

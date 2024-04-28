@@ -6,7 +6,7 @@ import android.opengl.GLUtils.texImage2D
 import android.util.Log
 import net.zatrit.skinbread.*
 
-class Texture(bitmap: Bitmap, private val persistent: Boolean) {
+class GLTexture(bitmap: Bitmap, private val persistent: Boolean) {
     private val id = buf { glGenTextures(1, it) }
 
     init {

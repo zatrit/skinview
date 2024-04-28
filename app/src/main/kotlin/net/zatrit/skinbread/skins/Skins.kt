@@ -1,12 +1,13 @@
 package net.zatrit.skinbread.skins
 
 import net.zatrit.skinbread.*
-import net.zatrit.skinbread.gl.RenderOptions
+import net.zatrit.skinbread.gl.*
 import net.zatrit.skinbread.gl.model.ModelType
 import net.zatrit.skins.lib.PlayerTextures
 import net.zatrit.skins.lib.TextureType.*
 import net.zatrit.skins.lib.api.Profile
 import net.zatrit.skins.lib.layer.android.*
+import java.util.concurrent.CompletableFuture
 
 private val capeLayer = ScaleCapeLayer()
 private val skinLayer = LegacySkinLayer()
@@ -46,8 +47,9 @@ fun mergeTextures(inputs: List<PlayerTextures>): Textures {
     return textures
 }
 
-fun loadTexturesAsync(name: String, uuid: String, options: RenderOptions) =
-    supplyAsync {
+inline fun loadTexturesAsync(
+    name: String, uuid: String, options: RenderOptions): CompletableFuture<Unit> {
+    return supplyAsync {
         val uuid1 = uuid.run(::parseUuid) ?: uuidByName(name)
         val name1 = name.takeIf { name.isNotBlank() } ?: nameByUuid(uuid1!!)
 
@@ -61,3 +63,4 @@ fun loadTexturesAsync(name: String, uuid: String, options: RenderOptions) =
     }.exceptionally {
         it.printStackTrace()
     }!!
+}

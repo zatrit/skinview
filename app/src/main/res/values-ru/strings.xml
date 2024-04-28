@@ -1,7 +1,13 @@
-
 <resources>
   <string name="render_options">Отображение</string>
   <string name="shading">Затенение</string>
   <string name="show_grid">Показывать сетку</string>
   <string name="show_elytra">Элитры вместо плаща</string>
+  <string name="already_loading">Текстуры уже загружаются</string>
+  <string name="switch_skin">Переключить</string>
+  <string name="name">Имя</string>
+  <string name="remember_profile">Запомнить профиль</string>
+  <string name="input_profile">Введите данные профиля</string>
+  <string name="uuid">UUID (необязательно)</string>
+  <string name="skin_preview">Предпоказ скина</string>
 </resources>

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.widget.GridView
+import net.zatrit.skinbread.gl.model.ModelType
 
 
 class PickSourceActivity : Activity() {
@@ -13,14 +14,15 @@ class PickSourceActivity : Activity() {
         super.onCreate(savedInstanceState)
         this.setContentView(R.layout.acitivty_pick_source)
 
-        sourcesGrid = findViewById(R.id.grid_sources)
+        sourcesGrid = requireViewById(R.id.grid_sources)
 
         val adapter = SkinListAdapter(this)
 
         adapter.add(
             TexturesEntry(
                 "Zatrit156",
-                skin = BitmapFactory.decodeStream(assets.open("base.png"))
+                skin = BitmapFactory.decodeStream(assets.open("base.png")),
+                model = ModelType.SLIM
             )
         )
 
