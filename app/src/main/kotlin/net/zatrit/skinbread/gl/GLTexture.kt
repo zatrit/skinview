@@ -6,6 +6,7 @@ import android.opengl.GLUtils.texImage2D
 import android.util.Log
 import net.zatrit.skinbread.*
 
+@GLContext
 class GLTexture(bitmap: Bitmap, private val persistent: Boolean) {
     private val id = buf { glGenTextures(1, it) }
 
@@ -30,6 +31,22 @@ class GLTexture(bitmap: Bitmap, private val persistent: Boolean) {
 
     @DebugOnly
     override fun toString() = "Texture(${id[0]})"
+}
+
+@GLContext
+class GLTextures(
+    var skin: GLTexture? = null,
+    var cape: GLTexture? = null,
+    var ears: GLTexture? = null,
+) {
+    fun delete() {
+        skin?.delete()
+        cape?.delete()
+        ears?.delete()
+    }
+
+    @DebugOnly
+    fun printInfo() = Log.v(TAG, "skin: $skin, cape: $cape, ears: $ears")
 }
 
 @DebugOnly

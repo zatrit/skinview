@@ -25,11 +25,6 @@ public abstract class CapesListResolver implements Resolver {
 
     protected abstract String getUrl(String capeName);
 
-    @Override
-    public synchronized void refresh() {
-        this.owners = null;
-    }
-
     protected @Nullable String getCapeName(@NotNull Profile profile) {
         return Objects.requireNonNull(this.owners).get(profile.getShortId());
     }

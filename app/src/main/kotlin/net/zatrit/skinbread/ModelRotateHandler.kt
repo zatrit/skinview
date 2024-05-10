@@ -1,15 +1,14 @@
 package net.zatrit.skinbread
 
 import android.annotation.SuppressLint
-import android.content.res.Resources
 import android.opengl.Matrix.rotateM
 import android.view.*
 import net.zatrit.skinbread.gl.Renderer
 
-class ModelRotateHandler(private val renderer: Renderer, resources: Resources) :
+class ModelRotateHandler(
+    private val renderer: Renderer, private val density: Int) :
     View.OnTouchListener {
     private var velocityTracker: VelocityTracker? = null
-    private val density = resources.displayMetrics.density.toInt()
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(v: View?, event: MotionEvent): Boolean {

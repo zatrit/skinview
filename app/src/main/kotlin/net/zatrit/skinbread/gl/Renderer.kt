@@ -4,7 +4,6 @@ import android.graphics.Color.*
 import android.opengl.GLES30.*
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix.*
-import android.util.Log
 import net.zatrit.skinbread.*
 import net.zatrit.skinbread.gl.model.*
 import java.nio.FloatBuffer
@@ -18,6 +17,7 @@ private fun checkError() {
     assert(error == 0) { "OpenGL error: ${error.toHexString()}" }
 }
 
+@OptIn(GLContext::class)
 class Renderer : GLSurfaceView.Renderer {
     var viewMatrix = mat4 {
         setIdentityM(it, 0)
@@ -25,7 +25,6 @@ class Renderer : GLSurfaceView.Renderer {
     }
 
     private var textures = GLTextures()
-    private var defaultTextures = GLTextures()
 
     private lateinit var playerModel: PlayerModel
     private lateinit var capeModel: ModelPart
@@ -41,12 +40,14 @@ class Renderer : GLSurfaceView.Renderer {
 
     lateinit var options: RenderOptions
 
+    @GLContext
     private inline fun allShaders(func: MVPProgram.() -> Unit) =
         shaders.forEach {
             it.use()
             it.func()
         }
 
+    @GLContext
     override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
         glEnable(GL_DEPTH_TEST)
         glEnable(GL_BLEND)
@@ -81,6 +82,7 @@ class Renderer : GLSurfaceView.Renderer {
         checkError()
     }
 
+    @GLContext
     override fun onSurfaceChanged(gl: GL10, width: Int, height: Int) {
         glViewport(0, 0, width, height)
 
@@ -95,6 +97,7 @@ class Renderer : GLSurfaceView.Renderer {
         checkError()
     }
 
+    @GLContext
     override fun onDrawFrame(gl: GL10) {
         val shadeInt = if (options.shading) 1 else 0
         with(modelShader) {
@@ -110,18 +113,10 @@ class Renderer : GLSurfaceView.Renderer {
             }
         }
 
-        options.pendingDefaultTextures?.run {
-            defaultTextures = load(persistent = true)
-            Log.v(TAG, "Loading default textures")
-            defaultTextures.printInfo()
-            options.pendingDefaultTextures = null
-        }
-
         // Replace current textures with another if requested
         options.pendingTextures?.run {
             textures.delete()
             textures = load()
-            textures.fillWith(defaultTextures)
             textures.printInfo()
 
             playerModel.modelType = model ?: ModelType.DEFAULT

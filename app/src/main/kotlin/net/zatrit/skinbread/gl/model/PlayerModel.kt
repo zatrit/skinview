@@ -1,17 +1,25 @@
 package net.zatrit.skinbread.gl.model
 
+import net.zatrit.skinbread.GLContext
 import net.zatrit.skinbread.gl.*
 import java.util.*
 
 enum class ModelType(val handWidth: Float) {
     DEFAULT(1f),
-    SLIM(0.75f),
+    SLIM(0.75f);
+
+    companion object {
+        fun fromName(name: String?): ModelType =
+            if (name == "slim") SLIM else DEFAULT
+    }
 }
 
 private val Box.extra get() = this.scale(1.1f)
 
+@OptIn(GLContext::class)
 typealias Parts = Array<ModelPart>
 
+@GLContext
 private fun createHands(modelType: ModelType): Parts {
     val offset = 0.5f * (1f - modelType.handWidth)
     val rightArm = Box(-1f + offset, -0.5f, -0.25f, -0.5f, 1f, 0.25f)
@@ -31,6 +39,7 @@ private fun createHands(modelType: ModelType): Parts {
 }
 
 
+@GLContext
 class PlayerModel {
     private val parts: Parts
     private val typeParts = EnumMap<_, Parts>(ModelType::class.java)
@@ -75,8 +84,8 @@ class PlayerModel {
     fun draw() {
         parts.forEach { it.draw() }
 
-        typeParts.computeIfAbsent(modelType) {
-            createHands(it)
-        }.forEach { it.draw() }
+        (typeParts[modelType] ?: typeParts.put(
+            modelType, createHands(modelType)
+        ))?.forEach { it.draw() }
     }
 }

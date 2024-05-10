@@ -10,4 +10,6 @@
   <string name="input_profile">Введите данные профиля</string>
   <string name="uuid">UUID (необязательно)</string>
   <string name="skin_preview">Предпоказ скина</string>
+  <string name="source_default">По-умолчанию</string>
+  <string name="source_vanilla">Ванильный (Mojang)</string>
 </resources>

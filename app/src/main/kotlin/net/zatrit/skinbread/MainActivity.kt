@@ -10,7 +10,8 @@ import android.view.View.GONE
 import android.widget.*
 import android.widget.RelativeLayout.LEFT_OF
 import net.zatrit.skinbread.gl.*
-import net.zatrit.skinbread.skins.loadTexturesAsync
+import net.zatrit.skinbread.skins.*
+import net.zatrit.skins.lib.TextureType
 import net.zatrit.skins.lib.texture.BitmapTexture
 import java.util.concurrent.CompletableFuture
 
@@ -38,7 +39,8 @@ class MainActivity : Activity() {
 
         val surface = requireViewById<GLSurfaceView>(R.id.gl_surface).apply {
             setEGLContextClientVersion(3)
-            setOnTouchListener(ModelRotateHandler(renderer, resources))
+            val density = resources.displayMetrics.density.toInt()
+            setOnTouchListener(ModelRotateHandler(renderer, density))
             setRenderer(renderer)
         }
 
@@ -103,16 +105,15 @@ class MainActivity : Activity() {
         renderer.viewMatrix =
             state?.getFloatArray("viewMatrix") ?: renderer.viewMatrix
 
+        defaultResolver.map[TextureType.SKIN] = BitmapTexture(
+            BitmapFactory.decodeStream(assets.open("base.png"))
+        )
+
         renderer.options.run {
             bindSwitch(R.id.switch_shade, shading) { shading = it }
             bindSwitch(R.id.switch_grid, grid) { grid = it }
             bindSwitch(R.id.switch_elytra, elytra) { elytra = it }
 
-            pendingDefaultTextures = Textures(
-                skin = BitmapTexture(
-                    BitmapFactory.decodeStream(assets.open("base.png"))
-                )
-            )
             // Reset textures to defaults
             pendingTextures = Textures()
 

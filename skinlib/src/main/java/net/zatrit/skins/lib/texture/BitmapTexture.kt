@@ -13,5 +13,5 @@ class BitmapTexture(
     // It's not necessary to implement this
     override fun getBytes() = TODO()
 
-    override fun asBitmap() = bitmap
+    override fun getBitmap() = bitmap
 }

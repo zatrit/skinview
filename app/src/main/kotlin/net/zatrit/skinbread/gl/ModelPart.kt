@@ -1,7 +1,7 @@
 package net.zatrit.skinbread.gl
 
 import android.opengl.GLES30.*
-import net.zatrit.skinbread.DebugOnly
+import net.zatrit.skinbread.*
 import java.nio.FloatBuffer
 
 @DebugOnly
@@ -11,6 +11,7 @@ private fun sizeChecks(vertices: FloatArray, textureCords: FloatArray) {
     assert(vertices.size / 3 == textureCords.size / 2)
 }
 
+@GLContext
 private fun vboData(buf: FloatBuffer, id: Int, index: Int, size: Int) {
     glBindBuffer(GL_ARRAY_BUFFER, id)
     glBufferData(
@@ -22,6 +23,7 @@ private fun vboData(buf: FloatBuffer, id: Int, index: Int, size: Int) {
     glEnableVertexAttribArray(index)
 }
 
+@GLContext
 class ModelPart(vertices: FloatArray, textureCords: FloatArray) {
     private val vao = genVertexArray()
 

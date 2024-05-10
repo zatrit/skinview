@@ -17,8 +17,6 @@ dependencies {
     //noinspection GradleDependency
     implementation "com.google.guava:guava:${project.guava_version}-android"
     implementation 'org.jetbrains:annotations:24.1.0'
-
-    implementation "net.andreinc:aleph:${project.aleph_version}"
 }
 
 android {

@@ -1,8 +1,10 @@
 package net.zatrit.skinbread.gl
 
 import android.opengl.GLES30.*
+import net.zatrit.skinbread.GLContext
 import java.nio.FloatBuffer
 
+@GLContext
 class Plain(x1: Float, z1: Float, x2: Float, z2: Float) {
     private val vao = genVertexArray()
 

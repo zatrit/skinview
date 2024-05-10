@@ -11,4 +11,6 @@
   <string name="remember_profile">Remember profile</string>
   <string name="input_profile">Input profile data</string>
   <string name="skin_preview">Skin preview</string>
+  <string name="source_vanilla">Vanilla</string>
+  <string name="source_default">Default</string>
 </resources>

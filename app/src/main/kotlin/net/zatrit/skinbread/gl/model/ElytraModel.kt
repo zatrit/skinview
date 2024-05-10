@@ -5,6 +5,7 @@ import net.zatrit.skinbread.*
 import net.zatrit.skinbread.gl.*
 import java.nio.FloatBuffer
 
+@GLContext
 class ElytraModel {
     private val wing: ModelPart
 

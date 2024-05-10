@@ -1,7 +1,6 @@
 package net.zatrit.skins.lib.layer.android
 
 import android.graphics.Bitmap
-import com.google.common.math.IntMath
 import net.zatrit.skins.lib.data.TypedTexture
 
 class ScaleCapeLayer : ImageLayer() {
@@ -10,7 +9,7 @@ class ScaleCapeLayer : ImageLayer() {
             return input
         }
 
-        val height = IntMath.ceilingPowerOfTwo(input.height)
+        val height = 1 shl -Integer.numberOfLeadingZeros(input.height - 1)
         val width = height * 2
 
         val buffer = IntArray(width * height)

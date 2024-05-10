@@ -2,7 +2,6 @@ package net.zatrit.skins.lib.api;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 
 import net.zatrit.skins.lib.data.Metadata;
 
@@ -31,7 +30,7 @@ public interface Texture {
      *
      * @return bitmap
      */
-    default Bitmap asBitmap() throws IOException {
+    default Bitmap getBitmap() throws IOException {
         val bytes = getBytes();
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }

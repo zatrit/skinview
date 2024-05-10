@@ -14,17 +14,9 @@ private const val GEYSER_SKIN_API = "https://api.geysermc.org/v2/skin/"
  * An implementation of the GeyserMC skin API based on
  * [CustomPlayerHeads](https://github.com/onebeastchris/customplayerheads).
  */
-class GeyserResolver(
-    private val floodgatePrefixes: Collection<String>) : Resolver {
-
-    override fun requiresUuid() = false
-
+class GeyserResolver : Resolver {
     override fun resolve(profile: Profile): PlayerTextures {
-        var name = profile.name
-        val prefix = floodgatePrefixes.first { name.startsWith(it) }
-
-        name = name.substring(prefix.length)
-        val xuidUrl = URL(GEYSER_XUID_API + name)
+        val xuidUrl = URL(GEYSER_XUID_API + profile.name)
         val xuid = xuidUrl.openStream().jsonObject.getInt("xuid")
         val skinUrl = URL(GEYSER_SKIN_API + xuid)
 

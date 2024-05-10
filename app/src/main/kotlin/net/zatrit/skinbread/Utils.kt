@@ -15,7 +15,7 @@ inline fun <reified L : ViewGroup.LayoutParams> View.applyLayout(
 
 @DebugOnly
 fun Throwable.printWithSkinSource(source: SkinSource) {
-    Log.e(TAG, "${source.name}: ${javaClass.name} / $message")
+    Log.e(TAG, "$source / $message")
     printStackTrace()
 }
 

@@ -3,8 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/card"
     android:orientation="vertical"
+    android:paddingVertical="10dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+  <Switch
+      android:id="@+id/source_switch"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      tools:text="@tools:sample/lorem" />
 
   <ImageView
       tools:src="@android:drawable/ic_delete"
@@ -14,12 +21,6 @@
       android:layout_height="wrap_content"
       android:adjustViewBounds="true"
       android:scaleType="fitXY"
+      android:padding="10dp"
       android:contentDescription="@string/skin_preview" />
-
-  <TextView
-      android:id="@+id/textview_name"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:gravity="center_horizontal"
-      android:text="My text" />
 </LinearLayout>

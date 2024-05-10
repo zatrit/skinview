@@ -5,9 +5,6 @@ package net.zatrit.skinbread
 
 import android.opengl.Matrix.*
 import net.zatrit.skinbread.gl.mat4
-import net.zatrit.skinbread.skins.ResolverType.*
-import net.zatrit.skinbread.skins.SkinSource
-import net.zatrit.skins.lib.resolver.*
 import java.util.UUID
 
 const val TAG = "SkinView"
@@ -43,17 +40,5 @@ val leftEarMatrix = mat4 {
     translateM(it, 0, -EAR_OFFSET * 2, 0f, 0f)
     scaleM(it, 0, -1f, 1f, 1f)
 }
-
-val defaultSources = arrayOf(
-    // MinecraftCapes
-    SkinSource(MINECRAFT_CAPES, "MinecraftCapes", MinecraftCapesResolver()),
-    // official skin system
-    SkinSource(MOJANG, "Mojang", MojangResolver()),
-    // ely.by
-    SkinSource(
-        NAMED_HTTP, "ely.by",
-        NamedHTTPResolver("http://skinsystem.ely.by/textures/")
-    ),
-)
 
 val nullUuid: UUID = UUID.nameUUIDFromBytes(ByteArray(16))

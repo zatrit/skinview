@@ -4,15 +4,15 @@
     tools:context=".PickSourceActivity"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
 
-  <GridView
-      android:id="@+id/grid_sources"
+  <ListView
       tools:listitem="@layout/texture_entry"
+      android:id="@+id/list_sources"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:numColumns="2"
-      android:padding="10dp"
-      android:horizontalSpacing="6dp"
-      android:verticalSpacing="6dp" />
+      android:layout_height="match_parent"
+      android:divider="@android:color/transparent"
+      android:dividerHeight="6dp"
+      android:padding="10dp" />
 </LinearLayout>

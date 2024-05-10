@@ -28,11 +28,6 @@ public final class OptifineResolver implements Resolver {
     private final String baseUrl;
 
     @Override
-    public boolean requiresUuid() {
-        return false;
-    }
-
-    @Override
     public @NotNull PlayerTextures resolve(@NotNull Profile profile)
         throws IOException, NullPointerException {
         val url = new URL(this.baseUrl + "/capes/" + profile.getName() + ".png");

@@ -13,7 +13,7 @@ abstract class ImageLayer : Layer<TypedTexture> {
             input
         } else {
             val old = input.texture
-            val bitmap = old.asBitmap()
+            val bitmap = old.getBitmap()
 
             val texture = BitmapTexture(apply(bitmap), old)
             TypedTexture(texture, input.type)
