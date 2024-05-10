@@ -19,6 +19,7 @@ class Textures(
     @IgnoredOnParcel
     val complete = skin != null && cape != null && ears != null
 
+    @GLContext
     fun load(persistent: Boolean = false) = GLTextures(
         skin = skin?.let { GLTexture(it, persistent) },
         cape = cape?.let { GLTexture(it, persistent) },
