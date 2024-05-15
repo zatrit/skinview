@@ -50,6 +50,12 @@ class GLTextures(
         ears?.delete()
     }
 
+    fun fillWith(other: GLTextures) {
+        this.skin = this.skin ?: other.skin
+        this.cape = this.cape ?: other.cape
+        this.ears = this.ears ?: other.ears
+    }
+
     @DebugOnly
     fun printInfo() = Log.v(TAG, "skin: $skin, cape: $cape, ears: $ears")
 }

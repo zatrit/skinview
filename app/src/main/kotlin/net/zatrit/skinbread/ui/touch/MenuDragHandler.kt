@@ -1,70 +1,68 @@
-package net.zatrit.skinbread
+package net.zatrit.skinbread.ui.touch
 
 import android.animation.ValueAnimator
-import android.annotation.SuppressLint
-import android.content.Context
-import android.util.AttributeSet
+import android.content.res.Resources
 import android.view.*
-import android.view.ViewGroup.LayoutParams
+import android.view.MotionEvent.*
+import android.view.View.OnTouchListener
+import net.zatrit.skinbread.applyLayout
 
-class DragHandle(context: Context, attributeSet: AttributeSet) :
-    View(context, attributeSet) {
+class MenuDragHandler(
+    private val target: View, private val showInstead: View? = null,
+    resources: Resources) : OnTouchListener {
+
     private var animation: ValueAnimator? = null
-    var showInstead: View? = null
 
     private val metrics = resources.displayMetrics
     private val step = metrics.heightPixels / 8
     private val initHeight = step * 3
 
-    lateinit var target: View
-
     val isVisible
-        get() = target.visibility == VISIBLE
+        get() = target.visibility == View.VISIBLE
 
     private fun heightAnimator(from: Int, to: Int, thenHide: View? = null) =
         ValueAnimator.ofInt(from, to).apply {
             addUpdateListener {
-                target.applyLayout<LayoutParams> {
+                target.applyLayout<ViewGroup.LayoutParams> {
                     height = it.animatedValue as Int
                 }
 
                 if (it.animatedValue == to) {
-                    thenHide?.setTransitionVisibility(GONE)
+                    thenHide?.setTransitionVisibility(View.GONE)
                 }
             }
             start()
         }
 
     fun show() {
-        target.visibility = VISIBLE
+        target.visibility = View.VISIBLE
         animation = heightAnimator(1, initHeight, showInstead)
     }
 
     fun hide() {
         animation = heightAnimator(target.height, 1, target)
-        showInstead?.visibility = VISIBLE
+        showInstead?.visibility = View.VISIBLE
     }
 
-    private fun hideInternal() {
-        target.visibility = GONE
-        showInstead?.visibility = VISIBLE
+    private fun hideInstant() {
+        target.visibility = View.GONE
+        showInstead?.visibility = View.VISIBLE
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    override fun onTouchEvent(event: MotionEvent): Boolean {
-        super.onTouchEvent(event)
-
+    override fun onTouch(v: View?, event: MotionEvent): Boolean {
         when (event.actionMasked) {
-            MotionEvent.ACTION_MOVE -> {
+            ACTION_DOWN -> v?.performClick()
+
+            ACTION_MOVE -> {
                 animation?.cancel()
-                target.applyLayout<LayoutParams> {
+                target.applyLayout<ViewGroup.LayoutParams> {
                     height = (height - event.y.toInt()).coerceAtLeast(1)
                 }
             }
 
-            MotionEvent.ACTION_UP -> {
+            ACTION_UP -> {
                 if (target.layoutParams.height < step / 2) {
-                    hideInternal()
+                    hideInstant()
                 } else {
                     val height = target.layoutParams.height
                     val newHeight = (height / step * step).coerceAtLeast(step)

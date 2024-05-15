@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity"
+    tools:context=".ui.MainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true">
@@ -22,10 +22,10 @@
       android:layout_height="wrap_content">
 
     <Button
-        android:id="@+id/btn_switch"
+        android:id="@+id/btn_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/switch_skin"
+        android:text="@string/list_skin"
         tools:ignore="ButtonStyle" />
 
     <Button

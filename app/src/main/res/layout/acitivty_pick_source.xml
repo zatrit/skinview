@@ -1,18 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".PickSourceActivity"
-    android:orientation="vertical"
+    tools:context=".ui.PickSourceActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true">
 
-  <ListView
-      tools:listitem="@layout/texture_entry"
-      android:id="@+id/list_sources"
+  <include layout="@layout/list_sources" />
+
+  <LinearLayout
+      android:id="@+id/toolbar"
+      android:gravity="end"
+      android:layout_alignParentBottom="true"
+      android:layout_marginEnd="10dp"
+      android:layout_marginBottom="10dp"
+      android:orientation="horizontal"
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:divider="@android:color/transparent"
-      android:dividerHeight="6dp"
-      android:padding="10dp" />
-</LinearLayout>
+      android:layout_height="wrap_content">
+
+    <Button
+        android:text="Изменить порядок"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="ButtonStyle" />
+
+    <Button
+        android:id="@+id/btn_fetch"
+        style="@style/OLED.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableEnd="@android:drawable/stat_sys_download"
+        android:drawableTint="@color/background"
+        tools:ignore="ButtonStyle" />
+  </LinearLayout>
+</RelativeLayout>

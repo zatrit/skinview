@@ -1,28 +1,32 @@
-package net.zatrit.skinbread
+package net.zatrit.skinbread.ui
 
 import SourceName
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.view.*
 import android.widget.*
-import net.zatrit.skinbread.skins.drawPreview
+import net.zatrit.skinbread.*
+import net.zatrit.skinbread.skins.*
 
 class NamedEntry(
+    val index: Int,
     val name: SourceName,
     var textures: Textures,
+    var enabled: Boolean,
 ) {
-    var enabled = false
     val preview = drawPreview(textures)
 }
 
+const val DISABLED_TRANSPARENCY = 0.6f
+
 class SkinListAdapter(
-    private val context: Activity,
+    private val context: PickSourceActivity,
+    var skinSet: SkinSet,
     private val imageView: Int = R.id.imageview_preview,
     private val sourceSwitch: Int = R.id.source_switch,
     private val entry: Int = R.layout.texture_entry,
 ) : ArrayAdapter<NamedEntry>(context, entry) {
     // https://java2blog.com/android-custom-listview-with-images-text-example/
-    @SuppressLint("ViewHolder")
+    @SuppressLint("ClickableViewAccessibility")
     override fun getView(
         position: Int, convertView: View?, parent: ViewGroup): View {
         val inflater = context.layoutInflater
@@ -30,23 +34,26 @@ class SkinListAdapter(
         val entry = this.getItem(position)!!
 
         val switch = view.requireViewById<Switch>(sourceSwitch)
-        val previewView = view.requireViewById<ImageView>(imageView)
+        val image = view.requireViewById<ImageView>(imageView)
 
-        switch.isClickable = false
-        view.setOnClickListener {
-            switch.toggle()
+        if (convertView == null) {
+            view.setOnClickListener {
+                switch.toggle()
+            }
         }
 
+        switch.setOnCheckedChangeListener(null)
+        switch.isChecked = entry.enabled
         switch.setOnCheckedChangeListener { _, state ->
-            view.alpha = if (state) 1f else 0.75f
+            val alpha = if (state) 1f else DISABLED_TRANSPARENCY
+            skinSet.enabled[entry.index] = state
+            view.animate().alpha(alpha).start()
             entry.enabled = state
         }
 
-        switch.isChecked = entry.enabled
-        view.alpha = if (entry.enabled) 1f else 0.75f
-
+        view.alpha = if (entry.enabled) 1f else DISABLED_TRANSPARENCY
         switch.text = entry.name.getName(context)
-        previewView.setImageBitmap(entry.preview)
+        image.setImageBitmap(entry.preview)
 
         return view
     }

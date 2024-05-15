@@ -4,7 +4,6 @@ import net.zatrit.skins.lib.*
 import net.zatrit.skins.lib.api.*
 import net.zatrit.skins.lib.texture.BytesTexture
 import net.zatrit.skins.lib.util.IOUtil
-import org.json.*
 import java.net.URL
 import java.util.*
 
@@ -14,7 +13,7 @@ abstract class DirectResolver(private val type: TextureType) : Resolver {
             TextureType::class.java
         )
 
-        downloadTexture(type, profile)?.let { textures[type] = it }
+        textures[type] = downloadTexture(type, profile)
 
         return PlayerTextures(textures)
     }
@@ -24,13 +23,7 @@ abstract class DirectResolver(private val type: TextureType) : Resolver {
             getUrl(type, profile.id, profile.name, profile.shortId)
         )
         val content = IOUtil.download(url)
-
-        return if (content == null) null else try {
-            JSONObject(String(content))
-            null
-        } catch (ex: JSONException) {
-            BytesTexture(content, null)
-        }
+        return BytesTexture(content!!, null)
     }
 
     abstract fun getUrl(

@@ -6,8 +6,6 @@
     <item name="android:switchStyle">@style/OLED.Switch</item>
 
     <item name="android:textSize">18sp</item>
-
-    <item name="android:windowExitTransition">@android:transition/slide_bottom</item>
     <item name="android:windowBackground">@color/background</item>
   </style>
 

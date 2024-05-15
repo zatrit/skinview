@@ -11,11 +11,14 @@ import java.util.UUID
 class SimpleProfile(override val id: UUID, override val name: String) : Profile
 
 @Throws(IOException::class)
-fun uuidByName(name: String): UUID? {
+fun uuidByName(name: String) = try {
     val url = URL("https://api.mojang.com/users/profiles/minecraft/$name")
     val jsonObject = url.openStream().jsonObject
 
-    return parseUuid(jsonObject.getString("id"))
+    parseUuid(jsonObject.getString("id"))
+} catch (ex: Exception) {
+    ex.printDebug()
+    nullUuid
 }
 
 @Throws(IOException::class)

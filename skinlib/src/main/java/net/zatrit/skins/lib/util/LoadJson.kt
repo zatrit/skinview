@@ -15,7 +15,7 @@ fun loadTextureMap(json: JSONObject): Map<TextureType, URLTexture> {
     val map = EnumMap<_, URLTexture>(TextureType::class.java)
 
     for (key in json.keys()) {
-        val type = textureType(key)!!
+        val type = textureType(key)
         val obj = json.getJSONObject(key)
 
         map[type] = URLTexture(obj.getString("url"), Metadata().apply {

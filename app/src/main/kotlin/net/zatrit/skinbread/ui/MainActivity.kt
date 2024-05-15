@@ -1,7 +1,8 @@
-package net.zatrit.skinbread
+package net.zatrit.skinbread.ui
 
-import android.app.*
-import android.content.*
+import android.annotation.SuppressLint
+import android.app.ActivityOptions
+import android.content.Intent
 import android.graphics.*
 import android.opengl.GLSurfaceView
 import android.os.Bundle
@@ -9,18 +10,20 @@ import android.view.View
 import android.view.View.GONE
 import android.widget.*
 import android.widget.RelativeLayout.LEFT_OF
+import net.zatrit.skinbread.*
 import net.zatrit.skinbread.gl.*
 import net.zatrit.skinbread.skins.*
-import net.zatrit.skins.lib.TextureType
-import net.zatrit.skins.lib.texture.BitmapTexture
-import java.util.concurrent.CompletableFuture
+import net.zatrit.skinbread.ui.touch.*
 
-class MainActivity : Activity() {
-    private lateinit var preferences: SharedPreferences
-    private var dragHandle: DragHandle? = null
-
+class MainActivity : SkinSetActivity() {
+    private var dragHandler: MenuDragHandler? = null
     private var renderer = Renderer()
-    private var loading: CompletableFuture<Unit>? = null
+
+    private var textures = Textures()
+        set(value) {
+            field = value
+            renderer.options.pendingTextures = value
+        }
 
     private inline fun bindSwitch(
         id: Int, value: Boolean, crossinline onSet: (Boolean) -> Unit) {
@@ -30,12 +33,19 @@ class MainActivity : Activity() {
         }
     }
 
-    private inline fun bindButton(id: Int, crossinline onClick: (View) -> Unit) =
-        requireViewById<Button>(id).setOnClickListener { onClick(it) }
+    private inline fun bindButton(
+        button: Button, crossinline onClick: (View) -> Unit) =
+        button.setOnClickListener { onClick(it) }
 
+    private inline fun bindButton(id: Int, crossinline onClick: (View) -> Unit) =
+        bindButton(requireViewById(id), onClick)
+
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
         setContentView(R.layout.activity_main)
+
+        window.exitTransition = activityTransition
 
         val surface = requireViewById<GLSurfaceView>(R.id.gl_surface).apply {
             setEGLContextClientVersion(3)
@@ -46,57 +56,26 @@ class MainActivity : Activity() {
 
         val menu = requireViewById<LinearLayout>(R.id.menu)
         val buttons = requireViewById<LinearLayout>(R.id.toolbar)
-        dragHandle = findViewById<DragHandle?>(R.id.drag_handle)?.apply {
-            target = menu
-            showInstead = buttons
+
+        val refreshDialog = profileDialog(this, preferences) { name, uuid ->
+            renderer.options.pendingTextures = Textures()
+            reloadTextures(name, uuid, defaultSources)
         }
 
-        bindButton(R.id.btn_render_options) {
-            dragHandle?.show()
-        }
+        bindButton(R.id.btn_list) {
+            val intent = Intent(this, PickSourceActivity::class.java).putExtra(
+                SKINSET, skinSet
+            )
 
-        bindButton(R.id.btn_switch) {
-            startActivity(
-                Intent(this, PickSourceActivity::class.java),
+            startActivityForResult(
+                intent, 0,
                 ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
             )
         }
 
-        preferences = getPreferences(MODE_PRIVATE)
-        val alreadyLoadingToast = Toast.makeText(
-            this, R.string.already_loading, Toast.LENGTH_SHORT
+        requireViewById<Button>(R.id.btn_fetch).setOnClickListener(
+            ShowWhenLoadedHandler(this, refreshDialog)
         )
-        val refreshDialog = profileDialog(this) { name, uuid, remember ->
-            if (remember) {
-                val edit = preferences.edit()
-                edit.putString("profileName", name)
-                edit.putString("profileId", uuid)
-                edit.apply()
-            }
-
-            loading = loadTexturesAsync(name, uuid, renderer.options)
-        }
-
-        // Set saved field values if present
-        refreshDialog.setOnShowListener { dialog ->
-            if (dialog !is AlertDialog) return@setOnShowListener
-
-            preferences.getString("profileName", null)?.also {
-                dialog.requireViewById<EditText>(R.id.edittext_name).setText(it)
-            }
-
-            preferences.getString("profileId", null)?.also {
-                dialog.requireViewById<EditText>(R.id.edittext_uuid).setText(it)
-            }
-        }
-
-        bindButton(R.id.btn_fetch) {
-            if (loading?.isDone == false) {
-                alreadyLoadingToast.show()
-            } else {
-                refreshDialog.show()
-            }
-        }
 
         @Suppress("DEPRECATION")
         // Non-deprecated method isn't available on current Android version
@@ -105,14 +84,14 @@ class MainActivity : Activity() {
         renderer.viewMatrix =
             state?.getFloatArray("viewMatrix") ?: renderer.viewMatrix
 
-        defaultResolver.map[TextureType.SKIN] = BitmapTexture(
-            BitmapFactory.decodeStream(assets.open("base.png"))
-        )
-
         renderer.options.run {
             bindSwitch(R.id.switch_shade, shading) { shading = it }
             bindSwitch(R.id.switch_grid, grid) { grid = it }
             bindSwitch(R.id.switch_elytra, elytra) { elytra = it }
+
+            pendingDefaultTextures = Textures(
+                skin = BitmapFactory.decodeStream(assets.open("base.png"))
+            )
 
             // Reset textures to defaults
             pendingTextures = Textures()
@@ -123,6 +102,7 @@ class MainActivity : Activity() {
 
         // Attaches surface at left of the menu if using landscape mode
         if (display?.rotation!! % 2 == 1) {
+            requireViewById<View>(R.id.btn_render_options).visibility = GONE
             surface.applyLayout<RelativeLayout.LayoutParams> {
                 rules[LEFT_OF] = menu.id
             }
@@ -131,7 +111,19 @@ class MainActivity : Activity() {
             }
         } else {
             menu.visibility = GONE
+
+            dragHandler = MenuDragHandler(menu, buttons, resources)
+            requireViewById<ImageView?>(R.id.drag_handle).setOnTouchListener(
+                dragHandler
+            )
+
+            bindButton(R.id.btn_render_options) {
+                dragHandler?.show()
+            }
         }
+
+        updateSkinSetFromPrefs()
+        state?.let(::updateSkinSetFromBundle)
     }
 
     override fun onSaveInstanceState(state: Bundle) {
@@ -141,13 +133,28 @@ class MainActivity : Activity() {
         state.putParcelable("renderOptions", renderer.options)
     }
 
+    override fun onSkinSetLoad(skinSet: SkinSet) {
+        this.textures = mergeTextures(skinSet.order.map {
+            skinSet.textures[it].takeIf { _ -> skinSet.enabled[it] }
+        }.filterNotNull())
+    }
+
     @Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
     // Non-deprecated method isn't available on current Android version
     override fun onBackPressed() {
-        if (dragHandle?.isVisible == true) {
-            dragHandle?.hide()
+        if (dragHandler?.isVisible == true) {
+            dragHandler?.hide()
         } else {
             super.onBackPressed()
+        }
+    }
+
+    override fun onActivityResult(
+        requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == I_HAVE_SKINSET) {
+            data?.extras?.let { updateSkinSetFromBundle(it) }
         }
     }
 }

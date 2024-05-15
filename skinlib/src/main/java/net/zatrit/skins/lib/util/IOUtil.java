@@ -25,7 +25,7 @@ public class IOUtil {
         if (connection instanceof HttpURLConnection) {
             val httpConnection = (HttpURLConnection) connection;
             if (httpConnection.getResponseCode() / 100 != 2) {
-                return null;
+                throw new IOException("Unable to load texture");
             }
         }
 

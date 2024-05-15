@@ -14,7 +14,7 @@
       android:theme="@style/OLED.Activity"
       tools:targetApi="31">
     <activity
-        android:name=".MainActivity"
+        android:name=".ui.MainActivity"
         android:exported="true">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
@@ -23,7 +23,7 @@
       </intent-filter>
     </activity>
 
-    <activity android:name=".PickSourceActivity" />
+    <activity android:name=".ui.PickSourceActivity" />
   </application>
 
 </manifest>

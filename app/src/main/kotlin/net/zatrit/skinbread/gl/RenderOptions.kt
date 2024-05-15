@@ -23,5 +23,8 @@ class RenderOptions(
     var pendingTextures: Textures? = null
 
     @IgnoredOnParcel
+    var pendingDefaultTextures: Textures? = null
+
+    @IgnoredOnParcel
     var background = 0L
 }

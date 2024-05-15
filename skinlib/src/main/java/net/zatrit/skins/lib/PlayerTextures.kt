@@ -1,7 +1,6 @@
 package net.zatrit.skins.lib
 
 import net.zatrit.skins.lib.api.Texture
-import net.zatrit.skins.lib.data.TypedTexture
 
 /**
  * Basic implementation of the player textures.
@@ -9,8 +8,5 @@ import net.zatrit.skins.lib.data.TypedTexture
 class PlayerTextures(private val map: Map<TextureType, Texture>) {
     val isEmpty get() = map.isEmpty()
 
-    fun getTexture(type: TextureType): TypedTexture? {
-        val texture = map[type] ?: return null
-        return TypedTexture(texture, type)
-    }
+    fun getTexture(type: TextureType) = map[type]
 }

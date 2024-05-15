@@ -4,10 +4,14 @@
 package net.zatrit.skinbread
 
 import android.opengl.Matrix.*
+import android.transition.Slide
+import android.view.Gravity
 import net.zatrit.skinbread.gl.mat4
 import java.util.UUID
 
 const val TAG = "SkinView"
+const val PREFS_NAME = "net.zatrit.skinbread"
+const val SKINSET = "skinSet"
 
 val identity = mat4 { setIdentityM(it, 0) }
 
@@ -39,6 +43,10 @@ val leftEarMatrix = mat4 {
     rightEarMatrix.copyInto(it)
     translateM(it, 0, -EAR_OFFSET * 2, 0f, 0f)
     scaleM(it, 0, -1f, 1f, 1f)
+}
+
+val activityTransition = Slide(Gravity.BOTTOM).apply {
+    excludeTarget(R.id.btn_fetch, true)
 }
 
 val nullUuid: UUID = UUID.nameUUIDFromBytes(ByteArray(16))

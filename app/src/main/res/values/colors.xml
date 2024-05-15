@@ -4,6 +4,7 @@
   <color name="background">@android:color/background_light</color>
   <color name="button">@android:color/holo_green_light</color>
   <color name="drag_handle">@android:color/darker_gray</color>
-  <color name="card_background">#EEEEEE</color>
+  <color name="rearrange_handle">#aaa</color>
+  <color name="card_background">#eee</color>
   <color name="text">@android:color/black</color>
 </resources>

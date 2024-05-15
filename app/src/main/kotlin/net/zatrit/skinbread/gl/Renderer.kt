@@ -25,6 +25,7 @@ class Renderer : GLSurfaceView.Renderer {
     }
 
     private var textures = GLTextures()
+    private var defaultTextures = GLTextures()
 
     private lateinit var playerModel: PlayerModel
     private lateinit var capeModel: ModelPart
@@ -113,10 +114,19 @@ class Renderer : GLSurfaceView.Renderer {
             }
         }
 
+        options.pendingDefaultTextures?.run {
+            defaultTextures.delete()
+            defaultTextures = load(persistent = true)
+            defaultTextures.printInfo()
+
+            options.pendingDefaultTextures = null
+        }
+
         // Replace current textures with another if requested
         options.pendingTextures?.run {
             textures.delete()
             textures = load()
+            textures.fillWith(defaultTextures)
             textures.printInfo()
 
             playerModel.modelType = model ?: ModelType.DEFAULT

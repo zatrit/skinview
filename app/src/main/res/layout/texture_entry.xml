@@ -5,17 +5,18 @@
     android:orientation="vertical"
     android:paddingVertical="10dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
   <Switch
+      tools:text="@tools:sample/lorem"
       android:id="@+id/source_switch"
+      android:clickable="false"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      tools:text="@tools:sample/lorem" />
+      android:layout_height="match_parent" />
 
   <ImageView
-      tools:src="@android:drawable/ic_delete"
       tools:layout_height="300dp"
+      tools:src="@android:drawable/ic_delete"
       android:id="@+id/imageview_preview"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"

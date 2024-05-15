@@ -21,8 +21,6 @@ class SkinSource(val name: SourceName, val resolver: Resolver) {
     override fun toString() = "${name}: ${javaClass.name}"
 }
 
-val defaultResolver = ConstResolver()
-
 val defaultSources = arrayOf(
     // 5zig
     SkinSource("5zig", FiveZigResolver()),
@@ -36,8 +34,6 @@ val defaultSources = arrayOf(
             type: TextureType, id: UUID, name: String, shortId: String) =
             "https://api.cosmetica.cc/get/cloak?username=$name&nothirdparty"
     }),
-    // Default
-    SkinSource(R.string.source_default, defaultResolver),
     // ely.by
     SkinSource(
         "ely.by", NamedHTTPResolver("http://skinsystem.ely.by/textures/")

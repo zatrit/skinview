@@ -5,7 +5,7 @@
   <string name="show_grid">Show grid</string>
   <string name="show_elytra">Show elytra instead of cape</string>
   <string name="already_loading">Textures are already loading</string>
-  <string name="switch_skin">Switch skin</string>
+  <string name="list_skin">List skins</string>
   <string name="uuid">UUID (optional)</string>
   <string name="name">Name</string>
   <string name="remember_profile">Remember profile</string>
@@ -13,4 +13,6 @@
   <string name="skin_preview">Skin preview</string>
   <string name="source_vanilla">Vanilla</string>
   <string name="source_default">Default</string>
+  <string name="loading_profile">Loading profile…</string>
+  <string name="loading_textures">Loading textures…</string>
 </resources>

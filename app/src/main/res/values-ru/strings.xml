@@ -4,7 +4,7 @@
   <string name="show_grid">Показывать сетку</string>
   <string name="show_elytra">Элитры вместо плаща</string>
   <string name="already_loading">Текстуры уже загружаются</string>
-  <string name="switch_skin">Переключить</string>
+  <string name="list_skin">Список</string>
   <string name="name">Имя</string>
   <string name="remember_profile">Запомнить профиль</string>
   <string name="input_profile">Введите данные профиля</string>
@@ -12,4 +12,6 @@
   <string name="skin_preview">Предпоказ скина</string>
   <string name="source_default">По-умолчанию</string>
   <string name="source_vanilla">Ванильный (Mojang)</string>
+  <string name="loading_profile">Загружаем профиль…</string>
+  <string name="loading_textures">Загружаем текстуры…</string>
 </resources>

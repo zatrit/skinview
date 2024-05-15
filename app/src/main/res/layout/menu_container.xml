@@ -5,11 +5,12 @@
     android:background="@drawable/bottom_menu"
     android:orientation="vertical">
 
-  <net.zatrit.skinbread.DragHandle
+  <ImageView
       android:id="@+id/drag_handle"
       android:layout_width="match_parent"
       android:layout_height="35dp"
-      android:background="@drawable/drag_handle" />
+      android:background="@drawable/drag_handle"
+      android:importantForAccessibility="no" />
 
   <include layout="@layout/render_options" />
 </LinearLayout>
