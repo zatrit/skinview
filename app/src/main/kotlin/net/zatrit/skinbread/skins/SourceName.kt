@@ -1,3 +1,5 @@
+package net.zatrit.skinbread.skins
+
 import android.content.Context
 import net.zatrit.skinbread.DebugOnly
 

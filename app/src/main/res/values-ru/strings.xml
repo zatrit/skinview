@@ -3,7 +3,7 @@
   <string name="shading">Затенение</string>
   <string name="show_grid">Показывать сетку</string>
   <string name="show_elytra">Элитры вместо плаща</string>
-  <string name="already_loading">Текстуры уже загружаются</string>
+  <string name="still_loading">Текстуры ещё загружаются</string>
   <string name="list_skin">Список</string>
   <string name="name">Имя</string>
   <string name="remember_profile">Запомнить профиль</string>
@@ -14,4 +14,7 @@
   <string name="source_vanilla">Ванильный (Mojang)</string>
   <string name="loading_profile">Загружаем профиль…</string>
   <string name="loading_textures">Загружаем текстуры…</string>
+  <string name="no_skins">Его скины… А где они?\nЧтобы их увидеть, используйте</string>
+  <string name="change_order">Изменить порядок</string>
+  <string name="profile_failed">Не удалось получить профиль</string>
 </resources>

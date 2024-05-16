@@ -25,21 +25,6 @@ class MainActivity : SkinSetActivity() {
             renderer.options.pendingTextures = value
         }
 
-    private inline fun bindSwitch(
-        id: Int, value: Boolean, crossinline onSet: (Boolean) -> Unit) {
-        requireViewById<Switch>(id).apply {
-            setOnCheckedChangeListener { _, state -> onSet(state) }
-            isChecked = value
-        }
-    }
-
-    private inline fun bindButton(
-        button: Button, crossinline onClick: (View) -> Unit) =
-        button.setOnClickListener { onClick(it) }
-
-    private inline fun bindButton(id: Int, crossinline onClick: (View) -> Unit) =
-        bindButton(requireViewById(id), onClick)
-
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
@@ -63,7 +48,7 @@ class MainActivity : SkinSetActivity() {
         }
 
         bindButton(R.id.btn_list) {
-            val intent = Intent(this, PickSourceActivity::class.java).putExtra(
+            val intent = Intent(this, ToggleSourcesActivity::class.java).putExtra(
                 SKINSET, skinSet
             )
 
@@ -104,9 +89,6 @@ class MainActivity : SkinSetActivity() {
         if (display?.rotation!! % 2 == 1) {
             requireViewById<View>(R.id.btn_render_options).visibility = GONE
             surface.applyLayout<RelativeLayout.LayoutParams> {
-                rules[LEFT_OF] = menu.id
-            }
-            buttons.applyLayout<RelativeLayout.LayoutParams> {
                 rules[LEFT_OF] = menu.id
             }
         } else {

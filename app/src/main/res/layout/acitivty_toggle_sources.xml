@@ -1,12 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.PickSourceActivity"
+    tools:context=".ui.ToggleSourcesActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true">
 
-  <include layout="@layout/list_sources" />
+  <TextView
+      tools:visibility="invisible"
+      android:id="@+id/text_no_skins"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerHorizontal="true"
+      android:layout_centerVertical="true"
+      android:gravity="center"
+      android:drawableBottom="@android:drawable/stat_sys_download"
+      android:drawableTint="@android:color/darker_gray"
+      android:text="@string/no_skins" />
+
+  <GridView
+      tools:visibility="visible"
+      tools:listitem="@layout/texture_entry"
+      android:id="@+id/list_sources"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:numColumns="@integer/num_columns"
+      android:horizontalSpacing="6dp"
+      android:verticalSpacing="6dp"
+      android:padding="10dp"
+      android:visibility="invisible" />
 
   <LinearLayout
       android:id="@+id/toolbar"
@@ -19,7 +41,8 @@
       android:layout_height="wrap_content">
 
     <Button
-        android:text="Изменить порядок"
+        android:id="@+id/btn_rearrange"
+        android:text="@string/change_order"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:ignore="ButtonStyle" />

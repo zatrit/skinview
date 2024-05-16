@@ -7,12 +7,20 @@ import android.opengl.Matrix.*
 import android.transition.Slide
 import android.view.Gravity
 import net.zatrit.skinbread.gl.mat4
+import net.zatrit.skinbread.skins.defaultSources
 import java.util.UUID
 
+/** Tag used in logs to debug the application. */
 const val TAG = "SkinView"
-const val PREFS_NAME = "net.zatrit.skinbread"
-const val SKINSET = "skinSet"
 
+/** Name for global application preferences. */
+const val PREFS_NAME = "net.zatrit.skinbread"
+
+/** Identity matrix.
+ *
+ * When a vector is multiplied by it, the vector remains unchanged.
+ * Calculated with [setIdentityM].
+ * */
 val identity = mat4 { setIdentityM(it, 0) }
 
 val capeMatrix = mat4 {
@@ -32,21 +40,28 @@ val leftWingMatrix = mat4 {
     scaleM(it, 0, -1f, 1f, -1f)
 }
 
+/** Ears offset in X with relative to the center of the model. */
 private const val EAR_OFFSET = 0.25f
 
+/** The matrix used to render the right ear.
+ * Offsets the model in the X axis by [EAR_OFFSET]. */
 val rightEarMatrix = mat4 {
     setIdentityM(it, 0)
     translateM(it, 0, EAR_OFFSET, 1.75f, 0f)
 }
 
+/** The matrix used to render the left ear.
+ * Calculates based on [rightEarMatrix] via mirroring. */
 val leftEarMatrix = mat4 {
     rightEarMatrix.copyInto(it)
     translateM(it, 0, -EAR_OFFSET * 2, 0f, 0f)
     scaleM(it, 0, -1f, 1f, 1f)
 }
 
+/** Smooth transition between activities. */
 val activityTransition = Slide(Gravity.BOTTOM).apply {
     excludeTarget(R.id.btn_fetch, true)
 }
 
+/** The default [UUID] used. Created from a [ByteArray] filled with zeros. */
 val nullUuid: UUID = UUID.nameUUIDFromBytes(ByteArray(16))

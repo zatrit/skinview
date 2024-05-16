@@ -11,9 +11,11 @@ import java.io.ByteArrayOutputStream
 
 @Parcelize
 class SkinSet(
-    private val size: Int,
+    val size: Int,
 
-    val enabled: BooleanArray = BooleanArray(size) { false },
+    val enabled: BooleanArray = BooleanArray(size) { false }.also {
+        it[0] = true // Enable
+    },
     val order: IntArray = IntArray(size) { it },
     val textures: Array<Textures?> = arrayOfNulls(size),
 ) : Parcelable {
@@ -34,14 +36,14 @@ class SkinSet(
         val enabled =
             json.optJSONArray("enabled")?.takeIf { it.length() == size }
         val order = json.optJSONArray("order")?.takeIf { it.length() == size }
-        val cachedSkins =
+        val textures =
             json.optJSONArray("textures")?.takeIf { it.length() == size }
 
         for (i in 0..<size) {
             this.enabled[i] = enabled?.getBoolean(i) ?: false
             this.order[i] = order?.getInt(i) ?: i
 
-            val textureData = cachedSkins?.getJSONObject(i) ?: JSONObject()
+            val textureData = textures?.getJSONObject(i) ?: JSONObject()
             this.textures[i] = Textures(
                 skin = textureData.optString("skin").takeIf { it.isNotBlank() }
                     ?.run(::bitmapFromBase64),

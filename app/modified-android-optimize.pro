@@ -7,3 +7,7 @@
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
+
+-keepclassmembers,allowoptimization class * {
+    public static final ** CREATOR;
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.RearrangeActivity"
+    android:padding="10dp"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
+
+  <GridView
+      tools:listitem="@layout/rearrange_list_entry"
+      android:id="@+id/list_sources"
+      android:numColumns="@integer/num_columns"
+      android:verticalSpacing="5dp"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
+
+  <ImageView
+      android:id="@+id/img_fake_item"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:importantForAccessibility="no" />
+</RelativeLayout>

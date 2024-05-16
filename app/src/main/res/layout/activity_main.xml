@@ -11,6 +11,11 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent" />
 
+  <include
+      tools:visibility="gone"
+      android:id="@+id/menu"
+      layout="@layout/menu_container" />
+
   <LinearLayout
       android:id="@+id/toolbar"
       android:gravity="end"
@@ -44,9 +49,4 @@
         android:drawableTint="@color/background"
         tools:ignore="ButtonStyle" />
   </LinearLayout>
-
-  <include
-      tools:visibility="gone"
-      android:id="@+id/menu"
-      layout="@layout/menu_container" />
 </RelativeLayout>

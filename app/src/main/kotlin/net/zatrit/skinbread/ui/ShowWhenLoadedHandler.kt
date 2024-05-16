@@ -16,15 +16,15 @@ class ShowWhenLoadedHandler<C>(
     private val context: C,
     private val dialog: Dialog,
 ) : OnClickListener where C : Context, C : HasLoading {
-    private val alreadyLoadingToast = Toast.makeText(
-        context, R.string.already_loading, Toast.LENGTH_SHORT
+    private val stillLoadingToast = Toast.makeText(
+        context, R.string.still_loading, Toast.LENGTH_SHORT
     )
 
     override fun onClick(v: View?) {
         if (context.loading == null || context.loading?.isDone == true) {
             dialog.show()
         } else {
-            alreadyLoadingToast.show()
+            stillLoadingToast.show()
         }
     }
 }

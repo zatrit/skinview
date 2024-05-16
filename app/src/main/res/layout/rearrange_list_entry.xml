@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:background="@drawable/selection_background"
+    android:backgroundTint="@color/background"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+  <ImageView
+      android:tint="@android:color/darker_gray"
+      android:padding="10dp"
+      android:background="@drawable/card"
+      android:src="@drawable/rearrange"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:importantForAccessibility="no" />
+
+  <TextView
+      tools:text="@tools:sample/full_names"
+      android:id="@+id/text_source_name"
+      android:textColor="@color/text"
+      android:layout_marginStart="10dp"
+      android:layout_gravity="center"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content" />
+</LinearLayout>

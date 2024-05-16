@@ -23,7 +23,8 @@
       </intent-filter>
     </activity>
 
-    <activity android:name=".ui.PickSourceActivity" />
+    <activity android:name=".ui.ToggleSourcesActivity" />
+    <activity android:name=".ui.RearrangeActivity" />
   </application>
 
 </manifest>

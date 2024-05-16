@@ -1,8 +1,5 @@
 package net.zatrit.skinbread.skins
 
-import ConstName
-import ResName
-import SourceName
 import net.zatrit.skinbread.*
 import net.zatrit.skins.lib.TextureType
 import net.zatrit.skins.lib.api.Resolver
@@ -22,6 +19,9 @@ class SkinSource(val name: SourceName, val resolver: Resolver) {
 }
 
 val defaultSources = arrayOf(
+    // Vanilla (Mojang)
+    SkinSource(R.string.source_vanilla, MojangResolver()),
+
     // 5zig
     SkinSource("5zig", FiveZigResolver()),
     // Cloaks+
@@ -63,8 +63,6 @@ val defaultSources = arrayOf(
             "https://auth.tlauncher.org/skin/profile/texture/login/"
         )
     ),
-    // Vanilla (Mojang)
-    SkinSource(R.string.source_vanilla, MojangResolver()),
     // Wurst client
     SkinSource("Wurst", WurstResolver()),
     // Wynntils

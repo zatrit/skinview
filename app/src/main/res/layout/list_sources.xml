@@ -1,9 +1,0 @@
-<ListView xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    tools:listitem="@layout/texture_entry"
-    android:id="@+id/list_sources"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:divider="@android:color/transparent"
-    android:dividerHeight="6dp"
-    android:padding="10dp" />

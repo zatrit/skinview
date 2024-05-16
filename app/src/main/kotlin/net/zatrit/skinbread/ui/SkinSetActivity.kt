@@ -11,7 +11,9 @@ import net.zatrit.skins.lib.PlayerTextures
 import net.zatrit.skins.lib.api.Profile
 import org.json.JSONObject
 import java.util.concurrent.CompletableFuture
+import java.util.concurrent.CompletableFuture.supplyAsync
 
+const val SKINSET = "skinSet"
 const val I_HAVE_SKINSET = 156
 
 abstract class SkinSetActivity : Activity(), HasLoading {
@@ -26,23 +28,34 @@ abstract class SkinSetActivity : Activity(), HasLoading {
         preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
     }
 
-    private fun showToast(message: Int, length: Int) = runOnUiThread {
-        Toast.makeText(this, message, length).show()
+    private fun showToast(message: Int) = runOnUiThread {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     fun reloadTextures(name: String, uuid: String, sources: Array<SkinSource>) {
         skinSet.textures.fill(null)
-        CompletableFuture.supplyAsync {
-            showToast(R.string.loading_profile, Toast.LENGTH_SHORT)
-            val profile = refillProfile(uuid, name)
-            showToast(R.string.loading_textures, Toast.LENGTH_LONG)
-            loading = fetch(profile, sources) { i, texture ->
-                skinSet.textures[i] =
-                    Textures().apply { fillWith(texture, skinLayer, capeLayer) }
-                runOnUiThread {
-                    onSkinSetLoad(skinSet)
+        supplyAsync {
+            loading = supplyAsync {
+                showToast(R.string.loading_profile)
+                try {
+                    refillProfile(uuid, name)
+                } catch (ex: Exception) {
+                    ex.printDebug()
+                    showToast(R.string.profile_failed)
+
+                    SimpleProfile(nullUuid, name)
                 }
-            }.whenComplete { _, _ -> saveSkinSet() }
+            }.thenApplyAsync { profile ->
+                showToast(R.string.loading_textures)
+                fetch(profile, sources) { i, texture ->
+                    skinSet.textures[i] = Textures().apply {
+                        fillWith(texture, skinLayer, capeLayer)
+                    }
+                    runOnUiThread {
+                        onSkinSetLoad(skinSet)
+                    }
+                }.join()
+            }
         }.printErrorOnFail()
     }
 
