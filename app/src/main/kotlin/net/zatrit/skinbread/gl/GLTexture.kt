@@ -12,7 +12,7 @@ private fun textureInfo(bitmap: Bitmap) = bitmap.run {
 }
 
 @GLContext
-class GLTexture(bitmap: Bitmap, private val persistent: Boolean) {
+class GLTexture(bitmap: Bitmap, private val persistent: Boolean = false) {
     private val id = buf { glGenTextures(1, it) }
 
     init {
@@ -48,6 +48,13 @@ class GLTextures(
         skin?.delete()
         cape?.delete()
         ears?.delete()
+    }
+
+    fun clear() {
+        delete()
+        skin = null
+        cape = null
+        ears = null
     }
 
     fun fillWith(other: GLTextures) {

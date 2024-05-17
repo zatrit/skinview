@@ -24,7 +24,8 @@ class Renderer : GLSurfaceView.Renderer {
         it[14] = -10f // sets Z offset to -10
     }
 
-    private var textures = GLTextures()
+    private val textures = GLTextures()
+    private val texturesPicker = GLTexturePicker()
     private var defaultTextures = GLTextures()
 
     private lateinit var playerModel: PlayerModel
@@ -117,20 +118,26 @@ class Renderer : GLSurfaceView.Renderer {
         options.pendingDefaultTextures?.run {
             defaultTextures.delete()
             defaultTextures = load(persistent = true)
+            textures.fillWith(defaultTextures)
             defaultTextures.printInfo()
 
             options.pendingDefaultTextures = null
         }
 
-        // Replace current textures with another if requested
-        options.pendingTextures?.run {
-            textures.delete()
-            textures = load()
+        if (options.clearTextures) {
+            textures.clear()
+            texturesPicker.reset()
             textures.fillWith(defaultTextures)
-            textures.printInfo()
+            playerModel.modelType = ModelType.DEFAULT
+            options.clearTextures = false
+        }
 
-            playerModel.modelType = model ?: ModelType.DEFAULT
-            options.pendingTextures = null
+        while (options.pendingTextures.isNotEmpty()) {
+            val model = texturesPicker.update(
+                textures, options.pendingTextures.poll()!!
+            )
+            playerModel.modelType = model ?: playerModel.modelType
+            textures.printInfo()
         }
 
         val buf = FloatBuffer.wrap(viewMatrix)
@@ -147,12 +154,12 @@ class Renderer : GLSurfaceView.Renderer {
         val identityBuf = FloatBuffer.wrap(identity)
         glUniformMatrix4fv(modelHandle, 1, false, identityBuf)
 
-        textures.skin.takeIf { options.skin }?.run {
+        textures.skin?.run {
             bind()
             playerModel.draw()
         }
 
-        textures.cape.takeIf { options.cape }?.run {
+        textures.cape?.run {
             bind()
 
             if (options.elytra) {
@@ -164,7 +171,7 @@ class Renderer : GLSurfaceView.Renderer {
             }
         }
 
-        textures.ears.takeIf { options.ears }?.run {
+        textures.ears?.run {
             bind()
             earsModel.drawRotated(modelHandle)
         }

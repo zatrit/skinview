@@ -1,20 +1,18 @@
 package net.zatrit.skinbread
 
 import android.graphics.Bitmap
-import android.os.Parcelable
-import kotlinx.parcelize.*
+import kotlinx.parcelize.IgnoredOnParcel
 import net.zatrit.skinbread.gl.*
 import net.zatrit.skinbread.gl.model.ModelType
 import net.zatrit.skins.lib.*
 import net.zatrit.skins.lib.api.*
 
-@Parcelize
 class Textures(
     var skin: Bitmap? = null,
     var cape: Bitmap? = null,
     var ears: Bitmap? = null,
     var model: ModelType? = null,
-) : Parcelable {
+) {
     @IgnoredOnParcel
     val complete
         get() = skin != null && cape != null && ears != null
@@ -58,8 +56,4 @@ class Textures(
     }
 }
 
-class TexturePairs {
-    var skin: Pair<Int, Texture>? = null
-    var cape: Pair<Int, Texture>? = null
-    var ears: Pair<Int, Texture>? = null
-}
+class OrderedTextures(var order: Int, var textures: Textures)

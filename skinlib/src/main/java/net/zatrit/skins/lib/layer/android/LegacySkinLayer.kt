@@ -3,6 +3,8 @@ package net.zatrit.skins.lib.layer.android
 import android.graphics.*
 
 class LegacySkinLayer : ImageLayer() {
+    var legacyMask: Bitmap? = null
+
     override fun apply(input: Bitmap): Bitmap {
         val size = input.width
 
@@ -10,10 +12,11 @@ class LegacySkinLayer : ImageLayer() {
             return input
         }
 
-        val dest = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
+        val dest = Bitmap.createBitmap(size, size, input.config)
         val canvas = Canvas(dest)
 
-        canvas.drawBitmap(input, 0f, 0f, null)
+        val paint = basePaint(canvas, input)
+        canvas.drawBitmap(input, 0f, 0f, paint)
 
         drawMirrored(dest, canvas, 0, 20, 16, 52, 12, 12)
         drawMirrored(dest, canvas, 12, 20, 28, 52, 4, 12)
@@ -41,5 +44,18 @@ class LegacySkinLayer : ImageLayer() {
         canvas.drawBitmap(
             Bitmap.createBitmap(src, sx, sy, w, h), matrix, null
         )
+    }
+
+    private fun basePaint(canvas: Canvas, input: Bitmap): Paint? {
+        return if (Color.alpha(input.getPixel(0, 0)) != 0) {
+            val mask = legacyMask ?: return null
+            canvas.drawBitmap(mask, 0f, 0f, null)
+
+            Paint().apply {
+                xfermode = PorterDuffXfermode(PorterDuff.Mode.MULTIPLY)
+            }
+        } else {
+            null
+        }
     }
 }

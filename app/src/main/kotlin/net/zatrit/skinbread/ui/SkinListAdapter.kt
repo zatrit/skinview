@@ -19,7 +19,6 @@ const val DISABLED_TRANSPARENCY = 0.6f
 
 class SkinListAdapter(
     private val context: ToggleSourcesActivity,
-    var skinSet: SkinSet,
     private val imageView: Int = R.id.img_preview,
     private val sourceSwitch: Int = R.id.switch_source,
     private val entry: Int = R.layout.texture_entry,
@@ -45,7 +44,7 @@ class SkinListAdapter(
         switch.isChecked = entry.enabled
         switch.setOnCheckedChangeListener { _, state ->
             val alpha = if (state) 1f else DISABLED_TRANSPARENCY
-            skinSet.enabled[entry.index] = state
+            context.textureProps.enabled[entry.index] = state
             view.animate().alpha(alpha).start()
             entry.enabled = state
         }

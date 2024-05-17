@@ -24,12 +24,12 @@ fun Throwable.printWithSkinSource(source: SkinSource) {
 }
 
 @DebugOnly
-fun <T> CompletableFuture<T>.printErrorOnFail() {
+fun <T> CompletableFuture<T>.printErrorOnFail(): CompletableFuture<T> =
     exceptionally {
         it.printStackTrace()
         null
     }
-}
+
 
 private val uuidPattern = "(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})".toPattern()
 
@@ -67,7 +67,7 @@ inline fun Activity.bindSwitch(
     }
 }
 
-inline fun Activity.bindButton(
+inline fun bindButton(
     button: Button, crossinline onClick: (View) -> Unit) =
     button.setOnClickListener { onClick(it) }
 

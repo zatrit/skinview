@@ -29,6 +29,8 @@ class RearrangeActivity : Activity() {
 
     private lateinit var order: IntArray
 
+    private var scrollZone = -1
+
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
         setContentView(R.layout.activity_rearrange)
@@ -36,7 +38,7 @@ class RearrangeActivity : Activity() {
         order = intent.getIntArrayExtra(ORDER)!!
         val names = order.map { defaultSources[it].name.getName(this) }
 
-        window.enterTransition = activityTransition
+        window.enterTransition = transition
 
         fakeItem = requireViewById(R.id.img_fake_item)
         sourcesList = requireViewById(R.id.list_sources)
@@ -70,11 +72,12 @@ class RearrangeActivity : Activity() {
 
             true
         }
+
+        scrollZone = resources.displayMetrics.heightPixels / 8
     }
 
     private fun View.animateTintColor(from: Int, to: Int) =
         ValueAnimator.ofArgb(from, to).apply {
-            repeatCount = 0
             duration = 500
             addUpdateListener {
                 backgroundTintList =
@@ -93,14 +96,6 @@ class RearrangeActivity : Activity() {
             ACTION_MOVE -> if (dragging) {
                 fakeItem.x = event.x - offsetX
                 fakeItem.y = event.y - fakeItem.height / 2
-
-                val scrollZone = resources.displayMetrics.heightPixels / 8
-                if (event.y > resources.displayMetrics.heightPixels - scrollZone) {
-                    sourcesList.scrollListBy(10)
-                }
-                if (event.y < scrollZone) {
-                    sourcesList.scrollListBy(-10)
-                }
 
                 val id = sourcesList.pointToPosition(
                     event.x.toInt(), event.y.toInt()
@@ -152,7 +147,6 @@ class RearrangeActivity : Activity() {
 
     override fun finish() {
         setResult(I_HAVE_ORDER, Intent().putExtra(ORDER, order))
-
         super.finish()
     }
 }

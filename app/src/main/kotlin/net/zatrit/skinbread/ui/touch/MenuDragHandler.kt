@@ -20,6 +20,33 @@ class MenuDragHandler(
     val isVisible
         get() = target.visibility == View.VISIBLE
 
+    override fun onTouch(v: View?, event: MotionEvent): Boolean {
+        when (event.actionMasked) {
+            ACTION_DOWN -> v?.performClick()
+
+            ACTION_MOVE -> {
+                animation?.cancel()
+                target.applyLayout<ViewGroup.LayoutParams> {
+                    height = (height - event.y.toInt()).coerceAtLeast(1)
+                }
+            }
+
+            ACTION_UP -> {
+                if (target.layoutParams.height < step / 2) {
+                    hideInstant()
+                } else {
+                    val height = target.layoutParams.height
+                    val newHeight = (height / step * step).coerceAtLeast(step)
+                        .coerceAtMost(metrics.heightPixels)
+
+                    animation = heightAnimator(height, newHeight)
+                }
+            }
+        }
+
+        return true
+    }
+
     private fun heightAnimator(from: Int, to: Int, thenHide: View? = null) =
         ValueAnimator.ofInt(from, to).apply {
             addUpdateListener {
@@ -47,32 +74,5 @@ class MenuDragHandler(
     private fun hideInstant() {
         target.visibility = View.GONE
         showInstead?.visibility = View.VISIBLE
-    }
-
-    override fun onTouch(v: View?, event: MotionEvent): Boolean {
-        when (event.actionMasked) {
-            ACTION_DOWN -> v?.performClick()
-
-            ACTION_MOVE -> {
-                animation?.cancel()
-                target.applyLayout<ViewGroup.LayoutParams> {
-                    height = (height - event.y.toInt()).coerceAtLeast(1)
-                }
-            }
-
-            ACTION_UP -> {
-                if (target.layoutParams.height < step / 2) {
-                    hideInstant()
-                } else {
-                    val height = target.layoutParams.height
-                    val newHeight = (height / step * step).coerceAtLeast(step)
-                        .coerceAtMost(metrics.heightPixels)
-
-                    animation = heightAnimator(height, newHeight)
-                }
-            }
-        }
-
-        return true
     }
 }

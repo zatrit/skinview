@@ -42,7 +42,7 @@
 
     <Button
         android:id="@+id/btn_rearrange"
-        android:text="@string/change_order"
+        android:text="@string/rearrange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:ignore="ButtonStyle" />

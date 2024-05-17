@@ -17,9 +17,6 @@ fun loadTextures(profile: Profile, source: SkinSource) = supplyAsync {
     }
 }!!
 
-fun loadTexturesAll(profile: Profile, sources: Array<SkinSource>) =
-    sources.map { loadTextures(profile, it) }
-
 fun mergeTextures(inputs: List<Textures>): Textures {
     val textures = Textures()
     val iterator = inputs.iterator()

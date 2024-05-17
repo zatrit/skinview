@@ -5,23 +5,18 @@ import android.content.Context
 import android.view.View
 import android.view.View.OnClickListener
 import android.widget.Toast
-import net.zatrit.skinbread.R
-import java.util.concurrent.CompletableFuture
+import net.zatrit.skinbread.*
 
-interface HasLoading {
-    var loading: CompletableFuture<Unit>?
-}
-
-class ShowWhenLoadedHandler<C>(
-    private val context: C,
+class ShowWhenLoadedHandler(
+    context: Context,
     private val dialog: Dialog,
-) : OnClickListener where C : Context, C : HasLoading {
+) : OnClickListener {
     private val stillLoadingToast = Toast.makeText(
         context, R.string.still_loading, Toast.LENGTH_SHORT
     )
 
     override fun onClick(v: View?) {
-        if (context.loading == null || context.loading?.isDone == true) {
+        if (loading == null || loading?.isDone == true) {
             dialog.show()
         } else {
             stillLoadingToast.show()

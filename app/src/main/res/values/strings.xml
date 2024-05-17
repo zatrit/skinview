@@ -16,6 +16,6 @@
   <string name="loading_profile">Loading profile…</string>
   <string name="loading_textures">Loading textures…</string>
   <string name="no_skins">To see your skins, use</string>
-  <string name="change_order">Change order</string>
+  <string name="rearrange">Rearrange</string>
   <string name="profile_failed">Failed to get profile</string>
 </resources>

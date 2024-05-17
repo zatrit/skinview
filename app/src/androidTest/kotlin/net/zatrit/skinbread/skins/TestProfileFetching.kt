@@ -7,9 +7,9 @@ import org.junit.runners.Parameterized
 import java.util.UUID
 
 @RunWith(value = Parameterized::class)
-class TestProfileFetching(pair: TestTriplet) {
-    private val testName = pair.name
-    private val testUUID = UUID.fromString(pair.uuid)
+class TestProfileFetching(triplet: TestTriplet) {
+    private val testName = triplet.name
+    private val testUUID = UUID.fromString(triplet.uuid)
 
     @Test
     fun testProfileByName() {

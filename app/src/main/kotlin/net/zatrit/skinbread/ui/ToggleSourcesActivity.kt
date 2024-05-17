@@ -3,12 +3,12 @@ package net.zatrit.skinbread.ui
 import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
-import android.view.View.*
+import android.view.View
 import android.widget.*
 import net.zatrit.skinbread.*
 import net.zatrit.skinbread.skins.*
 
-class ToggleSourcesActivity : SkinSetActivity() {
+class ToggleSourcesActivity : TexturesActivity() {
     private lateinit var sourcesList: AbsListView
     private lateinit var adapter: SkinListAdapter
     private lateinit var noSkins: TextView
@@ -17,11 +17,11 @@ class ToggleSourcesActivity : SkinSetActivity() {
         super.onCreate(state)
         this.setContentView(R.layout.acitivty_toggle_sources)
 
-        window.enterTransition = activityTransition
-        window.exitTransition = activityTransition
+        window.enterTransition = transitionWithFetchButton
+        window.exitTransition = transition
 
         sourcesList = requireViewById(R.id.list_sources)
-        adapter = SkinListAdapter(this, skinSet).apply {
+        adapter = SkinListAdapter(this).apply {
             setNotifyOnChange(false)
         }
         noSkins = requireViewById(R.id.text_no_skins)
@@ -37,7 +37,7 @@ class ToggleSourcesActivity : SkinSetActivity() {
 
         bindButton(R.id.btn_rearrange) {
             val intent = Intent(this, RearrangeActivity::class.java)
-            intent.putExtra(ORDER, skinSet.order)
+            intent.putExtra(ORDER, textureProps.order)
 
             startActivityForResult(
                 intent, 0,
@@ -47,16 +47,33 @@ class ToggleSourcesActivity : SkinSetActivity() {
 
         sourcesList.adapter = adapter
 
-        updateSkinSetFromPrefs()
-        state?.let(::updateSkinSetFromBundle)
-        intent.extras?.let(::updateSkinSetFromBundle)
+        intent.extras?.let(::updatePropsFromBundle)
+        state?.let(::updatePropsFromBundle)
     }
 
-    override fun onSkinSetLoad(skinSet: SkinSet) {
-        adapter.skinSet = skinSet
+    override fun onActivityResult(
+        requestCode: Int, resultCode: Int, data: Intent) {
+        if (resultCode == I_HAVE_ORDER) {
+            textureProps = TextureProps(
+                textureProps.size, textureProps.enabled,
+                data.getIntArrayExtra(ORDER)!!
+            )
+        }
+
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun finish() {
+        val intent = Intent().putExtra(TEXTURE_PROPS, textureProps)
+        setResult(I_HAVE_PROPS, intent)
+
+        super.finish()
+    }
+
+    override fun setTextures(newTextures: Array<Textures?>) {
         adapter.clear()
 
-        skinSet.textures.mapIndexed { i, textures ->
+        newTextures.mapIndexed { i, textures ->
             if (textures == null || textures.isEmpty) {
                 return@mapIndexed
             }
@@ -66,44 +83,45 @@ class ToggleSourcesActivity : SkinSetActivity() {
                 index = i,
                 name = source.name,
                 textures = textures,
-                enabled = skinSet.enabled[i],
+                enabled = textureProps.enabled[i],
             )
 
             adapter.add(entry)
         }
 
-        adapter.sort(Comparator.comparingInt {
-            skinSet.order.indexOf(it.index)
-        })
-
-        if (adapter.isEmpty) {
-            sourcesList.visibility = INVISIBLE
-            noSkins.visibility = VISIBLE
-        } else {
-            sourcesList.visibility = VISIBLE
-            noSkins.visibility = INVISIBLE
-        }
-
+        sortAdapter()
         adapter.notifyDataSetChanged()
+
+        updateListVisibility()
     }
 
-    override fun finish() {
-        val intent = Intent().putExtra(SKINSET, skinSet)
-        setResult(I_HAVE_SKINSET, intent)
+    override fun onTexturesAdded(
+        textures: Textures, index: Int, order: Int, source: SkinSource) {
+        val entry = NamedEntry(
+            index = index,
+            name = source.name,
+            textures = textures,
+            enabled = textureProps.enabled[index],
+        )
 
-        super.finish()
+        adapter.add(entry)
+        sortAdapter()
+        adapter.notifyDataSetChanged()
+
+        updateListVisibility()
     }
 
-    override fun onActivityResult(
-        requestCode: Int, resultCode: Int, data: Intent) {
-        if (resultCode == I_HAVE_ORDER) {
-            skinSet = SkinSet(
-                skinSet.size, skinSet.enabled, data.getIntArrayExtra(ORDER)!!,
-                skinSet.textures
-            )
-            onSkinSetLoad(skinSet)
+    private fun updateListVisibility() {
+        if (adapter.isEmpty) {
+            sourcesList.visibility = View.GONE
+            noSkins.visibility = View.VISIBLE
+        } else {
+            sourcesList.visibility = View.VISIBLE
+            noSkins.visibility = View.GONE
         }
-
-        super.onActivityResult(requestCode, resultCode, data)
     }
+
+    private fun sortAdapter() = adapter.sort(Comparator.comparingInt {
+        textureProps.order.indexOf(it.index)
+    })
 }

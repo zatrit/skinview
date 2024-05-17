@@ -13,8 +13,7 @@ private const val MOJANG_SKIN_API =
 
 /**
  * [Mojang API](https://wiki.vg/Mojang_API) implementation
- * for OpenMCSkins.
- */
+ * for OpenMCSkins. */
 class MojangResolver : Resolver {
     override fun resolve(profile: Profile): PlayerTextures {
         val url = MOJANG_SKIN_API + profile.shortId

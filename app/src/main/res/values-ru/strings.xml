@@ -15,6 +15,6 @@
   <string name="loading_profile">Загружаем профиль…</string>
   <string name="loading_textures">Загружаем текстуры…</string>
   <string name="no_skins">Его скины… А где они?\nЧтобы их увидеть, используйте</string>
-  <string name="change_order">Изменить порядок</string>
+  <string name="rearrange">Изменить порядок</string>
   <string name="profile_failed">Не удалось получить профиль</string>
 </resources>
