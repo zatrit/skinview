@@ -6,9 +6,9 @@ import android.view.ContextThemeWrapper
 import android.widget.*
 import net.zatrit.skinbread.R
 
-fun profileDialog(
+inline fun profileDialog(
     activity: Activity, prefs: SharedPreferences,
-    load: (String, String) -> Unit): Dialog =
+    crossinline load: (String, String) -> Unit): Dialog =
     AlertDialog.Builder(ContextThemeWrapper(activity, R.style.OLED_AlertDialog))
         .apply {
             setView(R.layout.profile_input)

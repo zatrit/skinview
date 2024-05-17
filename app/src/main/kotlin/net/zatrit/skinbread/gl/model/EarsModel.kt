@@ -16,13 +16,13 @@ class EarsModel {
         ear = ModelPart(box.vertices, uv)
     }
 
-    fun drawRotated(modelHandle: Int) {
+    fun renderRotated(modelHandle: Int) {
         val leftBuf = FloatBuffer.wrap(leftEarMatrix)
         glUniformMatrix4fv(modelHandle, 1, false, leftBuf)
-        ear.draw()
+        ear.render()
 
         val rightBuf = FloatBuffer.wrap(rightEarMatrix)
         glUniformMatrix4fv(modelHandle, 1, false, rightBuf)
-        ear.draw()
+        ear.render()
     }
 }

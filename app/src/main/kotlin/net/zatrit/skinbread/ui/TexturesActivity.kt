@@ -87,19 +87,19 @@ abstract class TexturesActivity : Activity(), TexturesListener {
                     val order = textureProps.order.indexOf(i)
                     onTexturesAdded(data, i, order, source)
                 }
-            }.join()
+            }.forEach { it.join() }
         }.whenComplete { _, _ ->
             val edit = preferences.edit()
             saveTextures(edit, textures)
             edit.apply()
-        }.printErrorOnFail()
+        }
     }
 
     private inline fun fetch(
         profile: Profile, sources: Array<SkinSource>,
-        crossinline callback: (Int, PlayerTextures, SkinSource) -> Unit): CompletableFuture<Unit> {
+        crossinline callback: (Int, PlayerTextures, SkinSource) -> Unit): List<CompletableFuture<Unit>> {
 
-        val futures = sources.mapIndexed { i, source ->
+        return sources.mapIndexed { i, source ->
             val future = loadTextures(profile, source)
             future.thenApply {
                 if (it == null || it.isEmpty) {
@@ -108,9 +108,7 @@ abstract class TexturesActivity : Activity(), TexturesListener {
 
                 callback(i, it, source)
             }
-        }.toTypedArray()
-
-        return CompletableFuture.allOf(*futures).thenApply { }
+        }
     }
 
     fun updatePropsFromBundle(bundle: Bundle) {

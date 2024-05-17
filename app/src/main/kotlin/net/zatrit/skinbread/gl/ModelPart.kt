@@ -54,7 +54,7 @@ class ModelPart(vertices: FloatArray, textureCords: FloatArray) {
         )
     }
 
-    fun draw() {
+    fun render() {
         glBindVertexArray(vao)
         glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0)
     }

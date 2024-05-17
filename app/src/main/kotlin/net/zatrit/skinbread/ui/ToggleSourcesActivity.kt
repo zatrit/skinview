@@ -111,14 +111,12 @@ class ToggleSourcesActivity : TexturesActivity() {
         updateListVisibility()
     }
 
-    private fun updateListVisibility() {
-        if (adapter.isEmpty) {
-            sourcesList.visibility = View.GONE
-            noSkins.visibility = View.VISIBLE
-        } else {
-            sourcesList.visibility = View.VISIBLE
-            noSkins.visibility = View.GONE
-        }
+    private fun updateListVisibility() = if (adapter.isEmpty) {
+        sourcesList.visibility = View.GONE
+        noSkins.visibility = View.VISIBLE
+    } else {
+        sourcesList.visibility = View.VISIBLE
+        noSkins.visibility = View.GONE
     }
 
     private fun sortAdapter() = adapter.sort(Comparator.comparingInt {

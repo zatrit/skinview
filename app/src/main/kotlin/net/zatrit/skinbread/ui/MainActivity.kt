@@ -37,7 +37,7 @@ class MainActivity : TexturesActivity() {
         val buttons = requireViewById<LinearLayout>(R.id.toolbar)
 
         val refreshDialog = profileDialog(this, preferences) { name, uuid ->
-            renderer.options.clearTextures = true
+            renderer.config.clearTextures = true
             reloadTextures(name, uuid, defaultSources)
         }
 
@@ -62,12 +62,12 @@ class MainActivity : TexturesActivity() {
 
         @Suppress("DEPRECATION")
         // Non-deprecated method isn't available on current Android version
-        renderer.options =
-            state?.getParcelable("renderOptions") ?: RenderOptions()
+        renderer.config =
+            state?.getParcelable("renderOptions") ?: RenderConfig()
         renderer.viewMatrix =
             state?.getFloatArray("viewMatrix") ?: renderer.viewMatrix
 
-        renderer.options.run {
+        renderer.config.run {
             bindSwitch(R.id.switch_shade, shading) { shading = it }
             bindSwitch(R.id.switch_grid, grid) { grid = it }
             bindSwitch(R.id.switch_elytra, elytra) { elytra = it }
@@ -118,7 +118,7 @@ class MainActivity : TexturesActivity() {
         super.onSaveInstanceState(state)
 
         state.putFloatArray("viewMatrix", renderer.viewMatrix)
-        state.putParcelable("renderOptions", renderer.options)
+        state.putParcelable("renderOptions", renderer.config)
     }
 
     @Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
@@ -143,7 +143,7 @@ class MainActivity : TexturesActivity() {
     override fun onTexturesAdded(
         textures: Textures, index: Int, order: Int, source: SkinSource) {
         if (textureProps.enabled[index]) {
-            this.renderer.options.pendingTextures.add(
+            this.renderer.config.pendingTextures.add(
                 OrderedTextures(
                     order = order,
                     textures = textures,
@@ -153,8 +153,8 @@ class MainActivity : TexturesActivity() {
     }
 
     override fun setTextures(newTextures: Array<Textures?>) {
-        this.renderer.options.clearTextures = true
-        this.renderer.options.pendingTextures.add(
+        this.renderer.config.clearTextures = true
+        this.renderer.config.pendingTextures.add(
             OrderedTextures(
                 order = 0,
                 textures = mergeTextures(textureProps.order.map {

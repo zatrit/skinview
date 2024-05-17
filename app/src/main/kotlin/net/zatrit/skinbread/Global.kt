@@ -64,15 +64,12 @@ val leftEarMatrix = mat4 {
 
 /** Smooth transition between activities. */
 val transition: Slide
-    get() = Slide(Gravity.BOTTOM).apply {
-        excludeTarget(R.id.btn_fetch, true)
-    }
+    get() = Slide(Gravity.BOTTOM)
 
 /** Transition between activities when both have R.id.btn_fetch */
-val transitionWithFetchButton: Slide
-    get() = transition.apply {
-        excludeTarget(R.id.btn_fetch, true)
-    }
+val transitionWithFetchButton = transition.apply {
+    excludeTarget(R.id.btn_fetch, true)
+}
 
 /** The default [UUID] used. Created from a [ByteArray] filled with zeros. */
 val nullUuid: UUID = UUID.nameUUIDFromBytes(ByteArray(16))

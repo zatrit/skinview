@@ -4,8 +4,12 @@ import android.opengl.GLES30.*
 import net.zatrit.skinbread.GLContext
 import java.nio.FloatBuffer
 
+/** Implementation of a two-dimensional plane along the X and Z axes for OpenGL. */
 @GLContext
 class Plain(x1: Float, z1: Float, x2: Float, z2: Float) {
+    /**
+     * [Vertex array object](https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Array_Object)
+     * for plane. */
     private val vao = genVertexArray()
 
     init {
@@ -33,7 +37,7 @@ class Plain(x1: Float, z1: Float, x2: Float, z2: Float) {
         glEnableVertexAttribArray(0)
     }
 
-    fun draw() {
+    fun render() {
         glBindVertexArray(vao)
         glDrawArrays(GL_TRIANGLE_FAN, 0, 4)
     }

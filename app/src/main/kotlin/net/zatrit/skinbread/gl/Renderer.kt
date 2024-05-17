@@ -40,7 +40,7 @@ class Renderer : GLSurfaceView.Renderer {
     private lateinit var modelShader: MVPProgram
     private lateinit var gridShader: MVPProgram
 
-    lateinit var options: RenderOptions
+    lateinit var config: RenderConfig
 
     @GLContext
     private inline fun allShaders(func: MVPProgram.() -> Unit) =
@@ -101,12 +101,12 @@ class Renderer : GLSurfaceView.Renderer {
 
     @GLContext
     override fun onDrawFrame(gl: GL10) {
-        val shadeInt = if (options.shading) 1 else 0
+        val shadeInt = if (config.shading) 1 else 0
         with(modelShader) {
             use()
             glUniform1i(uniformLocation("uShade"), shadeInt)
 
-            options.background.let {
+            config.background.let {
                 val r = red(it)
                 val g = green(it)
                 val b = blue(it)
@@ -115,26 +115,26 @@ class Renderer : GLSurfaceView.Renderer {
             }
         }
 
-        options.pendingDefaultTextures?.run {
+        config.pendingDefaultTextures?.run {
             defaultTextures.delete()
             defaultTextures = load(persistent = true)
             textures.fillWith(defaultTextures)
             defaultTextures.printInfo()
 
-            options.pendingDefaultTextures = null
+            config.pendingDefaultTextures = null
         }
 
-        if (options.clearTextures) {
+        if (config.clearTextures) {
             textures.clear()
             texturesPicker.reset()
             textures.fillWith(defaultTextures)
             playerModel.modelType = ModelType.DEFAULT
-            options.clearTextures = false
+            config.clearTextures = false
         }
 
-        while (options.pendingTextures.isNotEmpty()) {
+        while (config.pendingTextures.isNotEmpty()) {
             val model = texturesPicker.update(
-                textures, options.pendingTextures.poll()!!
+                textures, config.pendingTextures.poll()!!
             )
             playerModel.modelType = model ?: playerModel.modelType
             textures.printInfo()
@@ -156,30 +156,30 @@ class Renderer : GLSurfaceView.Renderer {
 
         textures.skin?.run {
             bind()
-            playerModel.draw()
+            playerModel.render()
         }
 
         textures.cape?.run {
             bind()
 
-            if (options.elytra) {
-                elytraModel.drawRotated(modelHandle)
+            if (config.elytra) {
+                elytraModel.renderRotated(modelHandle)
             } else {
                 val capeBuf = FloatBuffer.wrap(capeMatrix)
                 glUniformMatrix4fv(modelHandle, 1, false, capeBuf)
-                capeModel.draw()
+                capeModel.render()
             }
         }
 
         textures.ears?.run {
             bind()
-            earsModel.drawRotated(modelHandle)
+            earsModel.renderRotated(modelHandle)
         }
 
-        if (options.grid) {
+        if (config.grid) {
             glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_COLOR)
             gridShader.use()
-            grid.draw()
+            grid.render()
         }
 
         checkError()

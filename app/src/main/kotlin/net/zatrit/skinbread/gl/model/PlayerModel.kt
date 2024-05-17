@@ -81,11 +81,11 @@ class PlayerModel {
         )
     }
 
-    fun draw() {
-        parts.forEach { it.draw() }
+    fun render() {
+        parts.forEach { it.render() }
 
         (typeParts[modelType] ?: typeParts.put(
             modelType, createHands(modelType)
-        ))?.forEach { it.draw() }
+        ))?.forEach { it.render() }
     }
 }

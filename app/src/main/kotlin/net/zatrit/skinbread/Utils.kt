@@ -7,9 +7,11 @@ import android.view.*
 import android.widget.*
 import net.zatrit.skinbread.skins.SkinSource
 import java.util.UUID
-import java.util.concurrent.CompletableFuture
 
-
+/**
+ * Statically converts the layout parameters for [View] and applies them after executing [func].
+ * Simplifies the code for changing the layout.
+ * */
 inline fun <reified L : ViewGroup.LayoutParams> View.applyLayout(
     func: L.() -> Unit) {
     val params = layoutParams as L
@@ -17,22 +19,17 @@ inline fun <reified L : ViewGroup.LayoutParams> View.applyLayout(
     layoutParams = params
 }
 
+/** Prints the source of the skin and the error text to the log. */
 @DebugOnly
 fun Throwable.printWithSkinSource(source: SkinSource) {
     Log.e(TAG, "$source / $message")
-    printStackTrace()
+    printDebug()
 }
 
-@DebugOnly
-fun <T> CompletableFuture<T>.printErrorOnFail(): CompletableFuture<T> =
-    exceptionally {
-        it.printStackTrace()
-        null
-    }
-
-
+/** A pattern for parsing a short UUID notation that some developers use. */
 private val uuidPattern = "(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})".toPattern()
 
+/** Parses different UUID notations, returns null if it fails to do so. */
 fun parseUuid(string: String): UUID? = try {
     UUID.fromString(string)
 } catch (ex: Exception) {
@@ -49,6 +46,7 @@ fun parseUuid(string: String): UUID? = try {
     }
 }
 
+/** Draws [View] to a new [Bitmap]. */
 fun View.drawToBitmap(): Bitmap {
     val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
     val canvas = Canvas(bitmap)
@@ -56,20 +54,24 @@ fun View.drawToBitmap(): Bitmap {
     return bitmap
 }
 
+/** Prints stacktrace exceptions only in debug builds. */
 @DebugOnly
 fun Throwable.printDebug() = this.printStackTrace()
 
+/** Short notation for binding [func] to [Switch]. */
 inline fun Activity.bindSwitch(
-    id: Int, value: Boolean, crossinline onSet: (Boolean) -> Unit) {
+    id: Int, value: Boolean, crossinline func: (Boolean) -> Unit) {
     requireViewById<Switch>(id).apply {
-        setOnCheckedChangeListener { _, state -> onSet(state) }
+        setOnCheckedChangeListener { _, state -> func(state) }
         isChecked = value
     }
 }
 
+/** Short notation for binding [func] to [Button]. */
 inline fun bindButton(
-    button: Button, crossinline onClick: (View) -> Unit) =
-    button.setOnClickListener { onClick(it) }
+    button: Button, crossinline func: (View) -> Unit) =
+    button.setOnClickListener { func(it) }
 
-inline fun Activity.bindButton(id: Int, crossinline onClick: (View) -> Unit) =
-    bindButton(requireViewById(id), onClick)
+/** Short notation for binding [func] to [Button] by ID. */
+inline fun Activity.bindButton(id: Int, crossinline func: (View) -> Unit) =
+    bindButton(requireViewById(id), func)
