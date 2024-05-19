@@ -26,10 +26,13 @@ fun Throwable.printWithSkinSource(source: SkinSource) {
     printDebug()
 }
 
-/** A pattern for parsing a short UUID notation that some developers use. */
+/** A pattern for parsing a short [UUID] notation that some developers use. */
 private val uuidPattern = "(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})".toPattern()
 
-/** Parses different UUID notations, returns null if it fails to do so. */
+/** Parses different [UUID] notations.
+ *
+ * @return [UUID] if successfully, null otherwise.
+ * */
 fun parseUuid(string: String): UUID? = try {
     UUID.fromString(string)
 } catch (ex: Exception) {

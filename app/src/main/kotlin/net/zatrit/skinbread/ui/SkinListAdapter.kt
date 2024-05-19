@@ -44,7 +44,7 @@ class SkinListAdapter(
         switch.isChecked = entry.enabled
         switch.setOnCheckedChangeListener { _, state ->
             val alpha = if (state) 1f else DISABLED_TRANSPARENCY
-            context.textureProps.enabled[entry.index] = state
+            context.arranging.enabled[entry.index] = state
             view.animate().alpha(alpha).start()
             entry.enabled = state
         }

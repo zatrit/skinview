@@ -23,6 +23,9 @@ private fun bitmapToBase64(bitmap: Bitmap): String {
 
 private const val TEXTURES = "textures"
 
+private fun JSONObject.optBitmap(key: String) =
+    optString(key).takeIf { it.isNotBlank() }?.run(::bitmapFromBase64)
+
 fun loadTextures(preferences: SharedPreferences): Array<Textures?> {
     val textures = preferences.getString(TEXTURES, null)?.run(::JSONArray)
         ?: return textures
@@ -32,14 +35,10 @@ fun loadTextures(preferences: SharedPreferences): Array<Textures?> {
         val data = textures.getJSONObject(i) ?: continue
 
         array[i] = Textures(
-            skin = data.optString("skin").takeIf { it.isNotBlank() }
-                ?.run(::bitmapFromBase64),
-            cape = data.optString("cape").takeIf { it.isNotBlank() }
-                ?.run(::bitmapFromBase64),
-            ears = data.optString("ears").takeIf { it.isNotBlank() }
-                ?.run(::bitmapFromBase64),
-            model = data.optString("model").takeIf { it.isNotBlank() }
-                ?.run(ModelType::fromName),
+            skin = data.optBitmap("skin"),
+            cape = data.optBitmap("cape"),
+            ears = data.optBitmap("ears"),
+            model = data.optString("model").run(ModelType::fromName),
         )
     }
 

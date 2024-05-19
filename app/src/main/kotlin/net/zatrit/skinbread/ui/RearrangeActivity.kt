@@ -1,9 +1,7 @@
 package net.zatrit.skinbread.ui
 
-import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.*
 import android.view.MotionEvent.*
@@ -27,7 +25,7 @@ class RearrangeActivity : Activity() {
     private var selectedItem = -1
     private var fromItem = -1
 
-    private lateinit var order: IntArray
+    private lateinit var order: MutableList<Int>
 
     private var scrollZone = -1
 
@@ -35,7 +33,7 @@ class RearrangeActivity : Activity() {
         super.onCreate(state)
         setContentView(R.layout.activity_rearrange)
 
-        order = intent.getIntArrayExtra(ORDER)!!
+        order = intent.getIntArrayExtra(ORDER)!!.toMutableList()
         val names = order.map { defaultSources[it].name.getName(this) }
 
         window.enterTransition = transition
@@ -62,8 +60,6 @@ class RearrangeActivity : Activity() {
             fakeItem.x = item.x
             fakeItem.y = item.y
 
-            fakeItem.alpha = 0.9f
-
             dragging = true
             offsetX = lastTouchX - item.x
 
@@ -76,15 +72,13 @@ class RearrangeActivity : Activity() {
         scrollZone = resources.displayMetrics.heightPixels / 8
     }
 
-    private fun View.animateTintColor(from: Int, to: Int) =
-        ValueAnimator.ofArgb(from, to).apply {
-            duration = 500
-            addUpdateListener {
-                backgroundTintList =
-                    ColorStateList.valueOf(it.animatedValue as Int)
-            }
-            start()
+    private fun hideInserts() {
+        for (i in 0..<sourcesList.childCount) {
+            val view = sourcesList.getChildAt(i)
+            view?.findViewById<View>(R.id.insert_top)?.visibility = INVISIBLE
+            view?.findViewById<View>(R.id.insert_bottom)?.visibility = INVISIBLE
         }
+    }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
@@ -97,43 +91,69 @@ class RearrangeActivity : Activity() {
                 fakeItem.x = event.x - offsetX
                 fakeItem.y = event.y - fakeItem.height / 2
 
-                val id = sourcesList.pointToPosition(
+                val position = sourcesList.pointToPosition(
                     event.x.toInt(), event.y.toInt()
                 )
 
-                if (id != selectedItem && id != -1) {
-                    // http://www.code4kotlin.com/2014/08/how-to-access-child-views-from-listview.html
-                    val childId = sourcesList.getItemIdAtPosition(id)
-                        .toInt() - sourcesList.firstVisiblePosition
+                // http://www.code4kotlin.com/2014/08/how-to-access-child-views-from-listview.html
+                val childId = sourcesList.getItemIdAtPosition(position)
+                    .toInt() - sourcesList.firstVisiblePosition
 
-                    val selectedColor = resources.getColor(
-                        R.color.text, theme
-                    ).let {
-                        // https://stackoverflow.com/a/19287102/12245612
-                        val factor = 10;
-                        factor shl 24 or (it and 0x00ffffff)
+                if (childId < 0 || position < 0) {
+                    return false
+                }
+
+                val hovered = sourcesList.getChildAt(childId)
+                val halfHeight = hovered.height / 2
+
+                val pointInside = event.y - hovered.y
+                val insertBeneath = pointInside > halfHeight
+                val id = if (insertBeneath) {
+                    childId + 1
+                } else {
+                    childId
+                }
+
+                if (id != selectedItem) {
+                    hideInserts()
+
+                    val top: View? = if (insertBeneath) {
+                        hovered
+                    } else {
+                        sourcesList.getChildAt(id - 1)
                     }
 
-                    val normalColor =
-                        resources.getColor(R.color.background, theme)
-                    val selected = sourcesList.getChildAt(childId)
+                    val bottom: View? = if (insertBeneath) {
+                        sourcesList.getChildAt(id)
+                    } else {
+                        hovered
+                    }
 
-                    selected?.animateTintColor(normalColor, selectedColor)
+                    top?.findViewById<View>(R.id.insert_bottom)?.visibility =
+                        VISIBLE
+                    bottom?.findViewById<View>(R.id.insert_top)?.visibility =
+                        VISIBLE
 
                     selectedItem = id
                 }
             }
 
             ACTION_UP, ACTION_CANCEL -> if (dragging) {
+                hideInserts()
+
                 sourcesList.isEnabled = true
                 sourcesList.alpha = 1f
 
                 fakeItem.visibility = GONE
                 dragging = false
 
-                val a = order[selectedItem]
-                order[selectedItem] = order[fromItem]
-                order[fromItem] = a
+                val newPos = if (selectedItem > fromItem) {
+                    selectedItem - 1
+                } else {
+                    selectedItem
+                }
+                val a = order.removeAt(fromItem)
+                order.add(newPos, a)
 
                 adapter.clear()
                 adapter.addAll(
@@ -146,7 +166,7 @@ class RearrangeActivity : Activity() {
     }
 
     override fun finish() {
-        setResult(I_HAVE_ORDER, Intent().putExtra(ORDER, order))
+        setResult(I_HAVE_ORDER, Intent().putExtra(ORDER, order.toTypedArray()))
         super.finish()
     }
 }

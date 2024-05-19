@@ -25,7 +25,7 @@ class Renderer : GLSurfaceView.Renderer {
     }
 
     private val textures = GLTextures()
-    private val texturesPicker = GLTexturePicker()
+    val texturesPicker = GLTexturePicker()
     private var defaultTextures = GLTextures()
 
     private lateinit var playerModel: PlayerModel

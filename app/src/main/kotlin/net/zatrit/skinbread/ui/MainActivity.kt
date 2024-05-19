@@ -44,7 +44,7 @@ class MainActivity : TexturesActivity() {
         bindButton(R.id.btn_list) {
             val intent =
                 Intent(this, ToggleSourcesActivity::class.java).putExtra(
-                    TEXTURE_PROPS, textureProps
+                    ARRANGING, arranging
                 )
 
             startActivityForResult(
@@ -111,7 +111,7 @@ class MainActivity : TexturesActivity() {
         }
 
         loadPreferences()
-        state?.let(::updatePropsFromBundle)
+        state?.let(::updateArrangingFromBundle)
     }
 
     override fun onSaveInstanceState(state: Bundle) {
@@ -135,14 +135,14 @@ class MainActivity : TexturesActivity() {
         requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode == I_HAVE_PROPS) {
-            data?.extras?.let { updatePropsFromBundle(it) }
+        if (resultCode == I_HAVE_ARRANGING) {
+            data?.extras?.let { updateArrangingFromBundle(it) }
         }
     }
 
     override fun onTexturesAdded(
         textures: Textures, index: Int, order: Int, source: SkinSource) {
-        if (textureProps.enabled[index]) {
+        if (arranging.enabled[index]) {
             this.renderer.config.pendingTextures.add(
                 OrderedTextures(
                     order = order,
@@ -152,22 +152,28 @@ class MainActivity : TexturesActivity() {
         }
     }
 
+    override fun onTexturesLoaded() {
+        super.onTexturesLoaded()
+
+        renderer.texturesPicker.reset()
+    }
+
     override fun setTextures(newTextures: Array<Textures?>) {
         this.renderer.config.clearTextures = true
         this.renderer.config.pendingTextures.add(
             OrderedTextures(
                 order = 0,
-                textures = mergeTextures(textureProps.order.map {
-                    newTextures[it].takeIf { _ -> textureProps.enabled[it] }
+                textures = mergeTextures(arranging.order.map {
+                    newTextures[it].takeIf { _ -> arranging.enabled[it] }
                 }.filterNotNull()),
             )
         )
     }
 
     private fun loadPreferences() {
-        preferences.getString(TEXTURE_PROPS, null)?.let {
+        preferences.getString(ARRANGING, null)?.let {
             try {
-                textureProps.loadJson(JSONObject(it))
+                arranging.loadJson(JSONObject(it))
             } catch (ex: Exception) {
                 ex.printDebug()
             }

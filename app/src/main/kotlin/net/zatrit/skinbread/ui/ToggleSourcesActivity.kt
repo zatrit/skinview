@@ -37,7 +37,7 @@ class ToggleSourcesActivity : TexturesActivity() {
 
         bindButton(R.id.btn_rearrange) {
             val intent = Intent(this, RearrangeActivity::class.java)
-            intent.putExtra(ORDER, textureProps.order)
+            intent.putExtra(ORDER, arranging.order)
 
             startActivityForResult(
                 intent, 0,
@@ -47,15 +47,15 @@ class ToggleSourcesActivity : TexturesActivity() {
 
         sourcesList.adapter = adapter
 
-        intent.extras?.let(::updatePropsFromBundle)
-        state?.let(::updatePropsFromBundle)
+        intent.extras?.let(::updateArrangingFromBundle)
+        state?.let(::updateArrangingFromBundle)
     }
 
     override fun onActivityResult(
         requestCode: Int, resultCode: Int, data: Intent) {
         if (resultCode == I_HAVE_ORDER) {
-            textureProps = TextureProps(
-                textureProps.size, textureProps.enabled,
+            arranging = Arranging(
+                arranging.size, arranging.enabled,
                 data.getIntArrayExtra(ORDER)!!
             )
         }
@@ -64,8 +64,8 @@ class ToggleSourcesActivity : TexturesActivity() {
     }
 
     override fun finish() {
-        val intent = Intent().putExtra(TEXTURE_PROPS, textureProps)
-        setResult(I_HAVE_PROPS, intent)
+        val intent = Intent().putExtra(ARRANGING, arranging)
+        setResult(I_HAVE_ARRANGING, intent)
 
         super.finish()
     }
@@ -83,7 +83,7 @@ class ToggleSourcesActivity : TexturesActivity() {
                 index = i,
                 name = source.name,
                 textures = textures,
-                enabled = textureProps.enabled[i],
+                enabled = arranging.enabled[i],
             )
 
             adapter.add(entry)
@@ -101,7 +101,7 @@ class ToggleSourcesActivity : TexturesActivity() {
             index = index,
             name = source.name,
             textures = textures,
-            enabled = textureProps.enabled[index],
+            enabled = arranging.enabled[index],
         )
 
         adapter.add(entry)
@@ -120,6 +120,6 @@ class ToggleSourcesActivity : TexturesActivity() {
     }
 
     private fun sortAdapter() = adapter.sort(Comparator.comparingInt {
-        textureProps.order.indexOf(it.index)
+        arranging.order.indexOf(it.index)
     })
 }

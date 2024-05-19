@@ -3,7 +3,6 @@ package net.zatrit.skinbread.gl
 import net.zatrit.skinbread.*
 import net.zatrit.skinbread.gl.model.ModelType
 
-@GLContext
 class GLTexturePicker {
     private var skinOrder = Int.MAX_VALUE
     private var capeOrder = Int.MAX_VALUE
@@ -15,6 +14,7 @@ class GLTexturePicker {
         earsOrder = Int.MAX_VALUE
     }
 
+    @GLContext
     fun update(
         textures: GLTextures,
         input: OrderedTextures): ModelType? {

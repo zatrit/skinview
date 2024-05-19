@@ -27,7 +27,7 @@ val identity = mat4 { setIdentityM(it, 0) }
 /** The matrix used to render the cape. */
 val capeMatrix = mat4 {
     setRotateEulerM(it, 0, 10f, 180f, 0f)
-    translateM(it, 0, 0f, -0.11f, 0.45f)
+    translateM(it, 0, 0f, -0.08f, 0.45f)
 }
 
 /** Matrix used to visualize the right wing of the elytra. */

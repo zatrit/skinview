@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 import org.json.*
 
 @Parcelize
-class TextureProps(
+class Arranging(
     val size: Int,
 
     val enabled: BooleanArray = BooleanArray(size) { false }.also {
@@ -13,7 +13,6 @@ class TextureProps(
     },
     val order: IntArray = IntArray(size) { it },
 ) : Parcelable {
-
     fun loadJson(json: JSONObject) {
         val enabled =
             json.optJSONArray("enabled")?.takeIf { it.length() == size }

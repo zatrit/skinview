@@ -12,13 +12,13 @@ import net.zatrit.skins.lib.api.Profile
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.CompletableFuture.supplyAsync
 
-const val TEXTURE_PROPS = "textureProps"
-const val I_HAVE_PROPS = 156
+const val ARRANGING = "arranging"
+const val I_HAVE_ARRANGING = 156
 
 abstract class TexturesActivity : Activity(), TexturesListener {
     lateinit var preferences: SharedPreferences
 
-    var textureProps = TextureProps(defaultSources.size)
+    var arranging = Arranging(defaultSources.size)
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
@@ -48,9 +48,9 @@ abstract class TexturesActivity : Activity(), TexturesListener {
             texturesHandler = null
         }
 
-        Log.d(TAG, "Saving texture properties")
+        Log.d(TAG, "Saving textures arrangement")
         val edit = preferences.edit()
-        edit.putString(TEXTURE_PROPS, textureProps.saveJson())
+        edit.putString(ARRANGING, arranging.saveJson())
         edit.apply()
 
         super.onPause()
@@ -58,7 +58,7 @@ abstract class TexturesActivity : Activity(), TexturesListener {
 
     override fun onSaveInstanceState(state: Bundle) {
         super.onSaveInstanceState(state)
-        state.putParcelable(TEXTURE_PROPS, textureProps)
+        state.putParcelable(ARRANGING, arranging)
     }
 
     private fun showToast(message: Int) = toastHandler?.invoke(message)
@@ -84,15 +84,17 @@ abstract class TexturesActivity : Activity(), TexturesListener {
                 }
                 textures[i] = data
                 runOnUiThread {
-                    val order = textureProps.order.indexOf(i)
+                    val order = arranging.order.indexOf(i)
                     onTexturesAdded(data, i, order, source)
                 }
             }.forEach { it.join() }
-        }.whenComplete { _, _ ->
-            val edit = preferences.edit()
-            saveTextures(edit, textures)
-            edit.apply()
-        }
+        }.whenComplete { _, _ -> onTexturesLoaded() }
+    }
+
+    open fun onTexturesLoaded() {
+        val edit = preferences.edit()
+        saveTextures(edit, textures)
+        edit.apply()
     }
 
     private inline fun fetch(
@@ -111,9 +113,9 @@ abstract class TexturesActivity : Activity(), TexturesListener {
         }
     }
 
-    fun updatePropsFromBundle(bundle: Bundle) {
+    fun updateArrangingFromBundle(bundle: Bundle) {
         @Suppress("DEPRECATION")
         // Non-deprecated method isn't available on current Android version
-        textureProps = bundle.getParcelable(TEXTURE_PROPS) ?: textureProps
+        arranging = bundle.getParcelable(ARRANGING) ?: arranging
     }
 }
