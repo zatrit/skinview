@@ -1,25 +1,22 @@
 package net.zatrit.skinbread.ui
 
 import android.app.Activity
-import android.content.Intent
-import android.content.Context
-import android.os.Bundle
+import android.content.*
+import android.os.*
 import android.view.*
 import android.view.MotionEvent.*
 import android.view.View.*
 import android.widget.*
 import net.zatrit.skinbread.*
 import net.zatrit.skinbread.skins.defaultSources
-import android.os.Vibrator;
-import android.os.VibrationEffect
 
 const val ORDER = "order"
-const val I_HAVE_ORDER = 157 
+const val I_HAVE_ORDER = 157
 
 class RearrangeActivity : Activity() {
     private lateinit var sourcesList: AbsListView
     private lateinit var adapter: ArrayAdapter<String>
-    private lateinit var fakeItem: ImageView 
+    private lateinit var fakeItem: ImageView
     private lateinit var vibrator: Vibrator
 
     private var dragging = false
@@ -29,16 +26,18 @@ class RearrangeActivity : Activity() {
     private var selectedItem = -1
     private var fromItem = -1
 
-    private lateinit var order: MutableList<Int>
+    private lateinit var order: IntArray
 
+    private lateinit var scroller: Scroller
     private var scrollZone = -1
 
+    @Suppress("DEPRECATION")
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
         setContentView(R.layout.activity_rearrange)
 
-        vibrator = getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
-        order = intent.getIntArrayExtra(ORDER)!!.toMutableList()
+        vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        order = intent.getIntArrayExtra(ORDER)!!
         val names = order.map { defaultSources[it].name.getName(this) }
 
         window.enterTransition = transition
@@ -50,14 +49,18 @@ class RearrangeActivity : Activity() {
         )
         adapter.setNotifyOnChange(false)
 
+        scroller = Scroller(sourcesList, mainLooper)
+
         adapter.addAll(names)
         adapter.notifyDataSetChanged()
 
         sourcesList.adapter = adapter
 
+        scrollZone = resources.displayMetrics.heightPixels / 8
+
         sourcesList.setOnItemLongClickListener { _, item, id, _ ->
             sourcesList.isEnabled = false
-            sourcesList.alpha = 0.6f
+            sourcesList.alpha = 0.7f
 
             fakeItem.setImageBitmap(item.drawToBitmap())
             fakeItem.visibility = VISIBLE
@@ -73,8 +76,16 @@ class RearrangeActivity : Activity() {
 
             true
         }
+    }
 
-        scrollZone = resources.displayMetrics.heightPixels / 8
+    override fun onResume() {
+        super.onResume()
+        scroller.resume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        scroller.pause()
     }
 
     private fun hideInserts() {
@@ -99,37 +110,49 @@ class RearrangeActivity : Activity() {
                 val position = sourcesList.pointToPosition(
                     event.x.toInt(), event.y.toInt()
                 )
+                val itemId = sourcesList.getItemIdAtPosition(position)
 
-                // http://www.code4kotlin.com/2014/08/how-to-access-child-views-from-listview.html
-                val childId = sourcesList.getItemIdAtPosition(position)
-                    .toInt() - sourcesList.firstVisiblePosition
-
-                if (childId < 0 || position < 0) {
+                if (itemId < 0 || position < 0) {
                     return false
                 }
 
-                val hovered = sourcesList.getChildAt(childId)
+                scroller.scrollBy = if (event.y < scrollZone) {
+                    -10
+                } else if (resources.displayMetrics.heightPixels - scrollZone < event.y) {
+                    10
+                } else {
+                    0
+                }
+
+                // http://www.code4kotlin.com/2014/08/how-to-access-child-views-from-listview.html
+                val hovered = sourcesList.getChildAt(
+                    position - sourcesList.firstVisiblePosition
+                )
                 val halfHeight = hovered.height / 2
 
                 val pointInside = event.y - hovered.y
                 val insertBeneath = pointInside > halfHeight
                 val id = if (insertBeneath) {
-                    childId + 1
+                    itemId + 1
                 } else {
-                    childId
-                }
+                    itemId
+                }.toInt()
 
                 if (id != selectedItem) {
                     hideInserts()
 
-                    vibrator.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
+                    vibrator.vibrate(
+                        VibrationEffect.createOneShot(
+                            25, VibrationEffect.EFFECT_TICK
+                        )
+                    )
 
                     val insertPoint: View? = if (insertBeneath) {
-                        hovered?.findViewById<View>(R.id.insert_bottom)
+                        hovered?.findViewById(R.id.insert_bottom)
                     } else {
-                        hovered?.findViewById<View>(R.id.insert_top)
+                        hovered?.findViewById(R.id.insert_top)
                     }
-                    
+
                     insertPoint?.visibility = VISIBLE
                     selectedItem = id
                 }
@@ -144,13 +167,15 @@ class RearrangeActivity : Activity() {
                 fakeItem.visibility = GONE
                 dragging = false
 
-                val newPos = if (selectedItem > fromItem) {
+                scroller.scrollBy = 0
+
+                val toItem = if (fromItem < selectedItem) {
                     selectedItem - 1
                 } else {
                     selectedItem
                 }
-                val a = order.removeAt(fromItem)
-                order.add(newPos, a)
+
+                order.moveItemTo(fromItem, toItem)
 
                 adapter.clear()
                 adapter.addAll(
@@ -163,7 +188,7 @@ class RearrangeActivity : Activity() {
     }
 
     override fun finish() {
-        setResult(I_HAVE_ORDER, Intent().putExtra(ORDER, order.toTypedArray()))
+        setResult(I_HAVE_ORDER, Intent().putExtra(ORDER, order))
         super.finish()
     }
 }

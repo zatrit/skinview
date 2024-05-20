@@ -6,12 +6,12 @@ import org.json.*
 
 @Parcelize
 class Arranging(
-    val size: Int,
+    private val size: Int,
 
     val enabled: BooleanArray = BooleanArray(size) { false }.also {
         it[0] = true // Enable
     },
-    val order: IntArray = IntArray(size) { it },
+    var order: IntArray = IntArray(size) { it },
 ) : Parcelable {
     fun loadJson(json: JSONObject) {
         val enabled =

@@ -54,10 +54,7 @@ class ToggleSourcesActivity : TexturesActivity() {
     override fun onActivityResult(
         requestCode: Int, resultCode: Int, data: Intent) {
         if (resultCode == I_HAVE_ORDER) {
-            arranging = Arranging(
-                arranging.size, arranging.enabled,
-                data.getIntArrayExtra(ORDER)!!
-            )
+            arranging.order = data.getIntArrayExtra(ORDER)!!
         }
 
         super.onActivityResult(requestCode, resultCode, data)

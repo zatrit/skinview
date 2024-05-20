@@ -78,3 +78,17 @@ inline fun bindButton(
 /** Short notation for binding [func] to [Button] by ID. */
 inline fun Activity.bindButton(id: Int, crossinline func: (View) -> Unit) =
     bindButton(requireViewById(id), func)
+
+fun IntArray.moveItemTo(from: Int, to: Int) {
+    Log.d(TAG, "$from, $to")
+
+    val a = this[from]
+
+    if (from < to) {
+        System.arraycopy(this, from + 1, this, from, to - from)
+    } else if (from > to) {
+        System.arraycopy(this, to, this, to + 1, from - to)
+    }
+
+    this[to] = a
+}

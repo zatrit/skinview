@@ -13,11 +13,9 @@ class Textures(
     var ears: Bitmap? = null,
     var model: ModelType? = null,
 ) {
-    @IgnoredOnParcel
-    val complete
+    val isComplete
         get() = skin != null && cape != null && ears != null
 
-    @IgnoredOnParcel
     val isEmpty
         get() = skin == null && cape == null && ears == null
 
