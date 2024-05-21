@@ -9,7 +9,7 @@ class Arranging(
     private val size: Int,
 
     val enabled: BooleanArray = BooleanArray(size) { false }.also {
-        it[0] = true // Enable
+        it[0] = true // Enable vanilla by default
     },
     var order: IntArray = IntArray(size) { it },
 ) : Parcelable {

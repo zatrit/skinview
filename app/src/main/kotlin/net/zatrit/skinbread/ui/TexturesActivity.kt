@@ -78,6 +78,7 @@ abstract class TexturesActivity : Activity(), TexturesListener {
             }
         }.thenApplyAsync { profile ->
             showToast(R.string.loading_textures)
+
             fetch(profile, sources) { i, texture, source ->
                 val data = Textures().apply {
                     fillWith(texture, skinLayer, capeLayer)

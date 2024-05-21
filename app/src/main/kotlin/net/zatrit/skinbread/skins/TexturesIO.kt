@@ -38,7 +38,7 @@ fun loadTextures(preferences: SharedPreferences): Array<Textures?> {
             skin = data.optBitmap("skin"),
             cape = data.optBitmap("cape"),
             ears = data.optBitmap("ears"),
-            model = data.optString("model").run(ModelType::fromName),
+            model = ModelType.fromName(data.optString("model")),
         )
     }
 

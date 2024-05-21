@@ -12,7 +12,7 @@ fun loadTextures(profile: Profile, source: SkinSource) = supplyAsync {
     try {
         source.resolver.resolve(profile)
     } catch (ex: Exception) {
-        ex.printWithSkinSource(source)
+        ex.printDebug()
         null
     }
 }!!
@@ -21,7 +21,7 @@ fun mergeTextures(inputs: List<Textures>): Textures {
     val textures = Textures()
     val iterator = inputs.iterator()
 
-    while (iterator.hasNext() && !textures.isComplete) {
+    while (iterator.hasNext() && !textures.isComplete()) {
         textures.fillWith(iterator.next())
     }
 

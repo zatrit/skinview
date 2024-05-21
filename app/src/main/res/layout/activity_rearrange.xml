@@ -11,7 +11,6 @@
   <GridView
       tools:listitem="@layout/rearrange_list_entry"
       android:id="@+id/list_sources"
-      android:numColumns="@integer/num_columns"
       android:verticalSpacing="1dp"
       android:layout_width="match_parent"
       android:layout_height="match_parent" />

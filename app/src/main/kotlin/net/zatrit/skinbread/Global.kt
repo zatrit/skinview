@@ -83,7 +83,6 @@ val nullUuid: UUID = UUID.nameUUIDFromBytes(ByteArray(16))
 @Volatile
 var textures = arrayOfNulls<Textures>(defaultSources.size)
 
-
 /** Static handler for adding textures */
 @Volatile
 var texturesHandler: TexturesListener? = null

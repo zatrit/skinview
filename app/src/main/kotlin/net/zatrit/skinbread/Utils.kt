@@ -2,10 +2,8 @@ package net.zatrit.skinbread
 
 import android.app.Activity
 import android.graphics.*
-import android.util.Log
 import android.view.*
 import android.widget.*
-import net.zatrit.skinbread.skins.SkinSource
 import java.util.UUID
 
 /**
@@ -17,13 +15,6 @@ inline fun <reified L : ViewGroup.LayoutParams> View.applyLayout(
     val params = layoutParams as L
     params.func()
     layoutParams = params
-}
-
-/** Prints the source of the skin and the error text to the log. */
-@DebugOnly
-fun Throwable.printWithSkinSource(source: SkinSource) {
-    Log.e(TAG, "$source / $message")
-    printDebug()
 }
 
 /** A pattern for parsing a short [UUID] notation that some developers use. */
@@ -80,8 +71,6 @@ inline fun Activity.bindButton(id: Int, crossinline func: (View) -> Unit) =
     bindButton(requireViewById(id), func)
 
 fun IntArray.moveItemTo(from: Int, to: Int) {
-    Log.d(TAG, "$from, $to")
-
     val a = this[from]
 
     if (from < to) {

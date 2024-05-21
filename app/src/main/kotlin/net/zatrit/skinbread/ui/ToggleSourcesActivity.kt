@@ -47,8 +47,8 @@ class ToggleSourcesActivity : TexturesActivity() {
 
         sourcesList.adapter = adapter
 
-        intent.extras?.let(::updateArrangingFromBundle)
-        state?.let(::updateArrangingFromBundle)
+        intent.extras?.run(::updateArrangingFromBundle)
+        state?.run(::updateArrangingFromBundle)
     }
 
     override fun onActivityResult(
@@ -71,7 +71,7 @@ class ToggleSourcesActivity : TexturesActivity() {
         adapter.clear()
 
         newTextures.mapIndexed { i, textures ->
-            if (textures == null || textures.isEmpty) {
+            if (textures == null || textures.isEmpty()) {
                 return@mapIndexed
             }
 

@@ -110,16 +110,16 @@ class RearrangeActivity : Activity() {
                 val position = sourcesList.pointToPosition(
                     event.x.toInt(), event.y.toInt()
                 )
-                val itemId = sourcesList.getItemIdAtPosition(position)
+                var id = sourcesList.getItemIdAtPosition(position).toInt()
 
-                if (itemId < 0 || position < 0) {
+                if (id < 0 || position < 0) {
                     return false
                 }
 
                 scroller.scrollBy = if (event.y < scrollZone) {
-                    -10
+                    -20
                 } else if (resources.displayMetrics.heightPixels - scrollZone < event.y) {
-                    10
+                    20
                 } else {
                     0
                 }
@@ -132,11 +132,10 @@ class RearrangeActivity : Activity() {
 
                 val pointInside = event.y - hovered.y
                 val insertBeneath = pointInside > halfHeight
-                val id = if (insertBeneath) {
-                    itemId + 1
-                } else {
-                    itemId
-                }.toInt()
+
+                if (insertBeneath) {
+                    id += 1
+                }
 
                 if (id != selectedItem) {
                     hideInserts()

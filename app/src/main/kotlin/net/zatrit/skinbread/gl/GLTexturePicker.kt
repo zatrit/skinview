@@ -16,31 +16,29 @@ class GLTexturePicker {
 
     @GLContext
     fun update(
-        textures: GLTextures,
-        input: OrderedTextures): ModelType? {
+        textures: GLTextures, ordered: OrderedTextures): ModelType? {
         var model: ModelType? = null
+        val input = ordered.textures
+        val order = ordered.order
 
-        input.textures.skin?.let(::GLTexture).takeIf { input.order < skinOrder }
-            ?.also {
-                skinOrder = input.order
-                textures.skin?.delete()
-                textures.skin = it
-                model = input.textures.model ?: ModelType.DEFAULT
-            }
+        input.skin?.takeIf { order < skinOrder }?.let {
+            skinOrder = order
+            textures.skin?.delete()
+            textures.skin = GLTexture(it)
+            model = input.model ?: ModelType.DEFAULT
+        }
 
-        input.textures.cape?.let(::GLTexture).takeIf { input.order < capeOrder }
-            ?.also {
-                capeOrder = input.order
-                textures.cape?.delete()
-                textures.cape = it
-            }
+        input.cape?.takeIf { order < capeOrder }?.let {
+            capeOrder = order
+            textures.cape?.delete()
+            textures.cape = GLTexture(it)
+        }
 
-        input.textures.ears?.let(::GLTexture).takeIf { input.order < earsOrder }
-            ?.also {
-                earsOrder = input.order
-                textures.ears?.delete()
-                textures.ears = it
-            }
+        input.ears?.takeIf { order < earsOrder }?.let {
+            earsOrder = order
+            textures.ears?.delete()
+            textures.ears = GLTexture(it)
+        }
 
         return model
     }

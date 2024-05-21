@@ -13,7 +13,7 @@ private fun textureInfo(bitmap: Bitmap) = bitmap.run {
 
 @GLContext
 class GLTexture(bitmap: Bitmap, private val persistent: Boolean = false) {
-    private val id = buf { glGenTextures(1, it) }
+    val id = buf { glGenTextures(1, it) }
 
     init {
         textureInfo(bitmap)
@@ -33,9 +33,6 @@ class GLTexture(bitmap: Bitmap, private val persistent: Boolean = false) {
             glDeleteTextures(1, id)
         }
     }
-
-    @DebugOnly
-    override fun toString() = "Texture(${id[0]})"
 }
 
 @GLContext
@@ -64,5 +61,6 @@ class GLTextures(
     }
 
     @DebugOnly
-    fun printInfo() = Log.v(TAG, "skin: $skin, cape: $cape, ears: $ears")
+    fun printInfo() =
+        Log.v(TAG, "skin: ${skin?.id}, cape: ${cape?.id}, ears: ${ears?.id}")
 }

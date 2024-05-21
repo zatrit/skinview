@@ -1,6 +1,6 @@
 package net.zatrit.skinbread.skins
 
-import net.zatrit.skinbread.*
+import net.zatrit.skinbread.R
 import net.zatrit.skins.lib.TextureType
 import net.zatrit.skins.lib.api.Resolver
 import net.zatrit.skins.lib.resolver.*
@@ -13,9 +13,6 @@ class SkinSource(val name: SourceName, val resolver: Resolver) {
     )
 
     constructor(id: Int, resolver: Resolver) : this(ResName(id), resolver)
-
-    @DebugOnly
-    override fun toString() = "${name}: ${javaClass.name}"
 }
 
 val defaultSources = arrayOf(
