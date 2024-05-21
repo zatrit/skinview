@@ -8,9 +8,7 @@ class LegacySkinLayer : ImageLayer() {
     override fun apply(input: Bitmap): Bitmap {
         val size = input.width
 
-        if (input.height != 32 || input.height == input.width) {
-            return input
-        }
+        if (input.height != 32 || input.height == input.width) return input
 
         val dest = Bitmap.createBitmap(size, size, input.config)
         val canvas = Canvas(dest)

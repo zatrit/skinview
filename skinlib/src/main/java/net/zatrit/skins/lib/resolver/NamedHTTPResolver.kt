@@ -8,7 +8,7 @@ import java.net.URL
 
 /**
  * [ely.by API](https://docs.ely.by/en/skins-system.html) implementation
- * for OpenMCSKins. Works for some other APIs.
+ * for skinlib. Works for some other APIs.
  */
 class NamedHTTPResolver(private val baseUrl: String) : Resolver {
     @Throws(IOException::class)

@@ -6,6 +6,13 @@ import android.view.ContextThemeWrapper
 import android.widget.*
 import net.zatrit.skinbread.R
 
+fun AlertDialog.getText(child: Int) =
+    requireViewById<EditText>(child).text.toString()
+
+fun AlertDialog.setText(child: Int, text: String) {
+    requireViewById<EditText>(child).setText(text)
+}
+
 inline fun profileDialog(
     activity: Activity, prefs: SharedPreferences,
     crossinline load: (String, String) -> Unit): Dialog =
@@ -16,13 +23,8 @@ inline fun profileDialog(
             setPositiveButton(android.R.string.ok) { dialog, _ ->
                 val alertDialog = dialog as AlertDialog
 
-                val name = alertDialog.requireViewById<EditText>(
-                    R.id.edittext_name
-                ).text.toString()
-
-                val uuid = alertDialog.requireViewById<EditText>(
-                    R.id.edittext_uuid
-                ).text.toString()
+                val name = alertDialog.getText(R.id.edittext_name)
+                val uuid = alertDialog.getText(R.id.edittext_uuid)
 
                 val remember =
                     alertDialog.requireViewById<Switch>(R.id.switch_remember)
@@ -47,13 +49,11 @@ inline fun profileDialog(
                 if (dialog !is AlertDialog) return@setOnShowListener
 
                 prefs.getString("profileName", null)?.also {
-                    dialog.requireViewById<EditText>(R.id.edittext_name)
-                        .setText(it)
+                    dialog.setText(R.id.edittext_name, it)
                 }
 
                 prefs.getString("profileId", null)?.also {
-                    dialog.requireViewById<EditText>(R.id.edittext_uuid)
-                        .setText(it)
+                    dialog.setText(R.id.edittext_uuid, it)
                 }
             }
         }

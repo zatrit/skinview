@@ -17,9 +17,9 @@ interface Profile {
      */
     val name: String
 
+    /**
+     * @return player UUID without minus characters.
+     */
     val shortId: String
-        /**
-         * @return player UUID without minus characters.
-         */
         get() = id.toString().replace("-", "")
 }

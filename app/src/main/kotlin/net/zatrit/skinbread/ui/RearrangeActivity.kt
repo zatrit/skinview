@@ -3,6 +3,7 @@ package net.zatrit.skinbread.ui
 import android.app.Activity
 import android.content.*
 import android.os.*
+import android.os.VibrationEffect.EFFECT_TICK
 import android.view.*
 import android.view.MotionEvent.*
 import android.view.View.*
@@ -30,6 +31,7 @@ class RearrangeActivity : Activity() {
 
     private lateinit var scroller: Scroller
     private var scrollZone = -1
+    private var screenHeight = -1
 
     @Suppress("DEPRECATION")
     override fun onCreate(state: Bundle?) {
@@ -38,25 +40,20 @@ class RearrangeActivity : Activity() {
 
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         order = intent.getIntArrayExtra(ORDER)!!
-        val names = order.map { defaultSources[it].name.getName(this) }
 
         window.enterTransition = transition
 
         fakeItem = requireViewById(R.id.img_fake_item)
         sourcesList = requireViewById(R.id.list_sources)
-        adapter = ArrayAdapter(
-            this, R.layout.rearrange_list_entry, R.id.text_source_name
-        )
+
+        adapter = IndexedAdapter(this)
         adapter.setNotifyOnChange(false)
-
-        scroller = Scroller(sourcesList, mainLooper)
-
-        adapter.addAll(names)
-        adapter.notifyDataSetChanged()
-
+        fillAdapter()
         sourcesList.adapter = adapter
 
-        scrollZone = resources.displayMetrics.heightPixels / 8
+        scroller = Scroller(sourcesList, mainLooper)
+        screenHeight = resources.displayMetrics.heightPixels
+        scrollZone = screenHeight / 8
 
         sourcesList.setOnItemLongClickListener { _, item, id, _ ->
             sourcesList.isEnabled = false
@@ -112,17 +109,13 @@ class RearrangeActivity : Activity() {
                 )
                 var id = sourcesList.getItemIdAtPosition(position).toInt()
 
-                if (id < 0 || position < 0) {
-                    return false
-                }
+                if (id < 0 || position < 0) return false
 
                 scroller.scrollBy = if (event.y < scrollZone) {
                     -20
-                } else if (resources.displayMetrics.heightPixels - scrollZone < event.y) {
+                } else if (event.y > screenHeight - scrollZone) {
                     20
-                } else {
-                    0
-                }
+                } else 0
 
                 // http://www.code4kotlin.com/2014/08/how-to-access-child-views-from-listview.html
                 val hovered = sourcesList.getChildAt(
@@ -141,18 +134,14 @@ class RearrangeActivity : Activity() {
                     hideInserts()
 
                     vibrator.vibrate(
-                        VibrationEffect.createOneShot(
-                            25, VibrationEffect.EFFECT_TICK
-                        )
+                        VibrationEffect.createOneShot(25, EFFECT_TICK)
                     )
 
-                    val insertPoint: View? = if (insertBeneath) {
-                        hovered?.findViewById(R.id.insert_bottom)
-                    } else {
-                        hovered?.findViewById(R.id.insert_top)
-                    }
+                    hovered?.findViewById<View?>(
+                        if (insertBeneath) R.id.insert_bottom
+                        else R.id.insert_top
+                    )?.visibility = VISIBLE
 
-                    insertPoint?.visibility = VISIBLE
                     selectedItem = id
                 }
             }
@@ -168,22 +157,23 @@ class RearrangeActivity : Activity() {
 
                 scroller.scrollBy = 0
 
-                val toItem = if (fromItem < selectedItem) {
-                    selectedItem - 1
-                } else {
-                    selectedItem
+                if (fromItem < selectedItem) {
+                    selectedItem -= 1
                 }
 
-                order.moveItemTo(fromItem, toItem)
+                order.moveItemTo(fromItem, selectedItem)
 
                 adapter.clear()
-                adapter.addAll(
-                    order.map { defaultSources[it].name.getName(this) })
-                adapter.notifyDataSetChanged()
+                fillAdapter()
             }
         }
 
         return super.dispatchTouchEvent(event)
+    }
+
+    private fun fillAdapter() {
+        adapter.addAll(order.map { defaultSources[it].name.getName(this) })
+        adapter.notifyDataSetChanged()
     }
 
     override fun finish() {

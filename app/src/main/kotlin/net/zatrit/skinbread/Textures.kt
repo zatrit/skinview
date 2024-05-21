@@ -48,9 +48,7 @@ class Textures(
     }
 
     fun fillWith(other: Textures) {
-        if (this.skin == null) {
-            this.model = other.model
-        }
+        if (this.skin == null) this.model = other.model
 
         this.skin = this.skin ?: other.skin
         this.cape = this.cape ?: other.cape

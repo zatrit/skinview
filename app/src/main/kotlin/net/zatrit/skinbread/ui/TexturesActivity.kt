@@ -28,25 +28,20 @@ abstract class TexturesActivity : Activity(), TexturesListener {
     override fun onResume() {
         super.onResume()
 
-        // Sets the global toastHandler to display messages
+        // Sets the global handlers
         toastHandler = {
             runOnUiThread {
                 Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
             }
         }
-
         texturesHandler = this
 
         setTextures(textures)
     }
 
     override fun onPause() {
-        if (toastHandler == this) {
-            toastHandler = null
-        }
-        if (texturesHandler == this) {
-            texturesHandler = null
-        }
+        if (toastHandler == this) toastHandler = null
+        if (texturesHandler == this) texturesHandler = null
 
         Log.d(TAG, "Saving textures arrangement")
         val edit = preferences.edit()
@@ -105,9 +100,7 @@ abstract class TexturesActivity : Activity(), TexturesListener {
         return sources.mapIndexed { i, source ->
             val future = loadTextures(profile, source)
             future.thenApply {
-                if (it == null || it.isEmpty) {
-                    return@thenApply
-                }
+                if (it == null || it.isEmpty) return@thenApply
 
                 callback(i, it, source)
             }

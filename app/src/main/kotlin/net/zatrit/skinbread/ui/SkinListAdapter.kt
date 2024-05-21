@@ -1,6 +1,5 @@
 package net.zatrit.skinbread.ui
 
-import android.annotation.SuppressLint
 import android.view.*
 import android.widget.*
 import net.zatrit.skinbread.*
@@ -24,7 +23,6 @@ class SkinListAdapter(
     private val entry: Int = R.layout.texture_entry,
 ) : ArrayAdapter<NamedEntry>(context, entry) {
     // https://java2blog.com/android-custom-listview-with-images-text-example/
-    @SuppressLint("ClickableViewAccessibility")
     override fun getView(
         position: Int, convertView: View?, parent: ViewGroup): View {
         val inflater = context.layoutInflater
@@ -35,9 +33,7 @@ class SkinListAdapter(
         val image = view.requireViewById<ImageView>(imageView)
 
         if (convertView == null) {
-            view.setOnClickListener {
-                switch.toggle()
-            }
+            view.setOnClickListener { switch.toggle() }
         }
 
         switch.setOnCheckedChangeListener(null)

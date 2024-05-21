@@ -4,7 +4,6 @@ import com.google.common.io.ByteStreams;
 
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -17,7 +16,7 @@ import lombok.val;
 @UtilityClass
 @ApiStatus.Internal
 public class IOUtil {
-    public static byte @Nullable [] download(@NotNull URL url)
+    public static byte @NotNull [] download(@NotNull URL url)
         throws IOException {
         val connection = url.openConnection();
 

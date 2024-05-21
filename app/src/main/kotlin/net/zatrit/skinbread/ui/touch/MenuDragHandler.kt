@@ -32,9 +32,8 @@ class MenuDragHandler(
             }
 
             ACTION_UP -> {
-                if (target.layoutParams.height < step / 2) {
-                    hideInstant()
-                } else {
+                if (target.layoutParams.height < step / 2) hideInstant()
+                else {
                     val height = target.layoutParams.height
                     val newHeight = (height / step * step).coerceAtLeast(step)
                         .coerceAtMost(metrics.heightPixels)

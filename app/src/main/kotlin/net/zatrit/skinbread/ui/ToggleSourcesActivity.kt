@@ -71,9 +71,7 @@ class ToggleSourcesActivity : TexturesActivity() {
         adapter.clear()
 
         newTextures.mapIndexed { i, textures ->
-            if (textures == null || textures.isEmpty()) {
-                return@mapIndexed
-            }
+            if (textures == null || textures.isEmpty()) return@mapIndexed
 
             val source = defaultSources[i]
             val entry = NamedEntry(

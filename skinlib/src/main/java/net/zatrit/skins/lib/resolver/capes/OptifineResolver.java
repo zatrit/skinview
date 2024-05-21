@@ -12,14 +12,13 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
-import java.util.Objects;
 
 import lombok.AllArgsConstructor;
 import lombok.val;
 
 /**
  * <a href="https://optifine.readthedocs.io/capes.html">Optifine API</a>
- * resolver for OpenMCSkins.
+ * resolver for skinlib.
  * <p>
  * Does not cache skins, because connecting to API already loads textures.
  */
@@ -32,7 +31,7 @@ public final class OptifineResolver implements Resolver {
         throws IOException, NullPointerException {
         val url = new URL(this.baseUrl + "/capes/" + profile.getName() + ".png");
         val texture = new BytesTexture(
-            Objects.requireNonNull(IOUtil.download(url)),
+            IOUtil.download(url),
             null
         );
 

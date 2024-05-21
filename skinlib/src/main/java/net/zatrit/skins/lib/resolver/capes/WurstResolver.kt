@@ -12,9 +12,7 @@ class WurstResolver : CapesListResolver() {
         val obj = URL(CAPES_URL).openStream().jsonObject
         val map = mutableMapOf<String, String>()
 
-        for (key in obj.keys()) {
-            map[key] = obj.getString(key)
-        }
+        for (key in obj.keys()) map[key] = obj.getString(key)
 
         return map
     }

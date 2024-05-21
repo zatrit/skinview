@@ -15,11 +15,10 @@ class ShowWhenLoadedHandler(
         context, R.string.still_loading, Toast.LENGTH_SHORT
     )
 
-    override fun onClick(v: View?) {
+    override fun onClick(v: View?) =
         if (loading == null || loading?.isDone == true) {
             dialog.show()
         } else {
             stillLoadingToast.show()
         }
-    }
 }

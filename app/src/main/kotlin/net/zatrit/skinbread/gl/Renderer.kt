@@ -162,9 +162,8 @@ class Renderer : GLSurfaceView.Renderer {
         textures.cape?.run {
             bind()
 
-            if (config.elytra) {
-                elytraModel.renderRotated(modelHandle)
-            } else {
+            if (config.elytra) elytraModel.renderRotated(modelHandle)
+            else {
                 val capeBuf = FloatBuffer.wrap(capeMatrix)
                 glUniformMatrix4fv(modelHandle, 1, false, capeBuf)
                 capeModel.render()
