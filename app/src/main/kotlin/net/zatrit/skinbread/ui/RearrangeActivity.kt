@@ -1,12 +1,13 @@
 package net.zatrit.skinbread.ui
 
+import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.*
 import android.os.*
-import android.os.VibrationEffect.EFFECT_TICK
+import android.os.VibrationEffect.createOneShot
 import android.view.*
 import android.view.MotionEvent.*
-import android.view.View.*
+import android.view.View.VISIBLE
 import android.widget.*
 import net.zatrit.skinbread.*
 import net.zatrit.skinbread.skins.defaultSources
@@ -16,7 +17,7 @@ const val I_HAVE_ORDER = 157
 
 class RearrangeActivity : Activity() {
     private lateinit var sourcesList: AbsListView
-    private lateinit var adapter: ArrayAdapter<String>
+    private lateinit var adapter: IndexedAdapter
     private lateinit var fakeItem: ImageView
     private lateinit var vibrator: Vibrator
 
@@ -32,6 +33,8 @@ class RearrangeActivity : Activity() {
     private lateinit var scroller: Scroller
     private var scrollZone = -1
     private var screenHeight = -1
+
+    private var fakeItemFade: ObjectAnimator? = null
 
     @Suppress("DEPRECATION")
     override fun onCreate(state: Bundle?) {
@@ -60,7 +63,10 @@ class RearrangeActivity : Activity() {
             sourcesList.alpha = 0.7f
 
             fakeItem.setImageBitmap(item.drawToBitmap())
-            fakeItem.visibility = VISIBLE
+            fadeFakeItem(0.85f)
+
+            fadeView(item, 0f)
+            adapter.hiddenItem = id
 
             fakeItem.x = item.x
             fakeItem.y = item.y
@@ -83,14 +89,6 @@ class RearrangeActivity : Activity() {
     override fun onPause() {
         super.onPause()
         scroller.pause()
-    }
-
-    private fun hideInserts() {
-        for (i in 0..<sourcesList.childCount) {
-            val view = sourcesList.getChildAt(i)
-            view?.findViewById<View>(R.id.insert_top)?.visibility = INVISIBLE
-            view?.findViewById<View>(R.id.insert_bottom)?.visibility = INVISIBLE
-        }
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
@@ -133,9 +131,7 @@ class RearrangeActivity : Activity() {
                 if (id != selectedItem) {
                     hideInserts()
 
-                    vibrator.vibrate(
-                        VibrationEffect.createOneShot(25, EFFECT_TICK)
-                    )
+                    vibrator.vibrate(createOneShot(50, 12))
 
                     hovered?.findViewById<View?>(
                         if (insertBeneath) R.id.insert_bottom
@@ -149,10 +145,13 @@ class RearrangeActivity : Activity() {
             ACTION_UP, ACTION_CANCEL -> if (dragging) {
                 hideInserts()
 
+                adapter.hiddenItem = null
+                showAll()
+
                 sourcesList.isEnabled = true
                 sourcesList.alpha = 1f
 
-                fakeItem.visibility = GONE
+                fadeFakeItem(0f)
                 dragging = false
 
                 scroller.scrollBy = 0
@@ -171,13 +170,40 @@ class RearrangeActivity : Activity() {
         return super.dispatchTouchEvent(event)
     }
 
+    override fun finish() {
+        setResult(I_HAVE_ORDER, Intent().putExtra(ORDER, order))
+        super.finish()
+    }
+
     private fun fillAdapter() {
         adapter.addAll(order.map { defaultSources[it].name.getName(this) })
         adapter.notifyDataSetChanged()
     }
 
-    override fun finish() {
-        setResult(I_HAVE_ORDER, Intent().putExtra(ORDER, order))
-        super.finish()
+    private fun hideInserts() = forEachChild { _, view ->
+        view.findViewById<View>(R.id.insert_top)?.visibility = View.INVISIBLE
+        view.findViewById<View>(R.id.insert_bottom)?.visibility = View.INVISIBLE
     }
+
+    private fun showAll() = forEachChild { _, view ->
+        if (view.alpha != 1f) fadeView(view, 1f)
+    }
+
+    private inline fun forEachChild(func: (Int, View) -> Unit) {
+        for (i in 0..<sourcesList.childCount) {
+            val view = sourcesList.getChildAt(i)
+            func(i, view)
+        }
+    }
+
+    private fun fadeFakeItem(alpha: Float) {
+        fakeItemFade?.cancel()
+        fakeItemFade = fadeView(fakeItem, alpha)
+    }
+
+    private fun fadeView(view: View, alpha: Float) =
+        ObjectAnimator.ofFloat(view, "alpha", view.alpha, alpha).apply {
+            setDuration(50)
+            start()
+        }
 }

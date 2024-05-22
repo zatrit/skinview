@@ -71,13 +71,13 @@ val transitionWithFetchButton = transition.apply {
     excludeTarget(R.id.btn_fetch, true)
 }
 
-/** The default [UUID] used. Created from a [ByteArray] filled with zeros. */
-val nullUuid: UUID = UUID.nameUUIDFromBytes(ByteArray(16))
+/** The default [UUID]. */
+val nullUuid: UUID = UUID.randomUUID()
 
 /**
  * Globally stored array of loaded textures.
  *
- * It's impractical to store it locally for an [android.app.Activity],
+ * It's impractical to store it locally for an [net.zatrit.skinbread.ui.TexturesActivity],
  * as passing it between activities is very expensive in terms
  * of performance and complicates the code. */
 @Volatile

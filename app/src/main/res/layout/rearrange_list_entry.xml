@@ -1,5 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:animateLayoutChanges="true"
     android:orientation="vertical"
     android:background="@drawable/selection_background"
     android:backgroundTint="@color/background"

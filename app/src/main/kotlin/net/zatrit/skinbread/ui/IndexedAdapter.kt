@@ -12,6 +12,7 @@ import kotlin.math.log10
 class IndexedAdapter(
     context: Context,
     private val entry: Int = R.layout.rearrange_list_entry,
+    var hiddenItem: Int? = null,
 ) : ArrayAdapter<String>(context, entry) {
     private val inflater = LayoutInflater.from(context)
 
@@ -31,6 +32,8 @@ class IndexedAdapter(
 
         val textView = view.requireViewById<TextView>(R.id.text_source_name)
         textView.text = spanned
+
+        view.alpha = if (position == hiddenItem) 0f else 1f
 
         return view
     }

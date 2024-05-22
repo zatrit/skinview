@@ -29,9 +29,7 @@ class GLTexture(bitmap: Bitmap, private val persistent: Boolean = false) {
     fun bind() = glBindTexture(GL_TEXTURE_2D, id.get(0))
 
     fun delete() {
-        if (!persistent) {
-            glDeleteTextures(1, id)
-        }
+        if (!persistent) glDeleteTextures(1, id)
     }
 }
 
