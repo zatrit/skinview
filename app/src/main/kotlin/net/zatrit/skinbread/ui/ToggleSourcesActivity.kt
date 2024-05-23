@@ -99,11 +99,13 @@ class ToggleSourcesActivity : TexturesActivity() {
             enabled = arranging.enabled[index],
         )
 
-        adapter.add(entry)
-        sortAdapter()
-        adapter.notifyDataSetChanged()
+        runOnUiThread {
+            adapter.add(entry)
+            sortAdapter()
+            adapter.notifyDataSetChanged()
 
-        updateListVisibility()
+            updateListVisibility()
+        }
     }
 
     private fun updateListVisibility() = if (adapter.isEmpty) {

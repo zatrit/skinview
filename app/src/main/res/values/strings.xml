@@ -1,21 +1,39 @@
 <resources>
+  <!-- App name -->
   <string name="app_name" translatable="false">SkinBread</string>
+
+  <!-- MainActivity buttons -->
+  <string name="list_skin">Skins</string>
   <string name="render_options">Render options</string>
+
+  <!-- ToggleSourcesActivity strings -->
+  <string name="no_skins">To see your skins, use</string>
+  <string name="rearrange">Rearrange</string>
+  <string name="skin_preview">Skin preview</string>
+
+  <!-- RearrangeActivity strings -->
+  <string name="rearrange_show">Show:</string>
+  <string name="show_loaded">Loaded</string>
+  <string name="show_all">All</string>
+  <string name="rearrange_tip">Use a long click to rearrange</string>
+
+  <!-- Render options -->
   <string name="shading">Shading</string>
   <string name="show_grid">Show grid</string>
   <string name="show_elytra">Show elytra instead of cape</string>
-  <string name="still_loading">Textures are still loading</string>
-  <string name="list_skin">List skins</string>
-  <string name="uuid">UUID (optional)</string>
-  <string name="name">Name</string>
-  <string name="remember_profile">Remember profile</string>
+
+  <!-- Load profile dialog -->
   <string name="input_profile">Input profile data</string>
-  <string name="skin_preview">Skin preview</string>
+  <string name="name">Name</string>
+  <string name="uuid">UUID (optional)</string>
+  <string name="remember_profile">Remember profile</string>
+
+  <!-- Source names -->
   <string name="source_vanilla">Vanilla</string>
-  <string name="source_default">Default</string>
+
+  <!-- Toast messages -->
   <string name="loading_profile">Loading profile…</string>
   <string name="loading_textures">Loading textures…</string>
-  <string name="no_skins">To see your skins, use</string>
-  <string name="rearrange">Rearrange</string>
   <string name="profile_failed">Failed to get profile</string>
+  <string name="still_loading">Textures are still loading</string>
 </resources>

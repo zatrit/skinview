@@ -2,6 +2,7 @@ package net.zatrit.skinbread
 
 import android.app.Activity
 import android.graphics.*
+import android.util.Log
 import android.view.*
 import android.widget.*
 import java.util.UUID
@@ -71,6 +72,8 @@ inline fun Activity.bindButton(id: Int, crossinline func: (View) -> Unit) =
     bindButton(requireViewById(id), func)
 
 fun IntArray.moveItemTo(from: Int, to: Int) {
+    Log.d(TAG, "$from => $to")
+
     val a = this[from]
 
     if (from < to) {

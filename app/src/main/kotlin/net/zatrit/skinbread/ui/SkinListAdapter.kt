@@ -22,10 +22,11 @@ class SkinListAdapter(
     private val sourceSwitch: Int = R.id.switch_source,
     private val entry: Int = R.layout.texture_entry,
 ) : ArrayAdapter<NamedEntry>(context, entry) {
+    private val inflater = context.layoutInflater
+
     // https://java2blog.com/android-custom-listview-with-images-text-example/
     override fun getView(
         position: Int, convertView: View?, parent: ViewGroup): View {
-        val inflater = context.layoutInflater
         val view = convertView ?: inflater.inflate(entry, null, true)
         val entry = this.getItem(position)!!
 

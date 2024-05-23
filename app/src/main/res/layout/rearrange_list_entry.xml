@@ -4,6 +4,7 @@
     android:orientation="vertical"
     android:background="@drawable/selection_background"
     android:backgroundTint="@color/background"
+    android:paddingHorizontal="10dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -20,12 +21,12 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:gravity="center"
-      android:paddingVertical="6dp"
+      android:paddingVertical="8dp"
       android:paddingHorizontal="15dp"
 
       android:drawableTint="@android:color/darker_gray"
       android:drawablePadding="10dp"
-      android:drawableStart="@drawable/rearrange" />
+      android:drawableStart="@drawable/rearrange_handle" />
 
   <View
       android:id="@+id/insert_bottom"

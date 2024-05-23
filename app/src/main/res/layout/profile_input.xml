@@ -18,7 +18,6 @@
       android:hint="@string/name"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:autofillHints="player_name"
       android:inputType="textAutoComplete" />
 
   <EditText
@@ -27,7 +26,6 @@
       android:hint="@string/uuid"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:autofillHints="player_uuid"
       android:inputType="textAutoComplete" />
 
   <Switch

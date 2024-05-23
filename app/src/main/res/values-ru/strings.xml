@@ -1,20 +1,36 @@
 <resources>
+  <!-- MainActivity buttons -->
+  <string name="list_skin">Скины</string>
   <string name="render_options">Отображение</string>
+
+  <!-- ToggleSourcesActivity strings -->
+  <string name="no_skins">Его скины… А где они?\nЧтобы их увидеть, используйте</string>
+  <string name="rearrange">Изменить порядок</string>
+  <string name="skin_preview">Предпоказ скина</string>
+
+  <!-- RearrangeActivity strings -->
+  <string name="rearrange_show">Отображать:</string>
+  <string name="show_loaded">Загруженные</string>
+  <string name="show_all">Все</string>
+  <string name="rearrange_tip">Зажмите элемент, чтобы перетащить</string>
+
+  <!-- Render options -->
   <string name="shading">Затенение</string>
   <string name="show_grid">Показывать сетку</string>
   <string name="show_elytra">Элитры вместо плаща</string>
-  <string name="still_loading">Текстуры ещё загружаются</string>
-  <string name="list_skin">Список</string>
-  <string name="name">Имя</string>
-  <string name="remember_profile">Запомнить профиль</string>
+
+  <!-- Load profile dialog -->
   <string name="input_profile">Введите данные профиля</string>
+  <string name="name">Имя</string>
   <string name="uuid">UUID (необязательно)</string>
-  <string name="skin_preview">Предпоказ скина</string>
-  <string name="source_default">По-умолчанию</string>
+  <string name="remember_profile">Запомнить профиль</string>
+
+  <!-- Source names -->
   <string name="source_vanilla">Ванильный (Mojang)</string>
+
+  <!-- Toast messages -->
+  <string name="still_loading">Текстуры ещё загружаются</string>
   <string name="loading_profile">Загружаем профиль…</string>
   <string name="loading_textures">Загружаем текстуры…</string>
-  <string name="no_skins">Его скины… А где они?\nЧтобы их увидеть, используйте</string>
-  <string name="rearrange">Изменить порядок</string>
   <string name="profile_failed">Не удалось получить профиль</string>
 </resources>

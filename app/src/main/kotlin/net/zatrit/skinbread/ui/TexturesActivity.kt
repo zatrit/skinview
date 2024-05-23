@@ -7,9 +7,6 @@ import android.util.Log
 import android.widget.Toast
 import net.zatrit.skinbread.*
 import net.zatrit.skinbread.skins.*
-import net.zatrit.skins.lib.PlayerTextures
-import net.zatrit.skins.lib.api.Profile
-import java.util.concurrent.CompletableFuture
 import java.util.concurrent.CompletableFuture.supplyAsync
 
 const val ARRANGING = "arranging"
@@ -60,6 +57,7 @@ abstract class TexturesActivity : Activity(), TexturesListener {
 
     fun reloadTextures(name: String, uuid: String, sources: Array<SkinSource>) {
         textures.fill(null)
+        setTextures(textures)
 
         loading = supplyAsync {
             showToast(R.string.loading_profile)
@@ -74,12 +72,15 @@ abstract class TexturesActivity : Activity(), TexturesListener {
         }.thenApplyAsync { profile ->
             showToast(R.string.loading_textures)
 
-            fetch(profile, sources) { i, texture, source ->
-                val data = Textures().apply {
-                    fillWith(texture, skinLayer, capeLayer)
-                }
-                textures[i] = data
-                runOnUiThread {
+            sources.mapIndexed { i, source ->
+                val future = loadTextures(profile, source)
+                future.thenApply {
+                    if (it == null || it.isEmpty) return@thenApply
+
+                    val data = Textures().apply {
+                        fillWith(it, skinLayer, capeLayer)
+                    }
+                    textures[i] = data
                     val order = arranging.order.indexOf(i)
                     onTexturesAdded(data, i, order, source)
                 }
@@ -91,20 +92,6 @@ abstract class TexturesActivity : Activity(), TexturesListener {
         val edit = preferences.edit()
         saveTextures(edit, textures)
         edit.apply()
-    }
-
-    private inline fun fetch(
-        profile: Profile, sources: Array<SkinSource>,
-        crossinline callback: (Int, PlayerTextures, SkinSource) -> Unit): List<CompletableFuture<Unit>> {
-
-        return sources.mapIndexed { i, source ->
-            val future = loadTextures(profile, source)
-            future.thenApply {
-                if (it == null || it.isEmpty) return@thenApply
-
-                callback(i, it, source)
-            }
-        }
     }
 
     fun updateArrangingFromBundle(bundle: Bundle) {

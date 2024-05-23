@@ -13,7 +13,7 @@ class IndexedAdapter(
     context: Context,
     private val entry: Int = R.layout.rearrange_list_entry,
     var hiddenItem: Int? = null,
-) : ArrayAdapter<String>(context, entry) {
+) : ArrayAdapter<Pair<Int, String>>(context, entry) {
     private val inflater = LayoutInflater.from(context)
 
     override fun getView(
@@ -21,13 +21,13 @@ class IndexedAdapter(
         val view = convertView ?: inflater.inflate(entry, null, true)
         val item = this.getItem(position)!!
 
-        val index = position + 1
-        val spanned = SpannableString("$index. $item")
-        val idLen = log10(index.toFloat()).toInt()
+        val index = item.first + 1
+        val spanned = SpannableString("$index. ${item.second}")
+        val idLen = log10(index.toFloat()).toInt() + 2
 
         spanned.setSpan(
-            ForegroundColorSpan(Color.GRAY), 0, idLen + 2,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            ForegroundColorSpan(Color.GRAY), 0, idLen,
+            Spannable.SPAN_INCLUSIVE_EXCLUSIVE
         )
 
         val textView = view.requireViewById<TextView>(R.id.text_source_name)

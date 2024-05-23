@@ -62,8 +62,7 @@ class MainActivity : TexturesActivity() {
 
         @Suppress("DEPRECATION")
         // Non-deprecated method isn't available on current Android version
-        renderer.config =
-            state?.getParcelable("renderOptions") ?: RenderConfig()
+        renderer.config = state?.getParcelable("renderOptions") ?: RenderConfig()
         renderer.viewMatrix =
             state?.getFloatArray("viewMatrix") ?: renderer.viewMatrix
 
@@ -154,7 +153,6 @@ class MainActivity : TexturesActivity() {
 
     override fun onTexturesLoaded() {
         super.onTexturesLoaded()
-
         renderer.texturesPicker.reset()
     }
 
