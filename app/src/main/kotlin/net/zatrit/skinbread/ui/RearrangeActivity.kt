@@ -6,6 +6,7 @@ import android.content.*
 import android.os.*
 import android.view.*
 import android.view.MotionEvent.*
+import android.view.View.MeasureSpec.UNSPECIFIED
 import android.widget.*
 import net.zatrit.skinbread.*
 import net.zatrit.skinbread.skins.defaultSources
@@ -52,7 +53,9 @@ class RearrangeActivity : Activity() {
         val header = layoutInflater.inflate(R.layout.rearrange_list_header, null)
         sourcesList.addHeaderView(header)
 
-        handler = RearrangeHandler(this, sourcesList, adapter, header.height)
+        header.measure(UNSPECIFIED, UNSPECIFIED)
+        handler =
+            RearrangeHandler(this, sourcesList, adapter, header.measuredHeight)
 
         window.run {
             clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -73,6 +76,9 @@ class RearrangeActivity : Activity() {
 
             populateList()
         }
+
+        // If there are no skins downloaded, show all
+        if (textures.all { it == null }) radioShow.check(R.id.radio_show_all)
 
         sourcesList.setOnItemLongClickListener(handler)
     }

@@ -35,7 +35,7 @@ class RearrangeHandler(
         fadeFakeItem(0.85f)
 
         view.alpha = 0f
-        adapter.hiddenItem = position
+        adapter.hiddenItem = position - 1
 
         fakeItem.x = view.x
         fakeItem.y = view.y
@@ -55,9 +55,9 @@ class RearrangeHandler(
 
         // fakeItem has almost the same height as any item in the list
         val halfHeight = fakeItem.height / 2
-        fakeItem.y = event.y - fakeItem.height
+        fakeItem.y = event.y - headerHeight + halfHeight / 2
 
-        val ry = event.y - headerHeight / 2 - halfHeight
+        val ry = event.y - halfHeight
 
         val position = sourcesList.pointToPosition(event.x.toInt(), ry.toInt())
         if (position == INVALID_POSITION) return MOVE_OK
