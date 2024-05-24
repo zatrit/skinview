@@ -2,7 +2,7 @@ package net.zatrit.skinbread.gl
 
 import android.os.Parcelable
 import kotlinx.parcelize.*
-import net.zatrit.skinbread.*
+import net.zatrit.skinbread.Textures
 import net.zatrit.skinbread.skins.defaultSources
 import java.util.concurrent.ArrayBlockingQueue
 
@@ -24,8 +24,7 @@ class RenderConfig(
     /** A texture set queue used for optimized transfer of loaded
      * textures to [Renderer.textures]. */
     @IgnoredOnParcel
-    var pendingTextures =
-        ArrayBlockingQueue<OrderedTextures>(defaultSources.size)
+    var pendingTextures = ArrayBlockingQueue<Textures>(defaultSources.size)
 
     /** Allows to request texture cleanup by storing true. */
     @IgnoredOnParcel

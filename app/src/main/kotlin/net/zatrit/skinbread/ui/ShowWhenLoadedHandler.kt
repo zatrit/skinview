@@ -7,17 +7,15 @@ import android.view.View.OnClickListener
 import android.widget.Toast
 import net.zatrit.skinbread.*
 
-class ShowWhenLoadedHandler(
-    context: Context,
-    private val dialog: Dialog,
-) : OnClickListener {
+class ShowWhenLoadedHandler(context: Context, dialog: Dialog) :
+    ShowDialogHandler(dialog), OnClickListener {
     private val stillLoadingToast = Toast.makeText(
         context, R.string.still_loading, Toast.LENGTH_SHORT
     )
 
     override fun onClick(v: View?) =
         if (loading == null || loading?.isDone == true) {
-            dialog.show()
+            super.onClick(v)
         } else {
             stillLoadingToast.show()
         }

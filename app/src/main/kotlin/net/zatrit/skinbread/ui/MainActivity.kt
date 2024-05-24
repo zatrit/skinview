@@ -12,10 +12,12 @@ import android.widget.RelativeLayout.LEFT_OF
 import net.zatrit.skinbread.*
 import net.zatrit.skinbread.gl.*
 import net.zatrit.skinbread.skins.*
+import net.zatrit.skinbread.ui.dialog.*
 import net.zatrit.skinbread.ui.touch.*
 import org.json.JSONObject
 
 class MainActivity : TexturesActivity() {
+    private lateinit var texturePicker: TexturePicker
     private var dragHandler: MenuDragHandler? = null
     private var renderer = Renderer()
 
@@ -36,10 +38,7 @@ class MainActivity : TexturesActivity() {
         val menu = requireViewById<LinearLayout>(R.id.menu)
         val buttons = requireViewById<LinearLayout>(R.id.toolbar)
 
-        val refreshDialog = profileDialog(this, preferences) { name, uuid ->
-            renderer.config.clearTextures = true
-            reloadTextures(name, uuid, defaultSources)
-        }
+        texturePicker = TexturePicker()
 
         bindButton(R.id.btn_list) {
             val intent =
@@ -53,8 +52,21 @@ class MainActivity : TexturesActivity() {
             )
         }
 
+        val fetchDialog = profileDialog(this, preferences) { name, uuid ->
+            renderer.config.clearTextures = true
+            reloadTextures(name, uuid, defaultSources)
+        }
+
         requireViewById<Button>(R.id.btn_fetch).setOnClickListener(
-            ShowWhenLoadedHandler(this, refreshDialog)
+            ShowWhenLoadedHandler(this, fetchDialog)
+        )
+
+        val texturePickerDialog = texturePickerDialog(this) {
+
+        }
+
+        requireViewById<Button>(R.id.btn_local).setOnClickListener(
+            ShowDialogHandler(texturePickerDialog)
         )
 
         skinLayer.legacyMask =
@@ -140,31 +152,24 @@ class MainActivity : TexturesActivity() {
     }
 
     override fun onTexturesAdded(
-        textures: Textures, index: Int, order: Int, source: SkinSource) {
+        textures: Textures, index: Int, order: Int, name: SourceName) {
         if (arranging.enabled[index]) {
-            this.renderer.config.pendingTextures.add(
-                OrderedTextures(
-                    order = order,
-                    textures = textures,
-                )
-            )
+            val update = texturePicker.update(textures, order)
+            this.renderer.config.pendingTextures.add(update)
         }
     }
 
     override fun onTexturesLoaded() {
         super.onTexturesLoaded()
-        renderer.texturesPicker.reset()
+        texturePicker.reset()
     }
 
     override fun setTextures(newTextures: Array<Textures?>) {
         this.renderer.config.clearTextures = true
         this.renderer.config.pendingTextures.add(
-            OrderedTextures(
-                order = 0,
-                textures = mergeTextures(arranging.order.map {
-                    newTextures[it].takeIf { _ -> arranging.enabled[it] }
-                }.filterNotNull()),
-            )
+            mergeTextures(arranging.order.map {
+                newTextures[it].takeIf { _ -> arranging.enabled[it] }
+            }.filterNotNull())
         )
     }
 

@@ -32,7 +32,7 @@ class RearrangeHandler(
         fadeView(sourcesList, 0.7f)
 
         fakeItem.setImageBitmap(view.drawToBitmap())
-        fadeFakeItem(0.85f)
+        fakeItem.visibility = VISIBLE
 
         view.alpha = 0f
         adapter.hiddenItem = position - 1
@@ -99,7 +99,7 @@ class RearrangeHandler(
         sourcesList.isEnabled = true
         fadeView(sourcesList, 1f)
 
-        fadeFakeItem(0f)
+        fakeItem.visibility = INVISIBLE
         dragging = false
 
         if (fromItem < toItem) toItem -= 1
@@ -121,11 +121,6 @@ class RearrangeHandler(
             val view = sourcesList.getChildAt(i)
             func(i, view)
         }
-    }
-
-    private fun fadeFakeItem(alpha: Float) {
-        fakeItemFade?.cancel()
-        fakeItemFade = fadeView(fakeItem, alpha)
     }
 
     private fun fadeView(view: View, alpha: Float) =

@@ -68,7 +68,7 @@ val transition: Slide
 
 /** Transition between activities when both have R.id.btn_fetch */
 val transitionWithFetchButton = transition.apply {
-    excludeTarget(R.id.btn_fetch, true)
+    excludeTarget(R.id.action_buttons, true)
 }
 
 /** The default [UUID]. */

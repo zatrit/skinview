@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.*
 import net.zatrit.skinbread.*
 import net.zatrit.skinbread.skins.*
+import net.zatrit.skinbread.ui.dialog.*
 
 class ToggleSourcesActivity : TexturesActivity() {
     private lateinit var sourcesList: AbsListView
@@ -26,13 +27,21 @@ class ToggleSourcesActivity : TexturesActivity() {
         }
         noSkins = requireViewById(R.id.text_no_skins)
 
-        val dialog = profileDialog(this, preferences) { name, uuid ->
+        val fetchDialog = profileDialog(this, preferences) { name, uuid ->
             adapter.clear()
             reloadTextures(name, uuid, defaultSources)
         }
 
         requireViewById<Button>(R.id.btn_fetch).setOnClickListener(
-            ShowWhenLoadedHandler(this, dialog)
+            ShowWhenLoadedHandler(this, fetchDialog)
+        )
+
+        val texturePickerDialog = texturePickerDialog(this) {
+
+        }
+
+        requireViewById<Button>(R.id.btn_local).setOnClickListener(
+            ShowDialogHandler(texturePickerDialog)
         )
 
         bindButton(R.id.btn_rearrange) {
@@ -91,10 +100,10 @@ class ToggleSourcesActivity : TexturesActivity() {
     }
 
     override fun onTexturesAdded(
-        textures: Textures, index: Int, order: Int, source: SkinSource) {
+        textures: Textures, index: Int, order: Int, name: SourceName) {
         val entry = NamedEntry(
             index = index,
-            name = source.name,
+            name = name,
             textures = textures,
             enabled = arranging.enabled[index],
         )

@@ -24,8 +24,7 @@ class Renderer : GLSurfaceView.Renderer {
         it[14] = -10f // sets Z offset to -10
     }
 
-    private val textures = GLTextures()
-    val texturesPicker = GLTexturePicker()
+    private var textures = GLTextures()
     private var defaultTextures = GLTextures()
 
     private lateinit var playerModel: PlayerModel
@@ -102,10 +101,12 @@ class Renderer : GLSurfaceView.Renderer {
     @GLContext
     override fun onDrawFrame(gl: GL10) {
         val shadeInt = if (config.shading) 1 else 0
+
         with(modelShader) {
             use()
             glUniform1i(uniformLocation("uShade"), shadeInt)
 
+            // Sets the background color and shading
             config.background.let {
                 val r = red(it)
                 val g = green(it)
@@ -116,28 +117,29 @@ class Renderer : GLSurfaceView.Renderer {
         }
 
         config.pendingDefaultTextures?.run {
-            defaultTextures.delete()
+            defaultTextures.assertEmpty()
             defaultTextures = load(persistent = true)
-            textures.fillWith(defaultTextures)
             defaultTextures.printInfo()
 
             config.pendingDefaultTextures = null
         }
 
         if (config.clearTextures) {
-            textures.clear()
-            texturesPicker.reset()
-            textures.fillWith(defaultTextures)
+            textures.delete()
+            textures = defaultTextures.clone()
             playerModel.modelType = ModelType.DEFAULT
             config.clearTextures = false
         }
 
         while (config.pendingTextures.isNotEmpty()) {
-            val model = texturesPicker.update(
-                textures, config.pendingTextures.poll()!!
-            )
-            playerModel.modelType = model ?: playerModel.modelType
-            textures.printInfo()
+            val textures = config.pendingTextures.poll() ?: continue
+
+            if (textures.skin != null) {
+                playerModel.modelType = textures.model ?: ModelType.DEFAULT
+            }
+
+            this.textures.populate(textures.load())
+            this.textures.printInfo()
         }
 
         val buf = FloatBuffer.wrap(viewMatrix)

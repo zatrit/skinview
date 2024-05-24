@@ -16,7 +16,7 @@
 
   <ImageView
       android:id="@+id/img_fake_item"
-      android:alpha="0"
+      android:visibility="invisible"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:importantForAccessibility="no" />

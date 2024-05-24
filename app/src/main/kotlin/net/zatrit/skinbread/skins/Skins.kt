@@ -22,7 +22,7 @@ fun mergeTextures(inputs: List<Textures>): Textures {
     val iterator = inputs.iterator()
 
     while (iterator.hasNext() && !textures.isComplete()) {
-        textures.fillWith(iterator.next())
+        textures.or(iterator.next())
     }
 
     return textures

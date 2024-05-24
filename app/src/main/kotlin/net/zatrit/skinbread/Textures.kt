@@ -30,7 +30,7 @@ class Textures(
         ears = ears?.let { GLTexture(it, persistent) },
     )
 
-    fun fillWith(
+    fun or(
         input: PlayerTextures, skinLayer: Layer<Texture>,
         capeLayer: Layer<Texture>) {
         val skinTexture = input.getTexture(TextureType.SKIN)
@@ -47,7 +47,7 @@ class Textures(
         this.ears = this.ears ?: input.getTexture(TextureType.EARS)?.bitmap
     }
 
-    fun fillWith(other: Textures) {
+    fun or(other: Textures) {
         if (this.skin == null) this.model = other.model
 
         this.skin = this.skin ?: other.skin
@@ -55,5 +55,3 @@ class Textures(
         this.ears = this.ears ?: other.ears
     }
 }
-
-class OrderedTextures(var order: Int, var textures: Textures)

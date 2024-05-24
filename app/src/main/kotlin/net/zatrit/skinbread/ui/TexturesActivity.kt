@@ -14,7 +14,6 @@ const val I_HAVE_ARRANGING = 156
 
 abstract class TexturesActivity : Activity(), TexturesListener {
     lateinit var preferences: SharedPreferences
-
     var arranging = Arranging(defaultSources.size)
 
     override fun onCreate(state: Bundle?) {
@@ -78,11 +77,11 @@ abstract class TexturesActivity : Activity(), TexturesListener {
                     if (it == null || it.isEmpty) return@thenApply
 
                     val data = Textures().apply {
-                        fillWith(it, skinLayer, capeLayer)
+                        or(it, skinLayer, capeLayer)
                     }
                     textures[i] = data
                     val order = arranging.order.indexOf(i)
-                    onTexturesAdded(data, i, order, source)
+                    onTexturesAdded(data, i, order, source.name)
                 }
             }.forEach { it.join() }
         }.whenComplete { _, _ -> onTexturesLoaded() }

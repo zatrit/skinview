@@ -105,7 +105,7 @@ class RearrangeActivity : Activity() {
                 }
 
                 MOVE_CHANGED_ID -> {
-                    vibrator.vibrate(VibrationEffect.createOneShot(50, 12))
+                    vibrator.vibrate(VibrationEffect.createOneShot(50, 50))
                 }
             }
 
@@ -127,15 +127,16 @@ class RearrangeActivity : Activity() {
         super.finish()
     }
 
+
     private fun populateList() {
         adapter.clear()
 
-        adapter.addAll(order.toList().mapIndexedNotNull { i, j ->
-            if (showAll || (textures[j]?.takeIf { !it.isEmpty() } != null)) {
+        order.forEachIndexed { i, j ->
+            if (showAll || (textures[j]?.isEmpty() == false)) {
                 val name = defaultSources[j].name.getName(this)
-                Pair(i, name)
-            } else null
-        })
+                adapter.add(Pair(i, name))
+            }
+        }
 
         adapter.notifyDataSetChanged()
     }

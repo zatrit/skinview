@@ -15,6 +15,10 @@ private fun textureInfo(bitmap: Bitmap) = bitmap.run {
 class GLTexture(bitmap: Bitmap, private val persistent: Boolean = false) {
     val id = buf { glGenTextures(1, it) }
 
+    @get:DebugOnly
+    val info: String
+        get() = "GLTexture { id: ${id.get(0)}, persistent: $persistent }"
+
     init {
         textureInfo(bitmap)
 
@@ -45,20 +49,19 @@ class GLTextures(
         ears?.delete()
     }
 
-    fun clear() {
-        delete()
-        skin = null
-        cape = null
-        ears = null
+    fun populate(other: GLTextures) {
+        this.skin = other.skin ?: this.skin
+        this.cape = other.cape ?: this.cape
+        this.ears = other.ears ?: this.ears
     }
 
-    fun fillWith(other: GLTextures) {
-        this.skin = this.skin ?: other.skin
-        this.cape = this.cape ?: other.cape
-        this.ears = this.ears ?: other.ears
-    }
+    fun clone() = GLTextures(skin, cape, ears)
 
     @DebugOnly
-    fun printInfo() =
-        Log.v(TAG, "skin: ${skin?.id}, cape: ${cape?.id}, ears: ${ears?.id}")
+    fun printInfo() = Log.v(
+        TAG, "skin: ${skin?.info}, cape: ${cape?.info}, ears: ${ears?.info}"
+    )
+
+    @DebugOnly
+    fun assertEmpty() = assert(skin == null && cape == null && ears == null)
 }

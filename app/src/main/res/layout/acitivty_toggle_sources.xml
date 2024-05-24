@@ -47,13 +47,6 @@
         android:layout_height="wrap_content"
         tools:ignore="ButtonStyle" />
 
-    <Button
-        android:id="@+id/btn_fetch"
-        style="@style/OLED.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableEnd="@android:drawable/stat_sys_download"
-        android:drawableTint="@color/background"
-        tools:ignore="ButtonStyle" />
+    <include layout="@layout/action_buttons" />
   </LinearLayout>
 </RelativeLayout>

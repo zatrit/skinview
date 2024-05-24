@@ -4,7 +4,7 @@ import net.zatrit.skinbread.Textures
 
 interface TexturesListener {
     fun onTexturesAdded(
-        textures: Textures, index: Int, order: Int, source: SkinSource)
+        textures: Textures, index: Int, order: Int, name: SourceName)
 
     fun setTextures(newTextures: Array<Textures?>)
 }

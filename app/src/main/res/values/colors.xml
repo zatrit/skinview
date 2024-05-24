@@ -2,6 +2,7 @@
 <resources>
   <color name="button_highlight">@android:color/black</color>
   <color name="background">@android:color/background_light</color>
+  <color name="background_transparent">#80FFFFFF</color>
   <color name="button">@android:color/holo_green_light</color>
   <color name="drag_handle">@android:color/darker_gray</color>
   <color name="rearrange_handle">#aaa</color>

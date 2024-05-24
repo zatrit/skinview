@@ -1,7 +1,7 @@
-package net.zatrit.skinbread.ui
+package net.zatrit.skinbread.ui.dialog
 
 import android.app.*
-import android.content.SharedPreferences
+import android.content.*
 import android.view.ContextThemeWrapper
 import android.widget.*
 import net.zatrit.skinbread.R
@@ -14,9 +14,9 @@ fun AlertDialog.setText(child: Int, text: String) {
 }
 
 inline fun profileDialog(
-    activity: Activity, prefs: SharedPreferences,
+    context: Context, prefs: SharedPreferences,
     crossinline load: (String, String) -> Unit): Dialog =
-    AlertDialog.Builder(ContextThemeWrapper(activity, R.style.OLED_AlertDialog))
+    AlertDialog.Builder(ContextThemeWrapper(context, R.style.OLED_AlertDialog))
         .apply {
             setView(R.layout.profile_input)
 
