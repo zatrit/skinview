@@ -3,6 +3,7 @@
   <color name="button_highlight">@android:color/white</color>
   <color name="background">@android:color/background_dark</color>
   <color name="background_transparent">#80000000</color>
+  <color name="accent">@android:color/holo_green_dark</color>
   <color name="button">@android:color/holo_green_dark</color>
   <color name="drag_handle">@android:color/darker_gray</color>
   <color name="rearrange_handle">#555</color>

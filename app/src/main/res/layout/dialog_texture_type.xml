@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:padding="10dp"
+    android:layout_height="match_parent">
+
+  <RadioGroup
+      android:checkedButton="@id/radio_skin"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+    <RadioButton
+        style="@style/OLED.RadioButton.TextureType"
+        android:id="@+id/radio_skin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/texture_skin"
+        android:text="Скин" />
+
+    <RadioButton
+        style="@style/OLED.RadioButton.TextureType"
+        android:id="@+id/radio_cape"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/texture_cape"
+        android:text="Плащ" />
+
+    <RadioButton
+        style="@style/OLED.RadioButton.TextureType"
+        android:id="@+id/radio_ears"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/texture_ears"
+        android:text="Ушки" />
+  </RadioGroup>
+
+</LinearLayout>

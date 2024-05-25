@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
 
-  <style name="OLED.Activity" parent="android:Theme.DeviceDefault.NoActionBar.Fullscreen">
+  <style name="OLED" parent="android:Theme.DeviceDefault.NoActionBar.Fullscreen">
     <item name="android:buttonStyle">@style/OLED.Button.Text</item>
     <item name="android:switchStyle">@style/OLED.Switch</item>
     <item name="android:radioButtonStyle">@style/OLED.RadioButton</item>
@@ -14,13 +14,12 @@
     <item name="android:textColor">@color/background</item>
     <item name="android:background">@drawable/button</item>
     <item name="android:minWidth">0dp</item>
+    <item name="android:drawableTint">@color/background</item>
   </style>
 
   <style name="OLED.Button.Text" parent="OLED.Button">
     <item name="android:paddingHorizontal">20dp</item>
     <item name="android:textSize">14sp</item>
-    <item name="android:singleLine">true</item>
-    <item name="android:ellipsize">end</item>
   </style>
 
   <style name="OLED.Switch" parent="android:Widget.Material.CompoundButton.Switch">
@@ -29,20 +28,27 @@
     <item name="android:textColor">@color/text</item>
   </style>
 
-  <style name="OLED.EditText" parent="android:Widget.Material.EditText">
-    <item name="android:textColorHint">@android:color/darker_gray</item>
-    <item name="android:textColor">@color/text</item>
-  </style>
-
-  <style name="OLED.AlertDialog" parent="android:Widget.Material.ButtonBar.AlertDialog">
+  <style name="OLED.AlertDialog" parent="android:Theme.Material.Dialog.Alert">
     <item name="android:backgroundTint">@color/background</item>
-
-    <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
-    <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    <item name="android:editTextColor">@color/text</item>
+    <item name="android:textColorHint">@android:color/darker_gray</item>
+    <item name="android:textColorSecondary">@android:color/darker_gray</item>
+    <item name="android:textColorPrimary">@android:color/darker_gray</item>
+  <item name="android:colorAccent">@color/accent</item>
   </style>
 
   <style name="OLED.RadioButton" parent="android:Widget.Material.CompoundButton.RadioButton">
     <item name="android:textColor">@color/text</item>
+  </style>
+
+  <style name="OLED.RadioButton.TextureType" parent="@style/OLED.RadioButton">
+    <item name="android:drawablePadding">10dp</item>
+    <item name="android:drawableTint">@color/text</item>
+  </style>
+
+  <style name="WindowAnimations">
+    <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+    <item name="android:windowExitAnimation">@android:anim/fade_out</item>
   </style>
 
   <style name="Divider">

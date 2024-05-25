@@ -13,7 +13,7 @@
       android:icon="@mipmap/icon"
       android:label="@string/app_name"
       android:usesCleartextTraffic="true"
-      android:theme="@style/OLED.Activity">
+      android:theme="@style/OLED">
     <activity
         android:name=".ui.MainActivity"
         android:exported="true">

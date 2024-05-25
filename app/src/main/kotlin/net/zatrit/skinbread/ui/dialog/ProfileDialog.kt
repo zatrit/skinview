@@ -18,7 +18,8 @@ inline fun profileDialog(
     crossinline load: (String, String) -> Unit): Dialog =
     AlertDialog.Builder(ContextThemeWrapper(context, R.style.OLED_AlertDialog))
         .apply {
-            setView(R.layout.profile_input)
+            setView(R.layout.dialog_profile)
+            setTitle(R.string.input_profile)
 
             setPositiveButton(android.R.string.ok) { dialog, _ ->
                 val alertDialog = dialog as AlertDialog
@@ -43,7 +44,7 @@ inline fun profileDialog(
                 dialog.cancel()
             }
         }.create().apply {
-            window?.attributes?.windowAnimations = R.style.OLED_AlertDialog
+            window?.attributes?.windowAnimations = R.style.WindowAnimations
 
             setOnShowListener { dialog ->
                 if (dialog !is AlertDialog) return@setOnShowListener
