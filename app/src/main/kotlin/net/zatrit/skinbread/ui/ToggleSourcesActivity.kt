@@ -27,22 +27,12 @@ class ToggleSourcesActivity : TexturesActivity() {
         }
         noSkins = requireViewById(R.id.text_no_skins)
 
-        val fetchDialog = profileDialog(this, preferences) { name, uuid ->
+        val fetchDialog = profileDialog(this) { name, uuid ->
             adapter.clear()
             reloadTextures(name, uuid, defaultSources)
         }
 
-        requireViewById<Button>(R.id.btn_fetch).setOnClickListener(
-            ShowWhenLoadedHandler(this, fetchDialog)
-        )
-
-        val texturePickerDialog = texturePickerDialog(this) {
-
-        }
-
-        requireViewById<Button>(R.id.btn_local).setOnClickListener(
-            ShowDialogHandler(texturePickerDialog)
-        )
+        bindDialogButtons(fetchDialog)
 
         bindButton(R.id.btn_rearrange) {
             val intent = Intent(this, RearrangeActivity::class.java)
@@ -54,6 +44,8 @@ class ToggleSourcesActivity : TexturesActivity() {
             )
         }
 
+        bindButton(R.id.btn_clear) { clearDialog(this).show() }
+
         sourcesList.adapter = adapter
 
         intent.extras?.run(::updateArrangingFromBundle)
@@ -61,9 +53,9 @@ class ToggleSourcesActivity : TexturesActivity() {
     }
 
     override fun onActivityResult(
-        requestCode: Int, resultCode: Int, data: Intent) {
+        requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == I_HAVE_ORDER) {
-            arranging.order = data.getIntArrayExtra(ORDER)!!
+            arranging.order = data?.getIntArrayExtra(ORDER)!!
         }
 
         super.onActivityResult(requestCode, resultCode, data)

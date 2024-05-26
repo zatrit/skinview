@@ -1,12 +1,17 @@
 package net.zatrit.skinbread
 
-const val LOCAL = -1
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-class TexturePicker {
-    private var skinOrder = Int.MAX_VALUE
-    private var capeOrder = Int.MAX_VALUE
-    private var earsOrder = Int.MAX_VALUE
+const val LOCAL = 0
+const val VANILLA = 1
 
+@Parcelize
+class TexturePicker(
+    private var skinOrder: Int = Int.MAX_VALUE,
+    private var capeOrder: Int = Int.MAX_VALUE,
+    private var earsOrder: Int = Int.MAX_VALUE,
+) : Parcelable {
     fun reset() {
         skinOrder = Int.MAX_VALUE
         capeOrder = Int.MAX_VALUE

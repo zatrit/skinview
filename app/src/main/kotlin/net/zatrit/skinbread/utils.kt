@@ -5,6 +5,7 @@ import android.graphics.*
 import android.util.Log
 import android.view.*
 import android.widget.*
+import net.zatrit.skins.lib.api.Layer
 import java.util.UUID
 
 /**
@@ -83,4 +84,11 @@ fun IntArray.moveItemTo(from: Int, to: Int) {
     }
 
     this[to] = a
+}
+
+fun <T> Layer<T>.tryApply(value: T): T = try {
+    apply(value)
+} catch (ex: Exception) {
+    ex.printDebug()
+    value
 }

@@ -9,6 +9,8 @@
   <!-- ToggleSourcesActivity strings -->
   <string name="no_skins">To see your skins, use</string>
   <string name="rearrange">Rearrange</string>
+  <string name="clear">Clear</string>
+  <string name="wanna_clear">Do you want to clean up ALL the textures?</string>
   <string name="skin_preview">Skin preview</string>
 
   <!-- RearrangeActivity strings -->
@@ -22,13 +24,17 @@
   <string name="show_grid">Show grid</string>
   <string name="show_elytra">Show elytra instead of cape</string>
 
-  <!-- Load profile dialog -->
-  <string name="input_profile">Input profile data</string>
+  <!-- Fetch dialog -->
+  <string name="input_profile">Enter profile data</string>
   <string name="name">Name</string>
   <string name="uuid">UUID (optional)</string>
   <string name="remember_profile">Remember profile</string>
 
+  <!-- Local dialog -->
+  <string name="pick_texture_type">Select the type of texture</string>
+
   <!-- Source names -->
+  <string name="source_local">Local</string>
   <string name="source_vanilla">Vanilla</string>
 
   <!-- Toast messages -->
@@ -36,4 +42,5 @@
   <string name="loading_textures">Loading textures…</string>
   <string name="profile_failed">Failed to get profile</string>
   <string name="still_loading">Textures are still loading</string>
+  <string name="invalid_save">Invalid saved data</string>
 </resources>

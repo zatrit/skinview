@@ -21,6 +21,7 @@ class MainActivity : TexturesActivity() {
     private var dragHandler: MenuDragHandler? = null
     private var renderer = Renderer()
 
+    @Suppress("DEPRECATION")
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
@@ -38,7 +39,7 @@ class MainActivity : TexturesActivity() {
         val menu = requireViewById<LinearLayout>(R.id.menu)
         val buttons = requireViewById<LinearLayout>(R.id.toolbar)
 
-        texturePicker = TexturePicker()
+        texturePicker = state?.getParcelable("texturePicker") ?: TexturePicker()
 
         bindButton(R.id.btn_list) {
             val intent =
@@ -52,27 +53,17 @@ class MainActivity : TexturesActivity() {
             )
         }
 
-        val fetchDialog = profileDialog(this, preferences) { name, uuid ->
+        val fetchDialog = profileDialog(this) { name, uuid ->
             renderer.config.clearTextures = true
+            texturePicker.reset()
             reloadTextures(name, uuid, defaultSources)
         }
 
-        requireViewById<Button>(R.id.btn_fetch).setOnClickListener(
-            ShowWhenLoadedHandler(this, fetchDialog)
-        )
-
-        val texturePickerDialog = texturePickerDialog(this) {
-
-        }
-
-        requireViewById<Button>(R.id.btn_local).setOnClickListener(
-            ShowDialogHandler(texturePickerDialog)
-        )
+        bindDialogButtons(fetchDialog)
 
         skinLayer.legacyMask =
             BitmapFactory.decodeStream(assets.open("legacyMask.png"))
 
-        @Suppress("DEPRECATION")
         // Non-deprecated method isn't available on current Android version
         renderer.config = state?.getParcelable("renderOptions") ?: RenderConfig()
         renderer.viewMatrix =
@@ -130,6 +121,7 @@ class MainActivity : TexturesActivity() {
 
         state.putFloatArray("viewMatrix", renderer.viewMatrix)
         state.putParcelable("renderOptions", renderer.config)
+        state.putParcelable("texturePicker", texturePicker)
     }
 
     @Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")

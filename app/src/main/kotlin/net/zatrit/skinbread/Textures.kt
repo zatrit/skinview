@@ -39,10 +39,10 @@ class Textures(
             this.model = ModelType.fromName(skinTexture?.metadata?.model)
         }
 
-        this.skin = this.skin ?: skinTexture?.run(skinLayer::apply)?.bitmap
+        this.skin = this.skin ?: skinTexture?.run(skinLayer::tryApply)?.bitmap
 
         this.cape = this.cape ?: input.getTexture(TextureType.CAPE)
-            ?.run(capeLayer::apply)?.bitmap
+            ?.run(capeLayer::tryApply)?.bitmap
 
         this.ears = this.ears ?: input.getTexture(TextureType.EARS)?.bitmap
     }

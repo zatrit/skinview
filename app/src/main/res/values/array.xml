@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <array name="texture_type">
+    <item>Skin</item>
+    <item>Cape</item>
+    <item>Ears</item>
+  </array>
+
+  <array name="model_type">
+    <item>Default</item>
+    <item>Slim</item>
+  </array>
+</resources>

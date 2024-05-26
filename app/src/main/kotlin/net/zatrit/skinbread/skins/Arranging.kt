@@ -2,6 +2,7 @@ package net.zatrit.skinbread.skins
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import net.zatrit.skinbread.*
 import org.json.*
 
 @Parcelize
@@ -9,7 +10,9 @@ class Arranging(
     private val size: Int,
 
     val enabled: BooleanArray = BooleanArray(size) { false }.also {
-        it[0] = true // Enable vanilla by default
+        // Enable vanilla and local by default
+        it[VANILLA] = true
+        it[LOCAL] = true
     },
     var order: IntArray = IntArray(size) { it },
 ) : Parcelable {

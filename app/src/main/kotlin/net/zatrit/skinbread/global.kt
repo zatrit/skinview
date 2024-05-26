@@ -12,7 +12,7 @@ import java.util.UUID
 import java.util.concurrent.CompletableFuture
 
 /** Tag used in [android.util.Log]. */
-const val TAG = "SkinView"
+const val TAG = "SkinBread"
 
 /** Name for global application [android.content.SharedPreferences]. */
 const val PREFS_NAME = "net.zatrit.skinbread"

@@ -11,9 +11,9 @@
   </style>
 
   <style name="OLED.Button" parent="android:Widget.Material.Button">
+    <item name="android:minWidth">0dp</item>
     <item name="android:textColor">@color/background</item>
     <item name="android:background">@drawable/button</item>
-    <item name="android:minWidth">0dp</item>
     <item name="android:drawableTint">@color/background</item>
   </style>
 
@@ -24,17 +24,21 @@
 
   <style name="OLED.Switch" parent="android:Widget.Material.CompoundButton.Switch">
     <item name="android:paddingStart">10dp</item>
-    <item name="android:paddingVertical">2.5dp</item>
     <item name="android:textColor">@color/text</item>
   </style>
 
   <style name="OLED.AlertDialog" parent="android:Theme.Material.Dialog.Alert">
     <item name="android:backgroundTint">@color/background</item>
+
     <item name="android:editTextColor">@color/text</item>
     <item name="android:textColorHint">@android:color/darker_gray</item>
-    <item name="android:textColorSecondary">@android:color/darker_gray</item>
     <item name="android:textColorPrimary">@android:color/darker_gray</item>
-  <item name="android:colorAccent">@color/accent</item>
+    <item name="android:textColorSecondary">@android:color/darker_gray</item>
+    <item name="android:textColorTertiary">@android:color/darker_gray</item>
+
+    <item name="android:textColorAlertDialogListItem">@color/text</item>
+
+    <item name="android:colorAccent">@color/accent</item>
   </style>
 
   <style name="OLED.RadioButton" parent="android:Widget.Material.CompoundButton.RadioButton">

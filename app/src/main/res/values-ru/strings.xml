@@ -1,11 +1,13 @@
 <resources>
   <!-- MainActivity buttons -->
   <string name="list_skin">Скины</string>
-  <string name="render_options">Отображение</string>
+  <string name="render_options">Графика</string>
 
   <!-- ToggleSourcesActivity strings -->
   <string name="no_skins">Его скины… А где они?\nЧтобы их увидеть, используйте</string>
-  <string name="rearrange">Изменить порядок</string>
+  <string name="rearrange">Порядок</string>
+  <string name="clear">Очистить</string>
+  <string name="wanna_clear">Вы хотите очистить ВСЕ текстуры?</string>
   <string name="skin_preview">Предпоказ скина</string>
 
   <!-- RearrangeActivity strings -->
@@ -19,13 +21,17 @@
   <string name="show_grid">Показывать сетку</string>
   <string name="show_elytra">Элитры вместо плаща</string>
 
-  <!-- Load profile dialog -->
+  <!-- Fetch dialog -->
   <string name="input_profile">Введите данные профиля</string>
   <string name="name">Имя</string>
   <string name="uuid">UUID (необязательно)</string>
   <string name="remember_profile">Запомнить профиль</string>
 
+  <!-- Local dialog -->
+  <string name="pick_texture_type">Выберите тип текстуры</string>
+
   <!-- Source names -->
+  <string name="source_local">Локальный</string>
   <string name="source_vanilla">Ванильный (Mojang)</string>
 
   <!-- Toast messages -->
@@ -33,4 +39,5 @@
   <string name="loading_profile">Загружаем профиль…</string>
   <string name="loading_textures">Загружаем текстуры…</string>
   <string name="profile_failed">Не удалось получить профиль</string>
+  <string name="invalid_save">Неверный формат данных</string>
 </resources>

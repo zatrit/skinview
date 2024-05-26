@@ -4,6 +4,7 @@ import android.graphics.Color.*
 import android.opengl.GLES30.*
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix.*
+import android.util.Log
 import net.zatrit.skinbread.*
 import net.zatrit.skinbread.gl.model.*
 import java.nio.FloatBuffer

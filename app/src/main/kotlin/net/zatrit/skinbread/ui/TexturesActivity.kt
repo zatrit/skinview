@@ -1,12 +1,14 @@
 package net.zatrit.skinbread.ui
 
 import android.app.Activity
-import android.content.SharedPreferences
+import android.content.*
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import net.zatrit.skinbread.*
+import net.zatrit.skinbread.gl.model.ModelType
 import net.zatrit.skinbread.skins.*
+import net.zatrit.skins.lib.texture.BytesTexture
 import java.util.concurrent.CompletableFuture.supplyAsync
 
 const val ARRANGING = "arranging"
@@ -24,6 +26,8 @@ abstract class TexturesActivity : Activity(), TexturesListener {
     override fun onResume() {
         super.onResume()
 
+        validateArranging()
+
         // Sets the global handlers
         toastHandler = {
             runOnUiThread {
@@ -36,20 +40,54 @@ abstract class TexturesActivity : Activity(), TexturesListener {
     }
 
     override fun onPause() {
+        saveArranging()
+
         if (toastHandler == this) toastHandler = null
         if (texturesHandler == this) texturesHandler = null
-
-        Log.d(TAG, "Saving textures arrangement")
-        val edit = preferences.edit()
-        edit.putString(ARRANGING, arranging.saveJson())
-        edit.apply()
 
         super.onPause()
     }
 
+    open fun onTexturesLoaded() = saveTextures()
+
     override fun onSaveInstanceState(state: Bundle) {
         super.onSaveInstanceState(state)
         state.putParcelable(ARRANGING, arranging)
+    }
+
+    override fun onActivityResult(
+        requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode shr 3 == 1) {
+            val uri = data?.data ?: return
+
+            val texture = contentResolver.openInputStream(uri)!!.use {
+                BytesTexture(it.readBytes(), null)
+            }
+
+            val set = textures[LOCAL] ?: Textures()
+
+            when (requestCode and 3) {
+                1 -> set.cape = capeLayer.tryApply(texture).bitmap
+                2 -> set.ears = texture.bitmap
+                else -> {
+                    set.model = if (requestCode shr 2 and 1 == 1) {
+                        ModelType.SLIM
+                    } else ModelType.DEFAULT
+
+                    set.skin = skinLayer.tryApply(texture).bitmap
+                }
+            }
+
+            onTexturesAdded(
+                set, LOCAL, arranging.order.indexOf(LOCAL), ConstName("Local")
+            )
+
+            textures[LOCAL] = set
+
+            saveTextures()
+        }
     }
 
     private fun showToast(message: Int) = toastHandler?.invoke(message)
@@ -87,9 +125,17 @@ abstract class TexturesActivity : Activity(), TexturesListener {
         }.whenComplete { _, _ -> onTexturesLoaded() }
     }
 
-    open fun onTexturesLoaded() {
+    fun saveTextures() {
+        Log.d(TAG, "Saving textures")
         val edit = preferences.edit()
         saveTextures(edit, textures)
+        edit.apply()
+    }
+
+    private fun saveArranging() {
+        Log.d(TAG, "Saving textures arrangement")
+        val edit = preferences.edit()
+        edit.putString(ARRANGING, arranging.saveJson())
         edit.apply()
     }
 
@@ -97,5 +143,19 @@ abstract class TexturesActivity : Activity(), TexturesListener {
         @Suppress("DEPRECATION")
         // Non-deprecated method isn't available on current Android version
         arranging = bundle.getParcelable(ARRANGING) ?: arranging
+    }
+
+    private fun validateArranging() {
+        val size = defaultSources.size
+        if (arranging.enabled.size != size || arranging.order.size != size || textures.size != size) {
+            arranging = Arranging(size)
+            textures = arrayOfNulls(size)
+
+            Toast.makeText(this, R.string.invalid_save, Toast.LENGTH_SHORT)
+                .show()
+
+            saveTextures()
+            saveArranging()
+        }
     }
 }

@@ -16,6 +16,8 @@ class SkinSource(val name: SourceName, val resolver: Resolver) {
 }
 
 val defaultSources = arrayOf(
+    // Local
+    SkinSource(R.string.source_local, EmptyResolver()),
     // Vanilla (Mojang)
     SkinSource(R.string.source_vanilla, MojangResolver()),
 

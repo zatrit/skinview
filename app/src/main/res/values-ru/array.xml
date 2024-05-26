@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <array name="texture_type">
+    <item>Скин</item>
+    <item>Плащ</item>
+    <item>Ушки</item>
+  </array>
+
+  <array name="model_type">
+    <item>По-умолчанию</item>
+    <item>Тонкий</item>
+  </array>
+</resources>
