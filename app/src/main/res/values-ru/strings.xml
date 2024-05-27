@@ -38,6 +38,8 @@
   <string name="still_loading">Текстуры ещё загружаются</string>
   <string name="loading_profile">Загружаем профиль…</string>
   <string name="loading_textures">Загружаем текстуры…</string>
-  <string name="profile_failed">Не удалось получить профиль</string>
-  <string name="invalid_save">Неверный формат данных</string>
+  <string name="profile_failed">Не удалось получить профиль :(</string>
+  <string name="invalid_save">Неверный формат данных :(</string>
+  <string name="open_failed">Не удалось открыть изображение :(</string>
+  <string name="save">Сохранить</string>
 </resources>

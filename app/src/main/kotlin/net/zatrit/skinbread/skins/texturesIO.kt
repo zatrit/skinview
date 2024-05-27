@@ -21,7 +21,7 @@ private fun bitmapToBase64(bitmap: Bitmap): String {
     return String(Base64.encode(bytes, Base64.DEFAULT))
 }
 
-private const val TEXTURES = "textures"
+const val TEXTURES = "textures"
 
 private fun JSONObject.optBitmap(key: String) =
     optString(key).takeIf { it.isNotBlank() }?.run(::bitmapFromBase64)
@@ -45,7 +45,7 @@ fun loadTextures(preferences: SharedPreferences): Array<Textures?> {
     return array
 }
 
-fun saveTextures(edit: SharedPreferences.Editor, array: Array<Textures?>) {
+fun serializeTextures(array: Array<Textures?>): String {
     val textures = JSONArray()
 
     array.map { texture ->
@@ -58,5 +58,5 @@ fun saveTextures(edit: SharedPreferences.Editor, array: Array<Textures?>) {
         textures.put(textureData)
     }
 
-    edit.putString(TEXTURES, textures.toString())
+    return textures.toString()
 }

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/card"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+  <Switch
+      tools:text="@tools:sample/lorem"
+      android:id="@+id/switch_source"
+      android:clickable="false"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
+
+  <RelativeLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/btn_save"
+        style="@style/OLED.Button"
+        android:backgroundTint="@color/background"
+        android:drawableStart="@drawable/baseline_save"
+        android:layout_marginTop="10dp"
+        android:drawableTint="@color/button"
+        android:layout_gravity="end"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="RelativeOverlap" />
+
+    <ImageView
+        tools:layout_height="300dp"
+        tools:src="@tools:sample/backgrounds/scenic"
+        android:id="@+id/img_preview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:padding="10dp"
+        android:contentDescription="@string/skin_preview" />
+  </RelativeLayout>
+</LinearLayout>

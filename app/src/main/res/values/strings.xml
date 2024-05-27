@@ -40,7 +40,9 @@
   <!-- Toast messages -->
   <string name="loading_profile">Loading profile…</string>
   <string name="loading_textures">Loading textures…</string>
-  <string name="profile_failed">Failed to get profile</string>
+  <string name="profile_failed">Failed to get profile :(</string>
   <string name="still_loading">Textures are still loading</string>
-  <string name="invalid_save">Invalid saved data</string>
+  <string name="invalid_save">Invalid saved data :(</string>
+  <string name="open_failed">Unable to open image :(</string>
+  <string name="save">Save</string>
 </resources>

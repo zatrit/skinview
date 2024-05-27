@@ -20,7 +20,7 @@ class SkinListAdapter(
     private val context: ToggleSourcesActivity,
     private val imageView: Int = R.id.img_preview,
     private val sourceSwitch: Int = R.id.switch_source,
-    private val entry: Int = R.layout.texture_entry,
+    private val entry: Int = R.layout.entry_texture,
 ) : ArrayAdapter<NamedEntry>(context, entry) {
     private val inflater = context.layoutInflater
 

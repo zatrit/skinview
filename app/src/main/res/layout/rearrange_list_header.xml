@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rearrange_list_header"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -7,44 +7,42 @@
     android:paddingHorizontal="20dp"
     android:paddingVertical="10dp">
 
-  <LinearLayout
-      android:layout_width="match_parent"
+  <TextView
+      android:id="@+id/text_show"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:orientation="horizontal">
+      android:layout_marginTop="3dp"
+      android:gravity="center"
+      android:textColor="@color/text"
+      android:text="@string/rearrange_show" />
 
-    <TextView
+  <RadioGroup
+      android:id="@+id/radio_show"
+      android:layout_toEndOf="@id/text_show"
+      android:orientation="horizontal"
+      android:checkedButton="@id/radio_show_loaded"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content">
+
+    <RadioButton
+        android:text="@string/show_all"
+        android:id="@+id/radio_show_all"
+        android:layout_marginStart="10dp"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textColor="@color/text"
-        android:text="@string/rearrange_show" />
+        android:layout_height="wrap_content" />
 
-    <RadioGroup
-        android:id="@+id/radio_show"
-        android:orientation="horizontal"
-        android:checkedButton="@id/radio_show_loaded"
+    <RadioButton
+        android:text="@string/show_loaded"
+        android:id="@+id/radio_show_loaded"
+        android:layout_marginStart="10dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-      <RadioButton
-          android:text="@string/show_all"
-          android:id="@+id/radio_show_all"
-          android:layout_marginStart="10dp"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content" />
-
-      <RadioButton
-          android:text="@string/show_loaded"
-          android:id="@+id/radio_show_loaded"
-          android:layout_marginStart="10dp"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content" />
-    </RadioGroup>
-  </LinearLayout>
+        android:layout_height="wrap_content" />
+  </RadioGroup>
 
   <TextView
+      android:layout_below="@id/radio_show"
       android:text="@string/rearrange_tip"
       android:layout_height="wrap_content"
       android:layout_width="match_parent" />
 
-</LinearLayout>
+</RelativeLayout>

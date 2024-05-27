@@ -20,7 +20,7 @@
 
   <GridView
       tools:visibility="visible"
-      tools:listitem="@layout/texture_entry"
+      tools:listitem="@layout/entry_texture"
       android:id="@+id/list_sources"
       android:layout_width="match_parent"
       android:layout_height="match_parent"

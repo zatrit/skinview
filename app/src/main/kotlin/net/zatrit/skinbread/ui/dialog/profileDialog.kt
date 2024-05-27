@@ -2,7 +2,7 @@ package net.zatrit.skinbread.ui.dialog
 
 import android.app.*
 import android.widget.Switch
-import net.zatrit.skinbread.R
+import net.zatrit.skinbread.*
 import net.zatrit.skinbread.ui.TexturesActivity
 
 inline fun profileDialog(
@@ -23,11 +23,9 @@ inline fun profileDialog(
             val remember =
                 alertDialog.requireViewById<Switch>(R.id.switch_remember)
 
-            if (remember.isChecked) {
-                val edit = prefs.edit()
-                edit.putString("profileName", name)
-                edit.putString("profileId", uuid)
-                edit.apply()
+            if (remember.isChecked) prefs.edit {
+                it.putString("profileName", name)
+                it.putString("profileId", uuid)
             }
 
             load(name, uuid)

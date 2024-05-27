@@ -9,12 +9,13 @@ import net.zatrit.skinbread.*
 import net.zatrit.skinbread.gl.model.ModelType
 import net.zatrit.skinbread.skins.*
 import net.zatrit.skins.lib.texture.BytesTexture
-import java.util.concurrent.CompletableFuture.supplyAsync
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.CompletableFuture.*
 
 const val ARRANGING = "arranging"
 const val I_HAVE_ARRANGING = 156
 
-abstract class TexturesActivity : Activity(), TexturesListener {
+abstract class TexturesActivity : Activity(), TextureHolder {
     lateinit var preferences: SharedPreferences
     var arranging = Arranging(defaultSources.size)
 
@@ -34,7 +35,7 @@ abstract class TexturesActivity : Activity(), TexturesListener {
                 Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
             }
         }
-        texturesHandler = this
+        texturesHolder = this
 
         setTextures(textures)
     }
@@ -43,12 +44,14 @@ abstract class TexturesActivity : Activity(), TexturesListener {
         saveArranging()
 
         if (toastHandler == this) toastHandler = null
-        if (texturesHandler == this) texturesHandler = null
+        if (texturesHolder == this) texturesHolder = null
 
         super.onPause()
     }
 
-    open fun onTexturesLoaded() = saveTextures()
+    open fun onTexturesLoaded() {
+        saveTexturesAsync()
+    }
 
     override fun onSaveInstanceState(state: Bundle) {
         super.onSaveInstanceState(state)
@@ -59,7 +62,7 @@ abstract class TexturesActivity : Activity(), TexturesListener {
         requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode shr 3 == 1) {
+        if (requestCode shr 3 == 1) try {
             val uri = data?.data ?: return
 
             val texture = contentResolver.openInputStream(uri)!!.use {
@@ -81,19 +84,23 @@ abstract class TexturesActivity : Activity(), TexturesListener {
             }
 
             onTexturesAdded(
-                set, LOCAL, arranging.order.indexOf(LOCAL), ConstName("Local")
+                set, LOCAL, arranging.order.indexOf(LOCAL),
+                defaultSources[LOCAL].name
             )
 
             textures[LOCAL] = set
 
-            saveTextures()
+            saveTexturesAsync()
+        } catch (ex: Exception) {
+            Toast.makeText(this, R.string.open_failed, Toast.LENGTH_SHORT).show()
+            ex.printDebug()
         }
     }
 
     private fun showToast(message: Int) = toastHandler?.invoke(message)
 
     fun reloadTextures(name: String, uuid: String, sources: Array<SkinSource>) {
-        textures.fill(null)
+        textures.fill(null, 1)
         setTextures(textures)
 
         loading = supplyAsync {
@@ -119,24 +126,24 @@ abstract class TexturesActivity : Activity(), TexturesListener {
                     }
                     textures[i] = data
                     val order = arranging.order.indexOf(i)
-                    onTexturesAdded(data, i, order, source.name)
+                    texturesHolder?.onTexturesAdded(data, i, order, source.name)
                 }
             }.forEach { it.join() }
         }.whenComplete { _, _ -> onTexturesLoaded() }
     }
 
-    fun saveTextures() {
-        Log.d(TAG, "Saving textures")
-        val edit = preferences.edit()
-        saveTextures(edit, textures)
-        edit.apply()
+    fun saveTexturesAsync(): CompletableFuture<Void> = runAsync {
+        val data = serializeTextures(textures)
+
+        runOnUiThread {
+            Log.d(TAG, "Saving textures")
+            preferences.edit { it.putString(TEXTURES, data) }
+        }
     }
 
     private fun saveArranging() {
         Log.d(TAG, "Saving textures arrangement")
-        val edit = preferences.edit()
-        edit.putString(ARRANGING, arranging.saveJson())
-        edit.apply()
+        preferences.edit { it.putString(ARRANGING, arranging.saveJson()) }
     }
 
     fun updateArrangingFromBundle(bundle: Bundle) {
@@ -154,7 +161,7 @@ abstract class TexturesActivity : Activity(), TexturesListener {
             Toast.makeText(this, R.string.invalid_save, Toast.LENGTH_SHORT)
                 .show()
 
-            saveTextures()
+            saveTexturesAsync()
             saveArranging()
         }
     }

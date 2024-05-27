@@ -8,9 +8,9 @@
     android:animateLayoutChanges="true">
 
   <ListView
-      tools:listitem="@layout/rearrange_list_entry"
+      tools:listheader="@layout/rearrange_list_header"
+      tools:listitem="@layout/entry_rearrange"
       android:id="@+id/list_sources"
-      android:verticalSpacing="1dp"
       android:layout_width="match_parent"
       android:layout_height="match_parent" />
 

@@ -68,7 +68,7 @@ class ToggleSourcesActivity : TexturesActivity() {
         super.finish()
     }
 
-    override fun setTextures(newTextures: Array<Textures?>) {
+    override fun setTextures(newTextures: Array<Textures?>) = runOnUiThread {
         adapter.clear()
 
         newTextures.mapIndexed { i, textures ->
@@ -106,6 +106,18 @@ class ToggleSourcesActivity : TexturesActivity() {
             adapter.notifyDataSetChanged()
 
             updateListVisibility()
+        }
+    }
+
+    override fun prepareTextureForReuse(index: Int) {
+        super.prepareTextureForReuse(index)
+
+        for (i in 0..<adapter.count) {
+            val item = adapter.getItem(i)
+            if (item?.index == 0) {
+                adapter.remove(item)
+                break
+            }
         }
     }
 

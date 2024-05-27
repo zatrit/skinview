@@ -85,7 +85,7 @@ var textures = arrayOfNulls<Textures>(defaultSources.size)
 
 /** Static handler for adding textures */
 @Volatile
-var texturesHandler: TexturesListener? = null
+var texturesHolder: TextureHolder? = null
 
 /**
  * Since skin loading takes place in a static context,

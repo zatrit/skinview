@@ -1,6 +1,7 @@
 package net.zatrit.skinbread
 
 import android.app.Activity
+import android.content.SharedPreferences
 import android.graphics.*
 import android.util.Log
 import android.view.*
@@ -91,4 +92,10 @@ fun <T> Layer<T>.tryApply(value: T): T = try {
 } catch (ex: Exception) {
     ex.printDebug()
     value
+}
+
+inline fun SharedPreferences.edit(func: (SharedPreferences.Editor) -> Unit) {
+    val edit = edit()
+    func(edit)
+    edit.apply()
 }

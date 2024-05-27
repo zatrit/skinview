@@ -11,7 +11,7 @@ import kotlin.math.log10
 
 class IndexedAdapter(
     context: Context,
-    private val entry: Int = R.layout.rearrange_list_entry,
+    private val entry: Int = R.layout.entry_rearrange,
     var hiddenItem: Int? = null,
 ) : ArrayAdapter<Pair<Int, String>>(context, entry) {
     private val inflater = LayoutInflater.from(context)
