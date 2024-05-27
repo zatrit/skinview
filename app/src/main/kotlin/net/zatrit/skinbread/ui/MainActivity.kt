@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.*
 import android.opengl.GLSurfaceView
 import android.os.Bundle
-import android.util.Log
 import android.view.View.GONE
 import android.widget.*
 import android.widget.RelativeLayout.LEFT_OF
@@ -16,7 +15,6 @@ import net.zatrit.skinbread.skins.*
 import net.zatrit.skinbread.ui.dialog.*
 import net.zatrit.skinbread.ui.touch.*
 import org.json.JSONObject
-import java.util.concurrent.CompletableFuture.runAsync
 
 class MainActivity : TexturesActivity() {
     private lateinit var texturePicker: TexturePicker
@@ -153,11 +151,6 @@ class MainActivity : TexturesActivity() {
         }
     }
 
-    override fun onTexturesLoaded() {
-        super.onTexturesLoaded()
-        texturePicker.reset()
-    }
-
     override fun setTextures(newTextures: Array<Textures?>) {
         this.renderer.config.clearTextures = true
         this.renderer.config.pendingTextures.add(
@@ -168,10 +161,9 @@ class MainActivity : TexturesActivity() {
     }
 
     private fun loadPreferences() {
-        runAsync {
-            textures = loadTextures(preferences)
-            texturesHolder?.setTextures(textures)
-            Log.d(TAG, texturesHolder.toString())
+        loadTexturesAsync(this) {
+            textures = it
+            texturesHolder?.setTextures(it)
         }
 
         preferences.getString(ARRANGING, null)?.let {

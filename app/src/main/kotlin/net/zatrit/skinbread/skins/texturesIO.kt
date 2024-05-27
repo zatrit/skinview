@@ -1,62 +1,76 @@
 package net.zatrit.skinbread.skins
 
-import android.content.SharedPreferences
+import android.content.Context
 import android.graphics.*
-import android.util.Base64
+import android.util.Log
 import net.zatrit.skinbread.*
 import net.zatrit.skinbread.gl.model.ModelType
-import org.json.*
-import java.io.ByteArrayOutputStream
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.CompletableFuture.runAsync
 
-private fun bitmapFromBase64(data: String): Bitmap {
-    val bytes = Base64.decode(data, Base64.DEFAULT)
-    return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+fun saveTexturesAsync(
+    context: Context, textures: Array<Textures?>,
+    indices: IntArray? = null): CompletableFuture<Void> = runAsync {
+    textures.forEachIndexed { i, textures ->
+        if (textures == null || indices?.contains(i) == false) {
+            return@forEachIndexed
+        }
+
+        textures.skin?.let { saveTexture(context, "skin", i, it) }
+        textures.cape?.let { saveTexture(context, "cape", i, it) }
+        textures.ears?.let { saveTexture(context, "ears", i, it) }
+        textures.model?.let { saveModelType(context, i, it) }
+    }
 }
 
-private fun bitmapToBase64(bitmap: Bitmap): String {
-    val bytes = ByteArrayOutputStream().use {
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
-        it.toByteArray()
+fun saveTexture(context: Context, type: String, index: Int, bitmap: Bitmap) =
+    try {
+        context.openFileOutput("$type$index.png", Context.MODE_PRIVATE).use {
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
+        }
+    } catch (ex: Exception) {
+        ex.printDebug()
     }
-    return String(Base64.encode(bytes, Base64.DEFAULT))
+
+fun saveModelType(context: Context, index: Int, modelType: ModelType) = try {
+    context.openFileOutput("model$index", Context.MODE_PRIVATE).bufferedWriter()
+        .use { it.write(modelType.name) }
+} catch (ex: Exception) {
+    ex.printDebug()
 }
 
-const val TEXTURES = "textures"
+inline fun loadTexturesAsync(
+    context: Context,
+    crossinline callback: (Array<Textures?>) -> Unit): CompletableFuture<Void> =
+    runAsync {
+        val textures = arrayOfNulls<Textures?>(defaultSources.size)
 
-private fun JSONObject.optBitmap(key: String) =
-    optString(key).takeIf { it.isNotBlank() }?.run(::bitmapFromBase64)
+        for (i in defaultSources.indices) {
+            textures[i] = Textures(
+                skin = loadTexture(context, "skin", i),
+                cape = loadTexture(context, "cape", i),
+                ears = loadTexture(context, "ears", i),
+                model = loadModelType(context, i),
+            )
+        }
 
-fun loadTextures(preferences: SharedPreferences): Array<Textures?> {
-    val textures = preferences.getString(TEXTURES, null)?.run(::JSONArray)
-        ?: return textures
-    val array = arrayOfNulls<Textures>(textures.length())
-
-    for (i in 0..<textures.length()) {
-        val data = textures.getJSONObject(i) ?: continue
-
-        array[i] = Textures(
-            skin = data.optBitmap("skin"),
-            cape = data.optBitmap("cape"),
-            ears = data.optBitmap("ears"),
-            model = ModelType.fromName(data.optString("model")),
-        )
+        callback(textures)
     }
 
-    return array
+fun loadTexture(context: Context, type: String, index: Int) = try {
+    context.openFileInput("$type$index.png").use {
+        BitmapFactory.decodeStream(it)
+    }
+} catch (ex: Exception) {
+    null
 }
 
-fun serializeTextures(array: Array<Textures?>): String {
-    val textures = JSONArray()
+fun loadModelType(context: Context, index: Int) = try {
+    val raw = context.openFileInput("model$index").bufferedReader()
+        .use { it.readText() }
+    Log.d(TAG, raw)
 
-    array.map { texture ->
-        val textureData = JSONObject()
-        textureData.put("skin", texture?.skin?.run(::bitmapToBase64))
-        textureData.put("cape", texture?.cape?.run(::bitmapToBase64))
-        textureData.put("ears", texture?.ears?.run(::bitmapToBase64))
-        textureData.put("model", texture?.model?.toString())
-
-        textures.put(textureData)
-    }
-
-    return textures.toString()
+    ModelType.fromName(raw)
+} catch (ex: Exception) {
+    null
 }

@@ -9,8 +9,7 @@ import net.zatrit.skinbread.*
 import net.zatrit.skinbread.gl.model.ModelType
 import net.zatrit.skinbread.skins.*
 import net.zatrit.skins.lib.texture.BytesTexture
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.CompletableFuture.*
+import java.util.concurrent.CompletableFuture.supplyAsync
 
 const val ARRANGING = "arranging"
 const val I_HAVE_ARRANGING = 156
@@ -49,10 +48,6 @@ abstract class TexturesActivity : Activity(), TextureHolder {
         super.onPause()
     }
 
-    open fun onTexturesLoaded() {
-        saveTexturesAsync()
-    }
-
     override fun onSaveInstanceState(state: Bundle) {
         super.onSaveInstanceState(state)
         state.putParcelable(ARRANGING, arranging)
@@ -89,8 +84,7 @@ abstract class TexturesActivity : Activity(), TextureHolder {
             )
 
             textures[LOCAL] = set
-
-            saveTexturesAsync()
+            saveTexturesAsync(intArrayOf(LOCAL))
         } catch (ex: Exception) {
             Toast.makeText(this, R.string.open_failed, Toast.LENGTH_SHORT).show()
             ex.printDebug()
@@ -117,7 +111,7 @@ abstract class TexturesActivity : Activity(), TextureHolder {
             showToast(R.string.loading_textures)
 
             sources.mapIndexed { i, source ->
-                val future = loadTextures(profile, source)
+                val future = loadTexturesAsync(profile, source)
                 future.thenApply {
                     if (it == null || it.isEmpty) return@thenApply
 
@@ -129,17 +123,13 @@ abstract class TexturesActivity : Activity(), TextureHolder {
                     texturesHolder?.onTexturesAdded(data, i, order, source.name)
                 }
             }.forEach { it.join() }
-        }.whenComplete { _, _ -> onTexturesLoaded() }
-    }
 
-    fun saveTexturesAsync(): CompletableFuture<Void> = runAsync {
-        val data = serializeTextures(textures)
-
-        runOnUiThread {
-            Log.d(TAG, "Saving textures")
-            preferences.edit { it.putString(TEXTURES, data) }
+            saveTexturesAsync()
         }
     }
+
+    fun saveTexturesAsync(indices: IntArray? = null) =
+        saveTexturesAsync(this, textures, indices)
 
     private fun saveArranging() {
         Log.d(TAG, "Saving textures arrangement")

@@ -8,7 +8,7 @@ import java.util.concurrent.CompletableFuture.supplyAsync
 val capeLayer = ScaleCapeLayer()
 val skinLayer = LegacySkinLayer()
 
-fun loadTextures(profile: Profile, source: SkinSource) = supplyAsync {
+fun loadTexturesAsync(profile: Profile, source: SkinSource) = supplyAsync {
     try {
         source.resolver.resolve(profile)
     } catch (ex: Exception) {
