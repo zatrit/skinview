@@ -1,16 +1,14 @@
 package net.zatrit.skins.lib.data;
 
-import net.zatrit.skins.lib.util.LoadJson;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.SneakyThrows;
 
 /**
  * A class that describes texture parameters
@@ -20,13 +18,11 @@ import lombok.SneakyThrows;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Metadata implements LoadJson {
+public class Metadata {
     private boolean animated = false;
     private @Nullable String model;
 
-    @Override
-    @SneakyThrows
-    public void loadJson(@NotNull JSONObject json) {
+    public Metadata(@NotNull JSONObject json) throws JSONException {
         if (json.has("animated")) {
             animated = json.getBoolean("animated");
         }

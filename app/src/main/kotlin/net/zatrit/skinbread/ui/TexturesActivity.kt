@@ -84,7 +84,8 @@ abstract class TexturesActivity : Activity(), TextureHolder {
             )
 
             textures[LOCAL] = set
-            saveTexturesAsync(intArrayOf(LOCAL))
+            clearTexturesAsync(this, intArrayOf(0))
+            saveTexturesAsync(this, arrayOf(set))
         } catch (ex: Exception) {
             Toast.makeText(this, R.string.open_failed, Toast.LENGTH_SHORT).show()
             ex.printDebug()
@@ -124,12 +125,10 @@ abstract class TexturesActivity : Activity(), TextureHolder {
                 }
             }.forEach { it.join() }
 
-            saveTexturesAsync()
+            clearTexturesAsync(this, textures.indicesArray)
+            saveTexturesAsync(this, textures)
         }
     }
-
-    fun saveTexturesAsync(indices: IntArray? = null) =
-        saveTexturesAsync(this, textures, indices)
 
     private fun saveArranging() {
         Log.d(TAG, "Saving textures arrangement")
@@ -144,14 +143,12 @@ abstract class TexturesActivity : Activity(), TextureHolder {
 
     private fun validateArranging() {
         val size = defaultSources.size
-        if (arranging.enabled.size != size || arranging.order.size != size || textures.size != size) {
+        if (arranging.enabled.size != size || arranging.order.size != size) {
             arranging = Arranging(size)
-            textures = arrayOfNulls(size)
 
             Toast.makeText(this, R.string.invalid_save, Toast.LENGTH_SHORT)
                 .show()
 
-            saveTexturesAsync()
             saveArranging()
         }
     }

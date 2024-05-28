@@ -11,14 +11,11 @@ import java.util.EnumMap
  * server containing player-related fields.
  */
 @Internal
-class MCCapesResponse : LoadJson {
-    var animatedCape = false
-        private set
+class MCCapesResponse(json: JSONObject) {
+    val animatedCape = json.getBoolean("animatedCape")
     val textures = EnumMap<_, String>(TextureType::class.java)
 
-    override fun loadJson(json: JSONObject) {
-        animatedCape = json.getBoolean("animatedCape")
-
+    init {
         val texturesJson = json.getJSONObject("textures")
         for (key in texturesJson.keys()) {
             textureType(key)?.let { textures[it] = texturesJson.getString(key) }

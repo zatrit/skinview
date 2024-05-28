@@ -11,7 +11,7 @@ class BitmapTexture(
     constructor(bitmap: Bitmap, base: Texture) : this(bitmap, base.metadata)
 
     // It's not necessary to implement this
-    override fun getBytes() = TODO()
+    override fun getBytes() = null
 
     override fun getBitmap() = bitmap
 }

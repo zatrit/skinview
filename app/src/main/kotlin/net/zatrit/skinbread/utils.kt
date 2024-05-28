@@ -99,3 +99,10 @@ inline fun SharedPreferences.edit(func: (SharedPreferences.Editor) -> Unit) {
     func(edit)
     edit.apply()
 }
+
+val <T> Array<T>.indicesArray: IntArray
+    get() = IntArray(size) { it }
+
+@Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
+fun String.jvmReplace(from: String, to: String): String =
+    (this as java.lang.String).replace("-", "")

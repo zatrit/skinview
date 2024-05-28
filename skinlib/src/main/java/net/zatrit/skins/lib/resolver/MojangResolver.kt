@@ -19,7 +19,7 @@ class MojangResolver : Resolver {
         val url = MOJANG_SKIN_API + profile.shortId
 
         val stream = URL(url).openStream()
-        val response = MojangResponse().apply { loadJson(stream.jsonObject) }
+        val response = MojangResponse(stream.jsonObject)
         val decoder = Base64.getDecoder()
 
         val textureData = decoder.decode(response.properties[0].value)

@@ -21,7 +21,7 @@ class MinecraftCapesResolver : Resolver {
         val url = MINECRAFTCAPES_API + profile.shortId
 
         val stream = URL(url).openStream()
-        val response = MCCapesResponse().apply { loadJson(stream.jsonObject) }
+        val response = MCCapesResponse(stream.jsonObject)
         val textures = EnumMap<TextureType, Texture>(TextureType::class.java)
 
         for (entry in response.textures.entries) {

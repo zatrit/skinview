@@ -8,36 +8,50 @@ import net.zatrit.skinbread.gl.model.ModelType
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.CompletableFuture.runAsync
 
-fun saveTexturesAsync(
-    context: Context, textures: Array<Textures?>,
-    indices: IntArray? = null): CompletableFuture<Void> = runAsync {
-    textures.forEachIndexed { i, textures ->
-        if (textures == null || indices?.contains(i) == false) {
-            return@forEachIndexed
-        }
-
-        textures.skin?.let { saveTexture(context, "skin", i, it) }
-        textures.cape?.let { saveTexture(context, "cape", i, it) }
-        textures.ears?.let { saveTexture(context, "ears", i, it) }
-        textures.model?.let { saveModelType(context, i, it) }
+fun clearTexturesAsync(
+    context: Context, indices: IntArray): CompletableFuture<Void> = runAsync {
+    indices.map {
+        deleteTexture(context, "skin", it)
+        deleteTexture(context, "cape", it)
+        deleteTexture(context, "ears", it)
+        context.deleteFile("model$it")
     }
 }
 
-fun saveTexture(context: Context, type: String, index: Int, bitmap: Bitmap) =
-    try {
-        context.openFileOutput("$type$index.png", Context.MODE_PRIVATE).use {
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
+private fun deleteTexture(context: Context, type: String, index: Int) =
+    context.deleteFile(file(type, index))
+
+fun saveTexturesAsync(
+    context: Context, textures: Array<Textures?>): CompletableFuture<Void> =
+    runAsync {
+        textures.forEachIndexed { i, textures ->
+            if (textures == null) {
+                return@forEachIndexed
+            }
+
+            textures.skin?.let { saveTexture(context, "skin", i, it) }
+            textures.cape?.let { saveTexture(context, "cape", i, it) }
+            textures.ears?.let { saveTexture(context, "ears", i, it) }
+            textures.model?.let { saveModelType(context, i, it) }
         }
-    } catch (ex: Exception) {
-        ex.printDebug()
     }
 
-fun saveModelType(context: Context, index: Int, modelType: ModelType) = try {
-    context.openFileOutput("model$index", Context.MODE_PRIVATE).bufferedWriter()
-        .use { it.write(modelType.name) }
+private fun saveTexture(
+    context: Context, type: String, index: Int, bitmap: Bitmap) = try {
+    context.openFileOutput(file(type, index), Context.MODE_PRIVATE).use {
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
+    }
 } catch (ex: Exception) {
     ex.printDebug()
 }
+
+private fun saveModelType(context: Context, index: Int, modelType: ModelType) =
+    try {
+        context.openFileOutput("model$index", Context.MODE_PRIVATE)
+            .bufferedWriter().use { it.write(modelType.name) }
+    } catch (ex: Exception) {
+        ex.printDebug()
+    }
 
 inline fun loadTexturesAsync(
     context: Context,
@@ -58,7 +72,7 @@ inline fun loadTexturesAsync(
     }
 
 fun loadTexture(context: Context, type: String, index: Int) = try {
-    context.openFileInput("$type$index.png").use {
+    context.openFileInput(file(type, index)).use {
         BitmapFactory.decodeStream(it)
     }
 } catch (ex: Exception) {
@@ -74,3 +88,5 @@ fun loadModelType(context: Context, index: Int) = try {
 } catch (ex: Exception) {
     null
 }
+
+fun file(type: String, index: Int) = "$type$index.png"

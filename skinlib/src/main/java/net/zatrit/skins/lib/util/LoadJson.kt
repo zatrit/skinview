@@ -7,10 +7,6 @@ import org.json.*
 import java.io.*
 import java.util.EnumMap
 
-interface LoadJson {
-    fun loadJson(json: JSONObject)
-}
-
 fun loadTextureMap(json: JSONObject): Map<TextureType, URLTexture> {
     val map = EnumMap<_, URLTexture>(TextureType::class.java)
 
@@ -18,9 +14,11 @@ fun loadTextureMap(json: JSONObject): Map<TextureType, URLTexture> {
         val type = textureType(key)
         val obj = json.getJSONObject(key)
 
-        map[type] = URLTexture(obj.getString("url"), Metadata().apply {
-            if (obj.has("metadata")) loadJson(obj.getJSONObject("metadata"))
-        })
+        val metadata = if (obj.has("metadata")) Metadata(
+            obj.getJSONObject("metadata")
+        ) else Metadata()
+
+        map[type] = URLTexture(obj.getString("url"), metadata)
     }
 
     return map
@@ -33,17 +31,7 @@ fun textureType(string: String) = try {
 }
 
 val InputStream.jsonObject: JSONObject
-    get() {
-        val string = InputStreamReader(this).readText()
-        this.close()
-
-        return JSONObject(JSONTokener(string))
-    }
+    get() = use { JSONObject(InputStreamReader(it).readText()) }
 
 val InputStream.jsonArray: JSONArray
-    get() {
-        val string = InputStreamReader(this).readText()
-        this.close()
-
-        return JSONArray(JSONTokener(string))
-    }
+    get() = use { JSONArray(InputStreamReader(it).readText()) }
