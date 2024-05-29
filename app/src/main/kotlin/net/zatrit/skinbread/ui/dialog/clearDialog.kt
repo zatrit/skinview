@@ -11,7 +11,7 @@ fun clearDialog(context: TexturesActivity): Dialog =
 
         setPositiveButton(android.R.string.ok) { _, _ ->
             textures.fill(null)
-            clearTexturesAsync(context, textures.indicesArray)
+            clearTexturesAsync(context)
             context.setTextures(textures)
         }
 

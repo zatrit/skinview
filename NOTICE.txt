@@ -1,5 +1,6 @@
-The files app/src/main/res/baseline_file_open.xml and app/src/main/res/baseline_save.xml 
-are part of Google's Material Design Icons and are licensed under Apache License 2.0. 
+The files app/src/main/res/baseline_file_open.xml, app/src/main/res/info.xml and 
+app/src/main/res/baseline_save.xml are part of Google's Material Design Icons and 
+are licensed under Apache License 2.0. 
 Read more here: https://github.com/google/material-design-icons
 
 This project uses Guava library licensed under Apache License 2.0.

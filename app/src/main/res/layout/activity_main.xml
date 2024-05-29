@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true">
 
+  <Button
+      android:id="@+id/btn_info"
+      style="@style/OLED.Button"
+      android:drawableStart="@drawable/baseline_info"
+      android:drawableTint="@color/button"
+      android:backgroundTint="@color/card_background"
+      android:layout_alignParentEnd="true"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      tools:ignore="RelativeOverlap" />
+
   <android.opengl.GLSurfaceView
       android:id="@+id/gl_surface"
       android:layout_width="match_parent"
@@ -26,15 +37,13 @@
         android:id="@+id/btn_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/list_skin"
-        tools:ignore="ButtonStyle" />
+        android:text="@string/list_skin" />
 
     <Button
         android:id="@+id/btn_render_options"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/render_options"
-        tools:ignore="ButtonStyle" />
+        android:text="@string/render_options" />
 
     <include layout="@layout/action_buttons" />
   </LinearLayout>

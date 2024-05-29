@@ -1,11 +1,13 @@
 package net.zatrit.skins.lib.layer.android
 
 import android.graphics.Bitmap
+import android.util.Log
 import net.zatrit.skins.lib.api.Texture
 
 class ScaleCapeLayer : ImageLayer() {
     override fun apply(input: Bitmap): Bitmap {
-        if (input.height * 2 == input.width) {
+        val ogWidth = input.width
+        if (input.height * 2 == ogWidth) {
             return input
         }
 
@@ -13,10 +15,10 @@ class ScaleCapeLayer : ImageLayer() {
         val width = height * 2
 
         val buffer = IntArray(width * height)
-        input.getPixels(buffer, 0, 0, 0, 0, input.width, input.height)
+        input.getPixels(buffer, 0, ogWidth, 0, 0, ogWidth, input.height)
 
         return Bitmap.createBitmap(width, height, input.config).apply {
-            setPixels(buffer, 0, 0, 0, 0, input.width, input.height)
+            setPixels(buffer, 0, ogWidth, 0, 0, ogWidth, input.height)
         }
     }
 

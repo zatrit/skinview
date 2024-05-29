@@ -84,7 +84,6 @@ abstract class TexturesActivity : Activity(), TextureHolder {
             )
 
             textures[LOCAL] = set
-            clearTexturesAsync(this, intArrayOf(0))
             saveTexturesAsync(this, arrayOf(set))
         } catch (ex: Exception) {
             Toast.makeText(this, R.string.open_failed, Toast.LENGTH_SHORT).show()
@@ -125,7 +124,7 @@ abstract class TexturesActivity : Activity(), TextureHolder {
                 }
             }.forEach { it.join() }
 
-            clearTexturesAsync(this, textures.indicesArray)
+            clearTexturesAsync(this, from = VANILLA)
             saveTexturesAsync(this, textures)
         }
     }

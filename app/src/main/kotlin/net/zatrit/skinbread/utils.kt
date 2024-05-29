@@ -73,10 +73,11 @@ inline fun bindButton(
 inline fun Activity.bindButton(id: Int, crossinline func: (View) -> Unit) =
     bindButton(requireViewById(id), func)
 
+/** Moves the [IntArray] element, shifting the other elements. */
 fun IntArray.moveItemTo(from: Int, to: Int) {
     Log.d(TAG, "$from => $to")
 
-    val a = this[from]
+    val a = get(from)
 
     if (from < to) {
         System.arraycopy(this, from + 1, this, from, to - from)
@@ -87,6 +88,7 @@ fun IntArray.moveItemTo(from: Int, to: Int) {
     this[to] = a
 }
 
+/** Tries to apply the layer, otherwise prints an exception and returns the original [value]. */
 fun <T> Layer<T>.tryApply(value: T): T = try {
     apply(value)
 } catch (ex: Exception) {
@@ -94,15 +96,17 @@ fun <T> Layer<T>.tryApply(value: T): T = try {
     value
 }
 
+/** Simple wrapper around [SharedPreferences.edit]. */
 inline fun SharedPreferences.edit(func: (SharedPreferences.Editor) -> Unit) {
     val edit = edit()
     func(edit)
     edit.apply()
 }
 
-val <T> Array<T>.indicesArray: IntArray
-    get() = IntArray(size) { it }
-
+/**
+ * [String.replace] implementation based on the Java implementation,
+ * since the Kotlin implementation uses [IntRange], which can cause the
+ * .dex to increase by 1 KiB. */
 @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
 fun String.jvmReplace(from: String, to: String): String =
-    (this as java.lang.String).replace("-", "")
+    (this as java.lang.String).replace(from, to)

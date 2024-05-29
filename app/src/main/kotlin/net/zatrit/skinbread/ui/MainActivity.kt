@@ -27,8 +27,6 @@ class MainActivity : TexturesActivity() {
         super.onCreate(state)
         setContentView(R.layout.activity_main)
 
-        window.exitTransition = transitionWithFetchButton
-
         val surface = requireViewById<GLSurfaceView>(R.id.gl_surface).apply {
             setEGLContextClientVersion(3)
             val density = resources.displayMetrics.density.toInt()
@@ -42,6 +40,7 @@ class MainActivity : TexturesActivity() {
         texturePicker = state?.getParcelable("texturePicker") ?: TexturePicker()
 
         bindButton(R.id.btn_list) {
+            window.exitTransition = transitionWithFetchButton
             val intent =
                 Intent(this, ToggleSourcesActivity::class.java).putExtra(
                     ARRANGING, arranging
@@ -53,9 +52,21 @@ class MainActivity : TexturesActivity() {
             )
         }
 
+        bindButton(R.id.btn_info) {
+            window.exitTransition = transition
+            startActivity(
+                Intent(this, LicenseActivity::class.java),
+                ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
+            )
+        }
+
         val fetchDialog = profileDialog(this) { name, uuid ->
             renderer.config.clearTextures = true
             texturePicker.reset()
+            // Updates order according to LOCAL to avoid it overlapping with new textures
+            textures[LOCAL]?.let {
+                texturePicker.update(it, arranging.order.indexOf(LOCAL))
+            }
             reloadTextures(name, uuid, defaultSources)
         }
 

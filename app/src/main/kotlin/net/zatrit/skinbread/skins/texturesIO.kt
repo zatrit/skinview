@@ -2,19 +2,19 @@ package net.zatrit.skinbread.skins
 
 import android.content.Context
 import android.graphics.*
-import android.util.Log
 import net.zatrit.skinbread.*
 import net.zatrit.skinbread.gl.model.ModelType
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.CompletableFuture.runAsync
 
 fun clearTexturesAsync(
-    context: Context, indices: IntArray): CompletableFuture<Void> = runAsync {
-    indices.map {
-        deleteTexture(context, "skin", it)
-        deleteTexture(context, "cape", it)
-        deleteTexture(context, "ears", it)
-        context.deleteFile("model$it")
+    context: Context, from: Int = 0,
+    to: Int = textures.size): CompletableFuture<Void> = runAsync {
+    for (i in from..<to) {
+        deleteTexture(context, "skin", i)
+        deleteTexture(context, "cape", i)
+        deleteTexture(context, "ears", i)
+        context.deleteFile("model$i")
     }
 }
 
@@ -82,7 +82,6 @@ fun loadTexture(context: Context, type: String, index: Int) = try {
 fun loadModelType(context: Context, index: Int) = try {
     val raw = context.openFileInput("model$index").bufferedReader()
         .use { it.readText() }
-    Log.d(TAG, raw)
 
     ModelType.fromName(raw)
 } catch (ex: Exception) {

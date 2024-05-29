@@ -30,6 +30,7 @@ class Textures(
         ears = ears?.let { GLTexture(it, persistent) },
     )
 
+    /** Fills in empty textures with [input], loading only necessary ones. */
     fun or(
         input: PlayerTextures, skinLayer: Layer<Texture>,
         capeLayer: Layer<Texture>) {
@@ -47,6 +48,7 @@ class Textures(
         this.ears = this.ears ?: input.getTexture(TextureType.EARS)?.bitmap
     }
 
+    /** Fills in empty textures with [other]. */
     fun or(other: Textures) {
         if (this.skin == null) this.model = other.model
 
