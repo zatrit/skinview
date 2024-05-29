@@ -16,6 +16,4 @@ fun clearDialog(context: TexturesActivity): Dialog =
       }
 
       setNegativeButton(android.R.string.cancel, CancelDialog())
-  }.create().apply {
-      window?.attributes?.windowAnimations = R.style.WindowAnimations
-  }
+  }.create().applyDialogTheme()

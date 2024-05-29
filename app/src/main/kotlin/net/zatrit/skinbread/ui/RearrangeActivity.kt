@@ -4,12 +4,13 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.*
 import android.os.*
-import android.view.*
+import android.view.MotionEvent
 import android.view.MotionEvent.*
 import android.view.View.MeasureSpec.UNSPECIFIED
 import android.widget.*
 import net.zatrit.skinbread.*
 import net.zatrit.skinbread.skins.defaultSources
+import net.zatrit.skinbread.ui.adapter.IndexedAdapter
 import net.zatrit.skinbread.ui.touch.*
 
 const val ORDER = "order"
@@ -31,7 +32,6 @@ class RearrangeActivity : Activity() {
 
     private var showAll = false
 
-    @SuppressLint("InflateParams")
     @Suppress("DEPRECATION")
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
@@ -50,17 +50,15 @@ class RearrangeActivity : Activity() {
         populateList()
         sourcesList.adapter = adapter
 
-        val header = layoutInflater.inflate(R.layout.rearrange_list_header, null)
+        @SuppressLint("InflateParams")
+        val header = layoutInflater.inflate(R.layout.header_rearrange_list, null)
         sourcesList.addHeaderView(header)
 
         header.measure(UNSPECIFIED, UNSPECIFIED)
         handler =
           RearrangeHandler(this, sourcesList, adapter, header.measuredHeight)
 
-        window.run {
-            clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-            statusBarColor = resources.getColor(R.color.card_background, theme)
-        }
+        enableTitleBar()
 
         scroller = Scroller(sourcesList, mainLooper)
         screenHeight = resources.displayMetrics.heightPixels

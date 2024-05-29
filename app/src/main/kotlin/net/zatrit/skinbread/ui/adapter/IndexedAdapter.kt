@@ -1,4 +1,4 @@
-package net.zatrit.skinbread.ui
+package net.zatrit.skinbread.ui.adapter
 
 import android.content.Context
 import android.graphics.Color
@@ -12,6 +12,7 @@ import kotlin.math.log10
 class IndexedAdapter(
   context: Context,
   private val entry: Int = R.layout.entry_rearrange,
+  private val sourceName: Int = R.id.text_source_name,
   var hiddenItem: Int? = null,
 ) : ArrayAdapter<Pair<Int, String>>(context, entry) {
     private val inflater = LayoutInflater.from(context)
@@ -30,7 +31,7 @@ class IndexedAdapter(
           Spannable.SPAN_INCLUSIVE_EXCLUSIVE
         )
 
-        val textView = view.requireViewById<TextView>(R.id.text_source_name)
+        val textView = view.requireViewById<TextView>(sourceName)
         textView.text = spanned
 
         view.alpha = if (position == hiddenItem) 0f else 1f

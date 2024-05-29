@@ -33,8 +33,6 @@ inline fun profileDialog(
 
         setNegativeButton(android.R.string.cancel, CancelDialog())
     }.create().apply {
-        window?.attributes?.windowAnimations = R.style.WindowAnimations
-
         setOnShowListener { dialog ->
             if (dialog !is AlertDialog) return@setOnShowListener
 
@@ -46,5 +44,5 @@ inline fun profileDialog(
                 dialog.setText(R.id.edittext_uuid, it)
             }
         }
-    }
+    }.applyDialogTheme()
 }

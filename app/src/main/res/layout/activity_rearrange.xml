@@ -8,7 +8,7 @@
     android:animateLayoutChanges="true">
 
   <ListView
-      tools:listheader="@layout/rearrange_list_header"
+      tools:listheader="@layout/header_rearrange_list"
       tools:listitem="@layout/entry_rearrange"
       android:id="@+id/list_sources"
       android:layout_width="match_parent"

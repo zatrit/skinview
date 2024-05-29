@@ -20,3 +20,7 @@ fun AlertDialog.getText(child: Int) =
 
 fun AlertDialog.setText(child: Int, text: String) =
   requireViewById<EditText>(child).setText(text)
+
+fun AlertDialog.applyDialogTheme() = this.apply {
+    window?.attributes?.windowAnimations = R.style.WindowAnimations
+}

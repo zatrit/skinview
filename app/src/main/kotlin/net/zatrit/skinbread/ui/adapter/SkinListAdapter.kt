@@ -1,9 +1,10 @@
-package net.zatrit.skinbread.ui
+package net.zatrit.skinbread.ui.adapter
 
 import android.view.*
 import android.widget.*
 import net.zatrit.skinbread.*
 import net.zatrit.skinbread.skins.*
+import net.zatrit.skinbread.ui.ToggleSourcesActivity
 
 class NamedEntry(
   val index: Int,

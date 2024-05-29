@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.LicenseActivity"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".ui.LicenseActivity">
 
-  <ListView
-      tools:listitem="@layout/entry_library"
-      android:id="@+id/list_libraries"
-      android:layout_width="456dp"
-      android:layout_height="1122dp" />
+    <ListView
+        android:id="@+id/list_libraries"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/entry_library" />
 
 </LinearLayout>

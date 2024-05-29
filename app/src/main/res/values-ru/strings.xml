@@ -17,6 +17,9 @@
   <string name="rearrange_tip">Зажмите элемент, чтобы перетащить</string>
 
   <!-- Render options -->
+    <string name="licenses">Лицензии</string>
+  <string name="license_of">Лицензия %s</string>
+  <string name="source_code">Исходный код</string>
   <string name="shading">Затенение</string>
   <string name="show_grid">Показывать сетку</string>
   <string name="show_elytra">Элитры вместо плаща</string>

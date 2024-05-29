@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.*
 import net.zatrit.skinbread.*
 import net.zatrit.skinbread.skins.*
+import net.zatrit.skinbread.ui.adapter.*
 import net.zatrit.skinbread.ui.dialog.*
 
 class ToggleSourcesActivity : TexturesActivity() {

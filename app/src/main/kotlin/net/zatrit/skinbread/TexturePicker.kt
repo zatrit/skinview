@@ -1,9 +1,12 @@
 package net.zatrit.skinbread
 
 import android.os.Parcelable
+import net.zatrit.skinbread.skins.defaultSources
 import kotlinx.parcelize.Parcelize
 
+/** Local resolver index in [defaultSources]. */
 const val LOCAL = 0
+/** Vanilla resolver index in [defaultSources]. */
 const val VANILLA = 1
 
 /** A class that automatically takes parts of [Textures] depending on the order. */

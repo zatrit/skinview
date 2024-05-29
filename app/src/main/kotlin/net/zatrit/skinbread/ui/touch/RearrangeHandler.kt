@@ -6,7 +6,7 @@ import android.view.*
 import android.widget.*
 import android.widget.AdapterView.*
 import net.zatrit.skinbread.*
-import net.zatrit.skinbread.ui.IndexedAdapter
+import net.zatrit.skinbread.ui.adapter.IndexedAdapter
 
 const val MOVE_CHANGED_ID = 0
 const val MOVE_OK = 1
@@ -23,7 +23,6 @@ class RearrangeHandler(
     var fromItem = -1
         private set
 
-    private var fakeItemFade: ObjectAnimator? = null
     private val fakeItem = context.findViewById<ImageView>(R.id.img_fake_item)
 
     override fun onItemLongClick(

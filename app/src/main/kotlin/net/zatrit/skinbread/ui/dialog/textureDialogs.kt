@@ -20,9 +20,7 @@ inline fun pickerDialog(
     }
 
     setNegativeButton(android.R.string.cancel, CancelDialog())
-}.create().apply {
-    window?.attributes?.windowAnimations = R.style.WindowAnimations
-}
+}.create().applyDialogTheme()
 
 inline fun textureTypeDialog(
   context: Context,

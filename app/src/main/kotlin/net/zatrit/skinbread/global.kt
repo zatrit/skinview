@@ -1,3 +1,5 @@
+// Globals and constants to use in a different parts of this project.
+
 // setRotateEulerM is deprecated, but setRotateEulerM2 requires SDK_VERSION >= 34
 @file:Suppress("DEPRECATION")
 
