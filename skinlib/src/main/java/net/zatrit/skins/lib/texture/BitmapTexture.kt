@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import net.zatrit.skins.lib.api.Texture
 import net.zatrit.skins.lib.data.Metadata
 
+/** A wrapper around [Bitmap] to use it as a [Texture]. */
 class BitmapTexture(
     private val bitmap: Bitmap, metadata: Metadata? = null) :
     LazyTexture(metadata) {
@@ -11,7 +12,7 @@ class BitmapTexture(
     constructor(bitmap: Bitmap, base: Texture) : this(bitmap, base.metadata)
 
     // It's not necessary to implement this
-    override fun getBytes() = null
+    override fun openStream() = null
 
     override fun getBitmap() = bitmap
 }

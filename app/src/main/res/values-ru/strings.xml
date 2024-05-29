@@ -29,6 +29,9 @@
 
   <!-- Local dialog -->
   <string name="pick_texture_type">Выберите тип текстуры</string>
+  <string name="texture_skin">Скин</string>
+  <string name="texture_cape">Плащ</string>
+  <string name="texture_ears">Ушки</string>
 
   <!-- Source names -->
   <string name="source_local">Локальный</string>

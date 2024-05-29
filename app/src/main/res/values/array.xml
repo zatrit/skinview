@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <array name="texture_type">
-    <item>Skin</item>
-    <item>Cape</item>
-    <item>Ears</item>
+    <item>@string/texture_skin</item>
+    <item>@string/texture_cape</item>
+    <item>@string/texture_ears</item>
   </array>
 
   <array name="model_type">

@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * A texture that loads its content using {@link #getBytes()} method.
+ * A texture that loads its content using {@link #openStream()} method.
  */
 @Getter
 @AllArgsConstructor

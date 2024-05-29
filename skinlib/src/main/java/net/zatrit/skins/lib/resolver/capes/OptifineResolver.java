@@ -4,13 +4,11 @@ import net.zatrit.skins.lib.PlayerTextures;
 import net.zatrit.skins.lib.TextureType;
 import net.zatrit.skins.lib.api.Profile;
 import net.zatrit.skins.lib.api.Resolver;
-import net.zatrit.skins.lib.texture.BytesTexture;
-import net.zatrit.skins.lib.util.IOUtil;
+import net.zatrit.skins.lib.texture.URLTexture;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Collections;
 
 import lombok.AllArgsConstructor;
@@ -29,11 +27,8 @@ public final class OptifineResolver implements Resolver {
     @Override
     public @NotNull PlayerTextures resolve(@NotNull Profile profile)
         throws IOException, NullPointerException {
-        val url = new URL(this.baseUrl + "/capes/" + profile.getName() + ".png");
-        val texture = new BytesTexture(
-            IOUtil.download(url),
-            null
-        );
+        val url = this.baseUrl + "/capes/" + profile.getName() + ".png";
+        val texture = new URLTexture(url, null);
 
         /* Since you can't check for the existence/change of a
         texture without fetching that texture, it should not be cached. */

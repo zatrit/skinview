@@ -18,7 +18,7 @@ class FiveZigResolver : Resolver {
             TextureType::class.java
         )
 
-        val textureData = stream.jsonObject["d"] as String?
+        val textureData: String? = stream.jsonObject.optString("d")
 
         if (textureData != null) {
             val decoder = Base64.getDecoder()

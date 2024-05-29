@@ -14,7 +14,7 @@ private const val MINECRAFTCAPES_API = "https://api.minecraftcapes.net/profile/"
 /**
  * Resolver for [Minecraft Capes](https://minecraftcapes.net/)
  * based on the behavior of the Minecraft Capes mod. Connects to the API at
- * `https://api.minecraftcapes.net/`
+ * [MINECRAFTCAPES_API].
  */
 class MinecraftCapesResolver : Resolver {
     override fun resolve(profile: Profile): PlayerTextures {

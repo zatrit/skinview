@@ -8,8 +8,7 @@ import net.zatrit.skins.lib.data.Metadata;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
-
-import lombok.val;
+import java.io.InputStream;
 
 /**
  * An abstract texture that can be converted to a {@link Byte} array.
@@ -21,9 +20,9 @@ public interface Texture {
      * May contain I/O operations, as usage implies execution in
      * a parallel game thread so that the game does not freeze.
      *
-     * @return the texture image as a byte array.
+     * @return the {@link InputStream} that can be used to read texture.
      */
-    byte[] getBytes() throws IOException;
+    InputStream openStream() throws IOException;
 
     /**
      * This function does NOT guarantee that it will return a unique bitmap image each time it is called
@@ -31,7 +30,6 @@ public interface Texture {
      * @return bitmap
      */
     default Bitmap getBitmap() throws IOException {
-        val bytes = getBytes();
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        return BitmapFactory.decodeStream(openStream());
     }
 }

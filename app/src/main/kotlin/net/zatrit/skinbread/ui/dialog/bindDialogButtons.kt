@@ -7,7 +7,7 @@ import android.widget.Button
 import net.zatrit.skinbread.R
 import net.zatrit.skinbread.ui.*
 
-/** Represents the forth bit, while first two are used for specifying the texture type */
+/** Represents the fourth bit, the first two are used for the texture type and the third is used for the model type */
 const val GET_TEXTURE_IMAGE = 8
 
 fun TexturesActivity.bindDialogButtons(

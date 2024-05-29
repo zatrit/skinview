@@ -1,12 +1,15 @@
 package net.zatrit.skins.lib.resolver.capes
 
-import net.zatrit.skins.lib.api.Profile
+import net.zatrit.skins.lib.api.*
 import net.zatrit.skins.lib.resolver.CapesListResolver
 import net.zatrit.skins.lib.util.jsonObject
 import java.net.URL
 
 private const val CAPES_URL = "https://www.wurstclient.net/api/v1/capes.json"
 
+/**
+ * Implementation of [Resolver] for [Wurst Client](https://www.wurstclient.net/)
+ * based on [CapesListResolver]. */
 class WurstResolver : CapesListResolver() {
     override fun fetchList(): Map<String, String> {
         val obj = URL(CAPES_URL).openStream().jsonObject

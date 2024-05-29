@@ -1,18 +1,16 @@
 package net.zatrit.skins.lib.texture
 
-import com.google.common.io.ByteStreams
 import net.zatrit.skins.lib.api.Texture
 import net.zatrit.skins.lib.data.Metadata
+import java.io.InputStream
 import java.net.URL
 
 /**
- * A texture that loads its content at a given [URL].
+ * A texture that loads its content from a given [URL].
  */
 class URLTexture(url: String, private val metadata: Metadata? = null) : Texture {
-    private val bytes: ByteArray = URL(url).openStream().use {
-        ByteStreams.toByteArray(it)
-    }
+    private val url = URL(url)
 
     override fun getMetadata() = metadata
-    override fun getBytes() = bytes
+    override fun openStream(): InputStream = url.openStream()
 }

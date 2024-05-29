@@ -32,6 +32,9 @@
 
   <!-- Local dialog -->
   <string name="pick_texture_type">Select the type of texture</string>
+  <string name="texture_skin">Skin</string>
+  <string name="texture_cape">Cape</string>
+  <string name="texture_ears">Ears</string>
 
   <!-- Source names -->
   <string name="source_local">Local</string>

@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
@@ -17,6 +18,10 @@ import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 
+/**
+ * An abstract implementation of {@link Resolver} that assumes the existence of
+ * two {@link Map}s: cape owners and cape names (or cape {@link URL}s).
+ */
 @RequiredArgsConstructor
 public abstract class CapesListResolver implements Resolver {
     protected @Nullable Map<String, String> owners;
