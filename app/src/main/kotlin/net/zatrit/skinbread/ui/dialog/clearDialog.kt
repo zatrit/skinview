@@ -1,9 +1,8 @@
 package net.zatrit.skinbread.ui.dialog
 
 import android.app.Dialog
-import net.zatrit.skinbread.R
+import net.zatrit.skinbread.*
 import net.zatrit.skinbread.skins.clearTexturesAsync
-import net.zatrit.skinbread.textures
 import net.zatrit.skinbread.ui.TexturesActivity
 
 fun clearDialog(context: TexturesActivity): Dialog =

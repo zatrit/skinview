@@ -1,4 +1,4 @@
-package net.zatrit.skins.lib.resolver;
+package net.zatrit.skins.lib.resolver.capes;
 
 import net.zatrit.skins.lib.PlayerTextures;
 import net.zatrit.skins.lib.TextureType;
@@ -26,10 +26,19 @@ import lombok.val;
 public abstract class CapesListResolver implements Resolver {
     protected @Nullable Map<String, String> owners;
 
+    /**
+     * @return a map of players and their cloaks.
+     */
     protected abstract Map<String, String> fetchList() throws IOException;
 
+    /**
+     * @return a string representation of the URL to download the cloak texture.
+     */
     protected abstract String getUrl(String capeName);
 
+    /**
+     * @return the name of the cape for the given player.
+     */
     protected @Nullable String getCapeName(@NotNull Profile profile) {
         return Objects.requireNonNull(this.owners).get(profile.getShortId());
     }

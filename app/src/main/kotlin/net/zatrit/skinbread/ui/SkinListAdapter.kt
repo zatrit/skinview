@@ -1,14 +1,9 @@
 package net.zatrit.skinbread.ui
 
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.Switch
-import net.zatrit.skinbread.R
-import net.zatrit.skinbread.Textures
-import net.zatrit.skinbread.skins.SourceName
-import net.zatrit.skinbread.skins.drawPreview
+import android.view.*
+import android.widget.*
+import net.zatrit.skinbread.*
+import net.zatrit.skinbread.skins.*
 
 class NamedEntry(
   val index: Int,

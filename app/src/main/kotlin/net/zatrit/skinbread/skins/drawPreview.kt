@@ -1,8 +1,6 @@
 package net.zatrit.skinbread.skins
 
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Rect
+import android.graphics.*
 import net.zatrit.skinbread.Textures
 import net.zatrit.skinbread.gl.model.ModelType
 

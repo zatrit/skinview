@@ -1,22 +1,7 @@
 package net.zatrit.skinbread.gl
 
-import android.opengl.GLES30.GL_COMPILE_STATUS
-import android.opengl.GLES30.GL_LINK_STATUS
-import android.opengl.GLES30.glAttachShader
-import android.opengl.GLES30.glCompileShader
-import android.opengl.GLES30.glCreateProgram
-import android.opengl.GLES30.glCreateShader
-import android.opengl.GLES30.glDeleteShader
-import android.opengl.GLES30.glGetProgramInfoLog
-import android.opengl.GLES30.glGetProgramiv
-import android.opengl.GLES30.glGetShaderInfoLog
-import android.opengl.GLES30.glGetShaderiv
-import android.opengl.GLES30.glGetUniformLocation
-import android.opengl.GLES30.glLinkProgram
-import android.opengl.GLES30.glShaderSource
-import android.opengl.GLES30.glUseProgram
-import net.zatrit.skinbread.DebugOnly
-import net.zatrit.skinbread.GLContext
+import android.opengl.GLES30.*
+import net.zatrit.skinbread.*
 
 /** Ensures that the shader was successfully compiled with [glGetShaderiv]. */
 @DebugOnly

@@ -38,7 +38,6 @@ private fun createHands(modelType: ModelType): Parts {
     )
 }
 
-
 @GLContext
 class PlayerModel {
     private val parts: Parts

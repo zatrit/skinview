@@ -4,18 +4,10 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.AbsListView
-import android.widget.TextView
-import net.zatrit.skinbread.R
-import net.zatrit.skinbread.Textures
-import net.zatrit.skinbread.bindButton
-import net.zatrit.skinbread.skins.SourceName
-import net.zatrit.skinbread.skins.defaultSources
-import net.zatrit.skinbread.transition
-import net.zatrit.skinbread.transitionWithFetchButton
-import net.zatrit.skinbread.ui.dialog.bindDialogButtons
-import net.zatrit.skinbread.ui.dialog.clearDialog
-import net.zatrit.skinbread.ui.dialog.profileDialog
+import android.widget.*
+import net.zatrit.skinbread.*
+import net.zatrit.skinbread.skins.*
+import net.zatrit.skinbread.ui.dialog.*
 
 class ToggleSourcesActivity : TexturesActivity() {
     private lateinit var sourcesList: AbsListView

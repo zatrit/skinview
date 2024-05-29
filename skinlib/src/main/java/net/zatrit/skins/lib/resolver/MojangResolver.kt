@@ -1,11 +1,9 @@
 package net.zatrit.skins.lib.resolver
 
 import net.zatrit.skins.lib.PlayerTextures
-import net.zatrit.skins.lib.api.Profile
-import net.zatrit.skins.lib.api.Resolver
+import net.zatrit.skins.lib.api.*
 import net.zatrit.skins.lib.data.MojangResponse
-import net.zatrit.skins.lib.util.jsonObject
-import net.zatrit.skins.lib.util.loadTextureMap
+import net.zatrit.skins.lib.util.*
 import java.io.ByteArrayInputStream
 import java.net.URL
 import java.util.Base64

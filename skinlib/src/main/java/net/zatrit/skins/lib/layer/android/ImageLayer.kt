@@ -1,10 +1,10 @@
 package net.zatrit.skins.lib.layer.android
 
 import android.graphics.Bitmap
-import net.zatrit.skins.lib.api.Layer
-import net.zatrit.skins.lib.api.Texture
+import net.zatrit.skins.lib.api.*
 import net.zatrit.skins.lib.texture.BitmapTexture
 
+/** An abstract layer that transforms [Bitmap] or [Texture] in a certain way. */
 abstract class ImageLayer : Layer<Texture> {
     open fun predicate(input: Texture) = true
 

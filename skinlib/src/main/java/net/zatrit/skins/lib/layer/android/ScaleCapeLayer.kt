@@ -3,6 +3,7 @@ package net.zatrit.skins.lib.layer.android
 import android.graphics.Bitmap
 import net.zatrit.skins.lib.api.Texture
 
+/** A skin that scales Optifine capes to have the same format as vanilla capes. */
 class ScaleCapeLayer : ImageLayer() {
     override fun apply(input: Bitmap): Bitmap {
         val ogWidth = input.width

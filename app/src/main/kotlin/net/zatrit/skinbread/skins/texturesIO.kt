@@ -1,12 +1,9 @@
 package net.zatrit.skinbread.skins
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import net.zatrit.skinbread.Textures
+import android.graphics.*
+import net.zatrit.skinbread.*
 import net.zatrit.skinbread.gl.model.ModelType
-import net.zatrit.skinbread.printDebug
-import net.zatrit.skinbread.textures
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.CompletableFuture.runAsync
 

@@ -2,10 +2,8 @@ package net.zatrit.skinbread.ui
 
 import android.app.Activity
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import net.zatrit.skinbread.R
-import net.zatrit.skinbread.ossLibraries
+import android.widget.*
+import net.zatrit.skinbread.*
 
 class LicenseActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {

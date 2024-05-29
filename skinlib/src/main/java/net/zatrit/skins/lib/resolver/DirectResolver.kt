@@ -1,14 +1,10 @@
 package net.zatrit.skins.lib.resolver
 
-import net.zatrit.skins.lib.PlayerTextures
-import net.zatrit.skins.lib.TextureType
-import net.zatrit.skins.lib.api.Profile
-import net.zatrit.skins.lib.api.Resolver
-import net.zatrit.skins.lib.api.Texture
+import net.zatrit.skins.lib.*
+import net.zatrit.skins.lib.api.*
 import net.zatrit.skins.lib.texture.URLTexture
 import java.net.URL
-import java.util.EnumMap
-import java.util.UUID
+import java.util.*
 
 /** An abstract implementation of [Resolver] that creates
  * [PlayerTextures] with a single [URLTexture] by substitution via [getUrl]. */

@@ -1,6 +1,6 @@
 package net.zatrit.skins.lib.resolver.capes;
 
-import net.zatrit.skins.lib.resolver.CapesListResolver;
+import net.zatrit.skins.lib.api.Resolver;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -14,6 +14,10 @@ import java.util.Scanner;
 
 import lombok.val;
 
+/**
+ * Implementation of {@link Resolver} for <a href="https://www.wurstclient.net/">Meteor Client</a>
+ * based on {@link CapesListResolver}.
+ */
 public final class MeteorResolver extends CapesListResolver {
     private static final String BASE_URL = "https://meteorclient.com/api";
     private static final String OWNERS_URL = BASE_URL + "/capeowners";

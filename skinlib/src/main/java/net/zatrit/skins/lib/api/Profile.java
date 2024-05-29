@@ -17,6 +17,9 @@ public interface Profile {
      */
     String getName();
 
+    /**
+     * @return the short version of [UUID], removing all dashes from [UUID.toString].
+     */
     default String getShortId() {
         return getId().toString().replace("-", "");
     }

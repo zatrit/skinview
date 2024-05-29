@@ -2,28 +2,15 @@ package net.zatrit.skinbread.ui
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
-import android.content.Intent
-import android.os.Bundle
-import android.os.VibrationEffect
-import android.os.Vibrator
-import android.view.MotionEvent
-import android.view.MotionEvent.ACTION_CANCEL
-import android.view.MotionEvent.ACTION_MOVE
-import android.view.MotionEvent.ACTION_UP
+import android.content.*
+import android.os.*
+import android.view.*
+import android.view.MotionEvent.*
 import android.view.View.MeasureSpec.UNSPECIFIED
-import android.view.WindowManager
-import android.widget.ImageView
-import android.widget.ListView
-import android.widget.RadioGroup
-import net.zatrit.skinbread.R
-import net.zatrit.skinbread.moveItemTo
+import android.widget.*
+import net.zatrit.skinbread.*
 import net.zatrit.skinbread.skins.defaultSources
-import net.zatrit.skinbread.textures
-import net.zatrit.skinbread.transition
-import net.zatrit.skinbread.ui.touch.MOVE_CHANGED_ID
-import net.zatrit.skinbread.ui.touch.MOVE_OK
-import net.zatrit.skinbread.ui.touch.RearrangeHandler
+import net.zatrit.skinbread.ui.touch.*
 
 const val ORDER = "order"
 const val I_HAVE_ORDER = 157
@@ -91,7 +78,7 @@ class RearrangeActivity : Activity() {
         }
 
         // If there are no skins downloaded, show all
-        if (textures.all { it == null }) radioShow.check(R.id.radio_show_all)
+        if (textures.all { it == null || it.isEmpty() }) radioShow.check(R.id.radio_show_all)
 
         sourcesList.setOnItemLongClickListener(handler)
     }
@@ -139,7 +126,6 @@ class RearrangeActivity : Activity() {
         setResult(I_HAVE_ORDER, Intent().putExtra(ORDER, order))
         super.finish()
     }
-
 
     private fun populateList() {
         adapter.clear()

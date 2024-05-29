@@ -1,11 +1,8 @@
 package net.zatrit.skinbread.ui.touch
 
 import android.opengl.Matrix.rotateM
-import android.view.MotionEvent
-import android.view.MotionEvent.ACTION_DOWN
-import android.view.MotionEvent.ACTION_MOVE
-import android.view.VelocityTracker
-import android.view.View
+import android.view.*
+import android.view.MotionEvent.*
 import net.zatrit.skinbread.gl.Renderer
 
 class ModelRotateHandler(

@@ -1,14 +1,18 @@
 package net.zatrit.skins.lib.layer.android
 
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Matrix
-import android.graphics.Paint
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffXfermode
+import android.graphics.*
 
+/**
+ * **A layer that converts legacy format textures to a modern format**
+ *
+ * Types of legacy formats:
+ * * 64x32 with transparent background: the layer just changes the
+ * resolution and copies certain parts of it.
+ * * 64x32 with black background: the layer removes all black pixels
+ * with a mask and does the same as with transparent background.
+ */
 class LegacySkinLayer : ImageLayer() {
+    /** Mask used to remove the black background. */
     var legacyMask: Bitmap? = null
 
     override fun apply(input: Bitmap): Bitmap {
@@ -34,6 +38,7 @@ class LegacySkinLayer : ImageLayer() {
         return dest
     }
 
+    /** Takes a rectangle [Bitmap] and draws it mirrored. */
     private fun drawMirrored(
       src: Bitmap, canvas: Canvas, sx: Int, sy: Int, dx: Int, dy: Int, w: Int,
       h: Int) {
@@ -50,6 +55,7 @@ class LegacySkinLayer : ImageLayer() {
         )
     }
 
+    /** Creates [Paint] to paint the base part of the skin. */
     private fun basePaint(canvas: Canvas, input: Bitmap): Paint? {
         return if (Color.alpha(input.getPixel(0, 0)) != 0) {
             val mask = legacyMask ?: return null

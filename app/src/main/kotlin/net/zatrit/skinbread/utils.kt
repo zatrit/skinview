@@ -2,13 +2,10 @@ package net.zatrit.skinbread
 
 import android.app.Activity
 import android.content.SharedPreferences
-import android.graphics.Bitmap
-import android.graphics.Canvas
+import android.graphics.*
 import android.util.Log
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Switch
+import android.view.*
+import android.widget.*
 import net.zatrit.skins.lib.api.Layer
 import java.util.UUID
 
@@ -32,16 +29,16 @@ private val uuidPattern = "(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})".toPattern(
  * */
 fun parseUuid(string: String): UUID? = try {
     UUID.fromString(string)
-} catch (ex: Exception) {
-    ex.printDebug()
+} catch (ex1: Exception) {
     try {
         val matcher = uuidPattern.matcher(string)
         if (matcher.matches()) UUID.fromString(
           matcher.replaceAll("$1-$2-$3-$4-$5")
         )
         else null
-    } catch (ex: Exception) {
-        ex.printDebug()
+    } catch (ex2: Exception) {
+        ex1.printDebug()
+        ex2.printDebug()
         null
     }
 }

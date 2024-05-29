@@ -1,17 +1,15 @@
 package net.zatrit.skins.lib.resolver.capes
 
-import net.zatrit.skins.lib.PlayerTextures
-import net.zatrit.skins.lib.TextureType
-import net.zatrit.skins.lib.api.Profile
-import net.zatrit.skins.lib.api.Resolver
+import net.zatrit.skins.lib.*
+import net.zatrit.skins.lib.api.*
 import net.zatrit.skins.lib.texture.BytesTexture
 import net.zatrit.skins.lib.util.jsonObject
 import java.net.URL
-import java.util.Base64
-import java.util.EnumMap
+import java.util.*
 
 private const val FIVEZIG_API = "https://textures.5zigreborn.eu/profile/"
 
+/** A simple [Resolver] implementation for loading capes from [5zig](https://5zigreborn.eu/) textures server. */
 class FiveZigResolver : Resolver {
     override fun resolve(profile: Profile): PlayerTextures {
         val url = FIVEZIG_API + profile.id

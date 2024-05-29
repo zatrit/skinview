@@ -1,11 +1,8 @@
 package net.zatrit.skinbread.gl.model
 
 import android.opengl.GLES20.glUniformMatrix4fv
-import net.zatrit.skinbread.GLContext
-import net.zatrit.skinbread.gl.Box
-import net.zatrit.skinbread.gl.ModelPart
-import net.zatrit.skinbread.leftWingMatrix
-import net.zatrit.skinbread.rightWingMatrix
+import net.zatrit.skinbread.*
+import net.zatrit.skinbread.gl.*
 import java.nio.FloatBuffer
 
 @GLContext

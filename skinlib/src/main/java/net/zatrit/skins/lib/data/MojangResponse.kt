@@ -3,6 +3,7 @@ package net.zatrit.skins.lib.data
 import org.jetbrains.annotations.ApiStatus.Internal
 import org.json.JSONObject
 
+/** Mojang API response representation. */
 @Internal
 class MojangResponse(json: JSONObject) {
     var id: String = json.getString("id")
@@ -16,6 +17,7 @@ class MojangResponse(json: JSONObject) {
         }
     }
 
+    @Internal
     class MojangProperty(json: JSONObject) {
         val name: String = json.getString("name")
         val value: String = json.getString("value")

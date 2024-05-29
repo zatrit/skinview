@@ -1,10 +1,8 @@
 package net.zatrit.skinbread.ui.dialog
 
-import android.app.AlertDialog
-import android.app.Dialog
+import android.app.*
 import android.widget.Switch
-import net.zatrit.skinbread.R
-import net.zatrit.skinbread.edit
+import net.zatrit.skinbread.*
 import net.zatrit.skinbread.ui.TexturesActivity
 
 inline fun profileDialog(
