@@ -1,7 +1,8 @@
 package net.zatrit.skinbread.gl
 
 import android.os.Parcelable
-import kotlinx.parcelize.*
+import kotlinx.parcelize.IgnoredOnParcel
+import kotlinx.parcelize.Parcelize
 import net.zatrit.skinbread.Textures
 import net.zatrit.skinbread.skins.defaultSources
 import java.util.concurrent.ArrayBlockingQueue
@@ -9,16 +10,16 @@ import java.util.concurrent.ArrayBlockingQueue
 /** Configuration for [Renderer] to allow interaction with it from other threads. */
 @Parcelize
 class RenderConfig(
-    /** Defines whether to use shading to render the model. */
-    var shading: Boolean = true,
+  /** Defines whether to use shading to render the model. */
+  var shading: Boolean = true,
 
-    /** Defines whether to display a grid below the model. */
-    var grid: Boolean = true,
+  /** Defines whether to display a grid below the model. */
+  var grid: Boolean = true,
 
-    /**
-     * Defines whether to display [elytra](https://minecraft.wiki/w/Elytra)
-     * instead of [cape](https://minecraft.wiki/w/Cape). */
-    var elytra: Boolean = false,
+  /**
+   * Defines whether to display [elytra](https://minecraft.wiki/w/Elytra)
+   * instead of [cape](https://minecraft.wiki/w/Cape). */
+  var elytra: Boolean = false,
 ) : Parcelable {
 
     /** A texture set queue used for optimized transfer of loaded

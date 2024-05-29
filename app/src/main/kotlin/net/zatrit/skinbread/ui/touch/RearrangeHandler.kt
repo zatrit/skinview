@@ -2,10 +2,17 @@ package net.zatrit.skinbread.ui.touch
 
 import android.animation.ObjectAnimator
 import android.app.Activity
-import android.view.*
-import android.widget.*
-import android.widget.AdapterView.*
-import net.zatrit.skinbread.*
+import android.view.MotionEvent
+import android.view.View
+import android.widget.AdapterView
+import android.widget.AdapterView.INVALID_POSITION
+import android.widget.AdapterView.INVISIBLE
+import android.widget.AdapterView.OnItemLongClickListener
+import android.widget.AdapterView.VISIBLE
+import android.widget.ImageView
+import android.widget.ListView
+import net.zatrit.skinbread.R
+import net.zatrit.skinbread.drawToBitmap
 import net.zatrit.skinbread.ui.IndexedAdapter
 
 const val MOVE_CHANGED_ID = 0
@@ -13,9 +20,9 @@ const val MOVE_OK = 1
 const val MOVE_NONE = 2
 
 class RearrangeHandler(
-    context: Activity, private val sourcesList: ListView,
-    private val adapter: IndexedAdapter, private val headerHeight: Int) :
-    OnItemLongClickListener {
+  context: Activity, private val sourcesList: ListView,
+  private val adapter: IndexedAdapter, private val headerHeight: Int) :
+  OnItemLongClickListener {
     private var dragging = false
 
     var toItem = -1
@@ -27,7 +34,7 @@ class RearrangeHandler(
     private val fakeItem = context.findViewById<ImageView>(R.id.img_fake_item)
 
     override fun onItemLongClick(
-        parent: AdapterView<*>?, view: View, position: Int, id: Long): Boolean {
+      parent: AdapterView<*>?, view: View, position: Int, id: Long): Boolean {
         sourcesList.isEnabled = false
         fadeView(sourcesList, 0.7f)
 
@@ -64,7 +71,7 @@ class RearrangeHandler(
 
         // Finds the View ID inside the list, considering the header and scroll
         val itemId = sourcesList.getItemIdAtPosition(
-            position
+          position
         ) - sourcesList.firstVisiblePosition + sourcesList.headerViewsCount
 
         // Do nothing if the item is not found
@@ -80,8 +87,8 @@ class RearrangeHandler(
             hideInserts()
 
             hovered?.findViewById<View?>(
-                if (insertBeneath) R.id.insert_bottom
-                else R.id.insert_top
+              if (insertBeneath) R.id.insert_bottom
+              else R.id.insert_top
             )?.visibility = View.VISIBLE
 
             toItem = id
@@ -124,12 +131,12 @@ class RearrangeHandler(
     }
 
     private fun fadeView(view: View, alpha: Float) =
-        ObjectAnimator.ofFloat(view, "alpha", view.alpha, alpha).apply {
-            setDuration(150)
-            start()
-        }
+      ObjectAnimator.ofFloat(view, "alpha", view.alpha, alpha).apply {
+          setDuration(150)
+          start()
+      }
 
     @Suppress("UNCHECKED_CAST")
     private fun ListView.getItem(position: Int) =
-        getItemAtPosition(position) as Pair<Int, String>?
+      getItemAtPosition(position) as Pair<Int, String>?
 }

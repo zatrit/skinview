@@ -1,7 +1,8 @@
 package net.zatrit.skins.lib.layer.android
 
 import android.graphics.Bitmap
-import net.zatrit.skins.lib.api.*
+import net.zatrit.skins.lib.api.Layer
+import net.zatrit.skins.lib.api.Texture
 import net.zatrit.skins.lib.texture.BitmapTexture
 
 abstract class ImageLayer : Layer<Texture> {
@@ -10,7 +11,7 @@ abstract class ImageLayer : Layer<Texture> {
     override fun apply(input: Texture): Texture {
         return if (!predicate(input)) input
         else {
-            val bitmap = input.getBitmap()
+            val bitmap = input.bitmap
             BitmapTexture(apply(bitmap), input)
         }
     }

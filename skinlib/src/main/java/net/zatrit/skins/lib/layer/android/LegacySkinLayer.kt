@@ -1,6 +1,12 @@
 package net.zatrit.skins.lib.layer.android
 
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Matrix
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
 
 class LegacySkinLayer : ImageLayer() {
     var legacyMask: Bitmap? = null
@@ -29,18 +35,18 @@ class LegacySkinLayer : ImageLayer() {
     }
 
     private fun drawMirrored(
-        src: Bitmap, canvas: Canvas, sx: Int, sy: Int, dx: Int, dy: Int, w: Int,
-        h: Int) {
+      src: Bitmap, canvas: Canvas, sx: Int, sy: Int, dx: Int, dy: Int, w: Int,
+      h: Int) {
         val matrix = Matrix()
 
         matrix.setValues(
-            floatArrayOf(
-                -1f, 0f, (dx + w).toFloat(), 0f, 1f, dy.toFloat(), 0f, 0f, 1f
-            )
+          floatArrayOf(
+            -1f, 0f, (dx + w).toFloat(), 0f, 1f, dy.toFloat(), 0f, 0f, 1f
+          )
         )
 
         canvas.drawBitmap(
-            Bitmap.createBitmap(src, sx, sy, w, h), matrix, null
+          Bitmap.createBitmap(src, sx, sy, w, h), matrix, null
         )
     }
 

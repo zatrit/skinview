@@ -36,7 +36,7 @@ public abstract class CapesListResolver implements Resolver {
 
     @Override
     public @NotNull PlayerTextures resolve(@NotNull Profile profile)
-        throws Exception {
+            throws Exception {
         synchronized (this) {
             if (this.owners == null) {
                 this.owners = this.fetchList();
@@ -48,8 +48,8 @@ public abstract class CapesListResolver implements Resolver {
 
         if (capeName != null) {
             textures.put(
-                TextureType.CAPE,
-                new URLTexture(this.getUrl(capeName), null)
+                    TextureType.CAPE,
+                    new URLTexture(this.getUrl(capeName), null)
             );
         }
 

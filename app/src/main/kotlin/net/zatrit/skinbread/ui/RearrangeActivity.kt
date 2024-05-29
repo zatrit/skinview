@@ -2,15 +2,28 @@ package net.zatrit.skinbread.ui
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.*
-import android.os.*
-import android.view.*
-import android.view.MotionEvent.*
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.view.MotionEvent
+import android.view.MotionEvent.ACTION_CANCEL
+import android.view.MotionEvent.ACTION_MOVE
+import android.view.MotionEvent.ACTION_UP
 import android.view.View.MeasureSpec.UNSPECIFIED
-import android.widget.*
-import net.zatrit.skinbread.*
+import android.view.WindowManager
+import android.widget.ImageView
+import android.widget.ListView
+import android.widget.RadioGroup
+import net.zatrit.skinbread.R
+import net.zatrit.skinbread.moveItemTo
 import net.zatrit.skinbread.skins.defaultSources
-import net.zatrit.skinbread.ui.touch.*
+import net.zatrit.skinbread.textures
+import net.zatrit.skinbread.transition
+import net.zatrit.skinbread.ui.touch.MOVE_CHANGED_ID
+import net.zatrit.skinbread.ui.touch.MOVE_OK
+import net.zatrit.skinbread.ui.touch.RearrangeHandler
 
 const val ORDER = "order"
 const val I_HAVE_ORDER = 157
@@ -55,7 +68,7 @@ class RearrangeActivity : Activity() {
 
         header.measure(UNSPECIFIED, UNSPECIFIED)
         handler =
-            RearrangeHandler(this, sourcesList, adapter, header.measuredHeight)
+          RearrangeHandler(this, sourcesList, adapter, header.measuredHeight)
 
         window.run {
             clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)

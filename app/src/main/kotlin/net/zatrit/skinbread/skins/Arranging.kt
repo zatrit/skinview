@@ -2,23 +2,25 @@ package net.zatrit.skinbread.skins
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import net.zatrit.skinbread.*
-import org.json.*
+import net.zatrit.skinbread.LOCAL
+import net.zatrit.skinbread.VANILLA
+import org.json.JSONArray
+import org.json.JSONObject
 
 @Parcelize
 class Arranging(
-    private val size: Int,
+  private val size: Int,
 
-    val enabled: BooleanArray = BooleanArray(size) { false }.also {
-        // Enable vanilla and local by default
-        it[VANILLA] = true
-        it[LOCAL] = true
-    },
-    var order: IntArray = IntArray(size) { it },
+  val enabled: BooleanArray = BooleanArray(size) { false }.also {
+      // Enable vanilla and local by default
+      it[VANILLA] = true
+      it[LOCAL] = true
+  },
+  var order: IntArray = IntArray(size) { it },
 ) : Parcelable {
     fun loadJson(json: JSONObject) {
         val enabled =
-            json.optJSONArray("enabled")?.takeIf { it.length() == size }
+          json.optJSONArray("enabled")?.takeIf { it.length() == size }
         val order = json.optJSONArray("order")?.takeIf { it.length() == size }
 
         for (i in 0..<size) {

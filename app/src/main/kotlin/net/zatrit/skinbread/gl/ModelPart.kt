@@ -1,7 +1,16 @@
 package net.zatrit.skinbread.gl
 
-import android.opengl.GLES30.*
-import net.zatrit.skinbread.*
+import android.opengl.GLES30.GL_ELEMENT_ARRAY_BUFFER
+import android.opengl.GLES30.GL_STATIC_DRAW
+import android.opengl.GLES30.GL_TRIANGLES
+import android.opengl.GLES30.GL_UNSIGNED_INT
+import android.opengl.GLES30.glBindBuffer
+import android.opengl.GLES30.glBindVertexArray
+import android.opengl.GLES30.glBufferData
+import android.opengl.GLES30.glDrawElements
+import android.opengl.GLES30.glGenBuffers
+import net.zatrit.skinbread.DebugOnly
+import net.zatrit.skinbread.GLContext
 import java.nio.FloatBuffer
 
 /**
@@ -44,7 +53,7 @@ class ModelPart(vertices: FloatArray, textureCords: FloatArray) {
         // Saves the index buffer (Element Array Buffer) to the OpenGL buffer
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buf[2])
         glBufferData(
-            GL_ELEMENT_ARRAY_BUFFER, 36 * Int.SIZE_BYTES, indices, GL_STATIC_DRAW
+          GL_ELEMENT_ARRAY_BUFFER, 36 * Int.SIZE_BYTES, indices, GL_STATIC_DRAW
         )
 
         // Creates two arrays: for coordinates and for points on textures

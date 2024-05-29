@@ -1,15 +1,18 @@
 package net.zatrit.skinbread.skins
 
 import android.content.Context
-import android.graphics.*
-import net.zatrit.skinbread.*
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import net.zatrit.skinbread.Textures
 import net.zatrit.skinbread.gl.model.ModelType
+import net.zatrit.skinbread.printDebug
+import net.zatrit.skinbread.textures
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.CompletableFuture.runAsync
 
 fun clearTexturesAsync(
-    context: Context, from: Int = 0,
-    to: Int = textures.size): CompletableFuture<Void> = runAsync {
+  context: Context, from: Int = 0,
+  to: Int = textures.size): CompletableFuture<Void> = runAsync {
     for (i in from..<to) {
         deleteTexture(context, "skin", i)
         deleteTexture(context, "cape", i)
@@ -19,25 +22,25 @@ fun clearTexturesAsync(
 }
 
 private fun deleteTexture(context: Context, type: String, index: Int) =
-    context.deleteFile(file(type, index))
+  context.deleteFile(file(type, index))
 
 fun saveTexturesAsync(
-    context: Context, textures: Array<Textures?>): CompletableFuture<Void> =
-    runAsync {
-        textures.forEachIndexed { i, textures ->
-            if (textures == null) {
-                return@forEachIndexed
-            }
+  context: Context, textures: Array<Textures?>): CompletableFuture<Void> =
+  runAsync {
+      textures.forEachIndexed { i, textures ->
+          if (textures == null) {
+              return@forEachIndexed
+          }
 
-            textures.skin?.let { saveTexture(context, "skin", i, it) }
-            textures.cape?.let { saveTexture(context, "cape", i, it) }
-            textures.ears?.let { saveTexture(context, "ears", i, it) }
-            textures.model?.let { saveModelType(context, i, it) }
-        }
-    }
+          textures.skin?.let { saveTexture(context, "skin", i, it) }
+          textures.cape?.let { saveTexture(context, "cape", i, it) }
+          textures.ears?.let { saveTexture(context, "ears", i, it) }
+          textures.model?.let { saveModelType(context, i, it) }
+      }
+  }
 
 private fun saveTexture(
-    context: Context, type: String, index: Int, bitmap: Bitmap) = try {
+  context: Context, type: String, index: Int, bitmap: Bitmap) = try {
     context.openFileOutput(file(type, index), Context.MODE_PRIVATE).use {
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
     }
@@ -46,30 +49,30 @@ private fun saveTexture(
 }
 
 private fun saveModelType(context: Context, index: Int, modelType: ModelType) =
-    try {
-        context.openFileOutput("model$index", Context.MODE_PRIVATE)
-            .bufferedWriter().use { it.write(modelType.name) }
-    } catch (ex: Exception) {
-        ex.printDebug()
-    }
+  try {
+      context.openFileOutput("model$index", Context.MODE_PRIVATE)
+        .bufferedWriter().use { it.write(modelType.name) }
+  } catch (ex: Exception) {
+      ex.printDebug()
+  }
 
 inline fun loadTexturesAsync(
-    context: Context,
-    crossinline callback: (Array<Textures?>) -> Unit): CompletableFuture<Void> =
-    runAsync {
-        val textures = arrayOfNulls<Textures?>(defaultSources.size)
+  context: Context,
+  crossinline callback: (Array<Textures?>) -> Unit): CompletableFuture<Void> =
+  runAsync {
+      val textures = arrayOfNulls<Textures?>(defaultSources.size)
 
-        for (i in defaultSources.indices) {
-            textures[i] = Textures(
-                skin = loadTexture(context, "skin", i),
-                cape = loadTexture(context, "cape", i),
-                ears = loadTexture(context, "ears", i),
-                model = loadModelType(context, i),
-            )
-        }
+      for (i in defaultSources.indices) {
+          textures[i] = Textures(
+            skin = loadTexture(context, "skin", i),
+            cape = loadTexture(context, "cape", i),
+            ears = loadTexture(context, "ears", i),
+            model = loadModelType(context, i),
+          )
+      }
 
-        callback(textures)
-    }
+      callback(textures)
+  }
 
 fun loadTexture(context: Context, type: String, index: Int) = try {
     context.openFileInput(file(type, index)).use {
@@ -81,7 +84,7 @@ fun loadTexture(context: Context, type: String, index: Int) = try {
 
 fun loadModelType(context: Context, index: Int) = try {
     val raw = context.openFileInput("model$index").bufferedReader()
-        .use { it.readText() }
+      .use { it.readText() }
 
     ModelType.fromName(raw)
 } catch (ex: Exception) {

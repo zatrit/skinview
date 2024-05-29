@@ -1,8 +1,11 @@
 package net.zatrit.skinbread.skins
 
-import net.zatrit.skinbread.*
+import net.zatrit.skinbread.Textures
+import net.zatrit.skinbread.parseUuid
+import net.zatrit.skinbread.printDebug
 import net.zatrit.skins.lib.api.Profile
-import net.zatrit.skins.lib.layer.android.*
+import net.zatrit.skins.lib.layer.android.LegacySkinLayer
+import net.zatrit.skins.lib.layer.android.ScaleCapeLayer
 import java.util.concurrent.CompletableFuture.supplyAsync
 
 val capeLayer = ScaleCapeLayer()

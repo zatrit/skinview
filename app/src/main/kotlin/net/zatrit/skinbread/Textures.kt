@@ -1,17 +1,20 @@
 package net.zatrit.skinbread
 
 import android.graphics.Bitmap
-import net.zatrit.skinbread.gl.*
+import net.zatrit.skinbread.gl.GLTexture
+import net.zatrit.skinbread.gl.GLTextures
 import net.zatrit.skinbread.gl.model.ModelType
-import net.zatrit.skins.lib.*
-import net.zatrit.skins.lib.api.*
+import net.zatrit.skins.lib.PlayerTextures
+import net.zatrit.skins.lib.TextureType
+import net.zatrit.skins.lib.api.Layer
+import net.zatrit.skins.lib.api.Texture
 
 /** A set of textures used to permanently store player textures. */
 class Textures(
-    var skin: Bitmap? = null,
-    var cape: Bitmap? = null,
-    var ears: Bitmap? = null,
-    var model: ModelType? = null,
+  var skin: Bitmap? = null,
+  var cape: Bitmap? = null,
+  var ears: Bitmap? = null,
+  var model: ModelType? = null,
 ) {
     /** @return true if none of the textures is null. */
     fun isComplete() = skin != null && cape != null && ears != null
@@ -25,15 +28,15 @@ class Textures(
      */
     @GLContext
     fun load(persistent: Boolean = false) = GLTextures(
-        skin = skin?.let { GLTexture(it, persistent) },
-        cape = cape?.let { GLTexture(it, persistent) },
-        ears = ears?.let { GLTexture(it, persistent) },
+      skin = skin?.let { GLTexture(it, persistent) },
+      cape = cape?.let { GLTexture(it, persistent) },
+      ears = ears?.let { GLTexture(it, persistent) },
     )
 
     /** Fills in empty textures with [input], loading only necessary ones. */
     fun or(
-        input: PlayerTextures, skinLayer: Layer<Texture>,
-        capeLayer: Layer<Texture>) {
+      input: PlayerTextures, skinLayer: Layer<Texture>,
+      capeLayer: Layer<Texture>) {
         val skinTexture = input.getTexture(TextureType.SKIN)
 
         if (this.skin == null) {
@@ -43,7 +46,7 @@ class Textures(
         this.skin = this.skin ?: skinTexture?.run(skinLayer::tryApply)?.bitmap
 
         this.cape = this.cape ?: input.getTexture(TextureType.CAPE)
-            ?.run(capeLayer::tryApply)?.bitmap
+          ?.run(capeLayer::tryApply)?.bitmap
 
         this.ears = this.ears ?: input.getTexture(TextureType.EARS)?.bitmap
     }

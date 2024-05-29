@@ -1,15 +1,20 @@
 package net.zatrit.skinbread.ui
 
-import android.view.*
-import android.widget.*
-import net.zatrit.skinbread.*
-import net.zatrit.skinbread.skins.*
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.Switch
+import net.zatrit.skinbread.R
+import net.zatrit.skinbread.Textures
+import net.zatrit.skinbread.skins.SourceName
+import net.zatrit.skinbread.skins.drawPreview
 
 class NamedEntry(
-    val index: Int,
-    val name: SourceName,
-    var textures: Textures,
-    var enabled: Boolean,
+  val index: Int,
+  val name: SourceName,
+  var textures: Textures,
+  var enabled: Boolean,
 ) {
     val preview = drawPreview(textures)
 }
@@ -17,16 +22,16 @@ class NamedEntry(
 const val DISABLED_TRANSPARENCY = 0.6f
 
 class SkinListAdapter(
-    private val context: ToggleSourcesActivity,
-    private val imageView: Int = R.id.img_preview,
-    private val sourceSwitch: Int = R.id.switch_source,
-    private val entry: Int = R.layout.entry_texture,
+  private val context: ToggleSourcesActivity,
+  private val imageView: Int = R.id.img_preview,
+  private val sourceSwitch: Int = R.id.switch_source,
+  private val entry: Int = R.layout.entry_texture,
 ) : ArrayAdapter<NamedEntry>(context, entry) {
     private val inflater = context.layoutInflater
 
     // https://java2blog.com/android-custom-listview-with-images-text-example/
     override fun getView(
-        position: Int, convertView: View?, parent: ViewGroup): View {
+      position: Int, convertView: View?, parent: ViewGroup): View {
         val view = convertView ?: inflater.inflate(entry, null, true)
         val entry = this.getItem(position)!!
 

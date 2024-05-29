@@ -1,7 +1,8 @@
 package net.zatrit.skinbread.ui.dialog
 
 import android.app.AlertDialog
-import android.content.*
+import android.content.Context
+import android.content.DialogInterface
 import android.content.DialogInterface.OnClickListener
 import android.view.ContextThemeWrapper
 import android.widget.EditText
@@ -12,11 +13,11 @@ class CancelDialog : OnClickListener {
 }
 
 fun dialogBuilder(context: Context) = AlertDialog.Builder(
-    ContextThemeWrapper(context, R.style.OLED_AlertDialog)
+  ContextThemeWrapper(context, R.style.OLED_AlertDialog)
 )
 
 fun AlertDialog.getText(child: Int) =
-    requireViewById<EditText>(child).text.toString()
+  requireViewById<EditText>(child).text.toString()
 
 fun AlertDialog.setText(child: Int, text: String) =
-    requireViewById<EditText>(child).setText(text)
+  requireViewById<EditText>(child).setText(text)

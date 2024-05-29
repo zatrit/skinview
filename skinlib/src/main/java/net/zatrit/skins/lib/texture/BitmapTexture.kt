@@ -6,8 +6,8 @@ import net.zatrit.skins.lib.data.Metadata
 
 /** A wrapper around [Bitmap] to use it as a [Texture]. */
 class BitmapTexture(
-    private val bitmap: Bitmap, metadata: Metadata? = null) :
-    LazyTexture(metadata) {
+  private val bitmap: Bitmap, metadata: Metadata? = null) :
+  LazyTexture(metadata) {
 
     constructor(bitmap: Bitmap, base: Texture) : this(bitmap, base.metadata)
 

@@ -1,12 +1,39 @@
 package net.zatrit.skinbread.gl
 
-import android.graphics.Color.*
-import android.opengl.GLES30.*
+import android.graphics.Color.blue
+import android.graphics.Color.green
+import android.graphics.Color.red
+import android.opengl.GLES30.GL_BLEND
+import android.opengl.GLES30.GL_COLOR_BUFFER_BIT
+import android.opengl.GLES30.GL_DEPTH_BUFFER_BIT
+import android.opengl.GLES30.GL_DEPTH_TEST
+import android.opengl.GLES30.GL_FRAGMENT_SHADER
+import android.opengl.GLES30.GL_ONE_MINUS_DST_COLOR
+import android.opengl.GLES30.GL_ONE_MINUS_SRC_ALPHA
+import android.opengl.GLES30.GL_ONE_MINUS_SRC_COLOR
+import android.opengl.GLES30.GL_SRC_ALPHA
+import android.opengl.GLES30.GL_VERTEX_SHADER
+import android.opengl.GLES30.glBlendFunc
+import android.opengl.GLES30.glClear
+import android.opengl.GLES30.glClearColor
+import android.opengl.GLES30.glEnable
+import android.opengl.GLES30.glGetError
+import android.opengl.GLES30.glUniform1i
+import android.opengl.GLES30.glUniform4f
+import android.opengl.GLES30.glUniformMatrix4fv
+import android.opengl.GLES30.glViewport
 import android.opengl.GLSurfaceView
-import android.opengl.Matrix.*
-import android.util.Log
-import net.zatrit.skinbread.*
-import net.zatrit.skinbread.gl.model.*
+import android.opengl.Matrix.perspectiveM
+import android.opengl.Matrix.setIdentityM
+import net.zatrit.skinbread.DebugOnly
+import net.zatrit.skinbread.GLContext
+import net.zatrit.skinbread.capeMatrix
+import net.zatrit.skinbread.gl.model.EarsModel
+import net.zatrit.skinbread.gl.model.ElytraModel
+import net.zatrit.skinbread.gl.model.ModelType
+import net.zatrit.skinbread.gl.model.PlayerModel
+import net.zatrit.skinbread.gl.model.capeModel
+import net.zatrit.skinbread.identity
 import java.nio.FloatBuffer
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
@@ -44,10 +71,10 @@ class Renderer : GLSurfaceView.Renderer {
 
     @GLContext
     private inline fun allShaders(func: MVPProgram.() -> Unit) =
-        shaders.forEach {
-            it.use()
-            it.func()
-        }
+      shaders.forEach {
+          it.use()
+          it.func()
+      }
 
     @GLContext
     override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
@@ -56,8 +83,8 @@ class Renderer : GLSurfaceView.Renderer {
 
         // Model creation code
         modelShader = MVPProgram(
-            compileShader(GL_VERTEX_SHADER, MAIN_VERT),
-            compileShader(GL_FRAGMENT_SHADER, MAIN_FRAG),
+          compileShader(GL_VERTEX_SHADER, MAIN_VERT),
+          compileShader(GL_FRAGMENT_SHADER, MAIN_FRAG),
         ).apply { use() }
 
         glUniform1i(modelShader.uniformLocation("uTexture"), 0)
@@ -69,8 +96,8 @@ class Renderer : GLSurfaceView.Renderer {
 
         // Grid creation code
         gridShader = MVPProgram(
-            compileShader(GL_VERTEX_SHADER, GRID_VERT),
-            compileShader(GL_FRAGMENT_SHADER, GRID_FRAG),
+          compileShader(GL_VERTEX_SHADER, GRID_VERT),
+          compileShader(GL_FRAGMENT_SHADER, GRID_FRAG),
         ).apply { use() }
 
         val buf = FloatBuffer.wrap(identity)

@@ -3,17 +3,39 @@ package net.zatrit.skinbread.ui
 import android.annotation.SuppressLint
 import android.app.ActivityOptions
 import android.content.Intent
-import android.graphics.*
+import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.opengl.GLSurfaceView
 import android.os.Bundle
 import android.view.View.GONE
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.RelativeLayout.LEFT_OF
-import net.zatrit.skinbread.*
-import net.zatrit.skinbread.gl.*
-import net.zatrit.skinbread.skins.*
-import net.zatrit.skinbread.ui.dialog.*
-import net.zatrit.skinbread.ui.touch.*
+import net.zatrit.skinbread.LOCAL
+import net.zatrit.skinbread.R
+import net.zatrit.skinbread.TexturePicker
+import net.zatrit.skinbread.Textures
+import net.zatrit.skinbread.applyLayout
+import net.zatrit.skinbread.bindButton
+import net.zatrit.skinbread.bindSwitch
+import net.zatrit.skinbread.gl.RenderConfig
+import net.zatrit.skinbread.gl.Renderer
+import net.zatrit.skinbread.printDebug
+import net.zatrit.skinbread.skins.SourceName
+import net.zatrit.skinbread.skins.defaultSources
+import net.zatrit.skinbread.skins.loadTexturesAsync
+import net.zatrit.skinbread.skins.mergeTextures
+import net.zatrit.skinbread.skins.skinLayer
+import net.zatrit.skinbread.textures
+import net.zatrit.skinbread.texturesHolder
+import net.zatrit.skinbread.transition
+import net.zatrit.skinbread.transitionWithFetchButton
+import net.zatrit.skinbread.ui.dialog.bindDialogButtons
+import net.zatrit.skinbread.ui.dialog.profileDialog
+import net.zatrit.skinbread.ui.touch.MenuDragHandler
+import net.zatrit.skinbread.ui.touch.ModelRotateHandler
 import org.json.JSONObject
 
 class MainActivity : TexturesActivity() {
@@ -42,21 +64,21 @@ class MainActivity : TexturesActivity() {
         bindButton(R.id.btn_list) {
             window.exitTransition = transitionWithFetchButton
             val intent =
-                Intent(this, ToggleSourcesActivity::class.java).putExtra(
-                    ARRANGING, arranging
-                )
+              Intent(this, ToggleSourcesActivity::class.java).putExtra(
+                ARRANGING, arranging
+              )
 
             startActivityForResult(
-                intent, 0,
-                ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
+              intent, 0,
+              ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
             )
         }
 
         bindButton(R.id.btn_info) {
             window.exitTransition = transition
             startActivity(
-                Intent(this, LicenseActivity::class.java),
-                ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
+              Intent(this, LicenseActivity::class.java),
+              ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
             )
         }
 
@@ -73,12 +95,12 @@ class MainActivity : TexturesActivity() {
         bindDialogButtons(fetchDialog)
 
         skinLayer.legacyMask =
-            BitmapFactory.decodeStream(assets.open("legacyMask.png"))
+          BitmapFactory.decodeStream(assets.open("legacyMask.png"))
 
         // Non-deprecated method isn't available on current Android version
         renderer.config = state?.getParcelable("renderOptions") ?: RenderConfig()
         renderer.viewMatrix =
-            state?.getFloatArray("viewMatrix") ?: renderer.viewMatrix
+          state?.getFloatArray("viewMatrix") ?: renderer.viewMatrix
 
         renderer.config.run {
             bindSwitch(R.id.switch_shade, shading) { shading = it }
@@ -86,15 +108,15 @@ class MainActivity : TexturesActivity() {
             bindSwitch(R.id.switch_elytra, elytra) { elytra = it }
 
             pendingDefaultTextures = Textures(
-                skin = BitmapFactory.decodeStream(assets.open("base.png"))
+              skin = BitmapFactory.decodeStream(assets.open("base.png"))
             )
 
             background =
-                Color.pack(resources.getColor(R.color.background, theme))
+              Color.pack(resources.getColor(R.color.background, theme))
         }
 
         val renderOptionsButton =
-            requireViewById<Button>(R.id.btn_render_options)
+          requireViewById<Button>(R.id.btn_render_options)
 
         if (display?.rotation!! % 2 == 1) {
             // Attaches surface at left of the menu if using landscape mode
@@ -115,7 +137,7 @@ class MainActivity : TexturesActivity() {
 
             dragHandler = MenuDragHandler(menu, buttons, resources)
             requireViewById<ImageView?>(R.id.drag_handle).setOnTouchListener(
-                dragHandler
+              dragHandler
             )
 
             bindButton(renderOptionsButton) {
@@ -146,7 +168,7 @@ class MainActivity : TexturesActivity() {
     }
 
     override fun onActivityResult(
-        requestCode: Int, resultCode: Int, data: Intent?) {
+      requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == I_HAVE_ARRANGING) {
@@ -155,7 +177,7 @@ class MainActivity : TexturesActivity() {
     }
 
     override fun onTexturesAdded(
-        textures: Textures, index: Int, order: Int, name: SourceName) {
+      textures: Textures, index: Int, order: Int, name: SourceName) {
         if (arranging.enabled[index]) {
             val update = texturePicker.update(textures, order)
             this.renderer.config.pendingTextures.add(update)
@@ -165,9 +187,9 @@ class MainActivity : TexturesActivity() {
     override fun setTextures(newTextures: Array<Textures?>) {
         this.renderer.config.clearTextures = true
         this.renderer.config.pendingTextures.add(
-            mergeTextures(arranging.order.map {
-                newTextures[it].takeIf { _ -> arranging.enabled[it] }
-            }.filterNotNull())
+          mergeTextures(arranging.order.map {
+              newTextures[it].takeIf { _ -> arranging.enabled[it] }
+          }.filterNotNull())
         )
     }
 

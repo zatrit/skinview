@@ -1,6 +1,10 @@
 package net.zatrit.skinbread.gl
 
-import android.opengl.GLES30.*
+import android.opengl.GLES30.GL_TRIANGLE_FAN
+import android.opengl.GLES30.glBindVertexArray
+import android.opengl.GLES30.glDrawArrays
+import android.opengl.GLES30.glEnableVertexAttribArray
+import android.opengl.GLES30.glGenBuffers
 import net.zatrit.skinbread.GLContext
 import java.nio.FloatBuffer
 
@@ -14,12 +18,12 @@ class Plain(x1: Float, z1: Float, x2: Float, z2: Float) {
 
     init {
         val vertices = FloatBuffer.wrap(
-            floatArrayOf(
-                x1, z1, // bottom left
-                x1, z2, // top left
-                x2, z2, // top right
-                x2, z1, // bottom right
-            )
+          floatArrayOf(
+            x1, z1, // bottom left
+            x1, z2, // top left
+            x2, z2, // top right
+            x2, z1, // bottom right
+          )
         )
 
         glBindVertexArray(vao)

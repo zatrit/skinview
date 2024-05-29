@@ -1,7 +1,6 @@
 package net.zatrit.skins.lib.layer.android
 
 import android.graphics.Bitmap
-import android.util.Log
 import net.zatrit.skins.lib.api.Texture
 
 class ScaleCapeLayer : ImageLayer() {

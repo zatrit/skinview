@@ -1,6 +1,8 @@
 package net.zatrit.skinbread.skins
 
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Rect
 import net.zatrit.skinbread.Textures
 import net.zatrit.skinbread.gl.model.ModelType
 
@@ -20,22 +22,22 @@ private fun Bitmap.rect64(left: Int, top: Int, width: Int, height: Int): Rect {
     val left1 = rate * left
     val top1 = rate * top
     return Rect(
-        left1.toInt(),
-        top1.toInt(),
-        (left1 + rate * width).toInt(),
-        (top1 + rate * height).toInt(),
+      left1.toInt(),
+      top1.toInt(),
+      (left1 + rate * width).toInt(),
+      (top1 + rate * height).toInt(),
     )
 }
 
 private fun Canvas.drawBitmap(bitmap: Bitmap, rect1: Rect, rect2: Rect) =
-    drawBitmap(bitmap, rect1, rect2, null)
+  drawBitmap(bitmap, rect1, rect2, null)
 
 private fun Canvas.drawBitmap(
-    bitmap: Bitmap, sx: Int, sy: Int, w: Int, h: Int, dx: Int, dy: Int,
-    scale: Float = 9f) {
+  bitmap: Bitmap, sx: Int, sy: Int, w: Int, h: Int, dx: Int, dy: Int,
+  scale: Float = 9f) {
     drawBitmap(
-        bitmap, bitmap.rect64(sx, sy, w, h),
-        Rect(dx, dy, dx + (w * scale).toInt(), dy + (h * scale).toInt())
+      bitmap, bitmap.rect64(sx, sy, w, h),
+      Rect(dx, dy, dx + (w * scale).toInt(), dy + (h * scale).toInt())
     )
 }
 

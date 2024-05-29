@@ -10,7 +10,7 @@ enum class ModelType(val handWidth: Float) {
 
     companion object {
         fun fromName(name: String?): ModelType =
-            if (name?.lowercase() == "slim") SLIM else DEFAULT
+          if (name?.lowercase() == "slim") SLIM else DEFAULT
     }
 }
 
@@ -31,10 +31,10 @@ private fun createHands(modelType: ModelType): Parts {
     val leftArmExtraUV = leftArm.uv(0.75f, 0.75f)
 
     return arrayOf(
-        ModelPart(rightArm.vertices, rightArmUV),
-        ModelPart(rightArm.extra.vertices, rightArmExtraUV),
-        ModelPart(leftArm.vertices, leftArmUV),
-        ModelPart(leftArm.extra.vertices, leftArmExtraUV),
+      ModelPart(rightArm.vertices, rightArmUV),
+      ModelPart(rightArm.extra.vertices, rightArmExtraUV),
+      ModelPart(leftArm.vertices, leftArmUV),
+      ModelPart(leftArm.extra.vertices, leftArmExtraUV),
     )
 }
 
@@ -62,22 +62,22 @@ class PlayerModel {
         val leftLegExtraUV = leftLeg.uv(0f, 0.75f)
 
         parts = arrayOf(
-            // Head
-            ModelPart(head.vertices, headUV),
-            // Head extra layer
-            ModelPart(head.extra.vertices, headExtraUV),
-            // Body
-            ModelPart(body.vertices, bodyUV),
-            // Body extra layer
-            ModelPart(body.extra.vertices, bodyExtraUV),
-            // Right leg
-            ModelPart(rightLeg.vertices, rightLegUV),
-            // Right leg extra layer
-            ModelPart(rightLeg.extra.vertices, rightLegExtraUV),
-            // Left leg
-            ModelPart(leftLeg.vertices, leftLegUV),
-            // Left leg extra layer
-            ModelPart(leftLeg.extra.vertices, leftLegExtraUV),
+          // Head
+          ModelPart(head.vertices, headUV),
+          // Head extra layer
+          ModelPart(head.extra.vertices, headExtraUV),
+          // Body
+          ModelPart(body.vertices, bodyUV),
+          // Body extra layer
+          ModelPart(body.extra.vertices, bodyExtraUV),
+          // Right leg
+          ModelPart(rightLeg.vertices, rightLegUV),
+          // Right leg extra layer
+          ModelPart(rightLeg.extra.vertices, rightLegExtraUV),
+          // Left leg
+          ModelPart(leftLeg.vertices, leftLegUV),
+          // Left leg extra layer
+          ModelPart(leftLeg.extra.vertices, leftLegExtraUV),
         )
     }
 
@@ -85,7 +85,7 @@ class PlayerModel {
         parts.forEach { it.render() }
 
         (typeParts[modelType] ?: typeParts.put(
-            modelType, createHands(modelType)
+          modelType, createHands(modelType)
         ))?.forEach { it.render() }
     }
 }

@@ -5,8 +5,8 @@ import android.content.Context
 import net.zatrit.skinbread.R
 
 inline fun pickerDialog(
-    context: Context, array: Int,
-    crossinline callback: (Int) -> Unit,
+  context: Context, array: Int,
+  crossinline callback: (Int) -> Unit,
 ): Dialog = dialogBuilder(context).apply {
     setTitle(R.string.pick_texture_type)
 
@@ -25,11 +25,11 @@ inline fun pickerDialog(
 }
 
 inline fun textureTypeDialog(
-    context: Context,
-    crossinline callback: (Int) -> Unit,
+  context: Context,
+  crossinline callback: (Int) -> Unit,
 ) = pickerDialog(context, R.array.texture_type, callback)
 
 inline fun textureModelDialog(
-    context: Context,
-    crossinline callback: (Int) -> Unit,
+  context: Context,
+  crossinline callback: (Int) -> Unit,
 ) = pickerDialog(context, R.array.model_type, callback)
