@@ -28,7 +28,6 @@ class Arranging(
     }
 
     fun saveJson(): String {
-        val json = JSONObject()
         val enabled = JSONArray()
         val order = JSONArray()
 
@@ -37,6 +36,7 @@ class Arranging(
             order.put(this.order[i])
         }
 
+        val json = JSONObject()
         json.put("enabled", enabled)
         json.put("order", order)
 

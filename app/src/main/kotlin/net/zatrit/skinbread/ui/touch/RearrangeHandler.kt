@@ -23,7 +23,7 @@ class RearrangeHandler(
     var fromItem = -1
         private set
 
-    private val fakeItem = context.findViewById<ImageView>(R.id.img_fake_item)
+    private val fakeItem = context.requireViewById<ImageView>(R.id.img_fake_item)
 
     override fun onItemLongClick(
       parent: AdapterView<*>?, view: View, position: Int, id: Long): Boolean {

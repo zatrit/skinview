@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="185dp"
     android:layout_alignParentBottom="true"
-    android:background="@drawable/bottom_menu"
+    android:background="@drawable/card"
     android:orientation="vertical">
 
   <ImageView

@@ -8,7 +8,6 @@
   <string name="rearrange">Порядок</string>
   <string name="clear">Очистить</string>
   <string name="wanna_clear">Вы хотите очистить ВСЕ текстуры?</string>
-  <string name="skin_preview">Предпоказ скина</string>
 
   <!-- RearrangeActivity -->
   <string name="rearrange_show">Отображать:</string>

@@ -20,9 +20,9 @@ class MenuDragHandler(
     val isVisible
         get() = target.visibility == View.VISIBLE
 
-    override fun onTouch(v: View?, event: MotionEvent): Boolean {
+    override fun onTouch(v: View, event: MotionEvent): Boolean {
         when (event.actionMasked) {
-            ACTION_DOWN -> v?.performClick()
+            ACTION_DOWN -> v.performClick()
 
             ACTION_MOVE -> {
                 animation?.cancel()

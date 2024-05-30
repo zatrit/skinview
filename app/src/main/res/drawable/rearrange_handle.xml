@@ -1,26 +1,25 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-<item
-    android:top="0dp"
-    android:bottom="30dp">
-  <shape android:shape="oval">
-    <solid android:color="@android:color/white" />
-    <size
-        android:width="10dp"
-        android:height="10dp" />
-  </shape>
-</item>
-<item
-    android:top="15dp"
-    android:bottom="15dp">
-  <shape android:shape="oval">
-    <solid android:color="@android:color/white" />
-  </shape>
-</item>
-<item
-    android:top="30dp"
-    android:bottom="0dp">
-  <shape android:shape="oval">
-    <solid android:color="@android:color/white" />
-  </shape>
-</item>
+  <item
+      android:width="10dp"
+      android:height="10dp"
+      android:top="0dp"
+      android:bottom="30dp">
+    <shape
+        android:shape="oval"
+        android:tint="@android:color/white" />
+  </item>
+  <item
+      android:top="15dp"
+      android:bottom="15dp">
+    <shape
+        android:shape="oval"
+        android:tint="@android:color/white" />
+  </item>
+  <item
+      android:top="30dp"
+      android:bottom="0dp">
+    <shape
+        android:shape="oval"
+        android:tint="@android:color/white" />
+  </item>
 </layer-list>

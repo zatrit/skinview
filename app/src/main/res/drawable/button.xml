@@ -2,11 +2,7 @@
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
     android:color="@color/button_highlight">
   <item>
-    <inset
-        android:insetBottom="4dp"
-        android:insetTop="4dp"
-        android:insetLeft="6dp"
-        android:insetRight="6dp">
+    <inset android:inset="4dp">
       <shape android:tint="@color/button">
         <corners android:radius="180dp" />
       </shape>

@@ -40,12 +40,14 @@ class ToggleSourcesActivity : TexturesActivity() {
             intent.putExtra(ORDER, arranging.order)
 
             startActivityForResult(
-              intent, 0,
-              ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
+                intent, 0,
+                ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
             )
         }
 
-        bindButton(R.id.btn_clear) { clearDialog(this).show() }
+        findViewById<Button>(R.id.btn_clear).setOnClickListener(
+            ShowDialogHandler(clearDialog(this))
+        )
 
         sourcesList.adapter = adapter
 
@@ -54,7 +56,7 @@ class ToggleSourcesActivity : TexturesActivity() {
     }
 
     override fun onActivityResult(
-      requestCode: Int, resultCode: Int, data: Intent?) {
+        requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == I_HAVE_ORDER) {
             arranging.order = data?.getIntArrayExtra(ORDER)!!
         }
@@ -77,10 +79,10 @@ class ToggleSourcesActivity : TexturesActivity() {
 
             val source = defaultSources[i]
             val entry = NamedEntry(
-              index = i,
-              name = source.name,
-              textures = textures,
-              enabled = arranging.enabled[i],
+                index = i,
+                name = source.name,
+                textures = textures,
+                enabled = arranging.enabled[i],
             )
 
             adapter.add(entry)
@@ -93,12 +95,12 @@ class ToggleSourcesActivity : TexturesActivity() {
     }
 
     override fun onTexturesAdded(
-      textures: Textures, index: Int, order: Int, name: SourceName) {
+        textures: Textures, index: Int, order: Int, name: SourceName) {
         val entry = NamedEntry(
-          index = index,
-          name = name,
-          textures = textures,
-          enabled = arranging.enabled[index],
+            index = index,
+            name = name,
+            textures = textures,
+            enabled = arranging.enabled[index],
         )
 
         runOnUiThread {

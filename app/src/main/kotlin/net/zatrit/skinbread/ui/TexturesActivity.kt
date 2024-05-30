@@ -9,7 +9,7 @@ import net.zatrit.skinbread.*
 import net.zatrit.skinbread.gl.model.ModelType
 import net.zatrit.skinbread.skins.*
 import net.zatrit.skins.lib.texture.BytesTexture
-import java.util.concurrent.CompletableFuture.supplyAsync
+import java.util.concurrent.CompletableFuture.runAsync
 
 const val ARRANGING = "arranging"
 const val I_HAVE_ARRANGING = 156
@@ -54,7 +54,7 @@ abstract class TexturesActivity : Activity(), TextureHolder {
     }
 
     override fun onActivityResult(
-      requestCode: Int, resultCode: Int, data: Intent?) {
+        requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode shr 3 == 1) try {
@@ -79,12 +79,12 @@ abstract class TexturesActivity : Activity(), TextureHolder {
             }
 
             onTexturesAdded(
-              set, LOCAL, arranging.order.indexOf(LOCAL),
-              defaultSources[LOCAL].name
+                set, LOCAL, arranging.order.indexOf(LOCAL),
+                defaultSources[LOCAL].name
             )
 
             textures[LOCAL] = set
-            saveTexturesAsync(this, arrayOf(set))
+            runAsync { saveTextures(this, LOCAL, set) }
         } catch (ex: Exception) {
             Toast.makeText(this, R.string.open_failed, Toast.LENGTH_SHORT).show()
             ex.printDebug()
@@ -97,9 +97,9 @@ abstract class TexturesActivity : Activity(), TextureHolder {
         textures.fill(null, 1)
         setTextures(textures)
 
-        loading = supplyAsync {
+        loading = runAsync {
             showToast(R.string.loading_profile)
-            try {
+            val profile = try {
                 refillProfile(uuid, name)
             } catch (ex: Exception) {
                 ex.printDebug()
@@ -107,25 +107,23 @@ abstract class TexturesActivity : Activity(), TextureHolder {
 
                 SimpleProfile(nullUuid, name)
             }
-        }.thenApplyAsync { profile ->
+
             showToast(R.string.loading_textures)
-
             sources.mapIndexed { i, source ->
-                val future = loadTexturesAsync(profile, source)
-                future.thenApply {
-                    if (it == null || it.isEmpty) return@thenApply
+                loadTexturesAsync(profile, source) {
+                    if (it == null || it.isEmpty) return@loadTexturesAsync
 
-                    val data = Textures().apply {
-                        or(it, skinLayer, capeLayer)
-                    }
+                    val data = Textures().apply { or(it, skinLayer, capeLayer) }
                     textures[i] = data
                     val order = arranging.order.indexOf(i)
                     texturesHolder?.onTexturesAdded(data, i, order, source.name)
+
+                    clearTextures(this, i)
+                    saveTextures(this, i, data)
                 }
             }.forEach { it.join() }
 
-            clearTexturesAsync(this, from = VANILLA)
-            saveTexturesAsync(this, textures)
+            Log.d(TAG, "Loaded textures")
         }
     }
 
@@ -146,7 +144,7 @@ abstract class TexturesActivity : Activity(), TextureHolder {
             arranging = Arranging(size)
 
             Toast.makeText(this, R.string.invalid_save, Toast.LENGTH_SHORT)
-              .show()
+                .show()
 
             saveArranging()
         }

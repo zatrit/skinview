@@ -9,10 +9,9 @@
   <Button
       android:id="@+id/btn_info"
       style="@style/OLED.Button"
-      android:drawableStart="@drawable/baseline_info"
+      android:drawableStart="?android:attr/actionModeFindDrawable"
       android:drawableTint="@color/button"
       android:backgroundTint="@color/card_background"
-      android:layout_alignParentEnd="true"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       tools:ignore="RelativeOverlap" />
@@ -29,7 +28,6 @@
       android:layout_alignParentBottom="true"
       android:layout_marginEnd="10dp"
       android:layout_marginBottom="10dp"
-      android:orientation="horizontal"
       android:layout_width="match_parent"
       android:layout_height="wrap_content">
 

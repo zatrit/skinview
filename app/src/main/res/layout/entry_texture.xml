@@ -23,8 +23,8 @@
         style="@style/OLED.Button"
         android:backgroundTint="@color/background"
         android:drawableStart="@drawable/baseline_save"
-        android:layout_marginTop="10dp"
         android:drawableTint="@color/button"
+        android:layout_marginTop="10dp"
         android:layout_gravity="end"
         android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
@@ -38,8 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:scaleType="fitXY"
         android:padding="10dp"
-        android:contentDescription="@string/skin_preview" />
+        android:importantForAccessibility="no" />
   </RelativeLayout>
 </LinearLayout>

@@ -96,4 +96,4 @@ var texturesHolder: TextureHolder? = null
 var toastHandler: ((Int) -> Unit)? = null
 
 /** The latest started [CompletableFuture] that downloads skins. */
-var loading: CompletableFuture<Unit>? = null
+var loading: CompletableFuture<Void>? = null

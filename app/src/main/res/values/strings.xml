@@ -11,7 +11,6 @@
     <string name="rearrange">Rearrange</string>
     <string name="clear">Clear</string>
     <string name="wanna_clear">Do you want to clean up ALL the textures?</string>
-    <string name="skin_preview">Skin preview</string>
 
     <!-- RearrangeActivity -->
     <string name="rearrange_show">Show:</string>

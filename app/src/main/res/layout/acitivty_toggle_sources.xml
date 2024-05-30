@@ -12,8 +12,6 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_centerHorizontal="true"
-      android:layout_centerVertical="true"
-      android:gravity="center"
       android:drawableBottom="@android:drawable/stat_sys_download"
       android:drawableTint="@android:color/darker_gray"
       android:text="@string/no_skins" />
@@ -36,7 +34,6 @@
       android:layout_alignParentBottom="true"
       android:layout_marginEnd="10dp"
       android:layout_marginBottom="10dp"
-      android:orientation="horizontal"
       android:layout_width="match_parent"
       android:layout_height="wrap_content">
 
