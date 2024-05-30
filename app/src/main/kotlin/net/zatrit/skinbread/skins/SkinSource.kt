@@ -3,8 +3,17 @@ package net.zatrit.skinbread.skins
 import net.zatrit.skinbread.R
 import net.zatrit.skins.lib.TextureType
 import net.zatrit.skins.lib.api.Resolver
-import net.zatrit.skins.lib.resolver.*
-import net.zatrit.skins.lib.resolver.capes.*
+import net.zatrit.skins.lib.resolver.DirectResolver
+import net.zatrit.skins.lib.resolver.EmptyResolver
+import net.zatrit.skins.lib.resolver.GeyserResolver
+import net.zatrit.skins.lib.resolver.MinecraftCapesResolver
+import net.zatrit.skins.lib.resolver.MojangResolver
+import net.zatrit.skins.lib.resolver.NamedHTTPResolver
+import net.zatrit.skins.lib.resolver.capes.FiveZigResolver
+import net.zatrit.skins.lib.resolver.capes.LiquidBounceResolver
+import net.zatrit.skins.lib.resolver.capes.MeteorResolver
+import net.zatrit.skins.lib.resolver.capes.OptifineResolver
+import net.zatrit.skins.lib.resolver.capes.WurstResolver
 import java.util.UUID
 
 class SkinSource(val name: SourceName, val resolver: Resolver) {
@@ -31,7 +40,7 @@ val defaultSources = arrayOf(
   SkinSource("Cosmetica", object : DirectResolver(TextureType.CAPE) {
       override fun getUrl(
         type: TextureType, id: UUID, name: String, shortId: String) =
-        "https://api.cosmetica.cc/get/cloak?username=$name&nothirdparty"
+          "https://api.cosmetica.cc/get/cloak?username=$name&nothirdparty"
   }),
   // ely.by
   SkinSource(
@@ -43,7 +52,7 @@ val defaultSources = arrayOf(
   SkinSource("LabyMod", object : DirectResolver(TextureType.CAPE) {
       override fun getUrl(
         type: TextureType, id: UUID, name: String, shortId: String) =
-        "https://dl.labymod.net/capes/$id"
+          "https://dl.labymod.net/capes/$id"
 
   }),
   // LiquidBounce
@@ -68,6 +77,6 @@ val defaultSources = arrayOf(
   SkinSource("Wynntils", object : DirectResolver(TextureType.CAPE) {
       override fun getUrl(
         type: TextureType, id: UUID, name: String, shortId: String) =
-        "https://athena.wynntils.com/capes/user/$id"
+          "https://athena.wynntils.com/capes/user/$id"
   }),
 )

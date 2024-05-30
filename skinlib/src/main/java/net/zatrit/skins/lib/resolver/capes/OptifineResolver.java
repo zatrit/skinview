@@ -26,15 +26,15 @@ public final class OptifineResolver implements Resolver {
 
     @Override
     public @NotNull PlayerTextures resolve(@NotNull Profile profile)
-            throws IOException, NullPointerException {
+      throws IOException, NullPointerException {
         val url = this.baseUrl + "/capes/" + profile.getName() + ".png";
         val texture = new URLTexture(url, null);
 
         /* Since you can't check for the existence/change of a
         texture without fetching that texture, it should not be cached. */
         return new PlayerTextures(Collections.singletonMap(
-                TextureType.CAPE,
-                texture
+          TextureType.CAPE,
+          texture
         ));
     }
 }

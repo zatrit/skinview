@@ -2,9 +2,13 @@ package net.zatrit.skinbread.ui.touch
 
 import android.animation.ValueAnimator
 import android.content.res.Resources
-import android.view.*
-import android.view.MotionEvent.*
+import android.view.MotionEvent
+import android.view.MotionEvent.ACTION_DOWN
+import android.view.MotionEvent.ACTION_MOVE
+import android.view.MotionEvent.ACTION_UP
+import android.view.View
 import android.view.View.OnTouchListener
+import android.view.ViewGroup
 import net.zatrit.skinbread.applyLayout
 
 class MenuDragHandler(
@@ -47,18 +51,18 @@ class MenuDragHandler(
     }
 
     private fun heightAnimator(from: Int, to: Int, thenHide: View? = null) =
-      ValueAnimator.ofInt(from, to).apply {
-          addUpdateListener {
-              target.applyLayout<ViewGroup.LayoutParams> {
-                  height = it.animatedValue as Int
-              }
+        ValueAnimator.ofInt(from, to).apply {
+            addUpdateListener {
+                target.applyLayout<ViewGroup.LayoutParams> {
+                    height = it.animatedValue as Int
+                }
 
-              if (it.animatedValue == to) {
-                  thenHide?.setTransitionVisibility(View.GONE)
-              }
-          }
-          start()
-      }
+                if (it.animatedValue == to) {
+                    thenHide?.setTransitionVisibility(View.GONE)
+                }
+            }
+            start()
+        }
 
     fun show() {
         target.visibility = View.VISIBLE

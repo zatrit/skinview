@@ -3,8 +3,8 @@
   <color name="button_highlight">@android:color/white</color>
   <color name="background">@android:color/background_dark</color>
   <color name="background_transparent">#80000000</color>
-  <color name="accent">@android:color/holo_green_dark</color>
-  <color name="button">@android:color/holo_green_dark</color>
+  <color name="accent">@android:color/holo_green_light</color>
+  <color name="button">@android:color/holo_green_light</color>
   <color name="rearrange_handle">#555</color>
   <color name="card_background">#1F1F1F</color>
   <color name="text">@android:color/white</color>

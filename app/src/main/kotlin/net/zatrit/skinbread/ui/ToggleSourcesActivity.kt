@@ -4,11 +4,21 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.*
-import net.zatrit.skinbread.*
-import net.zatrit.skinbread.skins.*
-import net.zatrit.skinbread.ui.adapter.*
-import net.zatrit.skinbread.ui.dialog.*
+import android.widget.AbsListView
+import android.widget.Button
+import android.widget.TextView
+import net.zatrit.skinbread.R
+import net.zatrit.skinbread.Textures
+import net.zatrit.skinbread.bindButton
+import net.zatrit.skinbread.skins.SourceName
+import net.zatrit.skinbread.skins.defaultSources
+import net.zatrit.skinbread.transition
+import net.zatrit.skinbread.transitionWithFetchButton
+import net.zatrit.skinbread.ui.adapter.NamedEntry
+import net.zatrit.skinbread.ui.adapter.SkinListAdapter
+import net.zatrit.skinbread.ui.dialog.bindDialogButtons
+import net.zatrit.skinbread.ui.dialog.clearDialog
+import net.zatrit.skinbread.ui.dialog.profileDialog
 
 class ToggleSourcesActivity : TexturesActivity() {
     private lateinit var sourcesList: AbsListView
@@ -40,13 +50,13 @@ class ToggleSourcesActivity : TexturesActivity() {
             intent.putExtra(ORDER, arranging.order)
 
             startActivityForResult(
-                intent, 0,
-                ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
+              intent, 0,
+              ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
             )
         }
 
         findViewById<Button>(R.id.btn_clear).setOnClickListener(
-            ShowDialogHandler(clearDialog(this))
+          ShowDialogHandler(clearDialog(this))
         )
 
         sourcesList.adapter = adapter
@@ -56,7 +66,7 @@ class ToggleSourcesActivity : TexturesActivity() {
     }
 
     override fun onActivityResult(
-        requestCode: Int, resultCode: Int, data: Intent?) {
+      requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == I_HAVE_ORDER) {
             arranging.order = data?.getIntArrayExtra(ORDER)!!
         }
@@ -79,10 +89,10 @@ class ToggleSourcesActivity : TexturesActivity() {
 
             val source = defaultSources[i]
             val entry = NamedEntry(
-                index = i,
-                name = source.name,
-                textures = textures,
-                enabled = arranging.enabled[i],
+              index = i,
+              name = source.name,
+              textures = textures,
+              enabled = arranging.enabled[i],
             )
 
             adapter.add(entry)
@@ -95,12 +105,12 @@ class ToggleSourcesActivity : TexturesActivity() {
     }
 
     override fun onTexturesAdded(
-        textures: Textures, index: Int, order: Int, name: SourceName) {
+      textures: Textures, index: Int, order: Int, name: SourceName) {
         val entry = NamedEntry(
-            index = index,
-            name = name,
-            textures = textures,
-            enabled = arranging.enabled[index],
+          index = index,
+          name = name,
+          textures = textures,
+          enabled = arranging.enabled[index],
         )
 
         runOnUiThread {

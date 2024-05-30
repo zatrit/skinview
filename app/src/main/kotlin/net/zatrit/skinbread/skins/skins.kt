@@ -1,17 +1,20 @@
 package net.zatrit.skinbread.skins
 
-import net.zatrit.skinbread.*
+import net.zatrit.skinbread.Textures
+import net.zatrit.skinbread.parseUuid
+import net.zatrit.skinbread.printDebug
 import net.zatrit.skins.lib.PlayerTextures
 import net.zatrit.skins.lib.api.Profile
-import net.zatrit.skins.lib.layer.android.*
+import net.zatrit.skins.lib.layer.android.LegacySkinLayer
+import net.zatrit.skins.lib.layer.android.ScaleCapeLayer
 import java.util.concurrent.CompletableFuture.runAsync
 
 val capeLayer = ScaleCapeLayer()
 val skinLayer = LegacySkinLayer()
 
 inline fun loadTexturesAsync(
-    profile: Profile, source: SkinSource,
-    crossinline callback: (PlayerTextures?) -> Unit) = runAsync {
+  profile: Profile, source: SkinSource,
+  crossinline callback: (PlayerTextures?) -> Unit) = runAsync {
     val textures = try {
         source.resolver.resolve(profile)
     } catch (ex: Exception) {

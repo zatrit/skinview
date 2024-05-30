@@ -1,13 +1,16 @@
 package net.zatrit.skinbread.ui.touch
 
 import android.opengl.Matrix.rotateM
-import android.view.*
-import android.view.MotionEvent.*
+import android.view.MotionEvent
+import android.view.MotionEvent.ACTION_DOWN
+import android.view.MotionEvent.ACTION_MOVE
+import android.view.VelocityTracker
+import android.view.View
 import net.zatrit.skinbread.gl.Renderer
 
 class ModelRotateHandler(
-    private val renderer: Renderer, private val density: Int) :
-    View.OnTouchListener {
+  private val renderer: Renderer, private val density: Int) :
+  View.OnTouchListener {
     private val velocityTracker = VelocityTracker.obtain()
 
     override fun onTouch(v: View, event: MotionEvent): Boolean {

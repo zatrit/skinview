@@ -1,10 +1,14 @@
 package net.zatrit.skinbread.skins
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
-import net.zatrit.skinbread.*
+import net.zatrit.skinbread.TAG
+import net.zatrit.skinbread.Textures
 import net.zatrit.skinbread.gl.model.ModelType
+import net.zatrit.skinbread.printDebug
+import java.io.InputStreamReader
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.CompletableFuture.runAsync
 
@@ -28,7 +32,7 @@ fun saveTextures(context: Context, i: Int, textures: Textures?) {
 }
 
 private fun saveTexture(
-    context: Context, type: String, index: Int, bitmap: Bitmap) = try {
+  context: Context, type: String, index: Int, bitmap: Bitmap) = try {
     context.openFileOutput(file(type, index), Context.MODE_PRIVATE).use {
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
     }
@@ -39,23 +43,23 @@ private fun saveTexture(
 private fun saveModelType(context: Context, index: Int, modelType: ModelType) =
     try {
         context.openFileOutput("model$index", Context.MODE_PRIVATE)
-            .bufferedWriter().use { it.write(modelType.name) }
+          .bufferedWriter().use { it.write(modelType.name) }
     } catch (ex: Exception) {
         ex.printDebug()
     }
 
 inline fun loadTexturesAsync(
-    context: Context,
-    crossinline callback: (Array<Textures?>) -> Unit): CompletableFuture<Void> =
+  context: Context,
+  crossinline callback: (Array<Textures?>) -> Unit): CompletableFuture<Void> =
     runAsync {
         val textures = arrayOfNulls<Textures?>(defaultSources.size)
 
         for (i in defaultSources.indices) {
             textures[i] = Textures(
-                skin = loadTexture(context, "skin", i),
-                cape = loadTexture(context, "cape", i),
-                ears = loadTexture(context, "ears", i),
-                model = loadModelType(context, i),
+              skin = loadTexture(context, "skin", i),
+              cape = loadTexture(context, "cape", i),
+              ears = loadTexture(context, "ears", i),
+              model = loadModelType(context, i),
             )
         }
 
@@ -71,9 +75,7 @@ fun loadTexture(context: Context, type: String, index: Int) = try {
 }
 
 fun loadModelType(context: Context, index: Int) = try {
-    val raw = context.openFileInput("model$index").bufferedReader()
-        .use { it.readText() }
-
+    val raw = InputStreamReader(context.openFileInput("model$index")).readText()
     ModelType.fromName(raw)
 } catch (ex: Exception) {
     null

@@ -1,6 +1,12 @@
 package net.zatrit.skins.lib.layer.android
 
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Matrix
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
 
 /**
  * **A layer that converts legacy format textures to a modern format**
@@ -50,9 +56,7 @@ class LegacySkinLayer : ImageLayer() {
           )
         )
 
-        canvas.drawBitmap(
-          Bitmap.createBitmap(src, sx, sy, w, h), matrix, null
-        )
+        canvas.drawBitmap(Bitmap.createBitmap(src, sx, sy, w, h), matrix, null)
     }
 
     /** Creates [Paint] to paint the base part of the skin. */

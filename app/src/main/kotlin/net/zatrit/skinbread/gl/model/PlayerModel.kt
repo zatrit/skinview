@@ -10,7 +10,7 @@ enum class ModelType(val handWidth: Float) {
 
     companion object {
         fun fromName(name: String?): ModelType =
-          if (name?.lowercase() == "slim") SLIM else DEFAULT
+            if (name?.lowercase() == "slim") SLIM else DEFAULT
     }
 }
 

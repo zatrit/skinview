@@ -3,10 +3,14 @@ package net.zatrit.skinbread
 
 import android.app.Activity
 import android.content.SharedPreferences
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.util.Log
-import android.view.*
-import android.widget.*
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.Button
+import android.widget.Switch
 import net.zatrit.skins.lib.api.Layer
 import java.util.UUID
 
@@ -14,7 +18,8 @@ import java.util.UUID
  * Statically converts the layout parameters for [View] and applies them after executing [func].
  * Simplifies the code for changing the layout.
  * */
-inline fun <reified L : ViewGroup.LayoutParams> View.applyLayout(func: L.() -> Unit) {
+inline fun <reified L : ViewGroup.LayoutParams> View.applyLayout(
+  func: L.() -> Unit) {
     val params = layoutParams as L
     params.func()
     layoutParams = params
@@ -32,7 +37,9 @@ fun parseUuid(string: String): UUID? = try {
 } catch (ex1: Exception) {
     try {
         val matcher = uuidPattern.matcher(string)
-        if (matcher.matches()) UUID.fromString(matcher.replaceAll("$1-$2-$3-$4-$5"))
+        if (matcher.matches()) UUID.fromString(
+          matcher.replaceAll("$1-$2-$3-$4-$5")
+        )
         else null
     } catch (ex2: Exception) {
         ex1.printDebug()
@@ -54,7 +61,8 @@ fun View.drawToBitmap(): Bitmap {
 fun Throwable.printDebug() = this.printStackTrace()
 
 /** Short notation for binding [func] to [Switch]. */
-inline fun Activity.bindSwitch(id: Int, value: Boolean, crossinline func: (Boolean) -> Unit) {
+inline fun Activity.bindSwitch(
+  id: Int, value: Boolean, crossinline func: (Boolean) -> Unit) {
     requireViewById<Switch>(id).apply {
         setOnCheckedChangeListener { _, state -> func(state) }
         isChecked = value
@@ -62,10 +70,12 @@ inline fun Activity.bindSwitch(id: Int, value: Boolean, crossinline func: (Boole
 }
 
 /** Short notation for binding [func] to [Button]. */
-inline fun bindButton(button: Button, crossinline func: (View) -> Unit) = button.setOnClickListener { func(it) }
+inline fun bindButton(button: Button, crossinline func: (View) -> Unit) =
+    button.setOnClickListener { func(it) }
 
 /** Short notation for binding [func] to [Button] by ID. */
-inline fun Activity.bindButton(id: Int, crossinline func: (View) -> Unit) = bindButton(requireViewById(id), func)
+inline fun Activity.bindButton(id: Int, crossinline func: (View) -> Unit) =
+    bindButton(requireViewById(id), func)
 
 /** Moves the [IntArray] element, shifting the other elements. */
 fun IntArray.moveItemTo(from: Int, to: Int) {
@@ -102,7 +112,8 @@ inline fun SharedPreferences.edit(func: (SharedPreferences.Editor) -> Unit) {
  * since the Kotlin implementation uses [IntRange], which can cause the
  * .dex to increase by 1 KiB. */
 @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
-fun String.jvmReplace(from: String, to: String): String = (this as java.lang.String).replace(from, to)
+fun String.jvmReplace(from: String, to: String): String =
+    (this as java.lang.String).replace(from, to)
 
 /** Enables title bar for [Activity] that doesn't have it by default. */
 @Suppress("DEPRECATION")

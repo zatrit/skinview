@@ -52,7 +52,7 @@ class Box(
     }
 
     fun translate(x: Float, y: Float, z: Float): Box =
-      Box(x1 + x, y1 + y, z1 + z, x2 + x, y2 + y, z2 + z)
+        Box(x1 + x, y1 + y, z1 + z, x2 + x, y2 + y, z2 + z)
 
     fun scale(s: Float) = scale(s, s, s)
 
@@ -65,7 +65,7 @@ class Box(
     }
 
     fun uv(x: Float, y: Float, scale: Float = 0.125f, ratio: Float = 1f) =
-      boxUV(x, y, width * scale, height * scale, depth * scale, ratio)
+        boxUV(x, y, width * scale, height * scale, depth * scale, ratio)
 }
 
 private fun boxUV(

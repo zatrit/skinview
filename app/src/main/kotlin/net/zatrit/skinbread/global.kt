@@ -5,11 +5,15 @@
 
 package net.zatrit.skinbread
 
-import android.opengl.Matrix.*
+import android.opengl.Matrix.scaleM
+import android.opengl.Matrix.setIdentityM
+import android.opengl.Matrix.setRotateEulerM
+import android.opengl.Matrix.translateM
 import android.transition.Slide
 import android.view.Gravity
 import net.zatrit.skinbread.gl.mat4
-import net.zatrit.skinbread.skins.*
+import net.zatrit.skinbread.skins.TextureHolder
+import net.zatrit.skinbread.skins.defaultSources
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
 

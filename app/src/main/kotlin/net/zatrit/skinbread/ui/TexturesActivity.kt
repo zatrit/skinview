@@ -1,14 +1,39 @@
 package net.zatrit.skinbread.ui
 
 import android.app.Activity
-import android.content.*
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import net.zatrit.skinbread.*
+import net.zatrit.skinbread.LOCAL
+import net.zatrit.skinbread.PREFS_NAME
+import net.zatrit.skinbread.R
+import net.zatrit.skinbread.TAG
+import net.zatrit.skinbread.Textures
+import net.zatrit.skinbread.VANILLA
+import net.zatrit.skinbread.edit
 import net.zatrit.skinbread.gl.model.ModelType
-import net.zatrit.skinbread.skins.*
-import net.zatrit.skins.lib.texture.BytesTexture
+import net.zatrit.skinbread.loading
+import net.zatrit.skinbread.nullUuid
+import net.zatrit.skinbread.printDebug
+import net.zatrit.skinbread.skins.Arranging
+import net.zatrit.skinbread.skins.SimpleProfile
+import net.zatrit.skinbread.skins.SkinSource
+import net.zatrit.skinbread.skins.TextureHolder
+import net.zatrit.skinbread.skins.capeLayer
+import net.zatrit.skinbread.skins.clearTextures
+import net.zatrit.skinbread.skins.defaultSources
+import net.zatrit.skinbread.skins.loadTexturesAsync
+import net.zatrit.skinbread.skins.refillProfile
+import net.zatrit.skinbread.skins.saveTextures
+import net.zatrit.skinbread.skins.skinLayer
+import net.zatrit.skinbread.textures
+import net.zatrit.skinbread.texturesHolder
+import net.zatrit.skinbread.toastHandler
+import net.zatrit.skinbread.tryApply
+import net.zatrit.skins.lib.api.Texture
+import net.zatrit.skins.lib.data.Metadata
 import java.util.concurrent.CompletableFuture.runAsync
 
 const val ARRANGING = "arranging"
@@ -54,15 +79,18 @@ abstract class TexturesActivity : Activity(), TextureHolder {
     }
 
     override fun onActivityResult(
-        requestCode: Int, resultCode: Int, data: Intent?) {
+      requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode shr 3 == 1) try {
             val uri = data?.data ?: return
 
-            val texture = contentResolver.openInputStream(uri)!!.use {
-                BytesTexture(it.readBytes(), null)
+            val texture = object : Texture {
+                override fun getMetadata(): Metadata? = null
+                override fun openStream() = contentResolver.openInputStream(uri)
             }
+
+            contentResolver.openOutputStream()
 
             val set = textures[LOCAL] ?: Textures()
 
@@ -79,8 +107,8 @@ abstract class TexturesActivity : Activity(), TextureHolder {
             }
 
             onTexturesAdded(
-                set, LOCAL, arranging.order.indexOf(LOCAL),
-                defaultSources[LOCAL].name
+              set, LOCAL, arranging.order.indexOf(LOCAL),
+              defaultSources[LOCAL].name
             )
 
             textures[LOCAL] = set
@@ -147,7 +175,7 @@ abstract class TexturesActivity : Activity(), TextureHolder {
             arranging = Arranging(size)
 
             Toast.makeText(this, R.string.invalid_save, Toast.LENGTH_SHORT)
-                .show()
+              .show()
 
             saveArranging()
         }

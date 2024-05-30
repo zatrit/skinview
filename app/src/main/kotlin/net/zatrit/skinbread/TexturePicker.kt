@@ -1,11 +1,12 @@
 package net.zatrit.skinbread
 
 import android.os.Parcelable
-import net.zatrit.skinbread.skins.defaultSources
 import kotlinx.parcelize.Parcelize
+import net.zatrit.skinbread.skins.defaultSources
 
 /** Local resolver index in [defaultSources]. */
 const val LOCAL = 0
+
 /** Vanilla resolver index in [defaultSources]. */
 const val VANILLA = 1
 

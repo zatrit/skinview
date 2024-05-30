@@ -2,16 +2,28 @@ package net.zatrit.skinbread.ui
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.*
-import android.os.*
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.MotionEvent
-import android.view.MotionEvent.*
+import android.view.MotionEvent.ACTION_CANCEL
+import android.view.MotionEvent.ACTION_MOVE
+import android.view.MotionEvent.ACTION_UP
 import android.view.View.MeasureSpec.UNSPECIFIED
-import android.widget.*
-import net.zatrit.skinbread.*
+import android.widget.ImageView
+import android.widget.ListView
+import android.widget.RadioGroup
+import net.zatrit.skinbread.R
+import net.zatrit.skinbread.enableTitleBar
+import net.zatrit.skinbread.moveItemTo
 import net.zatrit.skinbread.skins.defaultSources
+import net.zatrit.skinbread.textures
 import net.zatrit.skinbread.ui.adapter.IndexedAdapter
-import net.zatrit.skinbread.ui.touch.*
+import net.zatrit.skinbread.ui.touch.MOVE_CHANGED_ID
+import net.zatrit.skinbread.ui.touch.MOVE_OK
+import net.zatrit.skinbread.ui.touch.RearrangeHandler
 
 const val ORDER = "order"
 const val I_HAVE_ORDER = 157
@@ -40,8 +52,6 @@ class RearrangeActivity : Activity() {
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         order = intent.getIntArrayExtra(ORDER)!!
 
-        window.enterTransition = transition
-
         fakeItem = requireViewById(R.id.img_fake_item)
         sourcesList = requireViewById(R.id.list_sources)
 
@@ -50,13 +60,13 @@ class RearrangeActivity : Activity() {
         populateList()
         sourcesList.adapter = adapter
 
-        @SuppressLint("InflateParams")
-        val header = layoutInflater.inflate(R.layout.header_rearrange_list, null)
+        @SuppressLint("InflateParams") val header =
+            layoutInflater.inflate(R.layout.header_rearrange_list, null)
         sourcesList.addHeaderView(header)
 
         header.measure(UNSPECIFIED, UNSPECIFIED)
         handler =
-          RearrangeHandler(this, sourcesList, adapter, header.measuredHeight)
+            RearrangeHandler(this, sourcesList, adapter, header.measuredHeight)
 
         enableTitleBar()
 
@@ -76,7 +86,9 @@ class RearrangeActivity : Activity() {
         }
 
         // If there are no skins downloaded, show all
-        if (textures.all { it == null || it.isEmpty() }) radioShow.check(R.id.radio_show_all)
+        if (textures.all { it == null || it.isEmpty() }) radioShow.check(
+          R.id.radio_show_all
+        )
 
         sourcesList.setOnItemLongClickListener(handler)
     }

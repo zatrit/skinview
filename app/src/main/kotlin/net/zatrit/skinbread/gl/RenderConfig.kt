@@ -1,7 +1,8 @@
 package net.zatrit.skinbread.gl
 
 import android.os.Parcelable
-import kotlinx.parcelize.*
+import kotlinx.parcelize.IgnoredOnParcel
+import kotlinx.parcelize.Parcelize
 import net.zatrit.skinbread.Textures
 import net.zatrit.skinbread.skins.defaultSources
 import java.util.concurrent.ArrayBlockingQueue

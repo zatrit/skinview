@@ -3,8 +3,12 @@ package net.zatrit.skinbread.ui
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
-import android.widget.*
-import net.zatrit.skinbread.*
+import android.widget.ArrayAdapter
+import android.widget.ListView
+import net.zatrit.skinbread.Library
+import net.zatrit.skinbread.R
+import net.zatrit.skinbread.enableTitleBar
+import net.zatrit.skinbread.ossLibraries
 import net.zatrit.skinbread.ui.dialog.licenseDialog
 
 class LicenseActivity : Activity() {
@@ -15,7 +19,7 @@ class LicenseActivity : Activity() {
 
         val list = requireViewById<ListView>(R.id.list_libraries)
         val adapter = ArrayAdapter<Library>(
-            this, R.layout.entry_library, R.id.text_library_name
+          this, R.layout.entry_library, R.id.text_library_name
         )
 
         for (library in ossLibraries) {
@@ -24,7 +28,7 @@ class LicenseActivity : Activity() {
 
         list.setOnItemClickListener { _, _, position, _ ->
             licenseDialog(
-                this, adapter.getItem(position - list.headerViewsCount)!!
+              this, adapter.getItem(position - list.headerViewsCount)!!
             ).show()
         }
 

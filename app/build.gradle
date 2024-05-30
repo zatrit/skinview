@@ -14,7 +14,7 @@ android {
         applicationId 'net.zatrit.skinbread'
         testApplicationId "${applicationId}.test"
 
-        minSdk 30
+        minSdk 29
         targetSdk targetSdk
         versionCode 1
         versionName '1.0'

@@ -1,6 +1,8 @@
 package net.zatrit.skinbread.skins
 
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Rect
 import net.zatrit.skinbread.Textures
 import net.zatrit.skinbread.gl.model.ModelType
 
@@ -15,26 +17,28 @@ fun drawPreview(entry: Textures): Bitmap {
     return bitmap
 }
 
-private fun Bitmap.rect64(left: Int, top: Int, width: Int, height: Int): Rect {
-    val rate = this.width / 64f
-    val left1 = rate * left
-    val top1 = rate * top
+private fun Bitmap.rect64(
+  left: Int, top: Int, width: Int, height: Int, ratio: Float = 1f): Rect {
+    val hRate = this.width / 64f
+    val vRate = this.height / 64f * ratio
+    val left1 = hRate * left
+    val top1 = vRate * top
     return Rect(
       left1.toInt(),
       top1.toInt(),
-      (left1 + rate * width).toInt(),
-      (top1 + rate * height).toInt(),
+      (left1 + hRate * width).toInt(),
+      (top1 + vRate * height).toInt(),
     )
 }
 
 private fun Canvas.drawBitmap(bitmap: Bitmap, rect1: Rect, rect2: Rect) =
-  drawBitmap(bitmap, rect1, rect2, null)
+    drawBitmap(bitmap, rect1, rect2, null)
 
 private fun Canvas.drawBitmap(
   bitmap: Bitmap, sx: Int, sy: Int, w: Int, h: Int, dx: Int, dy: Int,
-  scale: Float = 9f) {
+  scale: Float = 9f, ratio: Float = 1f) {
     drawBitmap(
-      bitmap, bitmap.rect64(sx, sy, w, h),
+      bitmap, bitmap.rect64(sx, sy, w, h, ratio = ratio),
       Rect(dx, dy, dx + (w * scale).toInt(), dy + (h * scale).toInt())
     )
 }
@@ -61,8 +65,8 @@ fun drawSkin(canvas: Canvas, skin: Bitmap, model: ModelType) {
 }
 
 fun drawCape(canvas: Canvas, cape: Bitmap) {
-    canvas.drawBitmap(cape, 34, 2, 12, 20, 148, 111)
-    canvas.drawBitmap(cape, 1, 1, 10, 16, 265, 148)
+    canvas.drawBitmap(cape, 34, 2, 12, 20, 148, 111, ratio = 2f)
+    canvas.drawBitmap(cape, 1, 1, 10, 16, 265, 148, ratio = 2f)
 }
 
 fun drawEars(canvas: Canvas, ears: Bitmap) {

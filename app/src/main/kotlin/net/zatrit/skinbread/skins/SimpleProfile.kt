@@ -26,7 +26,7 @@ fun uuidByName(name: String): UUID? {
 fun nameByUuid(uuid: UUID): String {
     val id = uuid.toString().jvmReplace("-", "")
     val url =
-      URL("https://sessionserver.mojang.com/session/minecraft/profile/$id")
+        URL("https://sessionserver.mojang.com/session/minecraft/profile/$id")
     val jsonObject = url.openStream().jsonObject
 
     return jsonObject.getString("name")

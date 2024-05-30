@@ -2,10 +2,17 @@ package net.zatrit.skinbread.ui.touch
 
 import android.animation.ObjectAnimator
 import android.app.Activity
-import android.view.*
-import android.widget.*
-import android.widget.AdapterView.*
-import net.zatrit.skinbread.*
+import android.view.MotionEvent
+import android.view.View
+import android.widget.AdapterView
+import android.widget.AdapterView.INVALID_POSITION
+import android.widget.AdapterView.INVISIBLE
+import android.widget.AdapterView.OnItemLongClickListener
+import android.widget.AdapterView.VISIBLE
+import android.widget.ImageView
+import android.widget.ListView
+import net.zatrit.skinbread.R
+import net.zatrit.skinbread.drawToBitmap
 import net.zatrit.skinbread.ui.adapter.IndexedAdapter
 
 const val MOVE_CHANGED_ID = 0
@@ -123,12 +130,12 @@ class RearrangeHandler(
     }
 
     private fun fadeView(view: View, alpha: Float) =
-      ObjectAnimator.ofFloat(view, "alpha", view.alpha, alpha).apply {
-          setDuration(150)
-          start()
-      }
+        ObjectAnimator.ofFloat(view, "alpha", view.alpha, alpha).apply {
+            setDuration(150)
+            start()
+        }
 
     @Suppress("UNCHECKED_CAST")
     private fun ListView.getItem(position: Int) =
-      getItemAtPosition(position) as Pair<Int, String>?
+        getItemAtPosition(position) as Pair<Int, String>?
 }
