@@ -21,7 +21,7 @@
 
     <!-- LicenseActivity -->
     <string name="licenses">Licenses</string>
-    <string name="license_of">License of %s</string>
+    <string name="library_by_author">%s by %s</string>
     <string name="source_code">Source code</string>
 
     <!-- Render options -->
