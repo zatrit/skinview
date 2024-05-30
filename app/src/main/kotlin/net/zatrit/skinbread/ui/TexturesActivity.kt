@@ -108,6 +108,10 @@ abstract class TexturesActivity : Activity(), TextureHolder {
                 SimpleProfile(nullUuid, name)
             }
 
+            for (i in VANILLA..<sources.size) {
+                clearTextures(this, i)
+            }
+
             showToast(R.string.loading_textures)
             sources.mapIndexed { i, source ->
                 loadTexturesAsync(profile, source) {
@@ -118,7 +122,6 @@ abstract class TexturesActivity : Activity(), TextureHolder {
                     val order = arranging.order.indexOf(i)
                     texturesHolder?.onTexturesAdded(data, i, order, source.name)
 
-                    clearTextures(this, i)
                     saveTextures(this, i, data)
                 }
             }.forEach { it.join() }

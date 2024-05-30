@@ -11,7 +11,8 @@
       android:id="@+id/text_no_skins"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_centerHorizontal="true"
+      android:layout_centerInParent="true"
+      android:gravity="center"
       android:drawableBottom="@android:drawable/stat_sys_download"
       android:drawableTint="@android:color/darker_gray"
       android:text="@string/no_skins" />
