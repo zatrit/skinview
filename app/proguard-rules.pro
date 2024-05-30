@@ -25,4 +25,4 @@
     public static *(...);
 }
 
--assumenosideeffects class ** { @net.zatrit.skinbread.DebugOnly *; }
+-assumenosideeffects class ** { @zatrit.skinbread.DebugOnly *; }

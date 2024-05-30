@@ -1,4 +1,4 @@
-package net.zatrit.skinbread.skins
+package zatrit.skinbread.skins
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

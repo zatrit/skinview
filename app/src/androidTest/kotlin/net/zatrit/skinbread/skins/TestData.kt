@@ -1,4 +1,4 @@
-package net.zatrit.skinbread.skins
+package zatrit.skinbread.skins
 
 data class TestTriplet(val name: String, val uuid: String, val json: String)
 

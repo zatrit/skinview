@@ -4,7 +4,7 @@ plugins {
     id 'org.jetbrains.kotlin.plugin.lombok'
 }
 
-group 'net.zatrit'
+group 'zatrit'
 version project.skinlib_version
 
 dependencies {
@@ -20,7 +20,7 @@ dependencies {
 }
 
 android {
-    namespace 'net.zatrit.skins.lib'
+    namespace 'zatrit.skins.lib'
     compileSdk targetSdk
 
     defaultConfig {

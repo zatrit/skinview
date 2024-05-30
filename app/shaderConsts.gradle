@@ -16,7 +16,7 @@ static def optimizeLine(String line) {
 def shaderConsts(File shaderDir, File outDir) {
     outDir.mkdirs()
 
-    def content = "package net.zatrit.skinbread.gl\n\n"
+    def content = "package zatrit.skinbread.gl\n\n"
 
     shaderDir.eachFileRecurse(groovy.io.FileType.FILES) {
         def name = it.toPath().fileName.toString().toUpperCase().replace '.', '_'
