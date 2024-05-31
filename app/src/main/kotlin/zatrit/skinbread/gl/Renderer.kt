@@ -3,25 +3,8 @@ package zatrit.skinbread.gl
 import android.graphics.Color.blue
 import android.graphics.Color.green
 import android.graphics.Color.red
-import android.opengl.GLES30.GL_BLEND
-import android.opengl.GLES30.GL_COLOR_BUFFER_BIT
-import android.opengl.GLES30.GL_DEPTH_BUFFER_BIT
-import android.opengl.GLES30.GL_DEPTH_TEST
-import android.opengl.GLES30.GL_FRAGMENT_SHADER
-import android.opengl.GLES30.GL_ONE_MINUS_DST_COLOR
-import android.opengl.GLES30.GL_ONE_MINUS_SRC_ALPHA
-import android.opengl.GLES30.GL_ONE_MINUS_SRC_COLOR
-import android.opengl.GLES30.GL_SRC_ALPHA
-import android.opengl.GLES30.GL_VERTEX_SHADER
-import android.opengl.GLES30.glBlendFunc
-import android.opengl.GLES30.glClear
-import android.opengl.GLES30.glClearColor
-import android.opengl.GLES30.glEnable
-import android.opengl.GLES30.glGetError
-import android.opengl.GLES30.glUniform1i
-import android.opengl.GLES30.glUniform4f
-import android.opengl.GLES30.glUniformMatrix4fv
-import android.opengl.GLES30.glViewport
+import android.opengl.GLES30.*
+import android.opengl.GLES30.*
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix.perspectiveM
 import android.opengl.Matrix.setIdentityM
@@ -116,7 +99,7 @@ class Renderer : GLSurfaceView.Renderer {
         glViewport(0, 0, width, height)
 
         val ratio = width.toFloat() / height.toFloat()
-        val projMatrix = mat4 { perspectiveM(it, 0, 45f, ratio, 0.1f, 100f) }
+        val projMatrix = mat4 { perspectiveM(it, 0, 45f, ratio, 5f, 15f) }
 
         val buf = FloatBuffer.wrap(projMatrix)
         allShaders {

@@ -68,11 +68,11 @@ class PlayerModel {
           // Body
           ModelPart(body.vertices, bodyUV),
           // Body extra layer
-          ModelPart(body.extra.vertices, bodyExtraUV),
+          ModelPart(body.scale(1.1002f).vertices, bodyExtraUV),
           // Right leg
           ModelPart(rightLeg.vertices, rightLegUV),
           // Right leg extra layer
-          ModelPart(rightLeg.extra.vertices, rightLegExtraUV),
+          ModelPart(rightLeg.scale(1.1001f).vertices, rightLegExtraUV),
           // Left leg
           ModelPart(leftLeg.vertices, leftLegUV),
           // Left leg extra layer
