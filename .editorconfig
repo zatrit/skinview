@@ -1,0 +1,5 @@
+[{*.kt,*.kts}]
+indent_style = space
+max_line_length = 81
+indent_size = 4
+ij_continuation_indent_size = 2

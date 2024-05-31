@@ -17,7 +17,7 @@
 
   <!-- LicenseActivity -->
   <string name="licenses">Лицензии</string>
-  <string name="library_by_author" formatted="false">%s от %s</string>
+  <string name="library_by_author">%1$s от %2$s</string>
   <string name="source_code">Исходный код</string>
 
   <!-- Render options -->

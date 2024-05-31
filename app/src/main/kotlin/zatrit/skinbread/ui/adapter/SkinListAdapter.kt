@@ -1,15 +1,13 @@
 package zatrit.skinbread.ui.adapter
 
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.Switch
+import android.view.*
+import android.widget.*
 import zatrit.skinbread.R
 import zatrit.skinbread.Textures
-import zatrit.skinbread.skins.SourceName
-import zatrit.skinbread.skins.drawPreview
+import zatrit.skinbread.skins.*
 import zatrit.skinbread.ui.ToggleSourcesActivity
+import zatrit.skinbread.ui.dialog.saveDialog
+import zatrit.skinbread.ui.ShowDialogHandler
 
 class NamedEntry(
   val index: Int,
@@ -55,6 +53,10 @@ class SkinListAdapter(
         view.alpha = if (entry.enabled) 1f else DISABLED_TRANSPARENCY
         switch.text = entry.name.getName(context)
         image.setImageBitmap(entry.preview)
+
+        view.requireViewById<Button>(R.id.btn_save).setOnClickListener(
+            ShowDialogHandler(saveDialog(context, entry.index, entry.textures))
+        )
 
         return view
     }

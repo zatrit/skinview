@@ -9,9 +9,12 @@ import zatrit.skinbread.R
 import zatrit.skinbread.ui.ShowDialogHandler
 import zatrit.skinbread.ui.ShowWhenLoadedHandler
 import zatrit.skinbread.ui.TexturesActivity
+import zatrit.skinbread.ui.dialog.OPEN_TEXTURE
 
-/** Represents the fourth bit, the first two are used for the texture type and the third is used for the model type */
-const val GET_TEXTURE_IMAGE = 8
+// 0b00001MTT
+// M - model
+// T - texture type
+const val OPEN_TEXTURE = 8
 
 fun TexturesActivity.bindDialogButtons(
   fetchDialog: Dialog, fetch: Int = R.id.btn_fetch,
@@ -35,5 +38,5 @@ fun TexturesActivity.bindDialogButtons(
 private fun Activity.openTexture(texture: Int, model: Int) {
     val intent = Intent().setType("image/*").setAction(ACTION_GET_CONTENT)
     val model4 = model * 4
-    startActivityForResult(intent, GET_TEXTURE_IMAGE + texture + model4)
+    startActivityForResult(intent, OPEN_TEXTURE + texture + model4)
 }

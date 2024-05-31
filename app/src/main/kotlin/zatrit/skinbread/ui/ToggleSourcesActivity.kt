@@ -4,21 +4,13 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.AbsListView
-import android.widget.Button
-import android.widget.TextView
-import zatrit.skinbread.R
-import zatrit.skinbread.Textures
-import zatrit.skinbread.bindButton
-import zatrit.skinbread.skins.SourceName
-import zatrit.skinbread.skins.defaultSources
-import zatrit.skinbread.transition
-import zatrit.skinbread.transitionWithFetchButton
-import zatrit.skinbread.ui.adapter.NamedEntry
-import zatrit.skinbread.ui.adapter.SkinListAdapter
-import zatrit.skinbread.ui.dialog.bindDialogButtons
-import zatrit.skinbread.ui.dialog.clearDialog
-import zatrit.skinbread.ui.dialog.profileDialog
+import android.widget.*
+import android.util.Log
+import android.graphics.Bitmap
+import zatrit.skinbread.*
+import zatrit.skinbread.skins.*
+import zatrit.skinbread.ui.adapter.*
+import zatrit.skinbread.ui.dialog.*
 
 class ToggleSourcesActivity : TexturesActivity() {
     private lateinit var sourcesList: AbsListView
@@ -70,8 +62,23 @@ class ToggleSourcesActivity : TexturesActivity() {
         if (resultCode == I_HAVE_ORDER) {
             arranging.order = data?.getIntArrayExtra(ORDER)!!
         }
+        else if (requestCode shr 7 == 1) {
+            val uri = data?.data ?: return
+            val type =  requestCode and 3 // only 2 right bits 
+            val index = requestCode shr 2 and 15 // only 4 right bits of value shifted by 2 bits
+            Log.d(TAG, "$type $index")
 
-        super.onActivityResult(requestCode, resultCode, data)
+            val textures = textures[index] ?: return
+            val texture = when(type) {
+                1 -> textures.cape
+                2 -> textures.ears
+                else -> textures.skin
+            }
+            
+            contentResolver.openOutputStream(uri)?.use { 
+                texture?.compress(Bitmap.CompressFormat.PNG, 100, it)
+            }
+        } else super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun finish() {
