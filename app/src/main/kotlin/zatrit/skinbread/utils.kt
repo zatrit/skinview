@@ -91,7 +91,7 @@ fun IntArray.moveItemTo(from: Int, to: Int) {
 /** Tries to apply the layer, otherwise prints an exception and returns the original [value]. */
 fun <T> Layer<T>.tryApply(value: T): T = try {
     apply(value)
-} catch (ex: Exception) {
+} catch (ex: Throwable) {
     ex.printDebug()
     value
 }

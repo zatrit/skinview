@@ -1,55 +1,55 @@
 <resources>
-    <!-- App name -->
-    <string name="app_name" translatable="false">SkinBread</string>
+  <!-- App name -->
+  <string name="app_name" translatable="false">SkinBread</string>
 
-    <!-- MainActivity buttons -->
-    <string name="list_skin">Skins</string>
-    <string name="render_options">Render options</string>
+  <!-- MainActivity buttons -->
+  <string name="list_skin">Skins</string>
+  <string name="render_options">Render options</string>
 
-    <!-- ToggleSourcesActivity -->
-    <string name="no_skins">To see your skins, use</string>
-    <string name="rearrange">Rearrange</string>
-    <string name="clear">Clear</string>
-    <string name="wanna_clear">Do you want to clean up ALL the textures?</string>
+  <!-- ToggleSourcesActivity -->
+  <string name="no_skins">To see your skins, use</string>
+  <string name="rearrange">Rearrange</string>
+  <string name="clear">Clear</string>
+  <string name="wanna_clear">Do you want to clean up ALL the textures?</string>
 
-    <!-- RearrangeActivity -->
-    <string name="rearrange_show">Show:</string>
-    <string name="show_loaded">Loaded</string>
-    <string name="show_all">All</string>
-    <string name="rearrange_tip">Use a long click to rearrange</string>
+  <!-- RearrangeActivity -->
+  <string name="rearrange_show">Show:</string>
+  <string name="show_loaded">Loaded</string>
+  <string name="show_all">All</string>
+  <string name="rearrange_tip">Use a long click to rearrange</string>
 
-    <!-- LicenseActivity -->
-    <string name="licenses">Licenses</string>
-    <string name="library_by_author">%1$s by %2$s</string>
-    <string name="source_code">Source code</string>
+  <!-- LicenseActivity -->
+  <string name="licenses">Licenses</string>
+  <string name="library_by_author">%1$s by %2$s</string>
+  <string name="source_code">Source code</string>
 
-    <!-- Render options -->
-    <string name="shading">Shading</string>
-    <string name="show_grid">Show grid</string>
-    <string name="show_elytra">Show elytra instead of cape</string>
+  <!-- Render options -->
+  <string name="shading">Shading</string>
+  <string name="show_grid">Show grid</string>
+  <string name="show_elytra">Show elytra instead of cape</string>
 
-    <!-- Fetch dialog -->
-    <string name="input_profile">Enter profile data</string>
-    <string name="name">Name</string>
-    <string name="uuid">UUID (optional)</string>
-    <string name="remember_profile">Remember profile</string>
+  <!-- Fetch dialog -->
+  <string name="input_profile">Enter profile data</string>
+  <string name="name">Name</string>
+  <string name="uuid">UUID (optional)</string>
+  <string name="remember_profile">Remember profile</string>
 
-    <!-- Local dialog -->
-    <string name="pick_texture_type">Select the type of texture</string>
-    <string name="texture_skin">Skin</string>
-    <string name="texture_cape">Cape</string>
-    <string name="texture_ears">Ears</string>
+  <!-- Local dialog -->
+  <string name="pick_texture_type">Select the type of texture</string>
+  <string name="texture_skin">Skin</string>
+  <string name="texture_cape">Cape</string>
+  <string name="texture_ears">Ears</string>
 
-    <!-- Source names -->
-    <string name="source_local">Local</string>
-    <string name="source_vanilla">Vanilla</string>
+  <!-- Source names -->
+  <string name="source_local">Local</string>
+  <string name="source_vanilla">Vanilla</string>
 
-    <!-- Toast messages -->
-    <string name="loading_profile">Loading profile…</string>
-    <string name="loading_textures">Loading textures…</string>
-    <string name="profile_failed">Failed to get profile :(</string>
-    <string name="still_loading">Textures are still loading</string>
-    <string name="invalid_save">Invalid saved data :(</string>
-    <string name="open_failed">Unable to open image :(</string>
-    <string name="save">Save</string>
+  <!-- Toast messages -->
+  <string name="loading_profile">Loading profile…</string>
+  <string name="loading_textures">Loading textures…</string>
+  <string name="profile_failed">Failed to get profile :(</string>
+  <string name="still_loading">Textures are still loading</string>
+  <string name="invalid_save">Invalid saved data :(</string>
+  <string name="open_failed">Unable to open image :(</string>
+  <string name="save">Save</string>
 </resources>

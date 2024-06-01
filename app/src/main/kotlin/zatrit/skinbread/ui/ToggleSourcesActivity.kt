@@ -1,6 +1,6 @@
 package zatrit.skinbread.ui
 
-import android.app.ActivityOptions
+import android.app.*
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -13,9 +13,15 @@ import zatrit.skinbread.ui.adapter.*
 import zatrit.skinbread.ui.dialog.*
 import zatrit.skins.lib.util.use2
 
+/** [Activity] containing a list of downloaded skins, allowing you to switch sources. */
 class ToggleSourcesActivity : TexturesActivity() {
+    /** List of skins, the main interface element in this activity. */
     private lateinit var sourcesList: AbsListView
+
+    /** Adapter for [sourcesList]. */
     private lateinit var adapter: SkinListAdapter
+
+    /** Text displayed in the absence of any loaded textures. */
     private lateinit var noSkins: TextView
 
     override fun onCreate(state: Bundle?) {
@@ -36,6 +42,7 @@ class ToggleSourcesActivity : TexturesActivity() {
             reloadTextures(name, uuid, defaultSources)
         }
 
+        // Binds action_buttons
         bindDialogButtons(fetchDialog)
 
         bindButton(R.id.btn_rearrange) {
@@ -48,12 +55,14 @@ class ToggleSourcesActivity : TexturesActivity() {
             )
         }
 
+        // Opens the clear dialog when btn_clear is clicked
         findViewById<Button>(R.id.btn_clear).setOnClickListener(
           ShowDialogHandler(clearDialog(this))
         )
 
         sourcesList.adapter = adapter
 
+        // Loads the saved and passed state
         intent.extras?.run(::updateArrangingFromBundle)
         state?.run(::updateArrangingFromBundle)
     }
@@ -62,7 +71,7 @@ class ToggleSourcesActivity : TexturesActivity() {
       requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == I_HAVE_ORDER) {
             arranging.order = data?.getIntArrayExtra(ORDER)!!
-        } else if (requestCode shr 7 == 1) {
+        } else if (requestCode shr 7 == 1) { // Result of the texture saving menu
             val uri = data?.data ?: return
             val type = requestCode and 3 // only 2 right bits
             val index =
@@ -83,12 +92,15 @@ class ToggleSourcesActivity : TexturesActivity() {
     }
 
     override fun finish() {
+        // Set an activity result
         val intent = Intent().putExtra(ARRANGING, arranging)
         setResult(I_HAVE_ARRANGING, intent)
 
         super.finish()
     }
 
+    /** Populates [sourcesList] with the received [newTextures]. */
+    // Working with sourcesList from other threads requires the use of runOnUiThread
     override fun setTextures(newTextures: Array<Textures?>) = runOnUiThread {
         adapter.clear()
 
@@ -112,6 +124,7 @@ class ToggleSourcesActivity : TexturesActivity() {
         updateListVisibility()
     }
 
+    /** Adds [textures] to [sourcesList] and sorts it so it's in the correct place. */
     override fun onTexturesAdded(
       textures: Textures, index: Int, order: Int, name: SourceName) {
         val entry = NamedEntry(
@@ -121,6 +134,7 @@ class ToggleSourcesActivity : TexturesActivity() {
           enabled = arranging.enabled[index],
         )
 
+        // Working with sourcesList from other threads requires the use of runOnUiThread
         runOnUiThread {
             adapter.add(entry)
             sortAdapter()
@@ -130,18 +144,8 @@ class ToggleSourcesActivity : TexturesActivity() {
         }
     }
 
-    override fun prepareTextureForReuse(index: Int) {
-        super.prepareTextureForReuse(index)
-
-        for (i in 0..<adapter.count) {
-            val item = adapter.getItem(i)
-            if (item?.index == 0) {
-                adapter.remove(item)
-                break
-            }
-        }
-    }
-
+    /** Updates the visibility of [sourcesList] and [noSkins], displaying [noSkins] if
+     * there are no textures, otherwise [sourcesList]. */
     private fun updateListVisibility() = if (adapter.isEmpty) {
         sourcesList.visibility = View.GONE
         noSkins.visibility = View.VISIBLE
@@ -150,6 +154,7 @@ class ToggleSourcesActivity : TexturesActivity() {
         noSkins.visibility = View.GONE
     }
 
+    /** Sorts the contents of [adapter] according to [Arranging.order]. */
     private fun sortAdapter() = adapter.sort(Comparator.comparingInt {
         arranging.order.indexOf(it.index)
     })

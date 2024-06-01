@@ -70,6 +70,7 @@ class MainActivity : TexturesActivity() {
             reloadTextures(name, uuid, defaultSources)
         }
 
+        // Binds action_buttons
         bindDialogButtons(fetchDialog)
 
         skinLayer.legacyMask =

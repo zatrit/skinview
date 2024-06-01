@@ -81,7 +81,7 @@ abstract class TexturesActivity : Activity(), TextureHolder {
 
             textures[LOCAL] = set
             runAsync { saveTextures(this, LOCAL, set) }
-        } catch (ex: Exception) {
+        } catch (ex: Throwable) {
             Toast.makeText(this, R.string.open_failed, Toast.LENGTH_SHORT).show()
             ex.printDebug()
         }

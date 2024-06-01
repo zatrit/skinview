@@ -12,6 +12,7 @@ import zatrit.skinbread.ui.*
 // T - texture type
 const val OPEN_TEXTURE = 8
 
+/** Binds buttons from [R.layout.action_buttons] to common dialog openings. */
 fun TexturesActivity.bindDialogButtons(
   fetchDialog: Dialog, fetch: Int = R.id.btn_fetch,
   local: Int = R.id.btn_local) {
@@ -31,6 +32,7 @@ fun TexturesActivity.bindDialogButtons(
     )
 }
 
+/** Calls [Activity] to select a file to open. */
 private fun Activity.openTexture(texture: Int, model: Int) {
     val intent = Intent().setType("image/*").setAction(ACTION_GET_CONTENT)
     val model4 = model * 4
