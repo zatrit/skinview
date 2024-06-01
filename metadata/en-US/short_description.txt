@@ -1,0 +1,1 @@
+Lightweight application for viewing Minecraft skins from different services.

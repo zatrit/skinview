@@ -42,7 +42,7 @@
 
   <!-- Source names -->
   <string name="source_local">Local</string>
-  <string name="source_vanilla">Vanilla</string>
+  <string name="source_vanilla">Vanilla (Mojang)</string>
 
   <!-- Toast messages -->
   <string name="loading_profile">Loading profile…</string>

@@ -1,0 +1,23 @@
+Легковесное приложение для просмотра скинов Minecraft из разных сервисов и локального хранилища.
+
+На данный момент поддерживаются следующие источники:
+* Локальное хранилище
+* Ванильная система скинов
+* 5ZigReborn
+* Cloaks+
+* Cosmetica
+* ely.by
+* GeyserMC
+* LabyMod
+* LiquidBounce
+* Mantle
+* Meteor
+* MinecraftCapes
+* Optifine
+* TLauncher
+* Wurst
+* Wynntils
+
+Также в приложении есть 3D-отрисовщик, позвляющий рассмотреть персонажа с разных сторон.
+
+Этот проект не связан с Mojang, Optifine, LabyMod, MinecraftCapes, Cloaks+, TLauncher, ely.by, 5ZigReborn, Mantle, Wynntils, Meteor, LiquidBounce или Cosmetica.

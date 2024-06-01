@@ -1,0 +1,23 @@
+Lightweight application for browsing Minecraft skins from different services and local storage.
+
+The following sources are currently supported:
+* Local storage
+* Vanilla skin system
+* 5ZigReborn
+* Cloaks+
+* Cosmetica
+* ely.by
+* GeyserMC
+* LabyMod
+* LiquidBounce
+* Mantle
+* Meteor
+* MinecraftCapes
+* Optifine
+* TLauncher
+* Wurst
+* Wynntils
+
+The application also has a 3D renderer that allows you to view the character from different angles.
+
+This project is not affiliated with Mojang, Optifine, LabyMod, MinecraftCapes, Cloaks+, TLauncher, ely.by, 5ZigReborn, Mantle, Wynntils, Meteor, LiquidBounce or Cosmetica.
