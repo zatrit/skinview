@@ -2,17 +2,10 @@ package zatrit.skinbread.ui.touch
 
 import android.animation.ObjectAnimator
 import android.app.Activity
-import android.view.MotionEvent
-import android.view.View
-import android.widget.AdapterView
-import android.widget.AdapterView.INVALID_POSITION
-import android.widget.AdapterView.INVISIBLE
-import android.widget.AdapterView.OnItemLongClickListener
-import android.widget.AdapterView.VISIBLE
-import android.widget.ImageView
-import android.widget.ListView
-import zatrit.skinbread.R
-import zatrit.skinbread.drawToBitmap
+import android.view.*
+import android.widget.*
+import android.widget.AdapterView.*
+import zatrit.skinbread.*
 import zatrit.skinbread.ui.adapter.IndexedAdapter
 
 const val MOVE_CHANGED_ID = 0

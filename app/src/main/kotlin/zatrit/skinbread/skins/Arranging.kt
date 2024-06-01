@@ -2,10 +2,8 @@ package zatrit.skinbread.skins
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import zatrit.skinbread.LOCAL
-import zatrit.skinbread.VANILLA
-import org.json.JSONArray
-import org.json.JSONObject
+import org.json.*
+import zatrit.skinbread.*
 
 @Parcelize
 class Arranging(

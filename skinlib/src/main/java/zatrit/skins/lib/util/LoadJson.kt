@@ -1,9 +1,9 @@
 package zatrit.skins.lib.util
 
+import org.json.*
 import zatrit.skins.lib.*
 import zatrit.skins.lib.data.Metadata
 import zatrit.skins.lib.texture.URLTexture
-import org.json.*
 import java.io.*
 import java.util.EnumMap
 
@@ -35,8 +35,8 @@ fun textureType(string: String) = try {
 
 /** Creates a [JSONObject] for the given [InputStream] and closes it. */
 val InputStream.jsonObject: JSONObject
-    get() = use { JSONObject(InputStreamReader(it).readText()) }
+    get() = use2 { JSONObject(InputStreamReader(it).readText()) }
 
 /** Creates a [JSONArray] for the given [InputStream] and closes it. */
 val InputStream.jsonArray: JSONArray
-    get() = use { JSONArray(InputStreamReader(it).readText()) }
+    get() = use2 { JSONArray(InputStreamReader(it).readText()) }

@@ -2,12 +2,10 @@ package zatrit.skinbread.ui.adapter
 
 import android.view.*
 import android.widget.*
-import zatrit.skinbread.R
-import zatrit.skinbread.Textures
+import zatrit.skinbread.*
 import zatrit.skinbread.skins.*
-import zatrit.skinbread.ui.ToggleSourcesActivity
+import zatrit.skinbread.ui.*
 import zatrit.skinbread.ui.dialog.saveDialog
-import zatrit.skinbread.ui.ShowDialogHandler
 
 class NamedEntry(
   val index: Int,
@@ -55,7 +53,7 @@ class SkinListAdapter(
         image.setImageBitmap(entry.preview)
 
         view.requireViewById<Button>(R.id.btn_save).setOnClickListener(
-            ShowDialogHandler(saveDialog(context, entry.index, entry.textures))
+          ShowDialogHandler(saveDialog(context, entry.index, entry.textures))
         )
 
         return view

@@ -60,6 +60,7 @@ class PlayerModel {
         val leftLegUV = leftLeg.uv(0.25f, 0.75f)
         val leftLegExtraUV = leftLeg.uv(0f, 0.75f)
 
+        // To fix z-fighting, a minor value is added to the box size
         parts = arrayOf(
           // Head
           ModelPart(head.vertices, headUV),

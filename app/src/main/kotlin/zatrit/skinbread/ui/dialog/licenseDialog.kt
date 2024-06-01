@@ -1,13 +1,10 @@
 package zatrit.skinbread.ui.dialog
 
-import android.app.AlertDialog
-import android.app.Dialog
-import android.content.Context
-import android.content.Intent
+import android.app.*
+import android.content.*
 import android.net.Uri
 import android.widget.TextView
-import zatrit.skinbread.Library
-import zatrit.skinbread.R
+import zatrit.skinbread.*
 
 
 fun licenseDialog(context: Context, library: Library): Dialog =

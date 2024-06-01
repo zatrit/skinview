@@ -1,7 +1,6 @@
 package zatrit.skins.lib.resolver
 
-import zatrit.skins.lib.api.Profile
-import zatrit.skins.lib.api.Resolver
+import zatrit.skins.lib.api.*
 
 /** Empty implementation of [Resolver] throwing an [Exception] when trying to use it. */
 class EmptyResolver : Resolver {

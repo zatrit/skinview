@@ -1,13 +1,10 @@
 package zatrit.skinbread
 
 import android.graphics.Bitmap
-import zatrit.skinbread.gl.GLTexture
-import zatrit.skinbread.gl.GLTextures
+import zatrit.skinbread.gl.*
 import zatrit.skinbread.gl.model.ModelType
-import zatrit.skins.lib.PlayerTextures
-import zatrit.skins.lib.TextureType
-import zatrit.skins.lib.api.Layer
-import zatrit.skins.lib.api.Texture
+import zatrit.skins.lib.*
+import zatrit.skins.lib.api.*
 
 /** A set of textures used to permanently store player textures. */
 class Textures(

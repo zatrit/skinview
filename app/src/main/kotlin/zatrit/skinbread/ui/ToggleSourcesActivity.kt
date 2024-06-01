@@ -2,15 +2,16 @@ package zatrit.skinbread.ui
 
 import android.app.ActivityOptions
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
-import android.util.Log
-import android.graphics.Bitmap
 import zatrit.skinbread.*
 import zatrit.skinbread.skins.*
 import zatrit.skinbread.ui.adapter.*
 import zatrit.skinbread.ui.dialog.*
+import zatrit.skins.lib.util.use2
 
 class ToggleSourcesActivity : TexturesActivity() {
     private lateinit var sourcesList: AbsListView
@@ -61,21 +62,21 @@ class ToggleSourcesActivity : TexturesActivity() {
       requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == I_HAVE_ORDER) {
             arranging.order = data?.getIntArrayExtra(ORDER)!!
-        }
-        else if (requestCode shr 7 == 1) {
+        } else if (requestCode shr 7 == 1) {
             val uri = data?.data ?: return
-            val type =  requestCode and 3 // only 2 right bits 
-            val index = requestCode shr 2 and 15 // only 4 right bits of value shifted by 2 bits
+            val type = requestCode and 3 // only 2 right bits
+            val index =
+                requestCode shr 2 and 15 // only 4 right bits of value shifted by 2 bits
             Log.d(TAG, "$type $index")
 
             val textures = textures[index] ?: return
-            val texture = when(type) {
+            val texture = when (type) {
                 1 -> textures.cape
                 2 -> textures.ears
                 else -> textures.skin
             }
-            
-            contentResolver.openOutputStream(uri)?.use { 
+
+            contentResolver.openOutputStream(uri)?.use2 {
                 texture?.compress(Bitmap.CompressFormat.PNG, 100, it)
             }
         } else super.onActivityResult(requestCode, resultCode, data)

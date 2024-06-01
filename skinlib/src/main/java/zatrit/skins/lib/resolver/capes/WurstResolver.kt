@@ -1,7 +1,6 @@
 package zatrit.skins.lib.resolver.capes
 
-import zatrit.skins.lib.api.Profile
-import zatrit.skins.lib.api.Resolver
+import zatrit.skins.lib.api.*
 import zatrit.skins.lib.util.jsonObject
 import java.net.URL
 

@@ -3,12 +3,12 @@ package zatrit.skins.lib.api;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import zatrit.skins.lib.data.Metadata;
-
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
+
+import zatrit.skins.lib.data.Metadata;
 
 /**
  * An abstract texture that can be converted to a {@link Byte} array.

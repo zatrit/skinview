@@ -1,8 +1,7 @@
 package zatrit.skins.lib.layer.android
 
 import android.graphics.Bitmap
-import zatrit.skins.lib.api.Layer
-import zatrit.skins.lib.api.Texture
+import zatrit.skins.lib.api.*
 import zatrit.skins.lib.texture.BitmapTexture
 
 /** An abstract layer that transforms [Bitmap] or [Texture] in a certain way. */

@@ -1,9 +1,8 @@
 package zatrit.skinbread.ui.dialog
 
 import android.app.Dialog
-import zatrit.skinbread.R
+import zatrit.skinbread.*
 import zatrit.skinbread.skins.clearTextures
-import zatrit.skinbread.textures
 import zatrit.skinbread.ui.TexturesActivity
 
 @Suppress("ReplaceManualRangeWithIndicesCalls")

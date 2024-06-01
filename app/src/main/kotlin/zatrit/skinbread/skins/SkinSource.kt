@@ -3,17 +3,8 @@ package zatrit.skinbread.skins
 import zatrit.skinbread.R
 import zatrit.skins.lib.TextureType
 import zatrit.skins.lib.api.Resolver
-import zatrit.skins.lib.resolver.DirectResolver
-import zatrit.skins.lib.resolver.EmptyResolver
-import zatrit.skins.lib.resolver.GeyserResolver
-import zatrit.skins.lib.resolver.MinecraftCapesResolver
-import zatrit.skins.lib.resolver.MojangResolver
-import zatrit.skins.lib.resolver.NamedHTTPResolver
-import zatrit.skins.lib.resolver.capes.FiveZigResolver
-import zatrit.skins.lib.resolver.capes.LiquidBounceResolver
-import zatrit.skins.lib.resolver.capes.MeteorResolver
-import zatrit.skins.lib.resolver.capes.OptifineResolver
-import zatrit.skins.lib.resolver.capes.WurstResolver
+import zatrit.skins.lib.resolver.*
+import zatrit.skins.lib.resolver.capes.*
 import java.util.UUID
 
 class SkinSource(val name: SourceName, val resolver: Resolver) {

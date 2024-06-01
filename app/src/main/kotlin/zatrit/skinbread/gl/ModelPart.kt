@@ -1,16 +1,7 @@
 package zatrit.skinbread.gl
 
-import android.opengl.GLES30.GL_ELEMENT_ARRAY_BUFFER
-import android.opengl.GLES30.GL_STATIC_DRAW
-import android.opengl.GLES30.GL_TRIANGLES
-import android.opengl.GLES30.GL_UNSIGNED_INT
-import android.opengl.GLES30.glBindBuffer
-import android.opengl.GLES30.glBindVertexArray
-import android.opengl.GLES30.glBufferData
-import android.opengl.GLES30.glDrawElements
-import android.opengl.GLES30.glGenBuffers
-import zatrit.skinbread.DebugOnly
-import zatrit.skinbread.GLContext
+import android.opengl.GLES30.*
+import zatrit.skinbread.*
 import java.nio.FloatBuffer
 
 /**

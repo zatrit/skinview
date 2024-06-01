@@ -1,7 +1,6 @@
 package zatrit.skinbread.ui
 
-import android.os.Handler
-import android.os.Looper
+import android.os.*
 import android.widget.AbsListView
 
 class Scroller(private val target: AbsListView, looper: Looper) : Runnable {

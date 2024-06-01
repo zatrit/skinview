@@ -1,8 +1,7 @@
 package zatrit.skinbread.ui.dialog
 
 import android.app.AlertDialog
-import android.content.Context
-import android.content.DialogInterface
+import android.content.*
 import android.content.DialogInterface.OnClickListener
 import android.view.ContextThemeWrapper
 import android.widget.EditText

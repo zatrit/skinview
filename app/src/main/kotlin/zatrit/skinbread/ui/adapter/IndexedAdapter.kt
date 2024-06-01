@@ -2,14 +2,10 @@ package zatrit.skinbread.ui.adapter
 
 import android.content.Context
 import android.graphics.Color
-import android.text.Spannable
-import android.text.SpannableString
+import android.text.*
 import android.text.style.ForegroundColorSpan
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.TextView
+import android.view.*
+import android.widget.*
 import zatrit.skinbread.R
 import kotlin.math.log10
 

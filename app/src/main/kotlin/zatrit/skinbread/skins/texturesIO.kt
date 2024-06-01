@@ -1,13 +1,11 @@
 package zatrit.skinbread.skins
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.graphics.*
 import android.util.Log
-import zatrit.skinbread.TAG
-import zatrit.skinbread.Textures
+import zatrit.skinbread.*
 import zatrit.skinbread.gl.model.ModelType
-import zatrit.skinbread.printDebug
+import zatrit.skins.lib.util.use2
 import java.io.InputStreamReader
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.CompletableFuture.runAsync
@@ -33,7 +31,7 @@ fun saveTextures(context: Context, i: Int, textures: Textures?) {
 
 private fun saveTexture(
   context: Context, type: String, index: Int, bitmap: Bitmap) = try {
-    context.openFileOutput(file(type, index), Context.MODE_PRIVATE).use {
+    context.openFileOutput(file(type, index), Context.MODE_PRIVATE).use2 {
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
     }
 } catch (ex: Exception) {
@@ -43,7 +41,7 @@ private fun saveTexture(
 private fun saveModelType(context: Context, index: Int, modelType: ModelType) =
     try {
         context.openFileOutput("model$index", Context.MODE_PRIVATE)
-          .bufferedWriter().use { it.write(modelType.name) }
+          .use2 { it.write(modelType.name.toByteArray()) }
     } catch (ex: Exception) {
         ex.printDebug()
     }
@@ -67,7 +65,7 @@ inline fun loadTexturesAsync(
     }
 
 fun loadTexture(context: Context, type: String, index: Int) = try {
-    context.openFileInput(file(type, index)).use {
+    context.openFileInput(file(type, index)).use2 {
         BitmapFactory.decodeStream(it)
     }
 } catch (ex: Exception) {

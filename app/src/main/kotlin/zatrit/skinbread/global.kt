@@ -5,15 +5,11 @@
 
 package zatrit.skinbread
 
-import android.opengl.Matrix.scaleM
-import android.opengl.Matrix.setIdentityM
-import android.opengl.Matrix.setRotateEulerM
-import android.opengl.Matrix.translateM
+import android.opengl.Matrix.*
 import android.transition.Slide
 import android.view.Gravity
 import zatrit.skinbread.gl.mat4
-import zatrit.skinbread.skins.TextureHolder
-import zatrit.skinbread.skins.defaultSources
+import zatrit.skinbread.skins.*
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
 
@@ -92,12 +88,6 @@ var textures = arrayOfNulls<Textures>(defaultSources.size)
 /** Static handler for adding textures */
 @Volatile
 var texturesHolder: TextureHolder? = null
-
-/**
- * Since skin loading takes place in a static context,
- * a static handler for [android.widget.Toast]'s is required. */
-@Volatile
-var toastHandler: ((Int) -> Unit)? = null
 
 /** The latest started [CompletableFuture] that downloads skins. */
 var loading: CompletableFuture<Void>? = null

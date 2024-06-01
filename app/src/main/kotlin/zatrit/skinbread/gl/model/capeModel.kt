@@ -1,8 +1,7 @@
 package zatrit.skinbread.gl.model
 
 import zatrit.skinbread.GLContext
-import zatrit.skinbread.gl.Box
-import zatrit.skinbread.gl.ModelPart
+import zatrit.skinbread.gl.*
 
 @GLContext
 fun capeModel(): ModelPart {

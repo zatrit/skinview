@@ -5,8 +5,7 @@ import android.content.Context
 import android.view.View
 import android.view.View.OnClickListener
 import android.widget.Toast
-import zatrit.skinbread.R
-import zatrit.skinbread.loading
+import zatrit.skinbread.*
 
 class ShowWhenLoadedHandler(context: Context, dialog: Dialog) :
   ShowDialogHandler(dialog), OnClickListener {

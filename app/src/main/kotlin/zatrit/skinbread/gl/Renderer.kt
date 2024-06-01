@@ -1,22 +1,11 @@
 package zatrit.skinbread.gl
 
-import android.graphics.Color.blue
-import android.graphics.Color.green
-import android.graphics.Color.red
-import android.opengl.GLES30.*
+import android.graphics.Color.*
 import android.opengl.GLES30.*
 import android.opengl.GLSurfaceView
-import android.opengl.Matrix.perspectiveM
-import android.opengl.Matrix.setIdentityM
-import zatrit.skinbread.DebugOnly
-import zatrit.skinbread.GLContext
-import zatrit.skinbread.capeMatrix
-import zatrit.skinbread.gl.model.EarsModel
-import zatrit.skinbread.gl.model.ElytraModel
-import zatrit.skinbread.gl.model.ModelType
-import zatrit.skinbread.gl.model.PlayerModel
-import zatrit.skinbread.gl.model.capeModel
-import zatrit.skinbread.identity
+import android.opengl.Matrix.*
+import zatrit.skinbread.*
+import zatrit.skinbread.gl.model.*
 import java.nio.FloatBuffer
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10

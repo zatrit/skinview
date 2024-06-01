@@ -1,9 +1,9 @@
 package zatrit.skinbread.skins
 
+import org.json.*
 import zatrit.skinbread.*
 import zatrit.skins.lib.api.Profile
 import zatrit.skins.lib.util.*
-import org.json.*
 import java.io.IOException
 import java.net.URL
 import java.util.UUID

@@ -1,12 +1,6 @@
 package zatrit.skins.lib.layer.android
 
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Matrix
-import android.graphics.Paint
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffXfermode
+import android.graphics.*
 
 /**
  * **A layer that converts legacy format textures to a modern format**

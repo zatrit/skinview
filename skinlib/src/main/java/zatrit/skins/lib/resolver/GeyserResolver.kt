@@ -1,10 +1,8 @@
 package zatrit.skins.lib.resolver
 
 import zatrit.skins.lib.PlayerTextures
-import zatrit.skins.lib.api.Profile
-import zatrit.skins.lib.api.Resolver
-import zatrit.skins.lib.util.jsonObject
-import zatrit.skins.lib.util.loadTextureMap
+import zatrit.skins.lib.api.*
+import zatrit.skins.lib.util.*
 import java.io.ByteArrayInputStream
 import java.net.URL
 import java.util.Base64

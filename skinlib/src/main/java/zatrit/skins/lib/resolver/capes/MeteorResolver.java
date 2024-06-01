@@ -1,7 +1,5 @@
 package zatrit.skins.lib.resolver.capes;
 
-import zatrit.skins.lib.api.Resolver;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -13,6 +11,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import lombok.val;
+import zatrit.skins.lib.api.Resolver;
 
 /**
  * Implementation of {@link Resolver} for <a href="https://www.wurstclient.net/">Meteor Client</a>

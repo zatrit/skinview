@@ -1,17 +1,12 @@
 package zatrit.skins.lib.resolver
 
-import zatrit.skins.lib.PlayerTextures
-import zatrit.skins.lib.TextureType
-import zatrit.skins.lib.api.Profile
-import zatrit.skins.lib.api.Resolver
-import zatrit.skins.lib.api.Texture
-import zatrit.skins.lib.data.MCCapesResponse
-import zatrit.skins.lib.data.Metadata
+import zatrit.skins.lib.*
+import zatrit.skins.lib.api.*
+import zatrit.skins.lib.data.*
 import zatrit.skins.lib.texture.BytesTexture
 import zatrit.skins.lib.util.jsonObject
 import java.net.URL
-import java.util.Base64
-import java.util.EnumMap
+import java.util.*
 
 private const val MINECRAFTCAPES_API = "https://api.minecraftcapes.net/profile/"
 

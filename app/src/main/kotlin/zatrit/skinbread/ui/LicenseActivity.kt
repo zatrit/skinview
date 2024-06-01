@@ -3,12 +3,8 @@ package zatrit.skinbread.ui
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import zatrit.skinbread.Library
-import zatrit.skinbread.R
-import zatrit.skinbread.enableTitleBar
-import zatrit.skinbread.ossLibraries
+import android.widget.*
+import zatrit.skinbread.*
 import zatrit.skinbread.ui.dialog.licenseDialog
 
 class LicenseActivity : Activity() {

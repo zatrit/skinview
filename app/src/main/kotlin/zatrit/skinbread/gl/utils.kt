@@ -1,16 +1,8 @@
 package zatrit.skinbread.gl
 
-import android.opengl.GLES30.GL_ARRAY_BUFFER
-import android.opengl.GLES30.GL_FLOAT
-import android.opengl.GLES30.GL_STATIC_DRAW
-import android.opengl.GLES30.glBindBuffer
-import android.opengl.GLES30.glBufferData
-import android.opengl.GLES30.glEnableVertexAttribArray
-import android.opengl.GLES30.glGenVertexArrays
-import android.opengl.GLES30.glVertexAttribPointer
+import android.opengl.GLES30.*
 import zatrit.skinbread.GLContext
-import java.nio.FloatBuffer
-import java.nio.IntBuffer
+import java.nio.*
 
 /** Creates a 4x4 matrix and fills it according to [func]. */
 inline fun mat4(func: (FloatArray) -> Unit) = FloatArray(16).also(func)

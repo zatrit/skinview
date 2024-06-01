@@ -1,10 +1,6 @@
 package zatrit.skinbread.gl
 
-import android.opengl.GLES30.GL_TRIANGLE_FAN
-import android.opengl.GLES30.glBindVertexArray
-import android.opengl.GLES30.glDrawArrays
-import android.opengl.GLES30.glEnableVertexAttribArray
-import android.opengl.GLES30.glGenBuffers
+import android.opengl.GLES30.*
 import zatrit.skinbread.GLContext
 import java.nio.FloatBuffer
 

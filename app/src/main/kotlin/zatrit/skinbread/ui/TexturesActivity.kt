@@ -1,37 +1,13 @@
 package zatrit.skinbread.ui
 
 import android.app.Activity
-import android.content.Intent
-import android.content.SharedPreferences
+import android.content.*
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import zatrit.skinbread.LOCAL
-import zatrit.skinbread.PREFS_NAME
-import zatrit.skinbread.R
-import zatrit.skinbread.TAG
-import zatrit.skinbread.Textures
-import zatrit.skinbread.VANILLA
-import zatrit.skinbread.edit
+import zatrit.skinbread.*
 import zatrit.skinbread.gl.model.ModelType
-import zatrit.skinbread.loading
-import zatrit.skinbread.nullUuid
-import zatrit.skinbread.printDebug
-import zatrit.skinbread.skins.Arranging
-import zatrit.skinbread.skins.SimpleProfile
-import zatrit.skinbread.skins.SkinSource
-import zatrit.skinbread.skins.TextureHolder
-import zatrit.skinbread.skins.capeLayer
-import zatrit.skinbread.skins.clearTextures
-import zatrit.skinbread.skins.defaultSources
-import zatrit.skinbread.skins.loadTexturesAsync
-import zatrit.skinbread.skins.refillProfile
-import zatrit.skinbread.skins.saveTextures
-import zatrit.skinbread.skins.skinLayer
-import zatrit.skinbread.textures
-import zatrit.skinbread.texturesHolder
-import zatrit.skinbread.toastHandler
-import zatrit.skinbread.tryApply
+import zatrit.skinbread.skins.*
 import zatrit.skins.lib.api.Texture
 import zatrit.skins.lib.data.Metadata
 import java.util.concurrent.CompletableFuture.runAsync
@@ -54,11 +30,6 @@ abstract class TexturesActivity : Activity(), TextureHolder {
         validateArranging()
 
         // Sets the global handlers
-        toastHandler = {
-            runOnUiThread {
-                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
-            }
-        }
         texturesHolder = this
 
         setTextures(textures)
@@ -67,7 +38,6 @@ abstract class TexturesActivity : Activity(), TextureHolder {
     override fun onPause() {
         saveArranging()
 
-        if (toastHandler == this) toastHandler = null
         if (texturesHolder == this) texturesHolder = null
 
         super.onPause()
@@ -117,7 +87,11 @@ abstract class TexturesActivity : Activity(), TextureHolder {
         }
     }
 
-    private fun showToast(message: Int) = toastHandler?.invoke(message)
+    override fun handleToast(resId: Int) = runOnUiThread {
+        Toast.makeText(this, resId, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showToast(message: Int) = texturesHolder?.handleToast(message)
 
     fun reloadTextures(name: String, uuid: String, sources: Array<SkinSource>) {
         textures.fill(null, 1)

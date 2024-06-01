@@ -2,28 +2,16 @@ package zatrit.skinbread.ui
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
-import android.content.Intent
-import android.os.Bundle
-import android.os.VibrationEffect
-import android.os.Vibrator
+import android.content.*
+import android.os.*
 import android.view.MotionEvent
-import android.view.MotionEvent.ACTION_CANCEL
-import android.view.MotionEvent.ACTION_MOVE
-import android.view.MotionEvent.ACTION_UP
+import android.view.MotionEvent.*
 import android.view.View.MeasureSpec.UNSPECIFIED
-import android.widget.ImageView
-import android.widget.ListView
-import android.widget.RadioGroup
-import zatrit.skinbread.R
-import zatrit.skinbread.enableTitleBar
-import zatrit.skinbread.moveItemTo
+import android.widget.*
+import zatrit.skinbread.*
 import zatrit.skinbread.skins.defaultSources
-import zatrit.skinbread.textures
 import zatrit.skinbread.ui.adapter.IndexedAdapter
-import zatrit.skinbread.ui.touch.MOVE_CHANGED_ID
-import zatrit.skinbread.ui.touch.MOVE_OK
-import zatrit.skinbread.ui.touch.RearrangeHandler
+import zatrit.skinbread.ui.touch.*
 
 const val ORDER = "order"
 const val I_HAVE_ORDER = 157

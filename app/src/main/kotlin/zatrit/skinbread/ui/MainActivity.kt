@@ -3,40 +3,18 @@ package zatrit.skinbread.ui
 import android.annotation.SuppressLint
 import android.app.ActivityOptions
 import android.content.Intent
-import android.graphics.BitmapFactory
-import android.graphics.Color
+import android.graphics.*
 import android.opengl.GLSurfaceView
 import android.os.Bundle
 import android.view.View.GONE
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
+import android.widget.*
 import android.widget.RelativeLayout.LEFT_OF
-import zatrit.skinbread.LOCAL
-import zatrit.skinbread.R
-import zatrit.skinbread.TexturePicker
-import zatrit.skinbread.Textures
-import zatrit.skinbread.applyLayout
-import zatrit.skinbread.bindButton
-import zatrit.skinbread.bindSwitch
-import zatrit.skinbread.gl.RenderConfig
-import zatrit.skinbread.gl.Renderer
-import zatrit.skinbread.printDebug
-import zatrit.skinbread.skins.SourceName
-import zatrit.skinbread.skins.defaultSources
-import zatrit.skinbread.skins.loadTexturesAsync
-import zatrit.skinbread.skins.mergeTextures
-import zatrit.skinbread.skins.skinLayer
-import zatrit.skinbread.textures
-import zatrit.skinbread.texturesHolder
-import zatrit.skinbread.transition
-import zatrit.skinbread.transitionWithFetchButton
-import zatrit.skinbread.ui.dialog.bindDialogButtons
-import zatrit.skinbread.ui.dialog.profileDialog
-import zatrit.skinbread.ui.touch.MenuDragHandler
-import zatrit.skinbread.ui.touch.ModelRotateHandler
 import org.json.JSONObject
+import zatrit.skinbread.*
+import zatrit.skinbread.gl.*
+import zatrit.skinbread.skins.*
+import zatrit.skinbread.ui.dialog.*
+import zatrit.skinbread.ui.touch.*
 
 class MainActivity : TexturesActivity() {
     private lateinit var texturePicker: TexturePicker

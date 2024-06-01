@@ -1,9 +1,9 @@
 package zatrit.skins.lib.data
 
-import zatrit.skins.lib.TextureType
-import zatrit.skins.lib.util.*
 import org.jetbrains.annotations.ApiStatus.Internal
 import org.json.JSONObject
+import zatrit.skins.lib.TextureType
+import zatrit.skins.lib.util.*
 import java.util.EnumMap
 
 /**

@@ -1,11 +1,5 @@
 package zatrit.skins.lib.resolver.capes;
 
-import zatrit.skins.lib.PlayerTextures;
-import zatrit.skins.lib.TextureType;
-import zatrit.skins.lib.api.Profile;
-import zatrit.skins.lib.api.Resolver;
-import zatrit.skins.lib.texture.URLTexture;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -13,6 +7,11 @@ import java.util.Collections;
 
 import lombok.AllArgsConstructor;
 import lombok.val;
+import zatrit.skins.lib.PlayerTextures;
+import zatrit.skins.lib.TextureType;
+import zatrit.skins.lib.api.Profile;
+import zatrit.skins.lib.api.Resolver;
+import zatrit.skins.lib.texture.URLTexture;
 
 /**
  * <a href="https://optifine.readthedocs.io/capes.html">Optifine API</a>

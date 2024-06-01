@@ -1,15 +1,11 @@
 package zatrit.skinbread.ui.dialog
 
-import android.app.Activity
-import android.app.Dialog
+import android.app.*
 import android.content.Intent
 import android.content.Intent.ACTION_GET_CONTENT
 import android.widget.Button
 import zatrit.skinbread.R
-import zatrit.skinbread.ui.ShowDialogHandler
-import zatrit.skinbread.ui.ShowWhenLoadedHandler
-import zatrit.skinbread.ui.TexturesActivity
-import zatrit.skinbread.ui.dialog.OPEN_TEXTURE
+import zatrit.skinbread.ui.*
 
 // 0b00001MTT
 // M - model

@@ -1,7 +1,5 @@
 package zatrit.skins.lib.texture;
 
-import zatrit.skins.lib.data.Metadata;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -10,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import lombok.Getter;
+import zatrit.skins.lib.data.Metadata;
 
 /**
  * A texture wrapping an array of bytes.

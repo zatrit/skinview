@@ -1,14 +1,11 @@
 package zatrit.skins.lib.resolver.capes
 
-import zatrit.skins.lib.PlayerTextures
-import zatrit.skins.lib.TextureType
-import zatrit.skins.lib.api.Profile
-import zatrit.skins.lib.api.Resolver
+import zatrit.skins.lib.*
+import zatrit.skins.lib.api.*
 import zatrit.skins.lib.texture.BytesTexture
 import zatrit.skins.lib.util.jsonObject
 import java.net.URL
-import java.util.Base64
-import java.util.EnumMap
+import java.util.*
 
 private const val FIVEZIG_API = "https://textures.5zigreborn.eu/profile/"
 

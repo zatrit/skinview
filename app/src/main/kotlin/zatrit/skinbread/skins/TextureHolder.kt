@@ -9,4 +9,6 @@ interface TextureHolder {
     fun prepareTextureForReuse(index: Int) {}
 
     fun setTextures(newTextures: Array<Textures?>)
+
+    fun handleToast(resId: Int)
 }

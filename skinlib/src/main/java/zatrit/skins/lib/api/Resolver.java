@@ -1,8 +1,8 @@
 package zatrit.skins.lib.api;
 
-import zatrit.skins.lib.PlayerTextures;
-
 import org.jetbrains.annotations.NotNull;
+
+import zatrit.skins.lib.PlayerTextures;
 
 /**
  * Interface that describes skin resolving mechanism.

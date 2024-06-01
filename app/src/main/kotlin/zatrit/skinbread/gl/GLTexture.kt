@@ -1,20 +1,10 @@
 package zatrit.skinbread.gl
 
 import android.graphics.Bitmap
-import android.opengl.GLES30.GL_NEAREST
-import android.opengl.GLES30.GL_TEXTURE_2D
-import android.opengl.GLES30.GL_TEXTURE_MAG_FILTER
-import android.opengl.GLES30.GL_TEXTURE_MIN_FILTER
-import android.opengl.GLES30.glBindTexture
-import android.opengl.GLES30.glDeleteTextures
-import android.opengl.GLES30.glGenTextures
-import android.opengl.GLES30.glGenerateMipmap
-import android.opengl.GLES30.glTexParameteri
+import android.opengl.GLES30.*
 import android.opengl.GLUtils.texImage2D
 import android.util.Log
-import zatrit.skinbread.DebugOnly
-import zatrit.skinbread.GLContext
-import zatrit.skinbread.TAG
+import zatrit.skinbread.*
 
 @DebugOnly
 private fun textureInfo(bitmap: Bitmap) = bitmap.run {
