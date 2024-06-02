@@ -14,6 +14,8 @@ class Arranging(
       it[VANILLA] = true
       it[LOCAL] = true
   },
+
+  /** An array of source indexes to use when sorting textures. */
   var order: IntArray = IntArray(size) { it },
 ) : Parcelable {
     fun loadJson(json: JSONObject) {
