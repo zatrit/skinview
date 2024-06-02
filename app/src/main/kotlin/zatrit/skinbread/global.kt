@@ -92,4 +92,6 @@ var texturesHolder: TextureHolder? = null
 /** The latest started [CompletableFuture] that downloads skins. */
 var loading: CompletableFuture<Void>? = null
 
-var enabledSources = BooleanArray(defaultSources.size) { false }
+const val ENABLED_SOURCES = "enabledSources"
+
+var allowedSources = BooleanArray(defaultSources.size - VANILLA) { true }

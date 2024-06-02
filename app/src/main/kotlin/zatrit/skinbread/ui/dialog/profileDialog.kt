@@ -21,7 +21,7 @@ inline fun profileDialog(
             val uuid = alertDialog.getText(R.id.edittext_uuid)
 
             val remember =
-                alertDialog.requireViewById<Switch>(R.id.switch_remember)
+              alertDialog.requireViewById<Switch>(R.id.switch_remember)
 
             if (remember.isChecked) prefs.edit {
                 it.putString("profileName", name)
@@ -32,6 +32,10 @@ inline fun profileDialog(
         }
 
         setNegativeButton(android.R.string.cancel, CancelDialog())
+
+        setNeutralButton(R.string.sources) { _, _ ->
+            filterDialog(context).show()
+        }
     }.create().apply {
         setOnShowListener { dialog ->
             if (dialog !is AlertDialog) return@setOnShowListener

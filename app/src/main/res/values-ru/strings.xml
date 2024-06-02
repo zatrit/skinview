@@ -1,6 +1,6 @@
 <resources>
-  <!-- MainActivity buttons -->
-  <string name="list_skin">Скины</string>
+  <!-- Кнопки MainActivity -->
+  <string name="sources">Источники</string>
   <string name="render_options">Графика</string>
 
   <!-- ToggleSourcesActivity -->
@@ -20,33 +20,34 @@
   <string name="library_by_author">%1$s от %2$s</string>
   <string name="source_code">Исходный код</string>
 
-  <!-- Render options -->
+  <!-- Настройки отображения -->
   <string name="shading">Затенение</string>
   <string name="show_grid">Показывать сетку</string>
   <string name="show_elytra">Элитры вместо плаща</string>
 
-  <!-- Fetch dialog -->
+  <!-- Диалог загрузки скинов -->
   <string name="input_profile">Введите данные профиля</string>
   <string name="name">Имя</string>
   <string name="uuid">UUID (необязательно)</string>
   <string name="remember_profile">Запомнить профиль</string>
 
-  <!-- Local dialog -->
+  <!-- Диалог открытия локального файла -->
   <string name="pick_texture_type">Выберите тип текстуры</string>
   <string name="texture_skin">Скин</string>
   <string name="texture_cape">Плащ</string>
   <string name="texture_ears">Ушки</string>
 
-  <!-- Source names -->
+  <!-- Названия источников -->
   <string name="source_local">Локальный</string>
   <string name="source_vanilla">Ванильный (Mojang)</string>
 
-  <!-- Toast messages -->
+  <!-- Диалог сохранения -->
+  <string name="save">Сохранить</string>
+
+  <!-- Сообщения тостов -->
   <string name="still_loading">Текстуры ещё загружаются</string>
   <string name="loading_profile">Загружаем профиль…</string>
   <string name="loading_textures">Загружаем текстуры…</string>
   <string name="profile_failed">Не удалось получить профиль :(</string>
-  <string name="invalid_save">Неверный формат данных :(</string>
   <string name="open_failed">Не удалось открыть изображение :(</string>
-  <string name="save">Сохранить</string>
 </resources>

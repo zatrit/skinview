@@ -59,4 +59,10 @@ class ModelPart(vertices: FloatArray, textureCords: FloatArray) {
         glBindVertexArray(vao)
         glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0)
     }
+
+    fun renderRotated(modelHandle: Int, matrix: FloatArray) {
+        val buf = FloatBuffer.wrap(matrix)
+        glUniformMatrix4fv(modelHandle, 1, false, buf)
+        render()
+    }
 }

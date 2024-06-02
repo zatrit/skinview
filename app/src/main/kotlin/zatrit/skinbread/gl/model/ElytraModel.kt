@@ -16,12 +16,7 @@ class ElytraModel {
     }
 
     fun renderRotated(modelHandle: Int) {
-        val leftBuf = FloatBuffer.wrap(leftWingMatrix)
-        glUniformMatrix4fv(modelHandle, 1, false, leftBuf)
-        wing.render()
-
-        val rightBuf = FloatBuffer.wrap(rightWingMatrix)
-        glUniformMatrix4fv(modelHandle, 1, false, rightBuf)
-        wing.render()
+        wing.renderRotated(modelHandle, leftWingMatrix)
+        wing.renderRotated(modelHandle, rightWingMatrix)
     }
 }

@@ -51,9 +51,9 @@ class MainActivity : TexturesActivity() {
             // Changes the transition animation to not hide actionButtons
             window.exitTransition = transitionWithActionButtons
             val intent =
-                Intent(this, ToggleSourcesActivity::class.java).putExtra(
-                  ARRANGING, arranging
-                )
+              Intent(this, ToggleSourcesActivity::class.java).putExtra(
+                ARRANGING, arranging
+              )
 
             startActivityForResult(
               intent, 0,
@@ -87,14 +87,14 @@ class MainActivity : TexturesActivity() {
 
         // Loads a mask to remove black background from textures from application assets
         skinLayer.legacyMask =
-            BitmapFactory.decodeStream(assets.open("legacyMask.png"))
+          BitmapFactory.decodeStream(assets.open("legacyMask.png"))
 
         // Loads the saved state
         // Non-deprecated method isn't available on current Android version
         texturePicker = state?.getParcelable("texturePicker") ?: texturePicker
         renderer.config = state?.getParcelable("renderOptions") ?: RenderConfig()
         renderer.viewMatrix =
-            state?.getFloatArray("viewMatrix") ?: renderer.viewMatrix
+          state?.getFloatArray("viewMatrix") ?: renderer.viewMatrix
 
         // Loads the initial values for renderer.config and binds the settings buttons to them.
         renderer.config.run {
@@ -109,11 +109,11 @@ class MainActivity : TexturesActivity() {
             /* Gets the background color for the given theme and uses it
             to render the background of the Renderer */
             background =
-                Color.pack(resources.getColor(R.color.background, theme))
+              Color.pack(resources.getColor(R.color.background, theme))
         }
 
         val renderOptionsButton =
-            requireViewById<Button>(R.id.btn_render_options)
+          requireViewById<Button>(R.id.btn_render_options)
 
         if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             // Attaches surface at left of the menu if using landscape mode
@@ -211,5 +211,8 @@ class MainActivity : TexturesActivity() {
                 ex.printDebug()
             }
         }
+
+        allowedSources = preferences.getInt(ENABLED_SOURCES, -1)
+          .toBooleanArray(defaultSources.size - 1)
     }
 }

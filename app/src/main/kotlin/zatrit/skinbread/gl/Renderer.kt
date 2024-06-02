@@ -43,10 +43,10 @@ class Renderer : GLSurfaceView.Renderer {
 
     @GLContext
     private inline fun allShaders(func: MVPProgram.() -> Unit) =
-        shaders.forEach {
-            it.use()
-            it.func()
-        }
+      shaders.forEach {
+          it.use()
+          it.func()
+      }
 
     @GLContext
     override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
@@ -162,13 +162,8 @@ class Renderer : GLSurfaceView.Renderer {
 
         textures.cape?.run {
             bind()
-
             if (config.elytra) elytraModel.renderRotated(modelHandle)
-            else {
-                val capeBuf = FloatBuffer.wrap(capeMatrix)
-                glUniformMatrix4fv(modelHandle, 1, false, capeBuf)
-                capeModel.render()
-            }
+            else capeModel.renderRotated(modelHandle, capeMatrix)
         }
 
         textures.ears?.run {

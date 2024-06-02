@@ -3,7 +3,7 @@
   <string name="app_name" translatable="false">SkinBread</string>
 
   <!-- MainActivity buttons -->
-  <string name="list_skin">Skins</string>
+  <string name="sources">Sources</string>
   <string name="render_options">Render options</string>
 
   <!-- ToggleSourcesActivity -->
@@ -40,6 +40,9 @@
   <string name="texture_cape">Cape</string>
   <string name="texture_ears">Ears</string>
 
+  <!-- Save dialog -->
+  <string name="save">Save</string>
+
   <!-- Source names -->
   <string name="source_local">Local</string>
   <string name="source_vanilla">Vanilla (Mojang)</string>
@@ -49,7 +52,5 @@
   <string name="loading_textures">Loading textures…</string>
   <string name="profile_failed">Failed to get profile :(</string>
   <string name="still_loading">Textures are still loading</string>
-  <string name="invalid_save">Invalid saved data :(</string>
   <string name="open_failed">Unable to open image :(</string>
-  <string name="save">Save</string>
 </resources>

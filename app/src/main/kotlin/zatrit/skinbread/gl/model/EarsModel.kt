@@ -1,9 +1,7 @@
 package zatrit.skinbread.gl.model
 
-import android.opengl.GLES20.glUniformMatrix4fv
 import zatrit.skinbread.*
 import zatrit.skinbread.gl.*
-import java.nio.FloatBuffer
 
 @GLContext
 class EarsModel {
@@ -17,12 +15,7 @@ class EarsModel {
     }
 
     fun renderRotated(modelHandle: Int) {
-        val leftBuf = FloatBuffer.wrap(leftEarMatrix)
-        glUniformMatrix4fv(modelHandle, 1, false, leftBuf)
-        ear.render()
-
-        val rightBuf = FloatBuffer.wrap(rightEarMatrix)
-        glUniformMatrix4fv(modelHandle, 1, false, rightBuf)
-        ear.render()
+        ear.renderRotated(modelHandle, leftEarMatrix)
+        ear.renderRotated(modelHandle, rightEarMatrix)
     }
 }
