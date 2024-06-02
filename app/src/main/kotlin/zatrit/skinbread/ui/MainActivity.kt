@@ -1,8 +1,9 @@
 package zatrit.skinbread.ui
 
 import android.annotation.SuppressLint
-import android.app.ActivityOptions
+import android.app.*
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.*
 import android.opengl.GLSurfaceView
 import android.os.Bundle
@@ -16,9 +17,17 @@ import zatrit.skinbread.skins.*
 import zatrit.skinbread.ui.dialog.*
 import zatrit.skinbread.ui.touch.*
 
+/**
+ * The main [Activity] of the app, containing buttons to jump to
+ * others and a 3D renderer of player skins. */
 class MainActivity : TexturesActivity() {
-    private lateinit var texturePicker: TexturePicker
+    /** [TexturePicker] to pick textures when adding them. */
+    private var texturePicker = TexturePicker()
+
+    /** The menu resize handler. */
     private var dragHandler: MenuDragHandler? = null
+
+    /** A renderer of the player's 3D model that is interacted with via [RenderConfig]. */
     private var renderer = Renderer()
 
     @Suppress("DEPRECATION")
@@ -27,6 +36,7 @@ class MainActivity : TexturesActivity() {
         super.onCreate(state)
         setContentView(R.layout.activity_main)
 
+        // Surface for rendering a 3D model with renderer
         val surface = requireViewById<GLSurfaceView>(R.id.gl_surface).apply {
             setEGLContextClientVersion(3)
             val density = resources.displayMetrics.density.toInt()
@@ -37,10 +47,9 @@ class MainActivity : TexturesActivity() {
         val menu = requireViewById<LinearLayout>(R.id.menu)
         val buttons = requireViewById<LinearLayout>(R.id.toolbar)
 
-        texturePicker = state?.getParcelable("texturePicker") ?: TexturePicker()
-
-        bindButton(R.id.btn_list) {
-            window.exitTransition = transitionWithFetchButton
+        bindClick(R.id.btn_list) {
+            // Changes the transition animation to not hide actionButtons
+            window.exitTransition = transitionWithActionButtons
             val intent =
                 Intent(this, ToggleSourcesActivity::class.java).putExtra(
                   ARRANGING, arranging
@@ -52,7 +61,8 @@ class MainActivity : TexturesActivity() {
             )
         }
 
-        bindButton(R.id.btn_info) {
+        bindClick(R.id.btn_info) {
+            // Changes the transition animation to hide all UI elements
             window.exitTransition = transition
             startActivity(
               Intent(this, LicenseActivity::class.java),
@@ -61,8 +71,10 @@ class MainActivity : TexturesActivity() {
         }
 
         val fetchDialog = profileDialog(this) { name, uuid ->
+            // Resets the state to then load new textures
             renderer.config.clearTextures = true
             texturePicker.reset()
+
             // Updates order according to LOCAL to avoid it overlapping with new textures
             textures[LOCAL]?.let {
                 texturePicker.update(it, arranging.order.indexOf(LOCAL))
@@ -73,14 +85,18 @@ class MainActivity : TexturesActivity() {
         // Binds action_buttons
         bindDialogButtons(fetchDialog)
 
+        // Loads a mask to remove black background from textures from application assets
         skinLayer.legacyMask =
             BitmapFactory.decodeStream(assets.open("legacyMask.png"))
 
+        // Loads the saved state
         // Non-deprecated method isn't available on current Android version
+        texturePicker = state?.getParcelable("texturePicker") ?: texturePicker
         renderer.config = state?.getParcelable("renderOptions") ?: RenderConfig()
         renderer.viewMatrix =
             state?.getFloatArray("viewMatrix") ?: renderer.viewMatrix
 
+        // Loads the initial values for renderer.config and binds the settings buttons to them.
         renderer.config.run {
             bindSwitch(R.id.switch_shade, shading) { shading = it }
             bindSwitch(R.id.switch_grid, grid) { grid = it }
@@ -90,6 +106,8 @@ class MainActivity : TexturesActivity() {
               skin = BitmapFactory.decodeStream(assets.open("base.png"))
             )
 
+            /* Gets the background color for the given theme and uses it
+            to render the background of the Renderer */
             background =
                 Color.pack(resources.getColor(R.color.background, theme))
         }
@@ -97,7 +115,7 @@ class MainActivity : TexturesActivity() {
         val renderOptionsButton =
             requireViewById<Button>(R.id.btn_render_options)
 
-        if (display?.rotation!! % 2 == 1) {
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             // Attaches surface at left of the menu if using landscape mode
             surface.applyLayout<RelativeLayout.LayoutParams> {
                 rules[LEFT_OF] = menu.id
@@ -112,25 +130,29 @@ class MainActivity : TexturesActivity() {
             animation of the menu appearing on portrait orientation of the screen */
             buttons.elevation = 2f
         } else {
+            // Hides the menu, as it should be opened manually by the user
             menu.visibility = GONE
 
+            // Creates a MenuDragHandler and binds its opening to renderOptionsButton
             dragHandler = MenuDragHandler(menu, buttons, resources)
             requireViewById<ImageView?>(R.id.drag_handle).setOnTouchListener(
               dragHandler
             )
 
-            bindButton(renderOptionsButton) {
+            bindClick(renderOptionsButton) {
                 dragHandler?.show()
             }
         }
 
-        loadPreferences()
+        // Loads preferences and arranging from state
+        loadState()
         state?.let(::updateArrangingFromBundle)
     }
 
     override fun onSaveInstanceState(state: Bundle) {
         super.onSaveInstanceState(state)
 
+        // Stores states to be transmitted between activity restarts
         state.putFloatArray("viewMatrix", renderer.viewMatrix)
         state.putParcelable("renderOptions", renderer.config)
         state.putParcelable("texturePicker", texturePicker)
@@ -139,6 +161,7 @@ class MainActivity : TexturesActivity() {
     @Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
     // Non-deprecated method isn't available on current Android version
     override fun onBackPressed() {
+        // In portrait orientation, if the menu is visible, hides it
         if (dragHandler?.isVisible == true) {
             dragHandler?.hide()
         } else {
@@ -150,12 +173,13 @@ class MainActivity : TexturesActivity() {
       requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        // If some running activity returns arranging, uses it
         if (resultCode == I_HAVE_ARRANGING) {
             data?.extras?.let { updateArrangingFromBundle(it) }
         }
     }
 
-    override fun onTexturesAdded(
+    override fun addTextures(
       textures: Textures, index: Int, order: Int, name: SourceName) {
         if (arranging.enabled[index]) {
             val update = texturePicker.update(textures, order)
@@ -163,16 +187,18 @@ class MainActivity : TexturesActivity() {
         }
     }
 
-    override fun setTextures(newTextures: Array<Textures?>) {
+    override fun setTextures(textures: Array<Textures?>) {
+        // Resets the state and sets the textures
         this.renderer.config.clearTextures = true
         this.renderer.config.pendingTextures.add(
           mergeTextures(arranging.order.map {
-              newTextures[it].takeIf { _ -> arranging.enabled[it] }
+              textures[it].takeIf { _ -> arranging.enabled[it] }
           }.filterNotNull())
         )
     }
 
-    private fun loadPreferences() {
+    /** Loads saved data such as [textures] and [arranging]. */
+    private fun loadState() {
         loadTexturesAsync(this) {
             textures = it
             texturesHolder?.setTextures(it)

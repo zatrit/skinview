@@ -28,13 +28,12 @@ class ToggleSourcesActivity : TexturesActivity() {
         super.onCreate(state)
         this.setContentView(R.layout.acitivty_toggle_sources)
 
-        window.enterTransition = transitionWithFetchButton
+        // Sets the transition animations
+        window.enterTransition = transitionWithActionButtons
         window.exitTransition = transition
 
         sourcesList = requireViewById(R.id.list_sources)
-        adapter = SkinListAdapter(this).apply {
-            setNotifyOnChange(false)
-        }
+        adapter = SkinListAdapter(this).apply { setNotifyOnChange(false) }
         noSkins = requireViewById(R.id.text_no_skins)
 
         val fetchDialog = profileDialog(this) { name, uuid ->
@@ -45,7 +44,8 @@ class ToggleSourcesActivity : TexturesActivity() {
         // Binds action_buttons
         bindDialogButtons(fetchDialog)
 
-        bindButton(R.id.btn_rearrange) {
+        // Binds the opening of RearrangeActivity to btn_rearrange
+        bindClick(R.id.btn_rearrange) {
             val intent = Intent(this, RearrangeActivity::class.java)
             intent.putExtra(ORDER, arranging.order)
 
@@ -56,7 +56,7 @@ class ToggleSourcesActivity : TexturesActivity() {
         }
 
         // Opens the clear dialog when btn_clear is clicked
-        findViewById<Button>(R.id.btn_clear).setOnClickListener(
+        requireViewById<Button>(R.id.btn_clear).setOnClickListener(
           ShowDialogHandler(clearDialog(this))
         )
 
@@ -99,19 +99,19 @@ class ToggleSourcesActivity : TexturesActivity() {
         super.finish()
     }
 
-    /** Populates [sourcesList] with the received [newTextures]. */
+    /** Populates [sourcesList] with the received [textures]. */
     // Working with sourcesList from other threads requires the use of runOnUiThread
-    override fun setTextures(newTextures: Array<Textures?>) = runOnUiThread {
+    override fun setTextures(textures: Array<Textures?>) = runOnUiThread {
         adapter.clear()
 
-        newTextures.mapIndexed { i, textures ->
-            if (textures == null || textures.isEmpty()) return@mapIndexed
+        textures.mapIndexed { i, set ->
+            if (set == null || set.isEmpty()) return@mapIndexed
 
             val source = defaultSources[i]
             val entry = NamedEntry(
               index = i,
               name = source.name,
-              textures = textures,
+              textures = set,
               enabled = arranging.enabled[i],
             )
 
@@ -125,7 +125,7 @@ class ToggleSourcesActivity : TexturesActivity() {
     }
 
     /** Adds [textures] to [sourcesList] and sorts it so it's in the correct place. */
-    override fun onTexturesAdded(
+    override fun addTextures(
       textures: Textures, index: Int, order: Int, name: SourceName) {
         val entry = NamedEntry(
           index = index,

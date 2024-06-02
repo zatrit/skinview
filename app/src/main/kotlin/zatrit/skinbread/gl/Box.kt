@@ -1,5 +1,6 @@
 package zatrit.skinbread.gl
 
+/** Representation of the dimensions and coordinates of a rectangular parallelepiped.. */
 class Box(
   private val x1: Float, private val y1: Float, private val z1: Float,
   private val x2: Float, private val y2: Float, private val z2: Float) {
@@ -46,16 +47,20 @@ class Box(
     )
 
     init {
+        // Compares coordinates to make sure they are in the correct location
         assert(x1 < x2)
         assert(y1 < y2)
         assert(z1 < z2)
     }
 
+    /** Creates a copy of itself shifted by the given offset. */
     fun translate(x: Float, y: Float, z: Float): Box =
         Box(x1 + x, y1 + y, z1 + z, x2 + x, y2 + y, z2 + z)
 
+    /** Creates a copy of itself, scaled up by [s]. */
     fun scale(s: Float) = scale(s, s, s)
 
+    /** Creates a copy of itself with dimensions magnified in a certain way. */
     fun scale(x: Float = 1f, y: Float = 1f, z: Float = 1f): Box {
         val dw = width * (x - 1) / 2
         val dh = height * (y - 1) / 2
@@ -64,6 +69,7 @@ class Box(
         return Box(x1 - dw, y1 - dh, z1 - dd, x2 + dw, y2 + dh, z2 + dd)
     }
 
+    /** Creates an array of UV coordinates for itself. */
     fun uv(x: Float, y: Float, scale: Float = 0.125f, ratio: Float = 1f) =
         boxUV(x, y, width * scale, height * scale, depth * scale, ratio)
 }

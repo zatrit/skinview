@@ -13,15 +13,29 @@ import zatrit.skinbread.skins.defaultSources
 import zatrit.skinbread.ui.adapter.IndexedAdapter
 import zatrit.skinbread.ui.touch.*
 
+/** Field name in [Bundle] for order. */
 const val ORDER = "order"
+
+/** Result code for a result containing order. */
 const val I_HAVE_ORDER = 157
 
+/** Field name in [SharedPreferences] for [RearrangeActivity.showAll]. */
+private const val SHOW_ALL = "showAll"
+
+/**
+ * An [Activity] that allows you to change the order of sources. Has the option
+ * to change the order of the source only among the loaded sources, or among all sources. */
 class RearrangeActivity : Activity() {
+    /** List of source names. */
     private lateinit var sourcesList: ListView
+
+    /** Adapter for [sourcesList]. */
     private lateinit var adapter: IndexedAdapter
-    private lateinit var fakeItem: ImageView
+
+    /** A vibrator used to respond to changes in the selected item. */
     private lateinit var vibrator: Vibrator
 
+    /** The order of items used to arrange [sourcesList] items. */
     private lateinit var order: IntArray
 
     private lateinit var scroller: Scroller
@@ -30,42 +44,46 @@ class RearrangeActivity : Activity() {
     private var scrollZone = -1
     private var screenHeight = -1
 
+    /** If true, [sourcesList] shows all sources, otherwise only those with loaded textures. */
     private var showAll = false
 
     @Suppress("DEPRECATION")
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
+
+        // Loads activity content and shows title bar
         setContentView(R.layout.activity_rearrange)
+        enableTitleBar()
 
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         order = intent.getIntArrayExtra(ORDER)!!
 
-        fakeItem = requireViewById(R.id.img_fake_item)
         sourcesList = requireViewById(R.id.list_sources)
 
-        adapter = IndexedAdapter(this)
-        adapter.setNotifyOnChange(false)
-        populateList()
+        adapter = IndexedAdapter(this).apply { setNotifyOnChange(false) }
         sourcesList.adapter = adapter
+        populateList()
 
-        @SuppressLint("InflateParams") val header =
-            layoutInflater.inflate(R.layout.header_rearrange_list, null)
+        @SuppressLint("InflateParams")
+        // Creates a header for sourcesList without a parent and adds it.
+        val header = layoutInflater.inflate(R.layout.header_rearrange_list, null)
         sourcesList.addHeaderView(header)
 
+        // Measures the size of the header to use it to calculate the item ID
         header.measure(UNSPECIFIED, UNSPECIFIED)
         handler =
             RearrangeHandler(this, sourcesList, adapter, header.measuredHeight)
-
-        enableTitleBar()
+        sourcesList.setOnItemLongClickListener(handler)
 
         scroller = Scroller(sourcesList, mainLooper)
         screenHeight = resources.displayMetrics.heightPixels
+        // Scroll area that is 1/8 of the screen height
         scrollZone = screenHeight / 8
 
+        // Implementation of showAll switching with RadioGroup R.id.radio_show
         val radioShow = header.requireViewById<RadioGroup>(R.id.radio_show)
         radioShow.setOnCheckedChangeListener { _, checkedId ->
             showAll = when (checkedId) {
-                R.id.radio_show_all -> true
                 R.id.radio_show_loaded -> false
                 else -> true
             }
@@ -74,11 +92,11 @@ class RearrangeActivity : Activity() {
         }
 
         // If there are no skins downloaded, show all
-        if (textures.all { it == null || it.isEmpty() }) radioShow.check(
-          R.id.radio_show_all
-        )
+        showAll = textures.all { it == null || it.isEmpty() }
+        // Loads saved showAll value
+        showAll = state?.getBoolean(SHOW_ALL) ?: showAll
 
-        sourcesList.setOnItemLongClickListener(handler)
+        if (showAll) radioShow.check(R.id.radio_show_all)
     }
 
     override fun onResume() {
@@ -91,9 +109,18 @@ class RearrangeActivity : Activity() {
         scroller.pause()
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(SHOW_ALL, showAll)
+    }
+
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
+            // Accesses the handler and passes the result to the vibrator and scroller
             ACTION_MOVE -> when (handler.moveTouch(event)) {
+
+                /* If the touch occurred at a distance less than scrollZone
+                from the top or bottom edge, it starts scrolling */
                 MOVE_OK -> {
                     scroller.scrollBy = if (event.y < scrollZone) {
                         -20
@@ -102,11 +129,13 @@ class RearrangeActivity : Activity() {
                     } else 0
                 }
 
-                MOVE_CHANGED_ID -> {
-                    vibrator.vibrate(VibrationEffect.createOneShot(50, 50))
-                }
+                MOVE_CHANGED_ID -> vibrator.vibrate(
+                  VibrationEffect.createOneShot(50, 50)
+                )
             }
 
+            /* Moves the item to another location if the handler
+            successfully completes the touch and stops the scroll */
             ACTION_CANCEL, ACTION_UP -> {
                 scroller.scrollBy = 0
 
@@ -121,14 +150,17 @@ class RearrangeActivity : Activity() {
     }
 
     override fun finish() {
+        // Set an activity result
         setResult(I_HAVE_ORDER, Intent().putExtra(ORDER, order))
         super.finish()
     }
 
+    /** Fills the list with source names, according to [order] and [defaultSources]. */
     private fun populateList() {
         adapter.clear()
 
         order.forEachIndexed { i, j ->
+            // If all sources are to be shown or this source has a loaded texture, adds its name
             if (showAll || (textures[j]?.isEmpty() == false)) {
                 val name = defaultSources[j].name.getName(this)
                 adapter.add(Pair(i, name))

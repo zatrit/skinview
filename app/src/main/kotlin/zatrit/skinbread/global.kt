@@ -69,7 +69,7 @@ val transition: Slide
     get() = Slide(Gravity.BOTTOM)
 
 /** Transition between activities when both have R.id.btn_fetch */
-val transitionWithFetchButton = transition.apply {
+val transitionWithActionButtons = transition.apply {
     excludeTarget(R.id.action_buttons, true)
 }
 

@@ -9,7 +9,7 @@ import java.util.concurrent.CompletableFuture.runAsync
 val capeLayer = ScaleCapeLayer()
 val skinLayer = LegacySkinLayer()
 
-inline fun loadTexturesAsync(
+inline fun fetchTexturesAsync(
   profile: Profile, source: SkinSource,
   crossinline callback: (PlayerTextures?) -> Unit) = runAsync {
     val textures = try {

@@ -18,4 +18,8 @@ val ossLibraries = arrayOf(
     "Kotlin Standard Library", "JetBrains", "https://github.com/JetBrains/kotlin"
   ),
   Library("Guava", "Google", "https://github.com/google/guava"),
+  Library(
+    "AndroidX Annotation", "AndroidX team",
+    "https://github.com/androidx/androidx"
+  ),
 )

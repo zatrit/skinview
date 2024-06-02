@@ -36,7 +36,7 @@ class SkinListAdapter(
         val image = view.requireViewById<ImageView>(imageView)
 
         if (convertView == null) {
-            view.setOnClickListener { switch.toggle() }
+            bindClick(view) { switch.toggle() }
         }
 
         switch.setOnCheckedChangeListener(null)

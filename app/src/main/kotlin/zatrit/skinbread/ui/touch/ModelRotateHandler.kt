@@ -5,17 +5,21 @@ import android.view.*
 import android.view.MotionEvent.*
 import zatrit.skinbread.gl.Renderer
 
+/** Handler for view rotation by touch. */
 class ModelRotateHandler(
   private val renderer: Renderer, private val density: Int) :
   View.OnTouchListener {
+    /** [VelocityTracker], which tracks the movement of the touch for rotation. */
     private val velocityTracker = VelocityTracker.obtain()
 
     override fun onTouch(v: View, event: MotionEvent): Boolean {
         velocityTracker.addMovement(event)
 
         when (event.actionMasked) {
+            // Passes the click to View
             ACTION_DOWN -> v.performClick()
 
+            // Rotates the view if the user moves the touch
             ACTION_MOVE -> velocityTracker?.apply {
                 computeCurrentVelocity(density)
 

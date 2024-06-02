@@ -8,21 +8,34 @@ import android.widget.AdapterView.*
 import zatrit.skinbread.*
 import zatrit.skinbread.ui.adapter.IndexedAdapter
 
+/** Result signifying a change in the ID of the selected item. */
 const val MOVE_CHANGED_ID = 0
+
+/** A result signifying a successful touch. */
 const val MOVE_OK = 1
+
+/** A result signifying that there is no touch result. */
 const val MOVE_NONE = 2
 
+/** Handler for changing the order of elements [sourcesList]. */
 class RearrangeHandler(
-  context: Activity, private val sourcesList: ListView,
-  private val adapter: IndexedAdapter, private val headerHeight: Int) :
-  OnItemLongClickListener {
+  context: Activity,
+  private val sourcesList: ListView,
+  private val adapter: IndexedAdapter,
+  private val headerHeight: Int,
+) : OnItemLongClickListener {
+    /** Determines whether a drag n' drop is currently in progress. */
     private var dragging = false
 
+    /** Drag n' drop destination. */
     var toItem = -1
         private set
+
+    /** Drag n' drop source. */
     var fromItem = -1
         private set
 
+    /** [ImageView] that displays the dragged item. */
     private val fakeItem = context.requireViewById<ImageView>(R.id.img_fake_item)
 
     override fun onItemLongClick(
@@ -34,7 +47,7 @@ class RearrangeHandler(
         fakeItem.visibility = VISIBLE
 
         view.alpha = 0f
-        adapter.hiddenItem = position - 1
+        adapter.hiddenItem = position - sourcesList.headerViewsCount
 
         fakeItem.x = view.x
         fakeItem.y = view.y
@@ -75,6 +88,8 @@ class RearrangeHandler(
 
         if (insertBeneath) id += 1
 
+        /* If the move is to another element, changes the ID and returns
+        MOVE_CHANGED_ID, otherwise returns MOVE_OK */
         return if (id != toItem) {
             hideInserts()
 

@@ -2,7 +2,7 @@ package zatrit.skinbread.ui.dialog
 
 import android.app.Dialog
 import zatrit.skinbread.*
-import zatrit.skinbread.skins.clearTextures
+import zatrit.skinbread.skins.deleteTextures
 import zatrit.skinbread.ui.TexturesActivity
 
 /** A dialog that asks the user if all saved textures should be deleted. */
@@ -14,7 +14,7 @@ fun clearDialog(context: TexturesActivity): Dialog =
         setPositiveButton(android.R.string.ok) { _, _ ->
             textures.fill(null)
             for (i in 0..<textures.size) {
-                clearTextures(context, i)
+                deleteTextures(context, i)
             }
             context.setTextures(textures)
         }

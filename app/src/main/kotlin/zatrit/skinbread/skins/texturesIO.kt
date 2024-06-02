@@ -10,7 +10,7 @@ import java.io.InputStreamReader
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.CompletableFuture.runAsync
 
-fun clearTextures(context: Context, i: Int) {
+fun deleteTextures(context: Context, i: Int) {
     deleteTexture(context, "skin", i)
     deleteTexture(context, "cape", i)
     deleteTexture(context, "ears", i)

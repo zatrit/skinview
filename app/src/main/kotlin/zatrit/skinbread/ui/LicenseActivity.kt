@@ -7,11 +7,14 @@ import android.widget.*
 import zatrit.skinbread.*
 import zatrit.skinbread.ui.dialog.licenseDialog
 
+/** An [Activity] that displays the licenses of libraries located in [ossLibraries]. */
 class LicenseActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Loads activity content and shows title bar
         setContentView(R.layout.activity_license)
+        enableTitleBar()
 
         val list = requireViewById<ListView>(R.id.list_libraries)
         val adapter = ArrayAdapter<Library>(
@@ -23,6 +26,7 @@ class LicenseActivity : Activity() {
         }
 
         list.setOnItemClickListener { _, _, position, _ ->
+            // Opens a dialog with the text of the library license
             licenseDialog(
               this, adapter.getItem(position - list.headerViewsCount)!!
             ).show()
@@ -30,10 +34,9 @@ class LicenseActivity : Activity() {
 
         list.adapter = adapter
 
-        @SuppressLint("InflateParams") val header =
-            layoutInflater.inflate(R.layout.header_licenses, null)
+        @SuppressLint("InflateParams")
+        // Creates a header for sourcesList without a parent and adds it.
+        val header = layoutInflater.inflate(R.layout.header_licenses, null)
         list.addHeaderView(header)
-
-        enableTitleBar()
     }
 }

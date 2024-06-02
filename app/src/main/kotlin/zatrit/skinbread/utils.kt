@@ -66,12 +66,12 @@ inline fun Activity.bindSwitch(
 }
 
 /** Short notation for binding [func] to [Button]. */
-inline fun bindButton(button: Button, crossinline func: (View) -> Unit) =
-    button.setOnClickListener { func(it) }
+inline fun bindClick(view: View, crossinline func: (View) -> Unit) =
+    view.setOnClickListener { func(it) }
 
 /** Short notation for binding [func] to [Button] by ID. */
-inline fun Activity.bindButton(id: Int, crossinline func: (View) -> Unit) =
-    bindButton(requireViewById(id), func)
+inline fun Activity.bindClick(id: Int, crossinline func: (View) -> Unit) =
+    bindClick(requireViewById(id), func)
 
 /** Moves the [IntArray] element, shifting the other elements. */
 fun IntArray.moveItemTo(from: Int, to: Int) {
