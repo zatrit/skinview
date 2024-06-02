@@ -1,0 +1,4 @@
+* Improved some security aspects
+* Fixed a bug that caused Cloaks+ to always appear in the list of skins
+* Added dialog for filtering sources
+* Removed Cosmetica support
