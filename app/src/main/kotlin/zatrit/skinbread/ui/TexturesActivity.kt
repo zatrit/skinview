@@ -128,14 +128,13 @@ abstract class TexturesActivity : Activity(), TextureHolder {
             globalToast(R.string.loading_textures)
             sources.mapIndexed { i, source ->
                 fetchTexturesAsync(profile, source) {
-                    if (it == null || it.isEmpty) return@fetchTexturesAsync
+                    if (it == null || it.isEmpty()) return@fetchTexturesAsync
 
-                    val data = Textures().apply { or(it, skinLayer, capeLayer) }
-                    textures[i] = data
+                    textures[i] = it
                     val order = arranging.order.indexOf(i)
-                    texturesHolder?.addTextures(data, i, order, source.name)
+                    texturesHolder?.addTextures(it, i, order, source.name)
 
-                    saveTextures(this, i, data)
+                    saveTextures(this, i, it)
                 }
             }.forEach { it.join() }
 

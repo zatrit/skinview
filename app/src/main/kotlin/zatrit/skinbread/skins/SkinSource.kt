@@ -27,12 +27,6 @@ val defaultSources = arrayOf(
   SkinSource(
     "Cloaks+", OptifineResolver("https://server.cloaksplus.com")
   ),
-  // Cosmetica
-  SkinSource("Cosmetica", object : DirectResolver(TextureType.CAPE) {
-      override fun getUrl(
-        type: TextureType, id: UUID, name: String, shortId: String) =
-          "https://api.cosmetica.cc/get/cloak?username=$name&nothirdparty"
-  }),
   // ely.by
   SkinSource(
     "ely.by", NamedHTTPResolver("http://skinsystem.ely.by/textures/")

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+  <domain-config cleartextTrafficPermitted="false">
+    <domain includeSubdomains="true">mojang.com</domain>
+    <domain includeSubdomains="true">server.cloaksplus.com</domain>
+    <domain includeSubdomains="true">api.geysermc.org</domain>
+    <domain includeSubdomains="true">dl.labymod.net</domain>
+    <domain includeSubdomains="true">textures.5zigreborn.eu</domain>
+    <domain includeSubdomains="true">meteorclient.com</domain>
+    <domain includeSubdomains="true">api.minecraftcapes.net</domain>
+    <domain includeSubdomains="true">www.wurstclient.net</domain>
+    <domain includeSubdomains="true">athena.wynntils.com</domain>
+  </domain-config>
+
+  <domain-config cleartextTrafficPermitted="true">
+    <!-- These APIs are available only via HTTP -->
+    <domain includeSubdomains="true">capes.liquidbounce.net</domain>
+    <domain includeSubdomains="true">textures.minecraft.net</domain>
+    <domain includeSubdomains="true">35.190.10.249</domain>
+    <domain includeSubdomains="true">s.optifine.net</domain>
+    <domain includeSubdomains="true">auth.tlauncher.org</domain>
+    <domain includeSubdomains="true">ely.by</domain>
+  </domain-config>
+</network-security-config>

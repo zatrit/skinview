@@ -1,7 +1,6 @@
 package zatrit.skinbread.skins
 
 import zatrit.skinbread.*
-import zatrit.skins.lib.PlayerTextures
 import zatrit.skins.lib.api.Profile
 import zatrit.skins.lib.layer.android.*
 import java.util.concurrent.CompletableFuture.runAsync
@@ -11,9 +10,10 @@ val skinLayer = LegacySkinLayer()
 
 inline fun fetchTexturesAsync(
   profile: Profile, source: SkinSource,
-  crossinline callback: (PlayerTextures?) -> Unit) = runAsync {
+  crossinline callback: (Textures?) -> Unit) = runAsync {
     val textures = try {
-        source.resolver.resolve(profile)
+        val response = source.resolver.resolve(profile)
+        Textures().apply { or(response, skinLayer, capeLayer) }
     } catch (ex: Exception) {
         ex.printDebug()
         null

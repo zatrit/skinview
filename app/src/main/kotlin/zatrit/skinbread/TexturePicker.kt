@@ -1,6 +1,7 @@
 package zatrit.skinbread
 
 import android.os.Parcelable
+import android.util.Log
 import kotlinx.parcelize.Parcelize
 import zatrit.skinbread.skins.defaultSources
 
@@ -32,18 +33,18 @@ class TexturePicker(
     fun update(input: Textures, order: Int): Textures {
         val textures = Textures()
 
-        input.skin?.takeIf { order <= skinOrder }?.let {
+        input.skin.takeIf { order <= skinOrder }?.let {
             skinOrder = order
             textures.skin = it
             textures.model = input.model
         }
 
-        input.cape?.takeIf { order <= capeOrder }?.let {
+        input.cape.takeIf { order <= capeOrder }?.let {
             capeOrder = order
             textures.cape = it
         }
 
-        input.ears?.takeIf { order <= earsOrder }?.let {
+        input.ears.takeIf { order <= earsOrder }?.let {
             earsOrder = order
             textures.ears = it
         }

@@ -76,7 +76,7 @@ class MainActivity : TexturesActivity() {
             texturePicker.reset()
 
             // Updates order according to LOCAL to avoid it overlapping with new textures
-            textures[LOCAL]?.let {
+            textures[LOCAL].takeIf { arranging.enabled[LOCAL] }?.let {
                 texturePicker.update(it, arranging.order.indexOf(LOCAL))
             }
             reloadTextures(name, uuid, defaultSources)
