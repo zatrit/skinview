@@ -17,7 +17,7 @@ android {
         minSdk 29
         targetSdk targetSdk
         versionCode 2
-        versionName '1.1'
+        versionName '1.2'
 
         resConfigs 'en', 'ru'
 
