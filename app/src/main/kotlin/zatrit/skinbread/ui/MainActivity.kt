@@ -45,8 +45,7 @@ class MainActivity : TexturesActivity() {
         // Surface for rendering a 3D model with renderer
         val surface = requireViewById<GLSurfaceView>(R.id.gl_surface).apply {
             setEGLContextClientVersion(3)
-            val density = resources.displayMetrics.density.toInt()
-            setOnTouchListener(ModelRotateHandler(renderer, density))
+            setOnTouchListener(ModelRotateHandler(renderer, 2))
             setRenderer(renderer)
         }
 
