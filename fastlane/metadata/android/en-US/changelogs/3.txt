@@ -1,0 +1,2 @@
+* Fixed tertiary text color on Android <12
+* Some minor fixes and optimizations
