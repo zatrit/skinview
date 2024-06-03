@@ -4,6 +4,7 @@ import android.graphics.*
 import zatrit.skinbread.Textures
 import zatrit.skinbread.gl.model.ModelType
 
+/** Draws a preview picture for [Textures]. */
 fun drawPreview(entry: Textures): Bitmap {
     val bitmap = Bitmap.createBitmap(355, 296, Bitmap.Config.ARGB_8888)
     val canvas = Canvas(bitmap)
@@ -15,6 +16,9 @@ fun drawPreview(entry: Textures): Bitmap {
     return bitmap
 }
 
+/**
+ * Takes a rectangle on the texture as if its width were equal to 64.
+ * @param ratio excepted height / width */
 private fun Bitmap.rect64(
   left: Int, top: Int, width: Int, height: Int, ratio: Float = 1f): Rect {
     val hRate = this.width / 64f
@@ -29,9 +33,11 @@ private fun Bitmap.rect64(
     )
 }
 
+/** Draws a part of the Bitmap without any paint. */
 private fun Canvas.drawBitmap(bitmap: Bitmap, rect1: Rect, rect2: Rect) =
-    drawBitmap(bitmap, rect1, rect2, null)
+  drawBitmap(bitmap, rect1, rect2, null)
 
+/** Draws a part of the Bitmap with a specific position. */
 private fun Canvas.drawBitmap(
   bitmap: Bitmap, sx: Int, sy: Int, w: Int, h: Int, dx: Int, dy: Int,
   scale: Float = 9f, ratio: Float = 1f) {
@@ -41,7 +47,8 @@ private fun Canvas.drawBitmap(
     )
 }
 
-fun drawSkin(canvas: Canvas, skin: Bitmap, model: ModelType) {
+/** Draws a skin for the preview. */
+private fun drawSkin(canvas: Canvas, skin: Bitmap, model: ModelType) {
     canvas.drawBitmap(skin, 8, 8, 8, 8, 40, 4)
     canvas.drawBitmap(skin, 20, 20, 8, 12, 40, 76)
     canvas.drawBitmap(skin, 4, 20, 4, 12, 40, 182)
@@ -62,12 +69,14 @@ fun drawSkin(canvas: Canvas, skin: Bitmap, model: ModelType) {
     canvas.drawBitmap(skin, 52, 52, hw, 12, 110, 70, s2)
 }
 
-fun drawCape(canvas: Canvas, cape: Bitmap) {
+/** Draws a cape for the preview. */
+private fun drawCape(canvas: Canvas, cape: Bitmap) {
     canvas.drawBitmap(cape, 34, 2, 12, 20, 148, 111, ratio = 2f)
     canvas.drawBitmap(cape, 1, 1, 10, 16, 265, 148, ratio = 2f)
 }
 
-fun drawEars(canvas: Canvas, ears: Bitmap) {
+/** Draws ears for the preview. */
+private fun drawEars(canvas: Canvas, ears: Bitmap) {
     canvas.drawBitmap(ears, Rect(1, 1, 7, 7), Rect(148, 50, 202, 102))
     canvas.drawBitmap(ears, Rect(8, 1, 14, 7), Rect(202, 50, 256, 102))
 }

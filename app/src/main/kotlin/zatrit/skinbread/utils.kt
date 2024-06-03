@@ -67,11 +67,11 @@ inline fun Activity.bindSwitch(
 
 /** Short notation for binding [func] to [Button]. */
 inline fun bindClick(view: View, crossinline func: (View) -> Unit) =
-  view.setOnClickListener { func(it) }
+    view.setOnClickListener { func(it) }
 
 /** Short notation for binding [func] to [Button] by ID. */
 inline fun Activity.bindClick(id: Int, crossinline func: (View) -> Unit) =
-  bindClick(requireViewById(id), func)
+    bindClick(requireViewById(id), func)
 
 /** Moves the [IntArray] element, shifting the other elements. */
 fun IntArray.moveItemTo(from: Int, to: Int) {
@@ -109,7 +109,7 @@ inline fun SharedPreferences.edit(func: (SharedPreferences.Editor) -> Unit) {
  * .dex to increase by 1 KiB. */
 @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
 fun String.jvmReplace(from: String, to: String): String =
-  (this as java.lang.String).replace(from, to)
+    (this as java.lang.String).replace(from, to)
 
 /** Enables title bar for [Activity] that doesn't have it by default. */
 @Suppress("DEPRECATION")
@@ -118,13 +118,18 @@ fun Activity.enableTitleBar() = window.run {
     statusBarColor = resources.getColor(R.color.card_background, theme)
 }
 
-fun Int.toBooleanArray(length: Int) = BooleanArray(length) {
-    val i = length - it - 1
+/** Parses [Int] into [BooleanArray], starting with [start]. */
+fun Int.toBooleanArray(start: Int) = BooleanArray(start) {
+    val i = start - it - 1
     this shr i and 1 == 1
 }
 
+/** Converts [BooleanArray] to [Int], where values start with 32 - [BooleanArray.size] bits. */
 @Suppress("ReplaceManualRangeWithIndicesCalls")
 fun BooleanArray.toInt(): Int {
+    assert(size <= Int.SIZE_BITS)
+
+    // https://stackoverflow.com/a/11526633/12245612
     var n = 0
     for (i in 0..<size) {
         n = (n shl 1) + (if (get(i)) 1 else 0)

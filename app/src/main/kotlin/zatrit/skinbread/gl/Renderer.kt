@@ -10,6 +10,7 @@ import java.nio.FloatBuffer
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
+/** Asserts that there are no [OpenGL errors](https://www.khronos.org/opengl/wiki/GL_error_codes). */
 @DebugOnly
 @OptIn(ExperimentalStdlibApi::class)
 private fun checkError() {
@@ -17,30 +18,49 @@ private fun checkError() {
     assert(error == 0) { "OpenGL error: ${error.toHexString()}" }
 }
 
+/** 3D player model renderer. */
 @OptIn(GLContext::class)
-class Renderer : GLSurfaceView.Renderer {
+class Renderer(private val default: Textures) : GLSurfaceView.Renderer {
+    /** A matrix describing the position of the camera. */
     var viewMatrix = mat4 {
         setIdentityM(it, 0)
         it[14] = -10f // sets Z offset to -10
     }
 
+    /** The set of textures used for rendering. */
     private var textures = GLTextures()
-    private var defaultTextures = GLTextures()
 
+    /** Textures used to fill in fields not present in [textures]. */
+    private lateinit var defaultTextures: GLTextures
+
+    /** Player model for rendering. */
     private lateinit var playerModel: PlayerModel
+
+    /** Cape model for rendering. */
     private lateinit var capeModel: ModelPart
+
+    /** Elytra model for rendering. */
     private lateinit var elytraModel: ElytraModel
+
+    /** Ear model for rendering. */
     private lateinit var earsModel: EarsModel
 
+    /** A grid drawing underneath the [playerModel]. */
     private lateinit var grid: Plain
 
+    /** An array of all MVP shaders. */
     private lateinit var shaders: Array<MVPProgram>
 
+    /** A shader used to render models. */
     private lateinit var modelShader: MVPProgram
+
+    /** The shader used to render the grid. */
     private lateinit var gridShader: MVPProgram
 
+    /** Config of the [Renderer] to allow interaction with it externally. */
     lateinit var config: RenderConfig
 
+    /** Executes [func] for each shader in [shaders]. */
     @GLContext
     private inline fun allShaders(func: MVPProgram.() -> Unit) =
       shaders.forEach {
@@ -52,6 +72,14 @@ class Renderer : GLSurfaceView.Renderer {
     override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
         glEnable(GL_DEPTH_TEST)
         glEnable(GL_BLEND)
+
+        // Loads default textures and clears resources
+        defaultTextures = default.load(persistent = true)
+        default.run {
+            skin?.recycle()
+            cape?.recycle()
+            ears?.recycle()
+        }
 
         // Model creation code
         modelShader = MVPProgram(
@@ -116,14 +144,6 @@ class Renderer : GLSurfaceView.Renderer {
             }
         }
 
-        config.pendingDefaultTextures?.run {
-            defaultTextures.assertEmpty()
-            defaultTextures = load(persistent = true)
-            defaultTextures.printInfo()
-
-            config.pendingDefaultTextures = null
-        }
-
         if (config.clearTextures) {
             textures.delete()
             textures = defaultTextures.clone()
@@ -148,14 +168,17 @@ class Renderer : GLSurfaceView.Renderer {
         }
 
         glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
+        // Fixes blending for transparent skin parts
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         modelShader.use()
 
         val modelHandle = modelShader.modelHandle
-        val identityBuf = FloatBuffer.wrap(identity)
-        glUniformMatrix4fv(modelHandle, 1, false, identityBuf)
 
         textures.skin?.run {
+            // Resets modelMatrix in order to draw player model
+            val identityBuf = FloatBuffer.wrap(identity)
+            glUniformMatrix4fv(modelHandle, 1, false, identityBuf)
+
             bind()
             playerModel.render()
         }

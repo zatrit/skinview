@@ -7,12 +7,17 @@ import android.text.style.ForegroundColorSpan
 import android.view.*
 import android.widget.*
 import zatrit.skinbread.R
-import kotlin.math.log10
+import zatrit.skinbread.skins.Arranging
+import zatrit.skinbread.ui.RearrangeActivity
 
-class IndexedAdapter(
+/**
+ * An adapter for [RearrangeActivity] containing the source names
+ * and their numbers in [Arranging.order]. */
+class RearrangeAdapter(
   context: Context,
   private val entry: Int = R.layout.entry_rearrange,
   private val sourceName: Int = R.id.text_source_name,
+  /** Index of the element to be hidden. */
   var hiddenItem: Int? = null,
 ) : ArrayAdapter<Pair<Int, String>>(context, entry) {
     private val inflater = LayoutInflater.from(context)
@@ -23,9 +28,11 @@ class IndexedAdapter(
         val item = this.getItem(position)!!
 
         val index = item.first + 1
+        // e.g.: 1. Mantle
         val spanned = SpannableString("$index. ${item.second}")
-        val idLen = log10(index.toFloat()).toInt() + 2
+        val idLen = index.toString().length + 1
 
+        // Changes the color of the index to gray.
         spanned.setSpan(
           ForegroundColorSpan(Color.GRAY), 0, idLen,
           Spannable.SPAN_INCLUSIVE_EXCLUSIVE

@@ -75,18 +75,19 @@ class ToggleSourcesActivity : TexturesActivity() {
             val uri = data?.data ?: return
             val type = requestCode and 3 // only 2 right bits
             val index =
-                requestCode shr 2 and 15 // only 4 right bits of value shifted by 2 bits
+              requestCode shr 2 and 15 // only 4 right bits of value shifted by 2 bits
             Log.d(TAG, "$type $index")
 
+            // If there's no textures then return
             val textures = textures[index] ?: return
             val texture = when (type) {
                 1 -> textures.cape
                 2 -> textures.ears
                 else -> textures.skin
-            }
+            } ?: return
 
             contentResolver.openOutputStream(uri)?.use2 {
-                texture?.compress(Bitmap.CompressFormat.PNG, 100, it)
+                texture.compress(Bitmap.CompressFormat.PNG, 100, it)
             }
         } else super.onActivityResult(requestCode, resultCode, data)
     }

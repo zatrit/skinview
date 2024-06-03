@@ -4,10 +4,15 @@ import zatrit.skinbread.*
 import zatrit.skinbread.skins.defaultSources
 import zatrit.skinbread.ui.TexturesActivity
 
+/** Dialog to enable/disable downloading from different sources contained in [allowedSources]. */
 fun filterDialog(context: TexturesActivity) = dialogBuilder(context).apply {
     setTitle(R.string.sources)
 
-    val names = Array(defaultSources.size - VANILLA) { defaultSources[it + VANILLA].name.getName(context) }
+    // Names of all sources except LOCAL
+    val names = Array(
+      defaultSources.size - VANILLA
+    ) { defaultSources[it + VANILLA].name.getName(context) }
+
     setMultiChoiceItems(names, allowedSources) { _, which, checked ->
         allowedSources[which] = checked
     }

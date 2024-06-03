@@ -5,6 +5,7 @@
 
 package zatrit.skinbread
 
+import android.content.SharedPreferences
 import android.opengl.Matrix.*
 import android.transition.Slide
 import android.view.Gravity
@@ -92,6 +93,8 @@ var texturesHolder: TextureHolder? = null
 /** The latest started [CompletableFuture] that downloads skins. */
 var loading: CompletableFuture<Void>? = null
 
+/** Name for [allowedSources] to store in [SharedPreferences]. */
 const val ENABLED_SOURCES = "enabledSources"
 
+/** Source indexes starting with [VANILLA] to be used. */
 var allowedSources = BooleanArray(defaultSources.size - VANILLA) { true }

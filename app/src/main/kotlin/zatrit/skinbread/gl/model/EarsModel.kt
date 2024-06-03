@@ -3,6 +3,7 @@ package zatrit.skinbread.gl.model
 import zatrit.skinbread.*
 import zatrit.skinbread.gl.*
 
+/** A model of the player's two ears that uses [leftEarMatrix] and [rightEarMatrix] for rendering. */
 @GLContext
 class EarsModel {
     private val ear: ModelPart
@@ -14,6 +15,7 @@ class EarsModel {
         ear = ModelPart(box.vertices, uv)
     }
 
+    /** Draws ears by rotating [modelHandle] in a certain way. */
     fun renderRotated(modelHandle: Int) {
         ear.renderRotated(modelHandle, leftEarMatrix)
         ear.renderRotated(modelHandle, rightEarMatrix)

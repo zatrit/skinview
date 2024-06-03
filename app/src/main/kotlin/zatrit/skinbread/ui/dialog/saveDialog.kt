@@ -10,6 +10,7 @@ import java.util.LinkedList
 // T - texture type
 const val SAVE_TEXTURE = 128
 
+/** Dialog for saving a certain texture. */
 fun saveDialog(context: Activity, index: Int, textures: Textures): Dialog =
   dialogBuilder(context).apply {
       setTitle(R.string.save)
@@ -27,12 +28,12 @@ fun saveDialog(context: Activity, index: Int, textures: Textures): Dialog =
           selected = index
       }
 
+      // Just close on cancel
       setNegativeButton(android.R.string.cancel, CancelDialog())
 
       setPositiveButton(android.R.string.ok) { _, _ ->
-          val intent =
-            Intent(Intent.ACTION_CREATE_DOCUMENT).setType("image/png")
-              .putExtra(Intent.EXTRA_TITLE, "texture.png")
+          val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).setType("image/png")
+            .putExtra(Intent.EXTRA_TITLE, "texture.png")
           context.startActivityForResult(
             intent, SAVE_TEXTURE + index * 4 + items[selected].second
           )

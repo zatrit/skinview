@@ -32,7 +32,6 @@ abstract class TexturesActivity : Activity(), TextureHolder {
     override fun onResume() {
         super.onResume()
 
-        validateArranging()
         // Sets the global handlers
         texturesHolder = this
 
@@ -156,17 +155,5 @@ abstract class TexturesActivity : Activity(), TextureHolder {
         @Suppress("DEPRECATION")
         // Non-deprecated method isn't available on current Android version
         arranging = bundle.getParcelable(ARRANGING) ?: arranging
-    }
-
-    /**
-     * Checks the size of the fields in [arranging] against the size of
-     * [defaultSources]. If they do not match, recreates [arranging] with
-     * the correct size and saves it. */
-    private fun validateArranging() {
-        val size = defaultSources.size // Needed size
-        if (arranging.enabled.size != size || arranging.order.size != size) {
-            arranging = Arranging(size)
-            saveArranging()
-        }
     }
 }

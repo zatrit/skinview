@@ -31,12 +31,6 @@ class RenderConfig(
     var clearTextures = false
 
     /**
-     * A set of textures that will be loaded
-     * on the next rendering cycle as [Renderer.defaultTextures]. */
-    @IgnoredOnParcel
-    var pendingDefaultTextures: Textures? = null
-
-    /**
      * [RGBA](https://en.wikipedia.org/wiki/RGBA_color_model)
      * background color used in rendering. */
     @IgnoredOnParcel

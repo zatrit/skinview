@@ -28,13 +28,19 @@ class MainActivity : TexturesActivity() {
     private var dragHandler: MenuDragHandler? = null
 
     /** A renderer of the player's 3D model that is interacted with via [RenderConfig]. */
-    private var renderer = Renderer()
+    private lateinit var renderer: Renderer
 
     @Suppress("DEPRECATION")
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
         setContentView(R.layout.activity_main)
+
+        // Creates a renderer
+        val defaultTextures = Textures(
+          skin = BitmapFactory.decodeStream(assets.open("base.png"))
+        )
+        renderer = Renderer(defaultTextures)
 
         // Surface for rendering a 3D model with renderer
         val surface = requireViewById<GLSurfaceView>(R.id.gl_surface).apply {
@@ -101,10 +107,6 @@ class MainActivity : TexturesActivity() {
             bindSwitch(R.id.switch_shade, shading) { shading = it }
             bindSwitch(R.id.switch_grid, grid) { grid = it }
             bindSwitch(R.id.switch_elytra, elytra) { elytra = it }
-
-            pendingDefaultTextures = Textures(
-              skin = BitmapFactory.decodeStream(assets.open("base.png"))
-            )
 
             /* Gets the background color for the given theme and uses it
             to render the background of the Renderer */

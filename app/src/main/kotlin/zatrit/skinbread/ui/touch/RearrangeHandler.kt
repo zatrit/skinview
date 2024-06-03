@@ -6,7 +6,7 @@ import android.view.*
 import android.widget.*
 import android.widget.AdapterView.*
 import zatrit.skinbread.*
-import zatrit.skinbread.ui.adapter.IndexedAdapter
+import zatrit.skinbread.ui.adapter.RearrangeAdapter
 
 /** Result signifying a change in the ID of the selected item. */
 const val MOVE_CHANGED_ID = 0
@@ -21,7 +21,7 @@ const val MOVE_NONE = 2
 class RearrangeHandler(
   context: Activity,
   private val sourcesList: ListView,
-  private val adapter: IndexedAdapter,
+  private val adapter: RearrangeAdapter,
   private val headerHeight: Int,
 ) : OnItemLongClickListener {
     /** Determines whether a drag n' drop is currently in progress. */
@@ -38,11 +38,13 @@ class RearrangeHandler(
     /** [ImageView] that displays the dragged item. */
     private val fakeItem = context.requireViewById<ImageView>(R.id.img_fake_item)
 
+    /** Hides the selected item, shows [fakeItem] and starts dragging. */
     override fun onItemLongClick(
       parent: AdapterView<*>?, view: View, position: Int, id: Long): Boolean {
         sourcesList.isEnabled = false
         fadeView(sourcesList, 0.7f)
 
+        // Makes fakeItem look like clicked view
         fakeItem.setImageBitmap(view.drawToBitmap())
         fakeItem.visibility = VISIBLE
 
@@ -54,6 +56,7 @@ class RearrangeHandler(
 
         dragging = true
 
+        // Sets the source and destination to newId
         val newId = sourcesList.getItem(position)!!.first
         fromItem = newId
         toItem = newId
@@ -61,6 +64,11 @@ class RearrangeHandler(
         return true
     }
 
+    /**
+     * Handles the [event] of moving a touch.
+     * @return [MOVE_NONE] if there was no touch before, [MOVE_OK] if the touch was processed
+     * and [MOVE_CHANGED_ID] if the [toItem] value is changed.
+     */
     fun moveTouch(event: MotionEvent): Int {
         // Do nothing if not dragging
         if (!dragging) return MOVE_NONE
@@ -104,12 +112,16 @@ class RearrangeHandler(
         } else MOVE_OK
     }
 
+    /**
+     * Finishes the drag and drop.
+     * @return the value of [dragging] before calling this function */
     fun finishTouch() = if (dragging) {
         hideInserts()
 
         adapter.hiddenItem = null
         showAll()
 
+        // Re-enables sourcesList
         sourcesList.isEnabled = true
         fadeView(sourcesList, 1f)
 
@@ -121,15 +133,18 @@ class RearrangeHandler(
         true
     } else false
 
+    /** Hides all items, displaying the insertion point for all children. */
     private fun hideInserts() = forEachChild { _, view ->
         view.findViewById<View>(R.id.insert_top)?.visibility = View.INVISIBLE
         view.findViewById<View>(R.id.insert_bottom)?.visibility = View.INVISIBLE
     }
 
+    /** Sets 100% transparency for all children. */
     private fun showAll() = forEachChild { _, view ->
         if (view.alpha != 1f) view.alpha = 1f
     }
 
+    /** Performs this function for all children. */
     private inline fun forEachChild(func: (Int, View) -> Unit) {
         for (i in 0..<sourcesList.childCount) {
             val view = sourcesList.getChildAt(i)
@@ -137,12 +152,14 @@ class RearrangeHandler(
         }
     }
 
+    /** Smoothly changes transparency [view] to [alpha]. */
     private fun fadeView(view: View, alpha: Float) =
         ObjectAnimator.ofFloat(view, "alpha", view.alpha, alpha).apply {
             setDuration(150)
             start()
         }
 
+    /** @return the [ListView] item for the given visual [position]. */
     @Suppress("UNCHECKED_CAST")
     private fun ListView.getItem(position: Int) =
         getItemAtPosition(position) as Pair<Int, String>?

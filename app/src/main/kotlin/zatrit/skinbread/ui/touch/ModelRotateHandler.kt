@@ -16,7 +16,7 @@ class ModelRotateHandler(
         velocityTracker.addMovement(event)
 
         when (event.actionMasked) {
-            // Passes the click to View
+            // Passes the touch to the view
             ACTION_DOWN -> v.performClick()
 
             // Rotates the view if the user moves the touch

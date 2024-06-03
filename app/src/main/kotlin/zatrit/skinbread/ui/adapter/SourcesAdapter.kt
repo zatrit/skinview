@@ -7,17 +7,25 @@ import zatrit.skinbread.skins.*
 import zatrit.skinbread.ui.*
 import zatrit.skinbread.ui.dialog.saveDialog
 
+/** Source list item in [ToggleSourcesActivity] containing loaded textures and additional information. */
 class NamedEntry(
+  /** The source index in [defaultSources]. */
   val index: Int,
+  /** The name of the source from which the [textures] are loaded. */
   val name: SourceName,
+  /** Texture set. */
   var textures: Textures,
+  /** Determines whether this texture set is enabled for display in [MainActivity]. */
   var enabled: Boolean,
 ) {
+    /** [textures] preview. */
     val preview = drawPreview(textures)
 }
 
+/** Transparency for elements that have [NamedEntry.enabled] set to false. */
 const val DISABLED_TRANSPARENCY = 0.6f
 
+/** An adapter for [ToggleSourcesActivity] that displays loaded texture sets for sources. */
 class SkinListAdapter(
   private val context: ToggleSourcesActivity,
   private val imageView: Int = R.id.img_preview,
@@ -35,10 +43,12 @@ class SkinListAdapter(
         val switch = view.requireViewById<Switch>(sourceSwitch)
         val image = view.requireViewById<ImageView>(imageView)
 
+        // Bind this switch to activity click
         if (convertView == null) {
             bindClick(view) { switch.toggle() }
         }
 
+        // Changes the value of the switch to entry.enabled and rebinds it to the current NamedEntry
         switch.setOnCheckedChangeListener(null)
         switch.isChecked = entry.enabled
         switch.setOnCheckedChangeListener { _, state ->

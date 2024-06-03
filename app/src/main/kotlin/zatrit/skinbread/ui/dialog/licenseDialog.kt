@@ -21,6 +21,7 @@ fun licenseDialog(context: Context, library: Library): Dialog =
             context.startActivity(intent)
         }
 
+        // Just close on OK
         setPositiveButton(android.R.string.ok, CancelDialog())
     }.create().applyDialogTheme().apply {
         setOnShowListener { dialog ->

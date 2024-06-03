@@ -5,6 +5,7 @@ import kotlinx.parcelize.Parcelize
 import org.json.*
 import zatrit.skinbread.*
 
+/** A class that describes the [order] of the sources and which ones will be displayed. */
 @Parcelize
 class Arranging(
   private val size: Int,
@@ -20,7 +21,7 @@ class Arranging(
 ) : Parcelable {
     fun loadJson(json: JSONObject) {
         val enabled =
-            json.optJSONArray("enabled")?.takeIf { it.length() == size }
+          json.optJSONArray("enabled")?.takeIf { it.length() == size }
         val order = json.optJSONArray("order")?.takeIf { it.length() == size }
 
         for (i in 0..<size) {

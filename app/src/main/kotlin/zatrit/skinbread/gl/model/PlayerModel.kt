@@ -4,21 +4,24 @@ import zatrit.skinbread.GLContext
 import zatrit.skinbread.gl.*
 import java.util.*
 
+/** The type of model with its [handWidth]. */
 enum class ModelType(val handWidth: Float) {
     DEFAULT(1f),
     SLIM(0.75f);
 
     companion object {
         fun fromName(name: String?): ModelType =
-            if (name?.lowercase() == "slim") SLIM else DEFAULT
+          if (name?.lowercase() == "slim") SLIM else DEFAULT
     }
 }
 
+/** Creates a copy of itself to render the outer layer. */
 private val Box.extra get() = this.scale(1.1f)
 
 @OptIn(GLContext::class)
 typealias Parts = Array<ModelPart>
 
+/** Creates [Parts] containing hands for a specific model type. */
 @GLContext
 private fun createHands(modelType: ModelType): Parts {
     val offset = 0.5f * (1f - modelType.handWidth)
@@ -38,6 +41,7 @@ private fun createHands(modelType: ModelType): Parts {
     )
 }
 
+/** 3D model of the player. Read more [here](https://minecraft.wiki/w/Skin). */
 @GLContext
 class PlayerModel {
     private val parts: Parts

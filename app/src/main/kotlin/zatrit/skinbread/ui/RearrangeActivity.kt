@@ -10,7 +10,7 @@ import android.view.View.MeasureSpec.UNSPECIFIED
 import android.widget.*
 import zatrit.skinbread.*
 import zatrit.skinbread.skins.defaultSources
-import zatrit.skinbread.ui.adapter.IndexedAdapter
+import zatrit.skinbread.ui.adapter.RearrangeAdapter
 import zatrit.skinbread.ui.touch.*
 
 /** Field name in [Bundle] for order. */
@@ -30,7 +30,7 @@ class RearrangeActivity : Activity() {
     private lateinit var sourcesList: ListView
 
     /** Adapter for [sourcesList]. */
-    private lateinit var adapter: IndexedAdapter
+    private lateinit var adapter: RearrangeAdapter
 
     /** A vibrator used to respond to changes in the selected item. */
     private lateinit var vibrator: Vibrator
@@ -60,7 +60,7 @@ class RearrangeActivity : Activity() {
 
         sourcesList = requireViewById(R.id.list_sources)
 
-        adapter = IndexedAdapter(this).apply { setNotifyOnChange(false) }
+        adapter = RearrangeAdapter(this).apply { setNotifyOnChange(false) }
         sourcesList.adapter = adapter
         populateList()
 

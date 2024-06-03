@@ -7,6 +7,7 @@ import zatrit.skins.lib.resolver.*
 import zatrit.skins.lib.resolver.capes.*
 import java.util.UUID
 
+/** A skin source that has [name] and [resolver]. */
 class SkinSource(val name: SourceName, val resolver: Resolver) {
     constructor(name: String, resolver: Resolver) : this(
       ConstName(name), resolver
@@ -15,6 +16,7 @@ class SkinSource(val name: SourceName, val resolver: Resolver) {
     constructor(id: Int, resolver: Resolver) : this(ResName(id), resolver)
 }
 
+/** Default source array used to load skins. */
 val defaultSources = arrayOf(
   // Local
   SkinSource(R.string.source_local, EmptyResolver()),
@@ -37,7 +39,7 @@ val defaultSources = arrayOf(
   SkinSource("LabyMod", object : DirectResolver(TextureType.CAPE) {
       override fun getUrl(
         type: TextureType, id: UUID, name: String, shortId: String) =
-          "https://dl.labymod.net/capes/$id"
+        "https://dl.labymod.net/capes/$id"
 
   }),
   // LiquidBounce
@@ -62,6 +64,6 @@ val defaultSources = arrayOf(
   SkinSource("Wynntils", object : DirectResolver(TextureType.CAPE) {
       override fun getUrl(
         type: TextureType, id: UUID, name: String, shortId: String) =
-          "https://athena.wynntils.com/capes/user/$id"
+        "https://athena.wynntils.com/capes/user/$id"
   }),
 )

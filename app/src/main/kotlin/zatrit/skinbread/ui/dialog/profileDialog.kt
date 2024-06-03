@@ -5,6 +5,7 @@ import android.widget.Switch
 import zatrit.skinbread.*
 import zatrit.skinbread.ui.TexturesActivity
 
+/** Dialog for entering player's profile data to load his skins. */
 inline fun profileDialog(
   context: TexturesActivity,
   crossinline load: (String, String) -> Unit): Dialog {
@@ -21,8 +22,9 @@ inline fun profileDialog(
             val uuid = alertDialog.getText(R.id.edittext_uuid)
 
             val remember =
-              alertDialog.requireViewById<Switch>(R.id.switch_remember)
+                alertDialog.requireViewById<Switch>(R.id.switch_remember)
 
+            // Saves the profile data if the user requests saving.
             if (remember.isChecked) prefs.edit {
                 it.putString("profileName", name)
                 it.putString("profileId", uuid)
@@ -31,6 +33,7 @@ inline fun profileDialog(
             load(name, uuid)
         }
 
+        // Just close on cancel
         setNegativeButton(android.R.string.cancel, CancelDialog())
 
         setNeutralButton(R.string.sources) { _, _ ->
@@ -40,11 +43,12 @@ inline fun profileDialog(
         setOnShowListener { dialog ->
             if (dialog !is AlertDialog) return@setOnShowListener
 
-            prefs.getString("profileName", null)?.also {
+            // Loads the saved values for the profile.
+            prefs.getString("profileName", null)?.let {
                 dialog.setText(R.id.edittext_name, it)
             }
 
-            prefs.getString("profileId", null)?.also {
+            prefs.getString("profileId", null)?.let {
                 dialog.setText(R.id.edittext_uuid, it)
             }
         }

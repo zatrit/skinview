@@ -46,9 +46,9 @@ open class Program(shaders: IntArray) {
     /** Wraps [glUseProgram]. */
     fun use() = glUseProgram(this.id)
 
-    /** Wraps [uniformLocation]. */
+    /** Wraps [glGetUniformLocation]. */
     fun uniformLocation(uniform: String): Int =
-        glGetUniformLocation(this.id, uniform)
+      glGetUniformLocation(this.id, uniform)
 }
 
 /**
