@@ -9,7 +9,7 @@ import java.net.URL
 import java.util.Base64
 
 private const val MOJANG_SKIN_API =
-    "https://sessionserver.mojang.com/session/minecraft/profile/"
+  "https://sessionserver.mojang.com/session/minecraft/profile/"
 
 /**
  * [Mojang API](https://wiki.vg/Mojang_API) implementation

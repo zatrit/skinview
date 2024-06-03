@@ -67,11 +67,11 @@ inline fun Activity.bindSwitch(
 
 /** Short notation for binding [func] to [Button]. */
 inline fun bindClick(view: View, crossinline func: (View) -> Unit) =
-    view.setOnClickListener { func(it) }
+  view.setOnClickListener { func(it) }
 
 /** Short notation for binding [func] to [Button] by ID. */
 inline fun Activity.bindClick(id: Int, crossinline func: (View) -> Unit) =
-    bindClick(requireViewById(id), func)
+  bindClick(requireViewById(id), func)
 
 /** Moves the [IntArray] element, shifting the other elements. */
 fun IntArray.moveItemTo(from: Int, to: Int) {
@@ -109,7 +109,7 @@ inline fun SharedPreferences.edit(func: (SharedPreferences.Editor) -> Unit) {
  * .dex to increase by 1 KiB. */
 @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
 fun String.jvmReplace(from: String, to: String): String =
-    (this as java.lang.String).replace(from, to)
+  (this as java.lang.String).replace(from, to)
 
 /** Enables title bar for [Activity] that doesn't have it by default. */
 @Suppress("DEPRECATION")

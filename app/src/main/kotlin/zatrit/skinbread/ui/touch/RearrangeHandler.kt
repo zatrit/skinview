@@ -154,13 +154,13 @@ class RearrangeHandler(
 
     /** Smoothly changes transparency [view] to [alpha]. */
     private fun fadeView(view: View, alpha: Float) =
-        ObjectAnimator.ofFloat(view, "alpha", view.alpha, alpha).apply {
-            setDuration(150)
-            start()
-        }
+      ObjectAnimator.ofFloat(view, "alpha", view.alpha, alpha).apply {
+          setDuration(150)
+          start()
+      }
 
     /** @return the [ListView] item for the given visual [position]. */
     @Suppress("UNCHECKED_CAST")
     private fun ListView.getItem(position: Int) =
-        getItemAtPosition(position) as Pair<Int, String>?
+      getItemAtPosition(position) as Pair<Int, String>?
 }

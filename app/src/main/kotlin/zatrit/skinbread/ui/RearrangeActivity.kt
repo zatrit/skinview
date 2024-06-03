@@ -72,7 +72,7 @@ class RearrangeActivity : Activity() {
         // Measures the size of the header to use it to calculate the item ID
         header.measure(UNSPECIFIED, UNSPECIFIED)
         handler =
-            RearrangeHandler(this, sourcesList, adapter, header.measuredHeight)
+          RearrangeHandler(this, sourcesList, adapter, header.measuredHeight)
         sourcesList.setOnItemLongClickListener(handler)
 
         scroller = Scroller(sourcesList, mainLooper)

@@ -64,20 +64,20 @@ class MenuDragHandler(
 
     /** Creates a new [ValueAnimator] to smoothly resize [target]. */
     private fun heightAnimator(from: Int, to: Int, thenHide: View? = null) =
-        ValueAnimator.ofInt(from, to).apply {
-            addUpdateListener {
-                target.applyLayout<ViewGroup.LayoutParams> {
-                    height = it.animatedValue as Int
-                }
+      ValueAnimator.ofInt(from, to).apply {
+          addUpdateListener {
+              target.applyLayout<ViewGroup.LayoutParams> {
+                  height = it.animatedValue as Int
+              }
 
-                /* If thenHide isn't null and animation is
-                finished, start the hide animation */
-                if (thenHide != null && it.animatedValue == to) {
-                    thenHide.setTransitionVisibility(View.GONE)
-                }
-            }
-            start()
-        }
+              /* If thenHide isn't null and animation is
+              finished, start the hide animation */
+              if (thenHide != null && it.animatedValue == to) {
+                  thenHide.setTransitionVisibility(View.GONE)
+              }
+          }
+          start()
+      }
 
     /** Smoothly hides [showInstead] and displays [target]. */
     fun show() {

@@ -126,8 +126,7 @@ abstract class TexturesActivity : Activity(), TextureHolder {
 
             globalToast(R.string.loading_textures)
             sources.mapIndexed { i, source ->
-                if (i >= VANILLA && !allowedSources[i - VANILLA])
-                    return@mapIndexed null
+                if (i >= VANILLA && !allowedSources[i - VANILLA]) return@mapIndexed null
 
                 fetchTexturesAsync(profile, source) {
                     if (it == null || it.isEmpty()) return@fetchTexturesAsync

@@ -18,9 +18,9 @@ class ShowWhenLoadedHandler(context: Context, dialog: Dialog) :
     )
 
     override fun onClick(v: View?) =
-        if (loading == null || loading?.isDone == true) {
-            super.onClick(v)
-        } else {
-            stillLoadingToast.show()
-        }
+      if (loading == null || loading?.isDone == true) {
+          super.onClick(v)
+      } else {
+          stillLoadingToast.show()
+      }
 }

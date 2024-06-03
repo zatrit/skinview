@@ -1,7 +1,6 @@
 package zatrit.skinbread
 
 import android.os.Parcelable
-import android.util.Log
 import kotlinx.parcelize.Parcelize
 import zatrit.skinbread.skins.defaultSources
 

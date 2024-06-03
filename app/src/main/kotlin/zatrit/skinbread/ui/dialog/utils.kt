@@ -18,11 +18,11 @@ fun dialogBuilder(context: Context) = AlertDialog.Builder(
 
 /** Gets [EditText] via [AlertDialog.requireViewById] and gets the text via [EditText.getText]. */
 fun AlertDialog.getText(child: Int) =
-    requireViewById<EditText>(child).text.toString()
+  requireViewById<EditText>(child).text.toString()
 
 /** Gets [EditText] via [AlertDialog.requireViewById] and sets the text via [EditText.setText]. */
 fun AlertDialog.setText(child: Int, text: String) =
-    requireViewById<EditText>(child).setText(text)
+  requireViewById<EditText>(child).setText(text)
 
 /** Sets [WindowManager.LayoutParams.windowAnimations] for [AlertDialog] to fix animations. */
 fun AlertDialog.applyDialogTheme() = this.apply {

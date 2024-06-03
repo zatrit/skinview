@@ -22,7 +22,7 @@ inline fun profileDialog(
             val uuid = alertDialog.getText(R.id.edittext_uuid)
 
             val remember =
-                alertDialog.requireViewById<Switch>(R.id.switch_remember)
+              alertDialog.requireViewById<Switch>(R.id.switch_remember)
 
             // Saves the profile data if the user requests saving.
             if (remember.isChecked) prefs.edit {
