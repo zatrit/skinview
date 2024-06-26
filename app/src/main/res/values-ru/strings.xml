@@ -28,7 +28,6 @@
   <!-- Диалог загрузки скинов -->
   <string name="input_profile">Введите данные профиля</string>
   <string name="name">Имя</string>
-  <string name="uuid">UUID (необязательно)</string>
   <string name="remember_profile">Запомнить профиль</string>
 
   <!-- Диалог открытия локального файла -->
@@ -50,4 +49,8 @@
   <string name="loading_textures">Загружаем текстуры…</string>
   <string name="profile_failed">Не удалось получить профиль :(</string>
   <string name="open_failed">Не удалось открыть изображение :(</string>
+  <string name="must_not_be_empty">Хотя бы одно поле должно быть заполнено</string>
+
+  <!-- Гайд -->
+  <string name="greeting">Привет!</string>
 </resources>

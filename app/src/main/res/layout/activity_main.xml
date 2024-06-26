@@ -7,13 +7,25 @@
     android:animateLayoutChanges="true">
 
   <Button
-      android:id="@+id/btn_info"
+      android:id="@+id/btn_guide"
       style="@style/OLED.Button"
-      android:drawableStart="?android:attr/actionModeFindDrawable"
+      android:drawableStart="@drawable/baseline_question_mark"
       android:drawableTint="@color/button"
       android:backgroundTint="@color/card_background"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      tools:ignore="RelativeOverlap" />
+
+  <Button
+      android:id="@+id/btn_licenses"
+      style="@style/OLED.Button"
+      android:backgroundTint="@color/card_background"
+      android:layout_toEndOf="@id/btn_guide"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textColor="@color/button"
+      android:text="@string/licenses"
+      android:drawablePadding="10dp"
       tools:ignore="RelativeOverlap" />
 
   <android.opengl.GLSurfaceView

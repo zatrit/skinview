@@ -5,7 +5,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.widget.*
 import zatrit.skinbread.*
-import zatrit.skinbread.ui.dialog.licenseDialog
+import zatrit.skinbread.ui.dialog.guideDialog
 
 /** An [Activity] that displays the licenses of libraries located in [ossLibraries]. */
 class LicenseActivity : Activity() {
@@ -27,7 +27,7 @@ class LicenseActivity : Activity() {
 
         list.setOnItemClickListener { _, _, position, _ ->
             // Opens a dialog with the text of the library license
-            licenseDialog(
+            guideDialog(
               this, adapter.getItem(position - list.headerViewsCount)!!
             ).show()
         }

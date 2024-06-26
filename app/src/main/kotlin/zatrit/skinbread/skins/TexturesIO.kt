@@ -10,12 +10,17 @@ import java.io.InputStreamReader
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.CompletableFuture.runAsync
 
+const val SKIN = "skin"
+const val CAPE = "cape"
+const val EARS = "ears"
+const val MODEL = "model"
+
 /** Deletes textures from local storage. */
 fun deleteTextures(context: Context, i: Int) {
-    context.deleteLocal("skin", i)
-    context.deleteLocal("cape", i)
-    context.deleteLocal("ears", i)
-    context.deleteLocal("model", i)
+    context.deleteLocal(SKIN, i)
+    context.deleteLocal(CAPE, i)
+    context.deleteLocal(EARS, i)
+    context.deleteLocal(MODEL, i)
 }
 
 /** Deletes the texture or model type by [type] and [index]. */
@@ -26,9 +31,9 @@ private fun Context.deleteLocal(type: String, index: Int) =
 fun saveTextures(context: Context, i: Int, textures: Textures?) {
     Log.d(TAG, "Saving textures $i")
 
-    textures?.skin?.let { context.saveTexture("skin", i, it) }
-    textures?.cape?.let { context.saveTexture("cape", i, it) }
-    textures?.ears?.let { context.saveTexture("ears", i, it) }
+    textures?.skin?.let { context.saveTexture(SKIN, i, it) }
+    textures?.cape?.let { context.saveTexture(CAPE, i, it) }
+    textures?.ears?.let { context.saveTexture(EARS, i, it) }
     textures?.model?.let { context.saveModelType(i, it) }
 }
 
@@ -43,7 +48,7 @@ private fun Context.saveTexture(type: String, index: Int, bitmap: Bitmap) = try 
 
 /** Saves the model type by [index]. */
 private fun Context.saveModelType(index: Int, modelType: ModelType) = try {
-    openFileOutput(file("model", index), Context.MODE_PRIVATE).use2 {
+    openFileOutput(file(MODEL, index), Context.MODE_PRIVATE).use2 {
         it.write(modelType.name.toByteArray())
     }
 } catch (ex: Exception) {
@@ -59,9 +64,9 @@ inline fun loadTexturesAsync(
 
       for (i in defaultSources.indices) {
           textures[i] = Textures(
-            skin = context.loadTexture("skin", i),
-            cape = context.loadTexture("cape", i),
-            ears = context.loadTexture("ears", i),
+            skin = context.loadTexture(SKIN, i),
+            cape = context.loadTexture(CAPE, i),
+            ears = context.loadTexture(EARS, i),
             model = context.loadModelType(i),
           )
       }
@@ -80,7 +85,7 @@ fun Context.loadTexture(type: String, index: Int) = try {
 
 /** Loads the model type by [index]. */
 fun Context.loadModelType(index: Int) = try {
-    val raw = InputStreamReader(openFileInput(file("model", index))).readText()
+    val raw = InputStreamReader(openFileInput(file(MODEL, index))).readText()
     ModelType.fromName(raw)
 } catch (ex: Exception) {
     null

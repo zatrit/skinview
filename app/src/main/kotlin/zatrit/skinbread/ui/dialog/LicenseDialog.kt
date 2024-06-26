@@ -7,9 +7,9 @@ import android.widget.TextView
 import zatrit.skinbread.*
 
 /** A dialog that displays the text of the license for a particular library. */
-fun licenseDialog(context: Context, library: Library): Dialog =
+fun guideDialog(context: Context, library: Library): Dialog =
   dialogBuilder(context).apply {
-      setView(R.layout.dialog_license)
+      setView(R.layout.dialog_text)
       setTitle(
         context.resources.getString(
           R.string.library_by_author, library.name, library.author
@@ -27,7 +27,7 @@ fun licenseDialog(context: Context, library: Library): Dialog =
       setOnShowListener { dialog ->
           if (dialog !is AlertDialog) return@setOnShowListener
 
-          val licenseText = requireViewById<TextView>(R.id.text_license)
+          val licenseText = requireViewById<TextView>(R.id.text)
           licenseText.text =
             context.resources.openRawResource(library.license).reader()
               .readText()

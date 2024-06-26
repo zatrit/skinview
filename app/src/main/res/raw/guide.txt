@@ -1,0 +1,22 @@
+Thank you for downloading SkinBread.
+This application allows you to view skins for Minecraft from various services.
+
+The following sources are currently supported:
+* Local storage
+* Vanilla skin system
+* 5ZigReborn
+* Cloaks+
+* ely.by
+* GeyserMC
+* LabyMod
+* LiquidBounce
+* Mantle
+* Meteor
+* MinecraftCapes
+* Optifine
+* TLauncher
+* Wurst
+* Wynntils
+
+To download your skins, use FETCH button, and
+to open them from local storage, use LOCAL.

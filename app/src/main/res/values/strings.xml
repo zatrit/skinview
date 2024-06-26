@@ -4,7 +4,7 @@
 
   <!-- MainActivity buttons -->
   <string name="sources">Sources</string>
-  <string name="render_options">Render options</string>
+  <string name="render_options">Rendering</string>
 
   <!-- ToggleSourcesActivity -->
   <string name="no_skins">To see your skins, use</string>
@@ -31,7 +31,7 @@
   <!-- Fetch dialog -->
   <string name="input_profile">Enter profile data</string>
   <string name="name">Name</string>
-  <string name="uuid">UUID (optional)</string>
+  <string name="uuid" translatable="false">UUID</string>
   <string name="remember_profile">Remember profile</string>
 
   <!-- Local dialog -->
@@ -53,4 +53,6 @@
   <string name="profile_failed">Failed to get profile :(</string>
   <string name="still_loading">Textures are still loading</string>
   <string name="open_failed">Unable to open image :(</string>
+  <string name="must_not_be_empty">At least one field must be filled in</string>
+  <string name="greeting">Hi!</string>
 </resources>

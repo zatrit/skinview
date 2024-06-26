@@ -4,6 +4,9 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import org.json.*
 import zatrit.skinbread.*
+import zatrit.skinbread.ui.ORDER
+
+private const val ENABLED = "enabled"
 
 /** A class that describes the [order] of the sources and which ones will be displayed. */
 @Parcelize
@@ -21,8 +24,8 @@ class Arranging(
 ) : Parcelable {
     fun loadJson(json: JSONObject) {
         val enabled =
-          json.optJSONArray("enabled")?.takeIf { it.length() == size }
-        val order = json.optJSONArray("order")?.takeIf { it.length() == size }
+          json.optJSONArray(ENABLED)?.takeIf { it.length() == size }
+        val order = json.optJSONArray(ORDER)?.takeIf { it.length() == size }
 
         for (i in 0..<size) {
             this.enabled[i] = enabled?.getBoolean(i) ?: false
@@ -40,8 +43,8 @@ class Arranging(
         }
 
         val json = JSONObject()
-        json.put("enabled", enabled)
-        json.put("order", order)
+        json.put(ENABLED, enabled)
+        json.put(ORDER, order)
 
         return json.toString(0)
     }

@@ -1,11 +1,11 @@
 package zatrit.skinbread.ui.dialog
 
 import android.app.*
-import android.widget.Switch
+import android.widget.*
 import zatrit.skinbread.*
 import zatrit.skinbread.ui.TexturesActivity
 
-/** Dialog for entering player's profile data to load his skins. */
+/** Dialog for entering player's profile data to load their skins. */
 inline fun profileDialog(
   context: TexturesActivity,
   crossinline load: (String, String) -> Unit): Dialog {
@@ -20,6 +20,12 @@ inline fun profileDialog(
 
             val name = alertDialog.getText(R.id.edittext_name)
             val uuid = alertDialog.getText(R.id.edittext_uuid)
+
+            if (name.isBlank() && uuid.isBlank()) {
+                Toast.makeText(
+                  context, R.string.must_not_be_empty, Toast.LENGTH_SHORT
+                )
+            }
 
             val remember =
               alertDialog.requireViewById<Switch>(R.id.switch_remember)

@@ -66,13 +66,24 @@ class MainActivity : TexturesActivity() {
             )
         }
 
-        bindClick(R.id.btn_info) {
+        bindClick(R.id.btn_licenses) {
             // Changes the transition animation to hide all UI elements
             window.exitTransition = transition
             startActivity(
               Intent(this, LicenseActivity::class.java),
               ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
             )
+        }
+
+        val guideDialog = guideDialog(this)
+
+        bindClick(R.id.btn_guide) {
+            guideDialog.show()
+        }
+
+        if (preferences.getBoolean("firstLaunch", true)) {
+            preferences.edit { it.putBoolean("firstLaunch", false) }
+            guideDialog.show()
         }
 
         val fetchDialog = profileDialog(this) { name, uuid ->
