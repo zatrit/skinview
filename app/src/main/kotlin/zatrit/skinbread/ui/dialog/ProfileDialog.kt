@@ -24,7 +24,9 @@ inline fun profileDialog(
             if (name.isBlank() && uuid.isBlank()) {
                 Toast.makeText(
                   context, R.string.must_not_be_empty, Toast.LENGTH_SHORT
-                )
+                ).show()
+
+                return@setPositiveButton
             }
 
             val remember =
