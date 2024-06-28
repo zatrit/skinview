@@ -1,0 +1,3 @@
+* Added a guide that is shown when the application is first launched or when the question mark button is pressed.
+* Added empty UUID and name handling
+* The key used for previous versions has been lost, so reinstall the application if you already have it installed.
