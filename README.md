@@ -28,4 +28,4 @@ This project is not affiliated with Mojang, Optifine, LabyMod, MinecraftCapes, C
      alt="Get it on F-Droid"
      height="80">](https://f-droid.org/packages/zatrit.skinbread/)
 
-Or download the latest APK from the [Releases Section](https://github.com/zatrit/skinview/releases/latest]
+Or download the latest APK from the [Releases Section](https://github.com/zatrit/skinview/releases/latest)
