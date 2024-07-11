@@ -1,11 +1,11 @@
 package zatrit.skins.lib.resolver.capes
 
-import zatrit.skins.lib.*
+import zatrit.skins.lib.PlayerTextures
 import zatrit.skins.lib.api.*
 import zatrit.skins.lib.texture.BytesTexture
 import zatrit.skins.lib.util.jsonObject
 import java.net.URL
-import java.util.*
+import java.util.Base64
 
 private const val FIVEZIG_API = "https://textures.5zigreborn.eu/profile/"
 
@@ -15,20 +15,17 @@ class FiveZigResolver : Resolver {
         val url = FIVEZIG_API + profile.id
         val stream = URL(url).openStream()
 
-        val textures = EnumMap<TextureType, BytesTexture>(
-          TextureType::class.java
-        )
-
+        val textures = PlayerTextures()
         val textureData: String? = stream.jsonObject.optString("d")
 
         if (textureData != null) {
             val decoder = Base64.getDecoder()
             val texture = BytesTexture(decoder.decode(textureData), null)
-            textures[TextureType.CAPE] = texture
+            textures.cape = texture
         }
 
         /* Since you can't resolve a list of textures without
         fetching those textures, they may not be cached */
-        return PlayerTextures(textures)
+        return textures
     }
 }

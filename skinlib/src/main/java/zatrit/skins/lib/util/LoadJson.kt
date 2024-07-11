@@ -1,18 +1,16 @@
 package zatrit.skins.lib.util
 
 import org.json.*
-import zatrit.skins.lib.*
+import zatrit.skins.lib.PlayerTextures
 import zatrit.skins.lib.data.Metadata
 import zatrit.skins.lib.texture.URLTexture
 import java.io.*
-import java.util.EnumMap
 
 /** Loads textures as a map to use in [PlayerTextures]. */
-fun loadTextureMap(json: JSONObject): Map<TextureType, URLTexture> {
-    val map = EnumMap<_, URLTexture>(TextureType::class.java)
+fun loadTextures(json: JSONObject): PlayerTextures {
+    val textures = PlayerTextures()
 
     for (key in json.keys()) {
-        val type = textureType(key)
         val obj = json.getJSONObject(key)
 
         // Gets metadata, otherwise creates empty metadata
@@ -20,17 +18,16 @@ fun loadTextureMap(json: JSONObject): Map<TextureType, URLTexture> {
           obj.getJSONObject("metadata")
         ) else Metadata()
 
-        map[type] = URLTexture(obj.getString("url"), metadata)
+        val texture = URLTexture(obj.getString("URL"), metadata)
+
+        when (key.uppercase()) {
+            "SKIN" -> textures.skin = texture
+            "CAPE" -> textures.cape = texture
+            "EARS" -> textures.ears = texture
+        }
     }
 
-    return map
-}
-
-/** Converts [string] to [TextureType], ignoring case. */
-fun textureType(string: String) = try {
-    TextureType.valueOf(string.uppercase())
-} catch (ex: Exception) {
-    null
+    return textures
 }
 
 /** Creates a [JSONObject] for the given [InputStream] and closes it. */

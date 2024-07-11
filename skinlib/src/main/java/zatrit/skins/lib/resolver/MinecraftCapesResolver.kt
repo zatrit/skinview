@@ -21,7 +21,7 @@ class MinecraftCapesResolver : Resolver {
 
         val stream = URL(url).openStream()
         val response = MCCapesResponse(stream.jsonObject)
-        val textures = EnumMap<TextureType, Texture>(TextureType::class.java)
+        val textures = PlayerTextures()
 
         for (entry in response.textures.entries) {
             val type = entry.key
@@ -30,16 +30,21 @@ class MinecraftCapesResolver : Resolver {
             val metadata = Metadata()
             val decoder = Base64.getDecoder()
 
-            if (type === TextureType.CAPE) {
+            if (type == "cape") {
                 metadata.isAnimated = response.animatedCape
             }
 
             val texture = BytesTexture(decoder.decode(textureData), metadata)
-            textures[type] = texture
+
+            when (type) {
+                "skin" -> textures.skin = texture
+                "cape" -> textures.cape = texture
+                "ears" -> textures.ears = texture
+            }
         }
 
         /* Since you can't resolve a list of textures without
         fetching those textures, they may not be cached */
-        return PlayerTextures(textures)
+        return textures
     }
 }

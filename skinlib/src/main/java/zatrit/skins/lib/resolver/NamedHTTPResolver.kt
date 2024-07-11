@@ -16,6 +16,6 @@ class NamedHTTPResolver(private val baseUrl: String) : Resolver {
         val url = URL(baseUrl + profile.name)
         val stream = url.openStream()
 
-        return PlayerTextures(loadTextureMap(stream.jsonObject))
+        return loadTextures(stream.jsonObject)
     }
 }

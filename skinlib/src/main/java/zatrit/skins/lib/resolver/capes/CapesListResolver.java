@@ -5,14 +5,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
 
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import zatrit.skins.lib.PlayerTextures;
-import zatrit.skins.lib.TextureType;
 import zatrit.skins.lib.api.Profile;
 import zatrit.skins.lib.api.Resolver;
 import zatrit.skins.lib.texture.URLTexture;
@@ -52,15 +50,12 @@ public abstract class CapesListResolver implements Resolver {
         }
 
         val capeName = getCapeName(profile);
-        val textures = new EnumMap<TextureType, URLTexture>(TextureType.class);
+        val textures = new PlayerTextures();
 
         if (capeName != null) {
-            textures.put(
-              TextureType.CAPE,
-              new URLTexture(this.getUrl(capeName), null)
-            );
+            textures.setCape(new URLTexture(this.getUrl(capeName), null));
         }
 
-        return new PlayerTextures(textures);
+        return textures;
     }
 }

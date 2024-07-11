@@ -28,6 +28,6 @@ class GeyserResolver : Resolver {
         val textureData = decoder.decode(response)
         val bytesStream = ByteArrayInputStream(textureData)
 
-        return PlayerTextures(loadTextureMap(bytesStream.jsonObject))
+        return loadTextures(bytesStream.jsonObject)
     }
 }

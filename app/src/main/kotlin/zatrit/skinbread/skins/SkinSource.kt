@@ -1,7 +1,6 @@
 package zatrit.skinbread.skins
 
 import zatrit.skinbread.R
-import zatrit.skins.lib.TextureType
 import zatrit.skins.lib.api.Resolver
 import zatrit.skins.lib.resolver.*
 import zatrit.skins.lib.resolver.capes.*
@@ -36,11 +35,9 @@ val defaultSources = arrayOf(
   // Geyser
   SkinSource("GeyserMC", GeyserResolver()),
   // LabyMod
-  SkinSource("LabyMod", object : DirectResolver(TextureType.CAPE) {
-      override fun getUrl(
-        type: TextureType, id: UUID, name: String, shortId: String) =
+  SkinSource("LabyMod", object : DirectResolver() {
+      override fun getUrl(id: UUID, name: String, shortId: String) =
         "https://dl.labymod.net/capes/$id"
-
   }),
   // LiquidBounce
   SkinSource("LiquidBounce", LiquidBounceResolver()),
@@ -61,9 +58,8 @@ val defaultSources = arrayOf(
   // Wurst client
   SkinSource("Wurst", WurstResolver()),
   // Wynntils
-  SkinSource("Wynntils", object : DirectResolver(TextureType.CAPE) {
-      override fun getUrl(
-        type: TextureType, id: UUID, name: String, shortId: String) =
+  SkinSource("Wynntils", object : DirectResolver() {
+      override fun getUrl(id: UUID, name: String, shortId: String) =
         "https://athena.wynntils.com/capes/user/$id"
   }),
 )

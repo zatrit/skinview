@@ -3,7 +3,7 @@ package zatrit.skinbread
 import android.graphics.Bitmap
 import zatrit.skinbread.gl.*
 import zatrit.skinbread.gl.model.ModelType
-import zatrit.skins.lib.*
+import zatrit.skins.lib.PlayerTextures
 import zatrit.skins.lib.api.*
 
 /** A set of textures used to permanently store player textures. */
@@ -34,18 +34,15 @@ class Textures(
     fun or(
       input: PlayerTextures, skinLayer: Layer<Texture>,
       capeLayer: Layer<Texture>) {
-        val skinTexture = input.getTexture(TextureType.SKIN)
+        val skinTexture = input.skin
 
         if (this.skin == null) {
             this.model = ModelType.fromName(skinTexture?.metadata?.model)
         }
 
         this.skin = this.skin ?: skinTexture?.run(skinLayer::tryApply)?.bitmap
-
-        this.cape = this.cape ?: input.getTexture(TextureType.CAPE)
-          ?.run(capeLayer::tryApply)?.bitmap
-
-        this.ears = this.ears ?: input.getTexture(TextureType.EARS)?.bitmap
+        this.cape = this.cape ?: input.cape?.run(capeLayer::tryApply)?.bitmap
+        this.ears = this.ears ?: input.ears?.bitmap
     }
 
     /** Fills in empty textures with [other]. */

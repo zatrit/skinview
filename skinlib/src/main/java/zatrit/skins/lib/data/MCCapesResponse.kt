@@ -2,9 +2,6 @@ package zatrit.skins.lib.data
 
 import org.jetbrains.annotations.ApiStatus.Internal
 import org.json.JSONObject
-import zatrit.skins.lib.TextureType
-import zatrit.skins.lib.util.*
-import java.util.EnumMap
 
 /**
  * An API response from the Minecraft Capes
@@ -13,12 +10,12 @@ import java.util.EnumMap
 @Internal
 class MCCapesResponse(json: JSONObject) {
     val animatedCape = json.getBoolean("animatedCape")
-    val textures = EnumMap<_, String>(TextureType::class.java)
+    val textures = HashMap<String, String>(3)
 
     init {
         val texturesJson = json.getJSONObject("textures")
         for (key in texturesJson.keys()) {
-            textureType(key)?.let { textures[it] = texturesJson.getString(key) }
+            textures[key] = texturesJson.getString(key)
         }
     }
 }

@@ -8,20 +8,23 @@ import java.util.*
 
 /** An abstract implementation of [Resolver] that creates
  * [PlayerTextures] with a single [URLTexture] by substitution via [getUrl]. */
-abstract class DirectResolver(private val type: TextureType) : Resolver {
+abstract class DirectResolver : Resolver {
     override fun resolve(profile: Profile): PlayerTextures {
-        val textures = EnumMap<TextureType, Texture>(TextureType::class.java)
-        textures[type] = downloadTexture(type, profile)
+        val textures = PlayerTextures()
+        populateTextures(textures, downloadTexture(profile))
 
-        return PlayerTextures(textures)
+        return textures
     }
 
-    private fun downloadTexture(type: TextureType, profile: Profile): Texture {
-        val url = getUrl(type, profile.id, profile.name, profile.shortId)
+    private fun downloadTexture(profile: Profile): Texture {
+        val url = getUrl(profile.id, profile.name, profile.shortId)
         return URLTexture(url, null)
     }
 
     /** Creates a [URL] from the data. */
-    abstract fun getUrl(
-      type: TextureType, id: UUID, name: String, shortId: String): String
+    abstract fun getUrl(id: UUID, name: String, shortId: String): String
+
+    open fun populateTextures(textures: PlayerTextures, texture: Texture) {
+        textures.cape = texture
+    }
 }

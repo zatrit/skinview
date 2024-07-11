@@ -25,8 +25,6 @@ class MojangResolver : Resolver {
         val textureData = decoder.decode(response.properties[0].value)
         val bytesStream = ByteArrayInputStream(textureData)
 
-        return PlayerTextures(
-          loadTextureMap(bytesStream.jsonObject.getJSONObject("textures"))
-        )
+        return loadTextures(bytesStream.jsonObject.getJSONObject("textures"))
     }
 }
