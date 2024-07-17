@@ -1,4 +1,15 @@
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
-  <foreground android:drawable="@drawable/icon_colored" />
-  <monochrome android:drawable="@drawable/icon_mono" />
+  <!--- https://stackoverflow.com/a/77239308/12245612 -->
+  <foreground>
+    <inset
+        android:drawable="@mipmap/icon"
+        android:inset="30%" />
+  </foreground>
+
+  <monochrome>
+    <inset
+        android:drawable="@drawable/icon_mono"
+        android:inset="30%" />
+  </monochrome>
+
 </adaptive-icon>
