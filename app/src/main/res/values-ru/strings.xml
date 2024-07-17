@@ -46,7 +46,7 @@
   <!-- Сообщения тостов -->
   <string name="still_loading">Текстуры ещё загружаются</string>
   <string name="loading_profile">Загружаем профиль…</string>
-  <string name="loading_textures">Загружаем текстуры…</string>
+  <string name="loading_textures">[%1$d / %2$d] Загружаем текстуры…</string>
   <string name="profile_failed">Не удалось получить профиль :(</string>
   <string name="open_failed">Не удалось открыть изображение :(</string>
   <string name="must_not_be_empty">Хотя бы одно поле должно быть заполнено</string>

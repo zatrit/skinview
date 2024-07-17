@@ -12,5 +12,5 @@ interface TextureHolder {
     fun setTextures(textures: Array<Textures?>)
 
     /** Displays toast in the UI thread */
-    fun showToast(resId: Int)
+    fun showToast(resId: Int, vararg args: Any)
 }

@@ -18,7 +18,7 @@ fun loadTextures(json: JSONObject): PlayerTextures {
           obj.getJSONObject("metadata")
         ) else Metadata()
 
-        val texture = URLTexture(obj.getString("URL"), metadata)
+        val texture = URLTexture(obj.getString("url"), metadata)
 
         when (key.uppercase()) {
             "SKIN" -> textures.skin = texture

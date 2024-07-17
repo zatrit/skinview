@@ -93,12 +93,14 @@ abstract class TexturesActivity : Activity(), TextureHolder {
         }
     }
 
-    override fun showToast(resId: Int) = runOnUiThread {
-        Toast.makeText(this, resId, Toast.LENGTH_SHORT).show()
+    override fun showToast(resId: Int, vararg args: Any) = runOnUiThread {
+        Log.d(TAG, args.contentToString())
+        Toast.makeText(this, getString(resId, *args), Toast.LENGTH_SHORT).show()
     }
 
     /** Shows the toast for the global [texturesHolder]. */
-    private fun globalToast(message: Int) = texturesHolder?.showToast(message)
+    private fun globalToast(message: Int, vararg args: Any) =
+      texturesHolder?.showToast(message, *args)
 
     /**
      * Reloads textures, creating a new [Profile] from the given [name] and
@@ -124,12 +126,17 @@ abstract class TexturesActivity : Activity(), TextureHolder {
                 deleteTextures(this, i)
             }
 
-            globalToast(R.string.loading_textures)
+            globalToast(R.string.loading_textures, 0, sources.size)
+            var count = 0
             sources.mapIndexed { i, source ->
                 if (i >= VANILLA && !allowedSources[i - VANILLA]) return@mapIndexed null
 
                 fetchTexturesAsync(profile, source) {
+                    count++
+
                     if (it == null || it.isEmpty()) return@fetchTexturesAsync
+
+                    globalToast(R.string.loading_textures, count, sources.size)
 
                     textures[i] = it
                     val order = arranging.order.indexOf(i)
