@@ -94,7 +94,6 @@ abstract class TexturesActivity : Activity(), TextureHolder {
     }
 
     override fun showToast(resId: Int, vararg args: Any) = runOnUiThread {
-        Log.d(TAG, args.contentToString())
         Toast.makeText(this, getString(resId, *args), Toast.LENGTH_SHORT).show()
     }
 
@@ -126,17 +125,18 @@ abstract class TexturesActivity : Activity(), TextureHolder {
                 deleteTextures(this, i)
             }
 
-            globalToast(R.string.loading_textures, 0, sources.size)
             var count = 0
+            val from = allowedSources.count { it }
+            globalToast(R.string.loading_textures, count, from)
             sources.mapIndexed { i, source ->
-                if (i >= VANILLA && !allowedSources[i - VANILLA]) return@mapIndexed null
+                if (i >= VANILLA && !allowedSources[i - VANILLA] || i < VANILLA) return@mapIndexed null
 
                 fetchTexturesAsync(profile, source) {
                     count++
 
                     if (it == null || it.isEmpty()) return@fetchTexturesAsync
 
-                    globalToast(R.string.loading_textures, count, sources.size)
+                    globalToast(R.string.loading_textures, count, from)
 
                     textures[i] = it
                     val order = arranging.order.indexOf(i)
