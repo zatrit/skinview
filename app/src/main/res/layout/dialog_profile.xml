@@ -8,6 +8,7 @@
   <EditText
       android:id="@+id/edittext_name"
       android:hint="@string/name"
+      android:maxLength="16"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:backgroundTint="@android:color/darker_gray"
@@ -17,6 +18,7 @@
   <EditText
       android:id="@+id/edittext_uuid"
       android:hint="@string/uuid"
+      android:maxLength="36"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:backgroundTint="@android:color/darker_gray"
