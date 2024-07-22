@@ -1,0 +1,2 @@
+* Fixed integer overflow for GeyserMC client
+* Added line length limit for profile fields

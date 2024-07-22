@@ -13,18 +13,17 @@ private const val ENABLED = "enabled"
 class Arranging(
   private val size: Int,
 
-  val enabled: BooleanArray = BooleanArray(size) { false }.also {
+  val enabled: BooleanArray = BooleanArray(size) { false }.apply {
       // Enable vanilla and local by default
-      it[VANILLA] = true
-      it[LOCAL] = true
+      set(VANILLA, true)
+      set(LOCAL, true)
   },
 
   /** An array of source indexes to use when sorting textures. */
   var order: IntArray = IntArray(size) { it },
 ) : Parcelable {
     fun loadJson(json: JSONObject) {
-        val enabled =
-          json.optJSONArray(ENABLED)?.takeIf { it.length() == size }
+        val enabled = json.optJSONArray(ENABLED)?.takeIf { it.length() == size }
         val order = json.optJSONArray(ORDER)?.takeIf { it.length() == size }
 
         for (i in 0..<size) {

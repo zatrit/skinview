@@ -17,7 +17,7 @@ private const val GEYSER_SKIN_API = "https://api.geysermc.org/v2/skin/"
 class GeyserResolver : Resolver {
     override fun resolve(profile: Profile): PlayerTextures {
         val xuidUrl = URL(GEYSER_XUID_API + profile.name)
-        val xuid = xuidUrl.openStream().jsonObject.getInt("xuid")
+        val xuid = xuidUrl.openStream().jsonObject.getLong("xuid")
         val skinUrl = URL(GEYSER_SKIN_API + xuid)
 
         /* value contains literally the same data as properties[0] in the
