@@ -34,3 +34,4 @@ Or download the latest APK from the [Releases Section](https://github.com/zatrit
 This app was originally made for a [contest](https://innovationcampus.ru/school-contest-2024/), so here are some stuff in Russian:
 * [YouTube Guide](https://youtu.be/OSUInEDly54)
 * [Presentation](https://docs.google.com/presentation/d/1RN0mnp6-b3jd9JA-YXUiMxJrgzaPo8Ro/edit?usp=sharing&ouid=112321411255982077096&rtpof=true&sd=true)
+* [PDF presentation](https://drive.google.com/file/d/1FXuZ1Ha88NAFS5_GSLWiCDyWcYZIYIJ2/view?usp=sharing)
