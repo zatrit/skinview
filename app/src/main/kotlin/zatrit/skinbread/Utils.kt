@@ -74,7 +74,7 @@ inline fun Activity.bindClick(id: Int, crossinline func: (View) -> Unit) =
   bindClick(requireViewById(id), func)
 
 /** Moves the [IntArray] element, shifting the other elements. */
-fun IntArray.moveItemTo(from: Int, to: Int) {
+fun IntArray.moveItem(from: Int, to: Int) {
     Log.d(TAG, "$from => $to")
 
     val a = get(from)

@@ -1,15 +1,17 @@
 [versions]
-androidx-test-version = '1.6.1'
+androidx-test = '1.6.1'
 lombok = '1.18.34'
 guava = '32.1.1-jre'
 jetbrain-annotations = '24.1.0'
+json = '20240303'
 
 [libraries]
 lombok = { module = 'org.projectlombok:lombok', version.ref = 'lombok' }
 jetbrain-annotations = { module = 'org.jetbrains:annotations', version.ref = 'jetbrain-annotations' }
 google-guava = { module = 'com.google.guava:guava', version.ref = 'guava' }
+json = { module = 'org.json:json', version.ref = 'json' }
 
-test-core = { module = 'androidx.test:core', version.ref = 'androidx-test-version' }
-test-runner = { module = 'androidx.test:runner', version.ref = 'androidx-test-version' }
-test-rules = { module = 'androidx.test:rules', version.ref = 'androidx-test-version' }
+test-core = { module = 'androidx.test:core', version.ref = 'androidx-test' }
+test-runner = { module = 'androidx.test:runner', version.ref = 'androidx-test' }
+test-rules = { module = 'androidx.test:rules', version.ref = 'androidx-test' }
 test-kotlin = { module = 'org.jetbrains.kotlin:kotlin-test' }

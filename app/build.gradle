@@ -71,6 +71,7 @@ dependencies {
   implementation project(':skinlib')
 
   testImplementation libs.test.kotlin
+  testImplementation libs.json
 
   androidTestImplementation libs.test.core
   androidTestImplementation libs.test.runner

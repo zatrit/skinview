@@ -140,7 +140,7 @@ class RearrangeActivity : Activity() {
                 scroller.scrollBy = 0
 
                 if (handler.finishTouch()) {
-                    order.moveItemTo(handler.fromItem, handler.toItem)
+                    order.moveItem(handler.fromItem, handler.toItem)
                     populateList()
                 }
             }
