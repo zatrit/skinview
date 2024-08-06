@@ -18,5 +18,4 @@ The following sources are currently supported:
 * Wurst
 * Wynntils
 
-To download your skins, use FETCH button, and
-to open them from local storage, use LOCAL.
+To download your skins, use FETCH button, and to open them from local storage, use LOCAL.

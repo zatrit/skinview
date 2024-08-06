@@ -5,5 +5,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:textIsSelectable="true"
-    android:scrollbars="vertical"
+    android:scrollbars="vertical|horizontal"
     tools:text="@tools:sample/lorem/random" />
