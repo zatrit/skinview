@@ -3,6 +3,7 @@ package zatrit.skinbread.ui.dialog
 import android.app.*
 import android.content.*
 import android.net.Uri
+import android.text.method.ScrollingMovementMethod
 import android.widget.TextView
 import zatrit.skinbread.*
 
@@ -27,9 +28,12 @@ fun guideDialog(context: Context, library: Library): Dialog =
       setOnShowListener { dialog ->
           if (dialog !is AlertDialog) return@setOnShowListener
 
-          val licenseText = requireViewById<TextView>(R.id.text)
-          licenseText.text =
-            context.resources.openRawResource(library.license).reader()
-              .readText()
+          requireViewById<TextView>(R.id.text).run {
+              text = context.resources.openRawResource(library.license).reader()
+                .readText()
+
+              movementMethod = ScrollingMovementMethod()
+              setHorizontallyScrolling(true)
+          }
       }
   }

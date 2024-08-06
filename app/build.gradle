@@ -1,79 +1,77 @@
 plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
-    id 'kotlin-parcelize'
+  id 'com.android.application'
+  id 'org.jetbrains.kotlin.android'
+  id 'kotlin-parcelize'
 }
 
 apply from: 'shaderConsts.gradle'
 
 android {
-    namespace 'zatrit.skinbread'
-    compileSdk targetSdk
+  namespace 'zatrit.skinbread'
+  compileSdk targetSdk
 
-    defaultConfig {
-        applicationId 'zatrit.skinbread'
-        testApplicationId "${applicationId}.test"
+  defaultConfig {
+    applicationId 'zatrit.skinbread'
+    testApplicationId "${applicationId}.test"
 
-        minSdk 29
-        targetSdk targetSdk
-        versionCode 6
-        versionName '1.5'
+    minSdk 29
+    targetSdk targetSdk
+    versionCode 7
+    versionName '1.6'
 
-        resConfigs 'en', 'ru'
+    resConfigs 'en', 'ru'
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled true
+      shrinkResources true
+      debuggable false
+      proguardFiles 'proguard-rules.pro', 'modified-android-optimize.pro'
     }
 
-    buildTypes {
-        release {
-            minifyEnabled true
-            shrinkResources true
-            debuggable false
-            proguardFiles 'proguard-rules.pro', 'modified-android-optimize.pro'
-        }
-
-        staging {
-            initWith release
-            signingConfig signingConfigs.debug
-        }
+    staging {
+      initWith release
+      signingConfig signingConfigs.debug
     }
+  }
 
-    packagingOptions {
-        exclude '**/kotlin-tooling-metadata.json'
-        exclude '**/kotlin/**'
+  packagingOptions {
+    exclude '**/kotlin-tooling-metadata.json'
+    exclude '**/kotlin/**'
 
-        dex {
-            useLegacyPackaging true
-        }
+    dex {
+      useLegacyPackaging true
     }
+  }
 
-    compileOptions {
-        sourceCompatibility javaVersion
-        targetCompatibility javaVersion
-    }
+  compileOptions {
+    sourceCompatibility javaVersion
+    targetCompatibility javaVersion
+  }
 
-    kotlinOptions {
-        jvmTarget = project.java_version
-        // https://www.guardsquare.com/blog/eliminating-data-leaks-caused-by-kotlin-assertions
-        freeCompilerArgs += [
-                '-Xno-call-assertions',
-                '-Xno-receiver-assertions',
-                '-Xno-param-assertions'
-        ]
-    }
+  kotlinOptions {
+    jvmTarget = project.java_version
+    // https://www.guardsquare.com/blog/eliminating-data-leaks-caused-by-kotlin-assertions
+    freeCompilerArgs += ['-Xno-call-assertions',
+                         '-Xno-receiver-assertions',
+                         '-Xno-param-assertions']
+  }
 
-    testOptions {
-        reportDir "$rootDir/test-reports"
-        resultsDir "$rootDir/test-results"
-    }
+  testOptions {
+    reportDir "$rootDir/test-reports"
+    resultsDir "$rootDir/test-results"
+  }
 }
 
 dependencies {
-    implementation project(':skinlib')
+  implementation project(':skinlib')
 
-    testImplementation 'org.jetbrains.kotlin:kotlin-test'
+  testImplementation libs.test.kotlin
 
-    androidTestImplementation "androidx.test:core:$test_core_version"
-    androidTestImplementation "androidx.test:runner:$test_runner_version"
-    androidTestImplementation "androidx.test:rules:$test_rules_version"
+  androidTestImplementation libs.test.core
+  androidTestImplementation libs.test.runner
+  androidTestImplementation libs.test.rules
 }

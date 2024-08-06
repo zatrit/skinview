@@ -3,6 +3,7 @@ package zatrit.skinbread.gl
 import android.opengl.GLES30.*
 import zatrit.skinbread.GLContext
 import java.nio.*
+import kotlin.Float.Companion.SIZE_BYTES
 
 /** Creates a 4x4 matrix and fills it according to [func]. */
 inline fun mat4(func: (FloatArray) -> Unit) = FloatArray(16).also(func)
@@ -23,10 +24,10 @@ fun genVertexArray() = buf { glGenVertexArrays(1, it) }.get()
 fun vboData(buf: FloatBuffer, id: Int, index: Int, size: Int) {
     glBindBuffer(GL_ARRAY_BUFFER, id)
     glBufferData(
-      GL_ARRAY_BUFFER, buf.capacity() * Float.SIZE_BYTES, buf, GL_STATIC_DRAW
+      GL_ARRAY_BUFFER, buf.capacity() * SIZE_BYTES, buf, GL_STATIC_DRAW
     )
     glVertexAttribPointer(
-      index, size, GL_FLOAT, false, size * Float.SIZE_BYTES, 0
+      index, size, GL_FLOAT, false, size * SIZE_BYTES, 0
     )
     glEnableVertexAttribArray(index)
 }

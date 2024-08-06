@@ -1,0 +1,3 @@
+* Expanded welcome text
+* Fixed incorrect rendering on some Samsung Exynos chipsets
+* Switches and radio buttons are made more contrasted

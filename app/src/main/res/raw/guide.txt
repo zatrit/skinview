@@ -19,3 +19,7 @@ The following sources are currently supported:
 * Wynntils
 
 To download your skins, use FETCH button, and to open them from local storage, use LOCAL.
+
+Essentially, the app collects skin elements (ears, cape, skin) from sources selected in the *sources list* and displays them on the 3D model. You can *change the order* to determine which skins are prioritized.
+
+I hope my app will be useful to you!
