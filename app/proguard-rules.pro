@@ -26,3 +26,5 @@
 }
 
 -assumenosideeffects class ** { @zatrit.skinbread.DebugOnly *; }
+
+-dontwarn lombok.Generated

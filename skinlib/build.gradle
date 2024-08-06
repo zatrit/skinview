@@ -8,10 +8,10 @@ group 'zatrit'
 version project.skinlib_version
 
 dependencies {
-  implementation libs.jetbrain.annotations
+  compileOnly libs.jetbrain.annotations
 
   //noinspection AnnotationProcessorOnCompilePath
-  implementation libs.lombok
+  compileOnly libs.lombok
   annotationProcessor libs.lombok
 
   //noinspection GradleDependency

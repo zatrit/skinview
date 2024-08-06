@@ -41,6 +41,7 @@ android {
   packagingOptions {
     exclude '**/kotlin-tooling-metadata.json'
     exclude '**/kotlin/**'
+    exclude 'META-INF/**'
 
     dex {
       useLegacyPackaging true
