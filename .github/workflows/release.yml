@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: Build APK
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [release, workflow_dispatch]
+on: [workflow_dispatch]
 
 env:
   ANDROID_HOME: /root/.android/sdk
@@ -60,10 +60,8 @@ jobs:
           name: app-release
           path: app-release.apk
 
-      - name: Upload to release
-        uses: JasonEtco/upload-to-release@master
+      - name: Create release
+        uses: ncipollo/release-action@v1
         with:
-          args: app-release.apk
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+          artifacts: "app-release.apk"
+          token: ${{ secrets.GITHUB_TOKEN }}
