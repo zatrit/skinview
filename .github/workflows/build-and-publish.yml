@@ -50,6 +50,7 @@ jobs:
           # Decode key
           base64 -d <<< ${{ secrets.SIGN_KEY }} > key.der
           # Sign APK file with private key
+          chmod +x ${{ env.APKSIGNER }}
           ${{ env.APKSIGNER }} sign --key key.der --cert cert.der app-release.apk
           # Remove key files
           rm cert.der key.der
