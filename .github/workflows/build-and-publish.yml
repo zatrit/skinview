@@ -42,17 +42,22 @@ jobs:
         run: ./gradlew --no-daemon assembleRelease
 
       - name: Sign APK
+        env:
+          SIGN_CERT: ${{ secrets.SIGN_CERT }}
+          SIGN_KEY: ${{ secrets.SIGN_KEY }}
         run: |
           # Copy APK file to app-release.apk
           mv ${{ env.APK_PATH }} app-release.apk
           # Decode certificate
-          base64 -d <<< ${{ secrets.SIGN_CERT }} 2>&1 > cert.der
+          echo -e $SIGN_CERT > cert.b64
+          base64 -d cert.b64 | tr -d '\n' > cert.der
           # Decode key
-          base64 -d <<< ${{ secrets.SIGN_KEY }} 2>&1 > key.der
+          echo -e $SIGN_KEY > cert.b64
+          base64 -d key.b64 | tr -d '\n' > key.der
           # Sign APK file with private key
           ${{ env.APKSIGNER }} sign --key key.der --cert cert.der app-release.apk
           # Remove key files
-          rm cert.der key.der
+          rm cert.b64 key.b64 cert.der key.der
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
