@@ -5,8 +5,7 @@ on: [workflow_dispatch]
 env:
   ANDROID_HOME: /root/.android/sdk
   APK_PATH: app/build/outputs/apk/release/app-release-unsigned.apk
-  BUILD_TOOLS_VERSION: 34.0.0
-  APKSIGNER: ${{ env.ANDROID_HOME }}/build-tools/${{ env.BUILD_TOOLS_VERSION }}/apksigner
+  APKSIGNER: /root/.android/sdk/build-tools/34.0.0/apksigner
 
 jobs:
   build:
