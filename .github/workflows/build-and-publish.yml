@@ -3,9 +3,9 @@ name: Build and publish APK
 on: [workflow_dispatch]
 
 env:
-  ANDROID_HOME: /root/.android/sdk
+  ANDROID_HOME: /usr/local/lib/android/sdk/
   APK_PATH: app/build/outputs/apk/release/app-release-unsigned.apk
-  APKSIGNER: /root/.android/sdk/build-tools/34.0.0/apksigner
+  APKSIGNER: /usr/local/lib/android/sdk/build-tools/34.0.0/apksigner
 
 jobs:
   build:
@@ -46,11 +46,10 @@ jobs:
           # Copy APK file to app-release.apk
           mv ${{ env.APK_PATH }} app-release.apk
           # Decode certificate
-          base64 -d <<< ${{ secrets.SIGN_CERT }} > cert.der
+          base64 -d <<< ${{ secrets.SIGN_CERT }} 2>&1 > cert.der
           # Decode key
-          base64 -d <<< ${{ secrets.SIGN_KEY }} > key.der
+          base64 -d <<< ${{ secrets.SIGN_KEY }} 2>&1 > key.der
           # Sign APK file with private key
-          chmod +x ${{ env.APKSIGNER }}
           ${{ env.APKSIGNER }} sign --key key.der --cert cert.der app-release.apk
           # Remove key files
           rm cert.der key.der
