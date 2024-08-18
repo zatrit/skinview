@@ -1,0 +1,69 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Build APK
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [release, workflow_dispatch]
+
+env:
+  ANDROID_HOME: /root/.android/sdk
+  APK_PATH: app/build/outputs/apk/release/app-release-unsigned.apk
+  BUILD_TOOLS_VERSION: 34.0.0
+  APKSIGNER: ${{ env.ANDROID_HOME }}/build-tools/${{ env.BUILD_TOOLS_VERSION }}/apksigner
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: adopt
+          cache: gradle
+
+      - name: Cache Android SDK
+        #id: cache-android-sdk
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.ANDROID_HOME }}
+          key: ${{ runner.os }}-android-sdk
+
+      - name: Setup Android SDK
+        ## It is not necessary to check for cache hit as it
+        ## will not download Android SDK again
+        #if: steps.cache-android-sdk.outputs.cache-hit != 'true'
+        uses: android-actions/setup-android@v3
+        with:
+          packages: ''
+
+      - name: Build unsigned APK
+        run: ./gradlew --no-daemon assembleRelease
+
+      - name: Sign APK
+        run: |
+          # Copy APK file to app-release.apk
+          mv ${{ env.APK_PATH }} app-release.apk
+          # Decode certificate
+          base64 -d <<< ${{ secrets.SIGN_CERT }} > cert.der
+          # Decode key
+          base64 -d <<< ${{ secrets.SIGN_KEY }} > key.der
+          # Sign APK file with private key
+          ${{ env.APKSIGNER }} sign --key key.der --cert cert.der app-release.apk
+          # Remove key files
+          rm cert.der key.der
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          path: app-release.apk
+
+      - name: Upload to release
+        uses: JasonEtco/upload-to-release@master
+        with:
+          args: app-release.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
